@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-enum Middlewares  {}
+enum MiddleWares  {}
 protocol Action   {}
 
 typealias Reducer<State>    = (State, Action) -> State
@@ -31,7 +31,7 @@ final class Store<State: Codable> {
   
   var isEnabled = true
   
-  @Published private var state: State
+  @Published private(set) var state: State
   
   var mainState: AnyPublisher<State, Never> {
     $state
@@ -41,17 +41,17 @@ final class Store<State: Codable> {
   
   private let queue = DispatchQueue(label: "com.petsNextDoor.store", qos: .userInitiated)
   private let reducer: Reducer<State>
-  private var middlewares: [MiddlewareType: Middleware<State>]
+  private var middleWares: [MiddlewareType: Middleware<State>]
   
   
   init(
     initialState: State,
     reducer: @escaping Reducer<State>,
-    middlewares: [MiddlewareType: Middleware<State>]
+    middleWares: [MiddlewareType: Middleware<State>]
   ) {
     self.state        = initialState
     self.reducer      = reducer
-    self.middlewares  = middlewares
+    self.middleWares  = middleWares
   }
   
   
@@ -85,11 +85,11 @@ final class Store<State: Codable> {
   
   private func dispatch(_ currentState: State, _ action: Action) {
     let newState    = reducer(currentState, action)
-    let middlewares = Array(middlewares.values)
+    let middleWares = Array(middleWares.values)
     
-    middlewares.forEach { middleware in
+    middleWares.forEach { middleWare in
       Task {
-        if let action = await middleware(newState, action) {
+        if let action = await middleWare(newState, action) {
           dispatch(action)
         }
       }

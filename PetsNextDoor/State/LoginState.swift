@@ -8,7 +8,7 @@
 import Foundation
 
 struct LoginState: Codable {
-  var isLoading: Bool = true
+  var isLoading: Bool = false
 }
 
 extension LoginState {
@@ -35,11 +35,8 @@ extension LoginState {
   }
 }
 
-extension LoginState {
-  
-  enum LoginStateAction: Action, Codable {
-    case didTapKakaoLogin
-    case didTapGoogleLogin
-    case didTapAppleLogin
-  }
+enum LoginStateAction: Action, Codable {
+  case didTapKakaoLogin
+  case didTapGoogleLogin
+  case didTapAppleLogin
 }

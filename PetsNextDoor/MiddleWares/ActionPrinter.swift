@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Middlewares {
+extension MiddleWares {
   
   static let printer: Middleware<AppState> = { state, action in
     

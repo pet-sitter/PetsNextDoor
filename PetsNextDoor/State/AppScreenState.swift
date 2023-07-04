@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum AppScreen {
+  
+  case login
+  case homeScreen
+}
+
+
 enum AppScreenState: Codable {
   
   case login(LoginState)
@@ -26,8 +33,3 @@ enum AppScreenState: Codable {
   
 }
 
-enum AppScreen {
-  
-  case login
-  case homeScreen
-}

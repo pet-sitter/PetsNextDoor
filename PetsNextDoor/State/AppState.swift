@@ -9,15 +9,15 @@ import Foundation
 
 struct AppState: Codable {
   
-  let screens: [AppScreenState]
+  let activeScreens: [AppScreenState]
   
-  init(screens: [AppScreenState]) {
-    self.screens = screens
+  init(activeScreens: [AppScreenState]) {
+    self.activeScreens = activeScreens
   }
   
   static let reducer: Reducer<Self> = { state, action in
     
-    var screens = state.screens
+    var screens = state.activeScreens
     
     switch action {
     
@@ -26,7 +26,7 @@ struct AppState: Codable {
     
     
     screens = screens.map { AppScreenState.reducer($0, action) }
-    return AppState(screens: screens)
+    return AppState(activeScreens: screens)
   }
 }
 

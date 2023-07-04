@@ -31,9 +31,6 @@ extension HomeState {
   }
 }
 
-extension HomeState {
-  
-  enum HomeStateAction: Action, Codable {
-    case emptyAction
-  }
+enum HomeStateAction: Action, Codable {
+  case emptyAction
 }
