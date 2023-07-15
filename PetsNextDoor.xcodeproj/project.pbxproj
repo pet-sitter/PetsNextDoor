@@ -22,21 +22,32 @@
 		DA275C692A44817700D09F77 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C682A44817700D09F77 /* GoogleSignInSwift */; };
 		DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C6B2A4481A600D09F77 /* SnapKit */; };
 		DA68EEF82A52ED2300302AFE /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68EEF72A52ED2300302AFE /* Store.swift */; };
-		DA68EEFB2A52F01F00302AFE /* CommonRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68EEFA2A52F01F00302AFE /* CommonRedux.swift */; };
-		DA68EF002A52F08500302AFE /* AppScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68EEFF2A52F08500302AFE /* AppScreenState.swift */; };
-		DA68EF022A52F12F00302AFE /* LoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68EF012A52F12F00302AFE /* LoginState.swift */; };
-		DA68EF042A52F22900302AFE /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68EF032A52F22900302AFE /* AppState.swift */; };
-		DA68EF062A52F3D500302AFE /* ActionPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68EF052A52F3D500302AFE /* ActionPrinter.swift */; };
-		DA68EF082A52F5C700302AFE /* HomeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68EF072A52F5C700302AFE /* HomeState.swift */; };
+		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
+		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
+		DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */; };
+		DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F62A62739500525711 /* LoadingIndicator.swift */; };
+		DA86A0FA2A62741700525711 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F92A62741700525711 /* Server.swift */; };
+		DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */; };
+		DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0FE2A62789200525711 /* RswiftLibrary */; };
+		DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */; };
+		DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */; };
+		DABA44792A628BBF00FD2639 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44782A628BBF00FD2639 /* LoginRouter.swift */; };
+		DABA447E2A628EC000FD2639 /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA447D2A628EC000FD2639 /* Routable.swift */; };
+		DABA44812A629A0E00FD2639 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44802A629A0E00FD2639 /* RootRouter.swift */; };
+		DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44832A629AF600FD2639 /* RootViewController.swift */; };
 		DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */; };
 		DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */; };
 		DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D42A3D7932002D33F8 /* LoginViewController.swift */; };
 		DAC6C2D82A3D7932002D33F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAC6C2D62A3D7932002D33F8 /* Main.storyboard */; };
 		DAC6C2DA2A3D7933002D33F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAC6C2D92A3D7933002D33F8 /* Assets.xcassets */; };
 		DAC6C2DD2A3D7933002D33F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAC6C2DB2A3D7933002D33F8 /* LaunchScreen.storyboard */; };
-		DACB0A1B2A47E1B4002D18E7 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1A2A47E1B4002D18E7 /* LoginManager.swift */; };
+		DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1A2A47E1B4002D18E7 /* LoginService.swift */; };
 		DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */; };
 		DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */; };
+		DAFB93792A5ACE25006FC77C /* AuthenticationMiddleWare.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB93782A5ACE25006FC77C /* AuthenticationMiddleWare.swift */; };
+		DAFB937B2A5AD20E006FC77C /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB937A2A5AD20E006FC77C /* Effect.swift */; };
+		DAFB937D2A5AD228006FC77C /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB937C2A5AD228006FC77C /* Reducer.swift */; };
+		DAFB937F2A5AD82C006FC77C /* LoginViewReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB937E2A5AD82C006FC77C /* LoginViewReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,12 +57,17 @@
 		7C1277FB2A544A0C004A83A4 /* ShortlyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortlyConfigurable.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA68EEF72A52ED2300302AFE /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
-		DA68EEFA2A52F01F00302AFE /* CommonRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonRedux.swift; sourceTree = "<group>"; };
-		DA68EEFF2A52F08500302AFE /* AppScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreenState.swift; sourceTree = "<group>"; };
-		DA68EF012A52F12F00302AFE /* LoginState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginState.swift; sourceTree = "<group>"; };
-		DA68EF032A52F22900302AFE /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		DA68EF052A52F3D500302AFE /* ActionPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionPrinter.swift; sourceTree = "<group>"; };
-		DA68EF072A52F5C700302AFE /* HomeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeState.swift; sourceTree = "<group>"; };
+		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
+		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		DA86A0F92A62741700525711 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GesturePassthroughView.swift; sourceTree = "<group>"; };
+		DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extension.swift"; sourceTree = "<group>"; };
+		DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorInsertableView.swift; sourceTree = "<group>"; };
+		DABA44782A628BBF00FD2639 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		DABA447D2A628EC000FD2639 /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
+		DABA44802A629A0E00FD2639 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
+		DABA44832A629AF600FD2639 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetsNextDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,9 +76,13 @@
 		DAC6C2D92A3D7933002D33F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DAC6C2DC2A3D7933002D33F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DAC6C2DE2A3D7933002D33F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DACB0A1A2A47E1B4002D18E7 /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
+		DACB0A1A2A47E1B4002D18E7 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
+		DAFB93782A5ACE25006FC77C /* AuthenticationMiddleWare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationMiddleWare.swift; sourceTree = "<group>"; };
+		DAFB937A2A5AD20E006FC77C /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
+		DAFB937C2A5AD228006FC77C /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
+		DAFB937E2A5AD82C006FC77C /* LoginViewReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,10 +90,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */,
 				DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */,
 				DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */,
 				DA275C602A44777500D09F77 /* FirebaseAuth in Frameworks */,
 				DA275C692A44817700D09F77 /* GoogleSignInSwift in Frameworks */,
+				DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */,
 				DA275C642A44777500D09F77 /* FirebaseCrashlytics in Frameworks */,
 				DA275C5C2A44777400D09F77 /* FirebaseAnalytics in Frameworks */,
 				DA275C622A44777500D09F77 /* FirebaseAuthCombine-Community in Frameworks */,
@@ -106,6 +128,8 @@
 		7C1277F82A54436A004A83A4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				DA86A0F32A62737200525711 /* ReusableViews */,
+				DABA44822A629ACB00FD2639 /* Root */,
 				7C1277F92A54436E004A83A4 /* Login */,
 			);
 			path = Screens;
@@ -114,6 +138,7 @@
 		7C1277F92A54436E004A83A4 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				DAFB937E2A5AD82C006FC77C /* LoginViewReducer.swift */,
 				DAC6C2D42A3D7932002D33F8 /* LoginViewController.swift */,
 			);
 			path = Login;
@@ -123,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				7C1277FB2A544A0C004A83A4 /* ShortlyConfigurable.swift */,
+				DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -131,7 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				DA68EEF72A52ED2300302AFE /* Store.swift */,
-				DA68EEFA2A52F01F00302AFE /* CommonRedux.swift */,
+				DAFB937C2A5AD228006FC77C /* Reducer.swift */,
+				DAFB937A2A5AD20E006FC77C /* Effect.swift */,
 			);
 			path = Redux;
 			sourceTree = "<group>";
@@ -139,20 +166,59 @@
 		DA68EEFC2A52F05900302AFE /* MiddleWares */ = {
 			isa = PBXGroup;
 			children = (
-				DA68EF052A52F3D500302AFE /* ActionPrinter.swift */,
+				DAFB93782A5ACE25006FC77C /* AuthenticationMiddleWare.swift */,
 			);
 			path = MiddleWares;
 			sourceTree = "<group>";
 		};
-		DA68EEFD2A52F06500302AFE /* State */ = {
+		DA86A0EE2A62716A00525711 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				DA68EEFF2A52F08500302AFE /* AppScreenState.swift */,
-				DA68EF032A52F22900302AFE /* AppState.swift */,
-				DA68EF012A52F12F00302AFE /* LoginState.swift */,
-				DA68EF072A52F5C700302AFE /* HomeState.swift */,
 			);
-			path = State;
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		DA86A0F32A62737200525711 /* ReusableViews */ = {
+			isa = PBXGroup;
+			children = (
+				DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */,
+				DA86A0F62A62739500525711 /* LoadingIndicator.swift */,
+				DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */,
+			);
+			path = ReusableViews;
+			sourceTree = "<group>";
+		};
+		DA86A0F82A62740700525711 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				DA86A0F92A62741700525711 /* Server.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		DABA44742A62821800FD2639 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		DABA447B2A628EB300FD2639 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				DABA447D2A628EC000FD2639 /* Routable.swift */,
+				DABA44802A629A0E00FD2639 /* RootRouter.swift */,
+				DABA44782A628BBF00FD2639 /* LoginRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		DABA44822A629ACB00FD2639 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				DABA44832A629AF600FD2639 /* RootViewController.swift */,
+			);
+			path = Root;
 			sourceTree = "<group>";
 		};
 		DAC6C2C42A3D7932002D33F8 = {
@@ -174,12 +240,14 @@
 		DAC6C2CF2A3D7932002D33F8 /* PetsNextDoor */ = {
 			isa = PBXGroup;
 			children = (
-				7C1277F82A54436A004A83A4 /* Screens */,
-				7C1277F12A544119004A83A4 /* Base */,
+				DABA44742A62821800FD2639 /* Assets */,
 				7C1277F02A5438A1004A83A4 /* AppLifeCycle */,
 				DA68EEF62A52ED1000302AFE /* Redux */,
-				DA68EEFD2A52F06500302AFE /* State */,
+				DABA447B2A628EB300FD2639 /* Router */,
+				7C1277F82A54436A004A83A4 /* Screens */,
+				7C1277F12A544119004A83A4 /* Base */,
 				DA68EEFC2A52F05900302AFE /* MiddleWares */,
+				DA86A0F82A62740700525711 /* Networking */,
 				DACB0A1C2A47E201002D18E7 /* Utilities */,
 				DACB0A142A47E08F002D18E7 /* Authentication */,
 				DA275C582A44767100D09F77 /* GoogleService-Info.plist */,
@@ -194,7 +262,7 @@
 		DACB0A142A47E08F002D18E7 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				DACB0A1A2A47E1B4002D18E7 /* LoginManager.swift */,
+				DACB0A1A2A47E1B4002D18E7 /* LoginService.swift */,
 				7C1277F62A54418C004A83A4 /* UserManager.swift */,
 			);
 			path = Authentication;
@@ -203,6 +271,7 @@
 		DACB0A1C2A47E201002D18E7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				DA86A0EE2A62716A00525711 /* Tools */,
 				7C1277FA2A544A02004A83A4 /* Protocols */,
 				DACB0A1D2A47E20F002D18E7 /* Extensions */,
 			);
@@ -213,7 +282,9 @@
 			isa = PBXGroup;
 			children = (
 				DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */,
+				DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */,
 				DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */,
+				DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -232,6 +303,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DA86A1022A62792D00525711 /* PBXTargetDependency */,
 			);
 			name = PetsNextDoor;
 			packageProductDependencies = (
@@ -244,6 +316,8 @@
 				DA275C682A44817700D09F77 /* GoogleSignInSwift */,
 				DA275C6B2A4481A600D09F77 /* SnapKit */,
 				7C1277FE2A544B8C004A83A4 /* CombineCocoa */,
+				DA86A0EC2A62711800525711 /* Kingfisher */,
+				DA86A0FE2A62789200525711 /* RswiftLibrary */,
 			);
 			productName = PetsNextDoor;
 			productReference = DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */;
@@ -278,6 +352,8 @@
 				DA275C652A44817700D09F77 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				DA275C6A2A4481A600D09F77 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				7C1277FD2A544B8C004A83A4 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				DA86A0EB2A62711800525711 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				DA86A0FD2A62789200525711 /* XCRemoteSwiftPackageReference "R.swift" */,
 			);
 			productRefGroup = DAC6C2CE2A3D7932002D33F8 /* Products */;
 			projectDirPath = "";
@@ -307,27 +383,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
 				DA68EEF82A52ED2300302AFE /* Store.swift in Sources */,
-				DACB0A1B2A47E1B4002D18E7 /* LoginManager.swift in Sources */,
+				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
+				DAFB93792A5ACE25006FC77C /* AuthenticationMiddleWare.swift in Sources */,
 				DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */,
-				DA68EF082A52F5C700302AFE /* HomeState.swift in Sources */,
+				DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */,
+				DABA447E2A628EC000FD2639 /* Routable.swift in Sources */,
+				DAFB937B2A5AD20E006FC77C /* Effect.swift in Sources */,
 				DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */,
+				DABA44792A628BBF00FD2639 /* LoginRouter.swift in Sources */,
 				7C1277F52A544142004A83A4 /* BaseViewController.swift in Sources */,
 				7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */,
+				DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */,
+				DA86A0FA2A62741700525711 /* Server.swift in Sources */,
+				DABA44812A629A0E00FD2639 /* RootRouter.swift in Sources */,
 				DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */,
-				DA68EF022A52F12F00302AFE /* LoginState.swift in Sources */,
-				DA68EF042A52F22900302AFE /* AppState.swift in Sources */,
+				DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */,
 				7C1277F32A544131004A83A4 /* BaseNavigationController.swift in Sources */,
-				DA68EF002A52F08500302AFE /* AppScreenState.swift in Sources */,
-				DA68EF062A52F3D500302AFE /* ActionPrinter.swift in Sources */,
-				DA68EEFB2A52F01F00302AFE /* CommonRedux.swift in Sources */,
+				DAFB937F2A5AD82C006FC77C /* LoginViewReducer.swift in Sources */,
+				DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */,
 				DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */,
+				DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */,
+				DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */,
+				DAFB937D2A5AD228006FC77C /* Reducer.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA86A1022A62792D00525711 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = DA86A1012A62792D00525711 /* RswiftGenerateInternalResources */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DAC6C2D62A3D7932002D33F8 /* Main.storyboard */ = {
@@ -575,6 +667,22 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		DA86A0EB2A62711800525711 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		DA86A0FD2A62789200525711 /* XCRemoteSwiftPackageReference "R.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-cain13/R.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -622,6 +730,20 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA275C6A2A4481A600D09F77 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		DA86A0EC2A62711800525711 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA86A0EB2A62711800525711 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		DA86A0FE2A62789200525711 /* RswiftLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA86A0FD2A62789200525711 /* XCRemoteSwiftPackageReference "R.swift" */;
+			productName = RswiftLibrary;
+		};
+		DA86A1012A62792D00525711 /* RswiftGenerateInternalResources */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "plugin:RswiftGenerateInternalResources";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

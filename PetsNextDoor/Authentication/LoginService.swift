@@ -1,5 +1,5 @@
 //
-//  LoginManager.swift
+//  LoginService.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/06/25.
@@ -31,7 +31,7 @@ protocol LoginServicable {
 //  func signInWithApple() async throws -> ASAuthorizationAppleIDCredential
 }
 
-final class LoginManager: LoginServicable {
+final class LoginService: LoginServicable {
   
   @MainActor
   func signInWithGoogle() async throws -> AuthCredential {

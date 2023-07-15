@@ -7,10 +7,10 @@
 
 import Foundation
 
-//class ReduxContainer {
-//  static let store = Store(
-//    initi alState: <#T##Decodable & Encodable#>,
-//    reducer: <#T##(Decodable & Encodable, Action) -> Decodable & Encodable#>,
-//    middlewares: <#T##[MiddlewareType : (Decodable & Encodable, Action) async -> Action?]#>
-//  )
-//}
+class ReduxContainer {
+  static let store = Store(
+    initialState: AppState(activeScreens: []),
+    reducer: AppState.reducer,
+    middleWares: [.printer: MiddleWares.printer]
+  )
+}

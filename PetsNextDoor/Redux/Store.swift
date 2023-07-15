@@ -8,93 +8,64 @@
 import Foundation
 import Combine
 
-enum MiddleWares  {}
-protocol Action   {}
-
-typealias Reducer<State>    = (State, Action) -> State
-typealias Middleware<State> = (State, Action) async -> Action?
-
-enum MiddlewareType: Hashable {
-  
-  case printer
-  
-  func hash(into hasher: inout Hasher) {
-    switch self {
-    case .printer:
-      hasher.combine(String(describing: self))
-    }
-  }
-}
-
-
-final class Store<State: Codable> {
-  
-  var isEnabled = true
+@MainActor
+@dynamicMemberLookup
+class Store<State, Action, Feedback, Output> where State: Equatable, Action: Sendable, Feedback: Sendable, Output: ObservableOutput {
   
   @Published private(set) var state: State
   
-  var mainState: AnyPublisher<State, Never> {
-    $state
-      .receive(on: DispatchQueue.main)
-      .eraseToAnyPublisher()
+  private let reducer: any Reducer<State, Action, Feedback, Output>
+  
+  private let stateSubject: CurrentValueSubject<State, Never>
+  lazy var stateStream = stateSubject.removeDuplicates().values
+  
+  private let outputSubject: PassthroughSubject<ObservableOutput, Never> = .init()
+  lazy var outputStream = outputSubject.values
+  
+  private var tasks: [Task<Void, Never>] = []
+  
+  deinit {
+    tasks.forEach { $0.cancel() }
   }
-  
-  private let queue = DispatchQueue(label: "com.petsNextDoor.store", qos: .userInitiated)
-  private let reducer: Reducer<State>
-  private var middleWares: [MiddlewareType: Middleware<State>]
-  
   
   init(
     initialState: State,
-    reducer: @escaping Reducer<State>,
-    middleWares: [MiddlewareType: Middleware<State>]
+    reducer: some Reducer<State, Action, Feedback, Output>
   ) {
-    self.state        = initialState
-    self.reducer      = reducer
-    self.middleWares  = middleWares
+    self.state    = initialState
+    self.reducer  = reducer
+    stateSubject  = .init(initialState)
   }
   
+  @discardableResult
+  func send(_ message: Action) -> Task<Void, Never> {
+    let task = Task { await send(.action(message)) }
+    tasks.append(task)
+    return task
+  }
   
-  func injectMiddleware(key: MiddlewareType) {
-    switch key {
+  func send(_ message: Action) async {
+    await send(.action(message))
+  }
+  
+  private func send(_ message: Message<Action, Feedback>) async {
+    guard !Task.isCancelled else { return }
     
-    case .printer:
-      break
+    let effect = reducer.reduce(message: message, into: &state)
+    stateSubject.send(state)
+    
+    if let output = effect.output {
+      outputSubject.send(output)
+    }
+    
+    await effect.operation { [weak self] feedback in
+      guard !Task.isCancelled else { return }
+      
+      await self?.send(.feedback(feedback))
     }
   }
   
-  
-  func removeMiddleware(forKey key: MiddlewareType) {
-    
+  subscript<Value>(dynamicMember keypath: KeyPath<State, Value>) -> Value {
+    state[keyPath: keypath]
   }
-  
-  
-  func restoreState(_ state: State) {
-    self.state = state
-  }
-  
-  
-  func dispatch(_ action: Action) {
-    guard isEnabled else { return }
-    
-    queue.sync {
-      self.dispatch(self.state, action)
-    }
-  }
-  
-  
-  private func dispatch(_ currentState: State, _ action: Action) {
-    let newState    = reducer(currentState, action)
-    let middleWares = Array(middleWares.values)
-    
-    middleWares.forEach { middleWare in
-      Task {
-        if let action = await middleWare(newState, action) {
-          dispatch(action)
-        }
-      }
-    }
-    state = newState
-  }
-  
 }

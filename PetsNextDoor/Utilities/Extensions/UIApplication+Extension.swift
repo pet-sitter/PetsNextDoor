@@ -21,4 +21,14 @@ extension UIApplication {
       }
       return base
   }
+  
+  static func findKeyWindow(activationStates: [UIScene.ActivationState] = [.foregroundActive]) -> UIWindow? {
+      UIApplication.shared.connectedScenes
+          .filter     { activationStates.contains($0.activationState) }
+          .compactMap { $0 as? UIWindowScene }
+          .first?
+          .windows
+          .filter { $0.isKeyWindow }
+          .first
+  }
 }
