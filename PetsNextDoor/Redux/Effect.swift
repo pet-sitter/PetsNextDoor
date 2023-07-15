@@ -32,7 +32,7 @@ extension Effect {
     return .init(output: output) { _ in }
   }
   
-  static func run(operation: @escaping Operation) -> Self {
+  static func task(operation: @escaping Operation) -> Self {
     self.init(output: nil, operation: operation)
   }
 }

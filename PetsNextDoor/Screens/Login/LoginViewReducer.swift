@@ -41,10 +41,10 @@ final class LoginViewReducer: Reducer {
     
     switch message {
     case .action(.didTapGoogleLogin):
-      return .run { [weak self] send in
+      return .task { [weak self] dispatch in
         do {
           try await self?.authenticationMiddleWare.beginGoogleLogin()
-          await send(.authenticationComplete)
+          await dispatch(.authenticationComplete)
         } catch {
           print("❌ error: \(error)")
         }

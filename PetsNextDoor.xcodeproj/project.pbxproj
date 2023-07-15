@@ -35,6 +35,7 @@
 		DABA447E2A628EC000FD2639 /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA447D2A628EC000FD2639 /* Routable.swift */; };
 		DABA44812A629A0E00FD2639 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44802A629A0E00FD2639 /* RootRouter.swift */; };
 		DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44832A629AF600FD2639 /* RootViewController.swift */; };
+		DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44862A62F91200FD2639 /* UIControl+Extension.swift */; };
 		DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */; };
 		DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */; };
 		DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D42A3D7932002D33F8 /* LoginViewController.swift */; };
@@ -68,6 +69,7 @@
 		DABA447D2A628EC000FD2639 /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
 		DABA44802A629A0E00FD2639 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		DABA44832A629AF600FD2639 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		DABA44862A62F91200FD2639 /* UIControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extension.swift"; sourceTree = "<group>"; };
 		DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetsNextDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */,
 				DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */,
 				DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */,
+				DABA44862A62F91200FD2639 /* UIControl+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
 				DA68EEF82A52ED2300302AFE /* Store.swift in Sources */,
+				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
 				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* AuthenticationMiddleWare.swift in Sources */,
 				DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */,

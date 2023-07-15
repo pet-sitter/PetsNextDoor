@@ -38,17 +38,17 @@ class Store<State, Action, Feedback, Output> where State: Equatable, Action: Sen
   }
   
   @discardableResult
-  func send(_ message: Action) -> Task<Void, Never> {
-    let task = Task { await send(.action(message)) }
+  func dispatch(_ message: Action) -> Task<Void, Never> {
+    let task = Task { await dispatch(.action(message)) }
     tasks.append(task)
     return task
   }
   
-  func send(_ message: Action) async {
-    await send(.action(message))
+  func dispatch(_ message: Action) async {
+    await dispatch(.action(message))
   }
   
-  private func send(_ message: Message<Action, Feedback>) async {
+  private func dispatch(_ message: Message<Action, Feedback>) async {
     guard !Task.isCancelled else { return }
     
     let effect = reducer.reduce(message: message, into: &state)
@@ -61,7 +61,7 @@ class Store<State, Action, Feedback, Output> where State: Equatable, Action: Sen
     await effect.operation { [weak self] feedback in
       guard !Task.isCancelled else { return }
       
-      await self?.send(.feedback(feedback))
+      await self?.dispatch(.feedback(feedback))
     }
   }
   

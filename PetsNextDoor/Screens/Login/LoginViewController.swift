@@ -13,9 +13,17 @@ import GoogleSignIn
 
 final class LoginViewController: BaseViewController {
   
-  private var socialLogInStackView: UIStackView!
+  private var logoImageView: UIImageView!
   
-  private var googleLoginButton: GIDSignInButton!
+  private var socialLogInStackView: UIStackView!
+  private var googleLoginButton: UIButton!
+  private var kakaoLoginButton: UIButton!
+  private var appleLoginButton: UIButton!
+  
+  private struct Constants {
+    static let socialLoginButtonSize: CGSize = .init(width: 67, height: 67)
+  }
+
   
   private var store = Store(
     initialState: LoginViewReducer.State(),
@@ -35,37 +43,73 @@ final class LoginViewController: BaseViewController {
     configureUI()
     configureActions()
     bindState()
-    view.backgroundColor = .systemTeal
 
     self.router = LoginRouter(outputStream: store.outputStream)
   }
   
   private func configureUI() {
+
+    logoImageView = UIImageView(image: UIImage(resource: R.image.loginImage))
+    view.addSubview(logoImageView)
+    logoImageView.set {
+      $0.snp.makeConstraints {
+        $0.centerX.equalToSuperview()
+        $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(200)
+      }
+    }
     
     socialLogInStackView = UIStackView()
     view.addSubview(socialLogInStackView)
     socialLogInStackView.set {
-      $0.spacing = 5
-      $0.axis = .horizontal
+      $0.spacing      = 15
+      $0.axis         = .horizontal
+      $0.distribution = .equalSpacing
+      $0.alignment    = .center
       $0.snp.makeConstraints {
         $0.bottom.equalToSuperview().inset(100)
-        $0.leading.trailing.equalToSuperview().inset(50)
+        $0.centerX.equalToSuperview()
       }
     }
     
-    googleLoginButton = GIDSignInButton(frame: .init(x: 0, y: 0, width: 70, height: 70))
+    googleLoginButton = UIButton()
     socialLogInStackView.addArrangedSubview(googleLoginButton)
+    googleLoginButton.set {
+      $0.setImage(UIImage(resource: R.image.googleLogin), for: .normal)
+      $0.frame = .init(origin: .init(x: 0, y: 0), size: Constants.socialLoginButtonSize)
+    }
+    
+    kakaoLoginButton = UIButton()
+    socialLogInStackView.addArrangedSubview(kakaoLoginButton)
+    kakaoLoginButton.set {
+      $0.setImage(UIImage(resource: R.image.kakaoLogin), for: .normal)
+      $0.frame = .init(origin: .init(x: 0, y: 0), size: Constants.socialLoginButtonSize)
+    }
+    
+    appleLoginButton = UIButton()
+    socialLogInStackView.addArrangedSubview(appleLoginButton)
+    appleLoginButton.set {
+      $0.setImage(UIImage(resource: R.image.appleLogin), for: .normal)
+      $0.frame = .init(origin: .init(x: 0, y: 0), size: Constants.socialLoginButtonSize)
+    }
+    
+
     
   }
   
   
   private func configureActions() {
     
-    googleLoginButton.controlEventPublisher(for: .touchUpInside)
-      .sink { [weak self] _ in
-        self?.store.send(.didTapGoogleLogin)
-      }
-      .store(in: &subscriptions)
+    googleLoginButton
+      .onTap { [weak self] in self?.store.dispatch(.didTapGoogleLogin) }
+    
+    
+    kakaoLoginButton
+      .onTap { [weak self] in self?.store.dispatch(.didTapKakaoLogin) }
+    
+    appleLoginButton
+      .onTap { [weak self] in self?.store.dispatch(.didTapAppleLogin) }
+    
+    
     
   }
   

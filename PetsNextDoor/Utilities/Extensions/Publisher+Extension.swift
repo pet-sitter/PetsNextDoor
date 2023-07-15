@@ -15,4 +15,17 @@ extension Publisher where Self.Failure == Never {
       object?[keyPath: keyPath] = value
     }
   }
+  
+  func withStrong<T: AnyObject>(_ object: T) -> Publishers.CompactMap<Self, (T, Self.Output)> {
+    compactMap { [weak object] output in
+      guard let object else { return nil }
+      return (object, output)
+    }
+  }
+  
+  func withWeak<T: AnyObject>(_ object: T) -> Publishers.CompactMap<Self, (T?, Self.Output)> {
+    compactMap { [weak object] output in
+      return (object, output)
+    }
+  }
 }
