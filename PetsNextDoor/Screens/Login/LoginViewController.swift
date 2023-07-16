@@ -23,16 +23,16 @@ final class LoginViewController: BaseViewController {
   private struct Constants {
     static let socialLoginButtonSize: CGSize = .init(width: 67, height: 67)
   }
+  
+  typealias StoreType = Store<LoginViewReducer.State, LoginViewReducer.Action, LoginViewReducer.Feedback, LoginViewReducer.Output>
+
+  private let store: StoreType
+  private let router: Routable
 
   
-  private var store = Store(
-    initialState: LoginViewReducer.State(),
-    reducer: LoginViewReducer(authenticationMiddleWare: AuthenticationMiddleWare(loginService: LoginService()))
-  )
-  private var router: Routable? = nil
-
-  
-  override init() {
+  init(store: StoreType, router: Routable) {
+    self.store  = store
+    self.router = router
     super.init()
   }
   
@@ -43,12 +43,10 @@ final class LoginViewController: BaseViewController {
     configureUI()
     configureActions()
     bindState()
-
-    self.router = LoginRouter(outputStream: store.outputStream)
   }
   
   private func configureUI() {
-
+    
     logoImageView = UIImageView(image: UIImage(resource: R.image.loginImage))
     view.addSubview(logoImageView)
     logoImageView.set {
@@ -75,21 +73,21 @@ final class LoginViewController: BaseViewController {
     socialLogInStackView.addArrangedSubview(googleLoginButton)
     googleLoginButton.set {
       $0.setImage(UIImage(resource: R.image.googleLogin), for: .normal)
-      $0.frame = .init(origin: .init(x: 0, y: 0), size: Constants.socialLoginButtonSize)
+      $0.frame = .init(origin: .default, size: Constants.socialLoginButtonSize)
     }
     
     kakaoLoginButton = UIButton()
     socialLogInStackView.addArrangedSubview(kakaoLoginButton)
     kakaoLoginButton.set {
       $0.setImage(UIImage(resource: R.image.kakaoLogin), for: .normal)
-      $0.frame = .init(origin: .init(x: 0, y: 0), size: Constants.socialLoginButtonSize)
+      $0.frame = .init(origin: .default, size: Constants.socialLoginButtonSize)
     }
     
     appleLoginButton = UIButton()
     socialLogInStackView.addArrangedSubview(appleLoginButton)
     appleLoginButton.set {
       $0.setImage(UIImage(resource: R.image.appleLogin), for: .normal)
-      $0.frame = .init(origin: .init(x: 0, y: 0), size: Constants.socialLoginButtonSize)
+      $0.frame = .init(origin: .default, size: Constants.socialLoginButtonSize)
     }
     
 
@@ -101,7 +99,6 @@ final class LoginViewController: BaseViewController {
     
     googleLoginButton
       .onTap { [weak self] in self?.store.dispatch(.didTapGoogleLogin) }
-    
     
     kakaoLoginButton
       .onTap { [weak self] in self?.store.dispatch(.didTapKakaoLogin) }

@@ -24,6 +24,7 @@ final class LoginRouter: Routable {
           
         case LoginViewReducer.Output.createAccountNeeded:
           print("✅ createAccountNeeded")
+          
         case LoginViewReducer.Output.loginComplete:
           print("✅ loginComplete")
           
@@ -31,6 +32,21 @@ final class LoginRouter: Routable {
           
         }
       }
+    }
+  }
+  @MainActor
+  func route(to screen: ScreenType) {
+    switch screen {
+    case .login:
+      break
+    case .authenticatePhoneNumber:
+      break
+    case .setInitialProfile:
+      break
+    case .addPet:
+      break
+      
+    default: break
     }
   }
 }

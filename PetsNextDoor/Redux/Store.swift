@@ -20,7 +20,7 @@ class Store<State, Action, Feedback, Output> where State: Equatable, Action: Sen
   lazy var stateStream = stateSubject.removeDuplicates().values
   
   private let outputSubject: PassthroughSubject<ObservableOutput, Never> = .init()
-  lazy var outputStream = outputSubject.values
+  nonisolated lazy var outputStream = outputSubject.values
   
   private var tasks: [Task<Void, Never>] = []
   

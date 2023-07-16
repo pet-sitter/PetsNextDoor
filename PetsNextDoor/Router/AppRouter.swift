@@ -1,0 +1,58 @@
+//
+//  AppRouter.swift
+//  PetsNextDoor
+//
+//  Created by kevinkim2586 on 2023/07/15.
+//
+
+import Foundation
+import Combine
+
+final class AppRouter: Routable {
+  
+  static let shared = AppRouter(outputStream: AppStore.shared.outputStream)
+  
+  private(set) var outputStream: AsyncPublisher<PassthroughSubject<ObservableOutput, Never>>
+  
+  private init(outputStream: AsyncPublisher<PassthroughSubject<ObservableOutput, Never>>) {
+    self.outputStream = outputStream
+    observeOutputStream()
+  }
+
+  func observeOutputStream() {
+    Task {
+      for await output in outputStream {
+        switch output {
+          
+        case AppReducer.Output.loginIsRequired(let window):
+          await route(to: .login(onWindow: window))
+          
+        case AppReducer.Output.mainPageIsRequired(let window):
+          await route(to: .main(onWindow: window))
+     
+        default: break
+        }
+      }
+    }
+  }
+  
+  @MainActor
+  func route(to screen: ScreenType) {
+    switch screen {
+      
+    case .login(let window):
+      let reducer =  LoginViewReducer(loginMiddleWare: LoginMiddleWare(loginService: LoginService()))
+      let store   =  Store(initialState: LoginViewReducer.State(), reducer: reducer)
+      let router  =  LoginRouter(outputStream: store.outputStream)
+      
+      window.rootViewController = LoginViewController(store: store, router: router)
+      window.overrideUserInterfaceStyle = .light
+      window.makeKeyAndVisible()
+      
+    case .main(let window):
+      break
+
+    default: break
+    }
+  }
+}

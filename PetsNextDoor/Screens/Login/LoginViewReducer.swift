@@ -28,10 +28,10 @@ final class LoginViewReducer: Reducer {
     case createAccountNeeded
   }
   
-  private let authenticationMiddleWare: AuthenticationMiddleWare
+  private let loginMiddleWare: LoginMiddleWare
 
-  init(authenticationMiddleWare: AuthenticationMiddleWare) {
-    self.authenticationMiddleWare = authenticationMiddleWare
+  init(loginMiddleWare: LoginMiddleWare) {
+    self.loginMiddleWare = loginMiddleWare
   }
   
   func reduce(
@@ -43,8 +43,9 @@ final class LoginViewReducer: Reducer {
     case .action(.didTapGoogleLogin):
       return .task { [weak self] dispatch in
         do {
-          try await self?.authenticationMiddleWare.beginGoogleLogin()
+          try await self?.loginMiddleWare.beginGoogleLogin()
           await dispatch(.authenticationComplete)
+          
         } catch {
           print("❌ error: \(error)")
         }
@@ -61,8 +62,6 @@ final class LoginViewReducer: Reducer {
   
     
   }
-  
-
   
   
 }
