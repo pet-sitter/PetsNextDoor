@@ -11,15 +11,11 @@ final class RootViewController: BaseViewController {
   
   typealias StoreType = Store<RootViewReducer.State, RootViewReducer.Action, RootViewReducer.Feedback, RootViewReducer.Output>
   
-  var mainTabBarController: UITabBarController?
-  var mainNavigationController: UINavigationController?
+ 
+  private var mainNavigationController: UINavigationController?
+  private var mainTabBarController: UITabBarController?
   
-  private let store: StoreType
-  private let router: Routable
-  
-  init(store: StoreType, router: Routable) {
-    self.store  = store
-    self.router = router
+  override init() {
     super.init()
   }
 
@@ -27,5 +23,18 @@ final class RootViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+  }
+  
+  func configureMainNavigationController(with navigationController: UINavigationController) {
+    // child 가 uitabbarcontroller이거나 있으면 없애고 추가하기?
+    addChild(navigationController)
+    navigationController.didMove(toParent: self)
+    view.addSubview(navigationController.view)
+    navigationController.view.frame = view.frame
+    self.mainNavigationController = navigationController
+  }
+  
+  func configureMainTabBarController(with tabBarController: UITabBarController) {
+    // child가 navcontroller이거나 있으면 없애고 추가하기?
   }
 }

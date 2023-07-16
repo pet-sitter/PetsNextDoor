@@ -5,12 +5,14 @@
 //  Created by kevinkim2586 on 2023/07/15.
 //
 
-import Foundation
+import UIKit
 import Combine
 
 final class AppRouter: Routable {
   
   static let shared = AppRouter(outputStream: AppStore.shared.outputStream)
+  
+  private var rootViewController: RootViewController!
   
   private(set) var outputStream: AsyncPublisher<PassthroughSubject<ObservableOutput, Never>>
   
@@ -41,11 +43,17 @@ final class AppRouter: Routable {
     switch screen {
       
     case .login(let window):
-      let reducer =  LoginViewReducer(loginMiddleWare: LoginMiddleWare(loginService: LoginService()))
-      let store   =  Store(initialState: LoginViewReducer.State(), reducer: reducer)
-      let router  =  LoginRouter(outputStream: store.outputStream)
       
-      window.rootViewController = LoginViewController(store: store, router: router)
+      rootViewController = RootViewController()
+      
+      let reducer = LoginViewReducer(loginMiddleWare: LoginMiddleWare(loginService: LoginService()))
+      let store   = Store(initialState: LoginViewReducer.State(), reducer: reducer)
+      let router  = LoginRouter(outputStream: store.outputStream)
+      let loginVC = LoginViewController(store: store, router: router)
+      
+      rootViewController.configureMainNavigationController(with: BaseNavigationController(rootViewController: loginVC))
+
+      window.rootViewController = self.rootViewController
       window.overrideUserInterfaceStyle = .light
       window.makeKeyAndVisible()
       
@@ -55,4 +63,6 @@ final class AppRouter: Routable {
     default: break
     }
   }
+  
+  
 }

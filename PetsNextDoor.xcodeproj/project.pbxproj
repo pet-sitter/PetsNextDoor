@@ -41,6 +41,7 @@
 		DABA44952A63A2F400FD2639 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44942A63A2F400FD2639 /* AppStore.swift */; };
 		DABA44992A63A4B300FD2639 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44982A63A4B300FD2639 /* AppReducer.swift */; };
 		DABA449D2A63AA7B00FD2639 /* AuthenticationMiddleWare.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA449C2A63AA7B00FD2639 /* AuthenticationMiddleWare.swift */; };
+		DABA44A02A63C62C00FD2639 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */; };
 		DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */; };
 		DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */; };
 		DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D42A3D7932002D33F8 /* LoginViewController.swift */; };
@@ -80,6 +81,7 @@
 		DABA44942A63A2F400FD2639 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		DABA44982A63A4B300FD2639 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		DABA449C2A63AA7B00FD2639 /* AuthenticationMiddleWare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationMiddleWare.swift; sourceTree = "<group>"; };
+		DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetsNextDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				7C1277F22A544131004A83A4 /* BaseNavigationController.swift */,
+				DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */,
 				7C1277F42A544142004A83A4 /* BaseViewController.swift */,
 			);
 			path = Base;
@@ -418,6 +421,7 @@
 				7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */,
 				DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */,
 				DA86A0FA2A62741700525711 /* Server.swift in Sources */,
+				DABA44A02A63C62C00FD2639 /* BaseTabBarController.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
 				DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */,
 				DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */,
