@@ -7,11 +7,12 @@
 
 import UIKit
 
+/**
+ - 앱 최하단에 항상 깔려있는 ViewController
+*/
+
 final class RootViewController: BaseViewController {
-  
-  typealias StoreType = Store<RootViewReducer.State, RootViewReducer.Action, RootViewReducer.Feedback, RootViewReducer.Output>
-  
- 
+
   private var mainNavigationController: UINavigationController?
   private var mainTabBarController: UITabBarController?
   

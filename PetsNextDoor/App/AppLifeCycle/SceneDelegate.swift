@@ -12,9 +12,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   var window: UIWindow?
 
-  private let appStore  = AppStore.shared
-  private let appRouter = AppRouter.shared
-
   func scene(
     _ scene: UIScene,
     willConnectTo session: UISceneSession,
@@ -28,7 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     FirebaseApp.configure()
   
-    appStore.dispatch(.willConnectTo(window: window))
+    // 로그인 체크하고 분기 처리해야함
+    Task { await AppRouter.shared.route(to: .login(onWindow: window)) } 
   }
 
   

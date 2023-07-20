@@ -5,25 +5,22 @@
 //  Created by kevinkim2586 on 2023/07/15.
 //
 
-import Foundation
+import UIKit
 import Combine
 
-protocol Routable: OutputStreamObservable {
-  @MainActor func route(to screen: ScreenType)
+protocol Routable: AnyObject {
+  @MainActor
+  func route(to destination: PND.Destination)
 }
 
-protocol OutputStreamObservable {
-  var outputStream: AsyncPublisher<PassthroughSubject<ObservableOutput, Never>> { get }
-  func observeOutputStream()
+extension PND {
+  
+  enum Destination: Equatable {
+    case main(onWindow: UIWindow?)
+    case login(onWindow: UIWindow)
+    case authenticatePhoneNumber
+    case setInitialProfile
+    case addPet
+  }
 }
 
-import UIKit
-
-enum ScreenType {
-  case main(onWindow: UIWindow)
-  case login(onWindow: UIWindow)
-  case authenticatePhoneNumber
-  case setInitialProfile
-  case addPet
-
-}

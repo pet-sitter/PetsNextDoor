@@ -7,14 +7,12 @@
 
 import UIKit
 import Combine
-import CombineCocoa
 import SnapKit
-import GoogleSignIn
+import ComposableArchitecture
 
 final class LoginViewController: BaseViewController {
   
   private var logoImageView: UIImageView!
-  
   private var socialLogInStackView: UIStackView!
   private var googleLoginButton: UIButton!
   private var kakaoLoginButton: UIButton!
@@ -24,20 +22,13 @@ final class LoginViewController: BaseViewController {
     static let socialLoginButtonSize: CGSize = .init(width: 67, height: 67)
   }
   
-  typealias StoreType = Store<LoginViewReducer.State, LoginViewReducer.Action, LoginViewReducer.Feedback, LoginViewReducer.Output>
+  private let viewStore: ViewStoreOf<LoginCore>
 
-  private let store: StoreType
-  private let router: Routable
-
-  
-  init(store: StoreType, router: Routable) {
-    self.store  = store
-    self.router = router
+  init(viewStore: ViewStoreOf<LoginCore>) {
+    self.viewStore = viewStore
     super.init()
   }
-  
-  required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
@@ -89,22 +80,19 @@ final class LoginViewController: BaseViewController {
       $0.setImage(UIImage(resource: R.image.appleLogin), for: .normal)
       $0.frame = .init(origin: .default, size: Constants.socialLoginButtonSize)
     }
-    
-
-    
   }
   
   
   private func configureActions() {
     
     googleLoginButton
-      .onTap { [weak self] in self?.store.dispatch(.didTapGoogleLogin) }
+      .onTapGesture { [weak self] in self?.viewStore.send(.didTapGoogleLogin) }
     
     kakaoLoginButton
-      .onTap { [weak self] in self?.store.dispatch(.didTapKakaoLogin) }
+      .onTapGesture { [weak self] in self?.viewStore.send(.didTapKakaoLogin) }
     
     appleLoginButton
-      .onTap { [weak self] in self?.store.dispatch(.didTapAppleLogin) }
+      .onTapGesture { [weak self] in self?.viewStore.send(.didTapAppleLogin) }
     
     
     
@@ -113,10 +101,8 @@ final class LoginViewController: BaseViewController {
   
   private func bindState() {
     
-    store.$state
-      .map { $0.isLoadingIndicatorAnimating }
-      .assignNoRetain(to: \.isAnimating, on: loadingIndicator)
-      .store(in: &subscriptions)
+
+  
 
   }
   

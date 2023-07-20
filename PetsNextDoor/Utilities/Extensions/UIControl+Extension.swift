@@ -9,9 +9,8 @@ import UIKit
 
 extension UIControl {
   
-  func onTap(_ actionBlock: (() -> Void)?) {
+  func onTapGesture(_ actionBlock: (() -> Void)?) {
     let action = UIAction {  _ in actionBlock?()}
     self.addAction(action, for: .touchUpInside)
   }
-  
 }
