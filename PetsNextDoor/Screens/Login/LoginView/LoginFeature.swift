@@ -1,5 +1,5 @@
 //
-//  LoginCore.swift
+//  LoginFeature.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/07/20.
@@ -8,15 +8,15 @@
 import Foundation
 import ComposableArchitecture
 
-
-
-struct LoginCore: ReducerProtocol {
+struct LoginFeature: ReducerProtocol {
   
   struct State: Equatable {
     var nextDestination: PND.Destination?
   }
   
   enum Action: Equatable {
+		
+		case viewWillAppear
 
     case didTapKakaoLogin
     case didTapGoogleLogin
@@ -37,6 +37,10 @@ struct LoginCore: ReducerProtocol {
   ) -> EffectTask<Action> {
     
     switch action {
+			
+		case .viewWillAppear:
+			state.nextDestination = nil
+			return .none
     
     case .didTapGoogleLogin:
       return .run { send in
@@ -47,7 +51,7 @@ struct LoginCore: ReducerProtocol {
           if isUserRegistrationNeeded {
             await send(._setNextDestination(.authenticatePhoneNumber))
           } else {
-//            await send(._setNextDestination(.main(onWindow: <#T##UIWindow#>)))
+//            await send(._setNextDestination(.main(onWindow: \)))
             fatalError()
           }
 //          await send(._setUserRegistrationIsNeeded(true))
@@ -58,6 +62,7 @@ struct LoginCore: ReducerProtocol {
       }
       
     case ._setNextDestination(let destination):
+			
       state.nextDestination = destination
       return .none
     

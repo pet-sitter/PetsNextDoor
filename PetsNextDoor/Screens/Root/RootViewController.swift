@@ -13,8 +13,8 @@ import UIKit
 
 final class RootViewController: BaseViewController {
 
-  private var mainNavigationController: UINavigationController?
-  private var mainTabBarController: UITabBarController?
+  private(set) var mainNavigationController: UINavigationController?
+  private(set) var mainTabBarController: UITabBarController?
   
   override init() {
     super.init()

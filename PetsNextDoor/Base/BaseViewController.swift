@@ -12,7 +12,7 @@ class BaseViewController: UIViewController, LoadingIndicatorInsertable {
   
   var loadingIndicator: LoadingIndicatorView = .init()
   
-  var subscriptions = Set<AnyCancellable>()
+//  var subscriptions = Set<AnyCancellable>()
   
   init() {
     super.init(nibName: nil, bundle: nil)

@@ -21,52 +21,50 @@ enum LoginResult {
 }
 
 
-protocol LoginServicable {
+protocol LoginServiceable {
 
   @MainActor
   func signInWithGoogle() async -> LoginResult
 }
 
 
-final class LoginService: LoginServicable {
+final class LoginService: LoginServiceable {
   
-  @MainActor
-  func signInWithGoogle() async -> LoginResult {
-    
-    guard
-      let clientId  = FirebaseApp.app()?.options.clientID,
-      let topMostVC = UIApplication.topViewController()
-    else { return .failed(reason: .undefined) }
+	@MainActor
+	func signInWithGoogle() async -> LoginResult {
+		
+		guard
+			let clientId  = FirebaseApp.app()?.options.clientID,
+			let topMostVC = UIApplication.topViewController()
+		else { return .failed(reason: .undefined) }
+		
+		let googleIdConfig = GIDConfiguration(clientID: clientId)
+		GIDSignIn.sharedInstance.configuration = googleIdConfig
+		
+		do {
+			
+			let signInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topMostVC)
+			
+//			signInResult.user
+			
+			// 가입된 계정이 있는지 자체 서버에서 verifyAPI 호출
+			
+				// 없으면 isUserRegistrationNeeded: true 반환
+			
+			// signInWithCredential을 한 결과 (유저정보)를 자체 서버에 전달
+			
+		  //
+				
+			return .success(isUserRegistrationNeeded: true)
+			
+			
+		} catch {
+			return .failed(reason: .undefined)
+		}
+		
 
-    let googleIdConfig = GIDConfiguration(clientID: clientId)
-    GIDSignIn.sharedInstance.configuration = googleIdConfig
-    
-    return await withCheckedContinuation { continuation in
-   
-      GIDSignIn.sharedInstance.signIn(withPresenting: topMostVC) { result, error in
-        
-        if let error {
-          return continuation.resume(returning: .failed(reason: .undefined))
-        }
-        
-        guard
-          let user    = result?.user,
-          let idToken = user.idToken?.tokenString
-        else {
-          return continuation.resume(returning: .failed(reason: .undefined))
-        }
-        
-        let credential = GoogleAuthProvider.credential(
-          withIDToken: idToken,
-          accessToken: user.accessToken.tokenString
-        )
-        
-        return continuation.resume(returning: .success(isUserRegistrationNeeded: true))
-      }
-    }
-  }
-  
-
+	}
+	
 }
 
 //MARK: - Private Methods
@@ -78,7 +76,7 @@ extension LoginService {
 
 
 
-final class LoginServiceMock: LoginServicable {
+final class LoginServiceMock: LoginServiceable {
   
   @MainActor
   func signInWithGoogle() async -> LoginResult {

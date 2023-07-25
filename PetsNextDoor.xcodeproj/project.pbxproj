@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C0AA8102A701A7F003B129F /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0AA80F2A701A7F003B129F /* LoginRouter.swift */; };
 		7C1277F32A544131004A83A4 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277F22A544131004A83A4 /* BaseNavigationController.swift */; };
 		7C1277F52A544142004A83A4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277F42A544142004A83A4 /* BaseViewController.swift */; };
 		7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277F62A54418C004A83A4 /* UserManager.swift */; };
@@ -22,7 +23,7 @@
 		DA275C692A44817700D09F77 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C682A44817700D09F77 /* GoogleSignInSwift */; };
 		DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C6B2A4481A600D09F77 /* SnapKit */; };
 		DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA4F05212A68021800D7E7A7 /* ComposableArchitecture */; };
-		DA4F05282A68EA9E00D7E7A7 /* LoginCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05272A68EA9E00D7E7A7 /* LoginCore.swift */; };
+		DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */; };
 		DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
 		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
@@ -53,12 +54,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C0AA80F2A701A7F003B129F /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		7C1277F22A544131004A83A4 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		7C1277F42A544142004A83A4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7C1277F62A54418C004A83A4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		7C1277FB2A544A0C004A83A4 /* ShortlyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortlyConfigurable.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		DA4F05272A68EA9E00D7E7A7 /* LoginCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCore.swift; sourceTree = "<group>"; };
+		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
 		DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameSpace.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			children = (
 				DABA447D2A628EC000FD2639 /* Route+Protocols.swift */,
 				DABA44802A629A0E00FD2639 /* AppRouter.swift */,
+				7C0AA80F2A701A7F003B129F /* LoginRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -227,7 +230,7 @@
 		DABA44A32A63CB5600FD2639 /* LoginView */ = {
 			isa = PBXGroup;
 			children = (
-				DA4F05272A68EA9E00D7E7A7 /* LoginCore.swift */,
+				DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */,
 				DAC6C2D42A3D7932002D33F8 /* LoginViewController.swift */,
 			);
 			path = LoginView;
@@ -425,13 +428,14 @@
 				DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */,
 				DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */,
 				7C1277F32A544131004A83A4 /* BaseNavigationController.swift in Sources */,
-				DA4F05282A68EA9E00D7E7A7 /* LoginCore.swift in Sources */,
+				DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */,
 				DABA44A62A63CB7600FD2639 /* AuthenticatePhoneNumberViewController.swift in Sources */,
 				DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */,
 				DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */,
 				DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */,
 				DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */,
 				DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */,
+				7C0AA8102A701A7F003B129F /* LoginRouter.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

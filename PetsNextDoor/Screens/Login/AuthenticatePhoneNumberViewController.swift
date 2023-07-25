@@ -12,10 +12,10 @@ import SnapKit
 final class AuthenticatePhoneNumberViewController: BaseViewController {
 
 
-
-
   override func viewDidLoad() {
     super.viewDidLoad()
+		view.backgroundColor = .systemRed
+		
   }
 
 
