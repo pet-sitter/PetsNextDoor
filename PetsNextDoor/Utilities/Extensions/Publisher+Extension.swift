@@ -28,4 +28,14 @@ extension Publisher where Self.Failure == Never {
       return (object, output)
     }
   }
+
+  func bindToRouter() -> AnyCancellable {
+    sink { output in
+      guard let destination = output as? PND.Destination else { return }
+      Task { @MainActor in
+        AppRouter.shared.route(to: destination)
+      }
+    }
+  }
+  
 }
