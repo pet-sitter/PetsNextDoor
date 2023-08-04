@@ -16,7 +16,12 @@ final class LoginRouter: Routable {
 		switch destination {
 		case .authenticatePhoneNumber:
 			
-			let vc = AuthenticatePhoneNumberViewController()
+      let vc = AuthenticatePhoneNumberViewController(
+        store: .init(
+          initialState: .init(),
+          reducer: { AuthenticateFeature() }),
+        router: LoginRouter()
+      )
 			
 			AppRouter
 				.shared

@@ -20,3 +20,4 @@ extension ShortlyConfigurable {
 }
 
 extension NSObject: ShortlyConfigurable {}
+

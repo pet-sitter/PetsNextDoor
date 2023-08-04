@@ -11,9 +11,6 @@ import SnapKit
 import ComposableArchitecture
 
 final class LoginViewController: BaseViewController {
-	
-	typealias State 	= LoginFeature.State
-	typealias Action 	= LoginFeature.Action
   
   private var logoImageView: UIImageView!
   private var socialLogInStackView: UIStackView!
@@ -24,13 +21,14 @@ final class LoginViewController: BaseViewController {
   private struct Constants {
     static let socialLoginButtonSize: CGSize = .init(width: 67, height: 67)
   }
-  
+	
+	typealias State 	= LoginFeature.State
+	typealias Action 	= LoginFeature.Action
+
 	private let store: Store<State, Action>
   private let viewStore: ViewStoreOf<LoginFeature>
 	private let router: Routable
 	
-	private var subscriptions = Set<AnyCancellable>()
-
 	init(
 		store:  some StoreOf<LoginFeature>,
 		router: some Routable
@@ -110,10 +108,7 @@ final class LoginViewController: BaseViewController {
     
     appleLoginButton
       .onTapGesture { [weak self] in self?.viewStore.send(.didTapAppleLogin) }
-    
-    
   }
-  
   
   private func bindState() {
 
@@ -122,11 +117,18 @@ final class LoginViewController: BaseViewController {
 			.map { $0.nextDestination }
 			.compactMap { $0 }
 			.sink { [weak self] destination in
+        defer { self?.viewStore.send(.setNextDestination(nil)) }
 				self?.router.route(to: destination)
 			}
 			.store(in: &subscriptions)
 		
-
+   
+    
+//    viewStore
+//      .publisher
+//      .map { $0.cellViewModels }
+//      .bind(to: adapter.dataSource)
+//      .store(in: &subscriptions)
   }
   
 }

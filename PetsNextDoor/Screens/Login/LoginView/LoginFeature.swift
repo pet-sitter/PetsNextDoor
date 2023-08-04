@@ -8,10 +8,15 @@
 import Foundation
 import ComposableArchitecture
 
-struct LoginFeature: ReducerProtocol {
+struct LoginFeature: Reducer {
+  
+  @Dependency(\.loginService) private var loginService
   
   struct State: Equatable {
-    var nextDestination: PND.Destination?
+
+    var nextDestination: PND.Destination? = nil
+    
+
   }
   
   enum Action: Equatable {
@@ -22,15 +27,15 @@ struct LoginFeature: ReducerProtocol {
     case didTapGoogleLogin
     case didTapAppleLogin
     
-    case _setNextDestination(PND.Destination)
+    case setNextDestination(PND.Destination?)
   }
   
+
   init() {
     
   }
   
-  @Dependency(\.loginService) private var loginService
-  
+ 
   func reduce(
     into state: inout State,
     action: Action
@@ -39,7 +44,6 @@ struct LoginFeature: ReducerProtocol {
     switch action {
 			
 		case .viewWillAppear:
-			state.nextDestination = nil
 			return .none
     
     case .didTapGoogleLogin:
@@ -49,10 +53,10 @@ struct LoginFeature: ReducerProtocol {
         switch loginResult {
         case .success(let isUserRegistrationNeeded):
           if isUserRegistrationNeeded {
-            await send(._setNextDestination(.authenticatePhoneNumber))
+            await send(.setNextDestination(.authenticatePhoneNumber))
           } else {
 //            await send(._setNextDestination(.main(onWindow: \)))
-            fatalError()
+            assertionFailure()
           }
 //          await send(._setUserRegistrationIsNeeded(true))
           
@@ -61,8 +65,7 @@ struct LoginFeature: ReducerProtocol {
         }
       }
       
-    case ._setNextDestination(let destination):
-			
+    case .setNextDestination(let destination):
       state.nextDestination = destination
       return .none
     

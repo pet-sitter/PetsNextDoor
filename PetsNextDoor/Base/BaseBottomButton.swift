@@ -1,13 +1,14 @@
 //
-//  BaseButton.swift
+//  BaseBottomButton.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/07/20.
 //
 
 import UIKit
+import Combine
 
-class BaseButton: UIButton {
+class BaseBottomButton: UIButton, Touchable {
   
   static let defaultHeight: CGFloat = 60
 
@@ -33,5 +34,13 @@ class BaseButton: UIButton {
     layer.cornerRadius  = 4
     setTitleColor(.white, for: .normal)
     titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+    
+    self.onTapGesture { [weak self] in
+      self?.onTouchableAreaTap {}
+    }
+  }
+  
+  func onTouchableAreaTap(_ action: @escaping () -> Void) {
+    
   }
 }
