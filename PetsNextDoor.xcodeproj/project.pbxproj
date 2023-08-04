@@ -25,6 +25,13 @@
 		DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA4F05212A68021800D7E7A7 /* ComposableArchitecture */; };
 		DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */; };
 		DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */; };
+		DA4F05382A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05372A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift */; };
+		DA4F053A2A694A0B00D7E7A7 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05392A694A0B00D7E7A7 /* BaseButton.swift */; };
+		DA4F05402A694B6B00D7E7A7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F053F2A694B6B00D7E7A7 /* UIColor+Extension.swift */; };
+		DA4F05432A694BA000D7E7A7 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05422A694BA000D7E7A7 /* Colors.swift */; };
+		DA4F05462A69521B00D7E7A7 /* BaseTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05452A69521B00D7E7A7 /* BaseTextFieldView.swift */; };
+		DA4F05492A6953AE00D7E7A7 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05482A6953AE00D7E7A7 /* UIView+Extension.swift */; };
+		DA4F054B2A6955F700D7E7A7 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F054A2A6955F700D7E7A7 /* Keyboard.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
 		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
 		DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */; };
@@ -77,6 +84,13 @@
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
 		DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameSpace.swift; sourceTree = "<group>"; };
+		DA4F05372A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPhoneNumberCore.swift; sourceTree = "<group>"; };
+		DA4F05392A694A0B00D7E7A7 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		DA4F053F2A694B6B00D7E7A7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		DA4F05422A694BA000D7E7A7 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		DA4F05452A69521B00D7E7A7 /* BaseTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextFieldView.swift; sourceTree = "<group>"; };
+		DA4F05482A6953AE00D7E7A7 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		DA4F054A2A6955F700D7E7A7 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
@@ -160,6 +174,8 @@
 				7C1277F22A544131004A83A4 /* BaseNavigationController.swift */,
 				DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */,
 				7C1277F42A544142004A83A4 /* BaseViewController.swift */,
+				DA4F05392A694A0B00D7E7A7 /* BaseButton.swift */,
+				DA4F05452A69521B00D7E7A7 /* BaseTextFieldView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -180,8 +196,8 @@
 		7C1277F92A54436E004A83A4 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				DABA44A42A63CB6100FD2639 /* AuthenticatePhoneNumberView */,
 				DABA44A32A63CB5600FD2639 /* LoginView */,
+				DABA44A42A63CB6100FD2639 /* AuthenticatePhoneNumberView */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -385,6 +401,7 @@
 				DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */,
 				DA8A34F32A7654AC0054FE25 /* UIColor+Extension.swift */,
 				DABA44862A62F91200FD2639 /* UIControl+Extension.swift */,
+				DA4F05482A6953AE00D7E7A7 /* UIView+Extension.swift */,
 				DABA44892A62FE3A00FD2639 /* CGPoint+Extension.swift */,
 			);
 			path = Extensions;
@@ -495,6 +512,7 @@
 				DA8A34FE2A765B850054FE25 /* Component.swift in Sources */,
 				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
+				DA4F05432A694BA000D7E7A7 /* Colors.swift in Sources */,
 				DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */,
 				DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */,
 				DAAD52EE2A7CBF8A00227BB5 /* ComponentModifier.swift in Sources */,
@@ -502,7 +520,9 @@
 				DAAD52F72A7CD58300227BB5 /* AuthenticateFeature.swift in Sources */,
 				DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */,
 				DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */,
+				DA4F05402A694B6B00D7E7A7 /* UIColor+Extension.swift in Sources */,
 				7C1277F52A544142004A83A4 /* BaseViewController.swift in Sources */,
+				DA4F05382A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift in Sources */,
 				7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */,
 				DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */,
 				DAAD52E82A7CBF5200227BB5 /* IdentifierProvidable.swift in Sources */,
@@ -516,6 +536,7 @@
 				DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */,
 				DAAD52E22A7C98DE00227BB5 /* BaseBottomButton.swift in Sources */,
 				DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */,
+				DA4F053A2A694A0B00D7E7A7 /* BaseButton.swift in Sources */,
 				7C1277F32A544131004A83A4 /* BaseNavigationController.swift in Sources */,
 				DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */,
 				DABA44A62A63CB7600FD2639 /* AuthenticatePhoneNumberViewController.swift in Sources */,
@@ -524,6 +545,7 @@
 				DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */,
 				DA8A34F82A7654DA0054FE25 /* Keyboard.swift in Sources */,
 				DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */,
+				DA4F054B2A6955F700D7E7A7 /* Keyboard.swift in Sources */,
 				DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */,
 				DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */,
 				7C0AA8102A701A7F003B129F /* LoginRouter.swift in Sources */,

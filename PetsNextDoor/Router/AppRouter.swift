@@ -9,6 +9,12 @@ import UIKit
 import Combine
 import ComposableArchitecture
 
+enum NavigationOption {
+  case push
+  case presentFullScreen
+  case presentModally
+}
+
 final class AppRouter: Routable {
 
   static let shared = AppRouter()
@@ -16,14 +22,19 @@ final class AppRouter: Routable {
   private(set) var rootViewController: RootViewController!
 
   var visibleViewController: UIViewController? { UIApplication.topViewController() }
+
+  private init() {}
   
   private var destinationSubscription: AnyCancellable?
   
   private init() {}
 
-  @MainActor
   func route(to destination: PND.Destination) {
-    route(destination)
+    Task {
+      await MainActor.run {
+        route(destination)
+      }
+    }
   }
 
   @MainActor
@@ -48,6 +59,8 @@ final class AppRouter: Routable {
       window.rootViewController = self.rootViewController
       window.overrideUserInterfaceStyle = .light
       window.makeKeyAndVisible()
+      
+    case .authenticatePhoneNumber:
 
 			
     case .main(let window):

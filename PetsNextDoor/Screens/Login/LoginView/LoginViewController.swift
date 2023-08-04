@@ -41,7 +41,6 @@ final class LoginViewController: BaseViewController {
 	
   override func viewDidLoad() {
     super.viewDidLoad()
-    configureUI()
     configureActions()
     bindState()
   }
@@ -51,7 +50,8 @@ final class LoginViewController: BaseViewController {
 		viewStore.send(.viewWillAppear)
 	}
   
-  private func configureUI() {
+  override func configureUI() {
+    super.configureUI()
     
     logoImageView = UIImageView(image: UIImage(resource: R.image.loginImage))
     view.addSubview(logoImageView)
