@@ -21,4 +21,8 @@ extension UITableView {
     self.register(T.self, forCellReuseIdentifier: T.identifier)
   }
   
+  var registeredClasses: [String: Any] {
+    let dict = value(forKey: "_cellClassDict") as? [String: Any]
+    return dict ?? [:]
+  }
 }

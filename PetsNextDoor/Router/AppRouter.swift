@@ -25,10 +25,6 @@ final class AppRouter: Routable {
 
   private init() {}
   
-  private var destinationSubscription: AnyCancellable?
-  
-  private init() {}
-
   func route(to destination: PND.Destination) {
     Task {
       await MainActor.run {
@@ -62,6 +58,7 @@ final class AppRouter: Routable {
       
     case .authenticatePhoneNumber:
 
+      break
 			
     case .main(let window):
       break
