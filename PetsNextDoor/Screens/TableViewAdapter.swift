@@ -9,37 +9,21 @@ import UIKit
 import Combine
 import SnapKit
 
-final class TableViewDataSourceProvider {
-  
-  private(set) var components: [any Component]
-  
-  var numberOfRowsInSection: Int { components.count }
-  
-  var numberOfSections: Int = 1
-  
-  init(components: [any Component]) {
-    self.components = components
-  }
-
-  
-}
-
 final class TableViewAdapter: NSObject {
-  
-  private(set) var onRowTouch: PassthroughSubject<any CellItemModelType, Never> = .init()
   
   private(set) weak var tableView: UITableView!
   
+  private var components: [any Component] = []
   
-  
+  private var subscriptions = Set<AnyCancellable>()
+
   init(tableView: UITableView) {
-    self.tableView = tableView
+    self.tableView  = tableView
     super.init()
     configureTableView()
   }
   
   private func configureTableView() {
-    
     tableView.delegate = self
     tableView.dataSource = self
   }
@@ -47,10 +31,19 @@ final class TableViewAdapter: NSObject {
 
 extension TableViewAdapter {
   
-  func configureDataSource() {
-    
+  func observeDataSource(componentPublisher: Published<[any Component]>.Publisher) {
+    componentPublisher
+      .sink { [weak self] components in
+        guard let self else { return }
+        self.components = components
+        tableView.reloadData()
+      }
+      .store(in: &subscriptions)
   }
 
+  func reloadData() {
+    tableView.reloadData()
+  }
 }
 
 extension TableViewAdapter: UITableViewDataSource {
@@ -59,26 +52,32 @@ extension TableViewAdapter: UITableViewDataSource {
     _ tableView: UITableView,
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
-    return .init()
-    //    let cell: UITableViewCell
-    //
-    //
-    //
-    //
-    //
-    //    return cell
+    guard let component = components[safe: indexPath.row] else { return .init() }
+    
+    let cellIdentifier = "ContainerCell<\(type(of: component).identifier)>"
+    
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+    
+    if let cell = cell as? CellItemModelBindable {
+      cell.bind(cellItemModel: component)
+    }
+    return cell
   }
   
-  
   func numberOfSections(in tableView: UITableView) -> Int {
-    0
+    1
   }
   
   func tableView(
     _ tableView: UITableView,
     numberOfRowsInSection section: Int
   ) -> Int {
-    0
+    components.count
+  }
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    components[safe: indexPath.row]?.height ?? 0.0
+
   }
 }
 
