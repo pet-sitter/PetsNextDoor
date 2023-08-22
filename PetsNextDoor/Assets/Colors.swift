@@ -10,6 +10,8 @@ import UIKit
 extension PND {
   
   enum Colors {
-    static let commonBlack = UIColor.black
+    static let commonBlack 	= UIColor.black
+		static let commonWhite 	= UIColor.white
+		static let commonOrange = UIColor(hex: "FF8B00")
   }
 }

@@ -28,7 +28,7 @@ class BaseViewController: UIViewController, LoadingIndicatorInsertable {
   }
   
   func configureUI() {
-    view.backgroundColor = .white
+		view.backgroundColor = PND.Colors.commonWhite
   }
   
   func configureTopLeftTitle(_ title: String) {

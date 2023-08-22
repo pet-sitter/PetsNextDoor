@@ -8,8 +8,6 @@
 import Foundation
 import ComposableArchitecture
 
-
-
 struct AuthenticateFeature: Reducer {
 
   struct State: Equatable {
@@ -32,7 +30,14 @@ struct AuthenticateFeature: Reducer {
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       
-      return .none
+			switch action {
+			case .didTapNextButton:
+				return .send(.setNextDestination(.setInitialProfile))
+				
+			case .setNextDestination(let destination):
+				state.nextDestination = destination
+				return .none
+			}
     }
   }
 }

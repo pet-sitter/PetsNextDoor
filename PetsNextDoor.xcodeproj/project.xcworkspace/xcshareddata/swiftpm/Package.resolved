@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "df2171b0c6afb9e9d4f7e07669d558c510b9f6be",
-        "version" : "10.13.0"
+        "revision" : "e700a8f40c87c31cab7984875fcc1225d96b25bf",
+        "version" : "10.11.0"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "03b9beee1a61f62d32c521e172e192a1663a5e8b",
-        "version" : "10.13.0"
+        "revision" : "62e3a0c09a75e2637f5300d46f05a59313f1c286",
+        "version" : "10.11.0"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleDataTransport.git",
       "state" : {
-        "revision" : "aae45a320fd0d11811820335b1eabc8753902a40",
-        "version" : "9.2.5"
+        "revision" : "7874c1b48cbffd086ce8a052c4be873a78613775",
+        "version" : "9.2.3"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "c38ce365d77b04a9a300c31061c5227589e5597b",
-        "version" : "7.11.5"
+        "revision" : "871d43135925cde39ef7421d8723ce47edfdcc39",
+        "version" : "7.11.1"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "c75584ac759cbb16b204d0a7de3ebf53ea6b304d",
-        "version" : "7.9.0"
+        "revision" : "c1f60c63f356d364f4284ba82961acbe7de79bcc",
+        "version" : "7.8.1"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
       "state" : {
-        "revision" : "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
-        "version" : "2.3.1"
+        "revision" : "ec957ccddbcc710ccc64c9dcbd4c7006fcf8b73a",
+        "version" : "2.2.0"
       }
     },
     {
@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",
       "state" : {
-        "revision" : "4cf2104cf14d57ec3dfb8cbd90d29f2b81a32028",
-        "version" : "0.58.0"
+        "revision" : "3a2b7d7c748eb83882aaecfe5008e84964ae1796",
+        "version" : "0.58.2"
       }
     },
     {
@@ -248,8 +248,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "ce20dc083ee485524b802669890291c0d8090170",
-        "version" : "1.22.1"
+        "revision" : "f25867a208f459d3c5a06935dceb9083b11cd539",
+        "version" : "1.22.0"
       }
     },
     {
@@ -275,8 +275,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "50843cbb8551db836adec2290bb4bc6bac5c1865",
-        "version" : "0.9.0"
+        "revision" : "245d527002f29c5a616c5b7131f6a50ac7f41cbf",
+        "version" : "0.8.6"
       }
     }
   ],

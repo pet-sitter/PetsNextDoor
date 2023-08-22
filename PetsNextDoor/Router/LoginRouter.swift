@@ -29,6 +29,22 @@ final class LoginRouter: Routable {
 				.mainNavigationController?
 				.pushViewController(vc, animated: true)
 			
+		case .setInitialProfile:
+			
+			let vc = SetProfileViewController(
+				store: .init(
+					initialState: .init(),
+					reducer: { SetProfileFeature() }
+				),
+				router: LoginRouter()
+			)
+			
+			AppRouter
+				.shared
+				.rootViewController
+				.mainNavigationController?
+				.pushViewController(vc, animated: true)
+			
 		default: break
 		}
 	}

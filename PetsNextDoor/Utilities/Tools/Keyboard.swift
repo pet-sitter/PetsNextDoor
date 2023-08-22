@@ -105,8 +105,6 @@ final class Keyboard {
   }
 }
 
-
-
 extension KeyboardEvent {
   var fromFrame:CGRect {
     switch self {
@@ -167,29 +165,21 @@ extension KeyboardEvent {
       return value
     }
   }
-  
 }
-
-
 
 extension Notification {
 
   func asKeyboardFrameBegin() -> CGRect? {
-
     return (self.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
-
   }
 
   func asKeyboardFrameEnd() -> CGRect? {
-
     return (self.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
 
   }
 
   func asKeyboardAnimationDuration() -> TimeInterval? {
-
     return (self.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval)
-
   }
 
   func asKeyboardAnimationCurve() -> UIView.AnimationCurve? {
@@ -197,7 +187,5 @@ extension Notification {
     guard let animationCurveValue = self.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? Int, let animationCurve = UIView.AnimationCurve(rawValue: animationCurveValue) else { return nil }
 
     return animationCurve
-
   }
-
 }

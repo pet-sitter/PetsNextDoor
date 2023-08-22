@@ -12,7 +12,7 @@ import ComposableArchitecture
 
 final class AuthenticatePhoneNumberViewController: BaseViewController {
   
-  private var tableView: UITableView!
+  private var tableView: BaseTableView!
   private var bottomButton: BaseBottomButton!
   private var adapter: TableViewAdapter!
   
@@ -51,15 +51,14 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
       }
       $0.onTapGesture { [weak self] in
         self?.viewStore.send(.didTapNextButton)
+				
       }
     }
     
-    tableView = UITableView()
+    tableView = BaseTableView()
     tableView.set {
       view.addSubview($0)
-      $0.separatorStyle = .none
       $0.registerCell(ContainerCell<TextFieldComponent>.self)
-      $0.registerCell(ContainerCell<BottomButtonComponent>.self)
       $0.snp.makeConstraints {
         $0.top.leading.trailing.equalToSuperview()
         $0.bottom.equalTo(bottomButton.snp.top)
@@ -71,8 +70,6 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
       $0.observeDataSource(componentPublisher: $components)
     }
     
-
-    
     components = ComponentBuilder {
       TextFieldComponent(context: .init(textFieldPlaceHolder: "휴대폰 번호"))
         .onEditingChanged { text, _ in
@@ -80,18 +77,9 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
         }
       EmptyComponent(height: 20)
       TextFieldComponent(context: .init(textFieldPlaceHolder: "인증번호 6자리"))
-    
-      
-      
     }
-    
-    
-  
   }
     
-  
-  
-  
   private func bindState() {
     
     viewStore

@@ -2,7 +2,7 @@
 //  BaseTextFieldView.swift
 //  PetsNextDoor
 //
-//  Created by kevinkim2586 on 2023/07/20.
+//  Created by kevinkim2586 on 2023/07/30.
 //
 
 import UIKit
@@ -13,9 +13,9 @@ class BaseTextFieldView: UIView {
   
   static let defaultHeight: CGFloat = 54
   
-  private var containerView: UIView!
-  private var textField: UITextField!
-  private var focusLineView: UIView!
+  var containerView: UIView!
+  var textField: UITextField!
+  var focusLineView: UIView!
   
   var isTextFieldFirstResponder: Bool {
     didSet {
@@ -36,6 +36,21 @@ class BaseTextFieldView: UIView {
     observeControlEvents()
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    textField.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(5)
+      $0.leading.trailing.equalToSuperview().inset(20)
+      $0.bottom.equalToSuperview().inset(5)
+    }
+    
+    focusLineView.snp.makeConstraints {
+      $0.height.equalTo(1)
+      $0.leading.trailing.bottom.equalToSuperview()
+    }
+  }
+  
   convenience init(textFieldPlaceHolder: String) {
     self.init()
     textField.placeholder = textFieldPlaceHolder
@@ -54,23 +69,13 @@ class BaseTextFieldView: UIView {
     textField = UITextField()
     textField.set {
       containerView.addSubview($0)
-//      $0.backgroundColor = .systemTeal
       $0.tintColor = PND.Colors.commonBlack
-      $0.snp.makeConstraints {
-        $0.top.equalToSuperview().inset(5)
-        $0.leading.trailing.equalToSuperview().inset(5)
-        $0.bottom.equalToSuperview().inset(5)
-      }
     }
     
     focusLineView = UIView()
     focusLineView.set {
       containerView.addSubview($0)
       $0.backgroundColor = UIColor(hex: "#D9D9D9")
-      $0.snp.makeConstraints {
-        $0.height.equalTo(1)
-        $0.leading.trailing.bottom.equalToSuperview()
-      }
     }
   }
   

@@ -13,6 +13,13 @@
 		7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277F62A54418C004A83A4 /* UserManager.swift */; };
 		7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277FB2A544A0C004A83A4 /* ShortlyConfigurable.swift */; };
 		7C1277FF2A544B8C004A83A4 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1277FE2A544B8C004A83A4 /* CombineCocoa */; };
+		7C51EF5D2A94E8C2003132A1 /* SetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF5C2A94E8C2003132A1 /* SetProfileViewController.swift */; };
+		7C51EF5F2A94E8D1003132A1 /* SetProfileFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF5E2A94E8D1003132A1 /* SetProfileFeature.swift */; };
+		7C51EF612A94EB49003132A1 /* SetProfileImageComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF602A94EB49003132A1 /* SetProfileImageComponent.swift */; };
+		7C51EF642A94EBE5003132A1 /* BaseTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF632A94EBE5003132A1 /* BaseTableView.swift */; };
+		7C51EF702A94EE3F003132A1 /* SetProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */; };
+		7C51EF732A94EE60003132A1 /* BaseTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF722A94EE60003132A1 /* BaseTextFieldView.swift */; };
+		7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF752A94F4DA003132A1 /* UIView+Extension.swift */; };
 		DA275C592A44767100D09F77 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA275C582A44767100D09F77 /* GoogleService-Info.plist */; };
 		DA275C5C2A44777400D09F77 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5B2A44777400D09F77 /* FirebaseAnalytics */; };
 		DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5D2A44777500D09F77 /* FirebaseAnalyticsSwift */; };
@@ -32,7 +39,6 @@
 		DA86A0FA2A62741700525711 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F92A62741700525711 /* Server.swift */; };
 		DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */; };
 		DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0FE2A62789200525711 /* RswiftLibrary */; };
-		DA8A34EE2A76546F0054FE25 /* BaseTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34ED2A76546F0054FE25 /* BaseTextFieldView.swift */; };
 		DA8A34F12A7654900054FE25 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F02A7654900054FE25 /* Colors.swift */; };
 		DA8A34F42A7654AC0054FE25 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F32A7654AC0054FE25 /* UIColor+Extension.swift */; };
 		DA8A34F82A7654DA0054FE25 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F72A7654DA0054FE25 /* Keyboard.swift */; };
@@ -78,13 +84,19 @@
 		7C1277F42A544142004A83A4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7C1277F62A54418C004A83A4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		7C1277FB2A544A0C004A83A4 /* ShortlyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortlyConfigurable.swift; sourceTree = "<group>"; };
+		7C51EF5C2A94E8C2003132A1 /* SetProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileViewController.swift; sourceTree = "<group>"; };
+		7C51EF5E2A94E8D1003132A1 /* SetProfileFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileFeature.swift; sourceTree = "<group>"; };
+		7C51EF602A94EB49003132A1 /* SetProfileImageComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileImageComponent.swift; sourceTree = "<group>"; };
+		7C51EF632A94EBE5003132A1 /* BaseTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableView.swift; sourceTree = "<group>"; };
+		7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileImageView.swift; sourceTree = "<group>"; };
+		7C51EF722A94EE60003132A1 /* BaseTextFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTextFieldView.swift; sourceTree = "<group>"; };
+		7C51EF752A94F4DA003132A1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
 		DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameSpace.swift; sourceTree = "<group>"; };
 		DA4F05372A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPhoneNumberCore.swift; sourceTree = "<group>"; };
 		DA4F053F2A694B6B00D7E7A7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DA4F05422A694BA000D7E7A7 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		DA4F05452A69521B00D7E7A7 /* BaseTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextFieldView.swift; sourceTree = "<group>"; };
 		DA4F05482A6953AE00D7E7A7 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DA4F054A2A6955F700D7E7A7 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
@@ -92,7 +104,6 @@
 		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		DA86A0F92A62741700525711 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GesturePassthroughView.swift; sourceTree = "<group>"; };
-		DA8A34ED2A76546F0054FE25 /* BaseTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextFieldView.swift; sourceTree = "<group>"; };
 		DA8A34F02A7654900054FE25 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		DA8A34F32A7654AC0054FE25 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DA8A34F72A7654DA0054FE25 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
@@ -170,11 +181,12 @@
 			isa = PBXGroup;
 			children = (
 				DA8A35002A765BF30054FE25 /* BaseView.swift */,
+				7C51EF632A94EBE5003132A1 /* BaseTableView.swift */,
 				DAAD52E12A7C98DE00227BB5 /* BaseBottomButton.swift */,
 				7C1277F22A544131004A83A4 /* BaseNavigationController.swift */,
 				DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */,
 				7C1277F42A544142004A83A4 /* BaseViewController.swift */,
-				DA4F05452A69521B00D7E7A7 /* BaseTextFieldView.swift */,
+				7C51EF722A94EE60003132A1 /* BaseTextFieldView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -182,12 +194,12 @@
 		7C1277F82A54436A004A83A4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				DAAD52EF2A7CC0ED00227BB5 /* TableViewAdapter.swift */,
 				DA8A34FC2A765B7D0054FE25 /* Component */,
 				DAAD52EA2A7CBF6500227BB5 /* ComponentModifier */,
-				DA86A0F32A62737200525711 /* ReusableViews */,
+				DA86A0F32A62737200525711 /* Views */,
 				DABA44822A629ACB00FD2639 /* Root */,
 				7C1277F92A54436E004A83A4 /* Login */,
-				DAAD52EF2A7CC0ED00227BB5 /* TableViewAdapter.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -197,6 +209,7 @@
 			children = (
 				DABA44A32A63CB5600FD2639 /* LoginView */,
 				DABA44A42A63CB6100FD2639 /* AuthenticatePhoneNumberView */,
+				7C51EF5A2A94E851003132A1 /* SetProfileView */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -209,6 +222,26 @@
 				DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7C51EF5A2A94E851003132A1 /* SetProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				7C51EF5C2A94E8C2003132A1 /* SetProfileViewController.swift */,
+				7C51EF5E2A94E8D1003132A1 /* SetProfileFeature.swift */,
+			);
+			path = SetProfileView;
+			sourceTree = "<group>";
+		};
+		7C51EF6E2A94EE22003132A1 /* ReusableViews */ = {
+			isa = PBXGroup;
+			children = (
+				DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */,
+				DAAD530C2A7E291300227BB5 /* EmptyView.swift */,
+				DA86A0F62A62739500525711 /* LoadingIndicator.swift */,
+				DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */,
+			);
+			path = ReusableViews;
 			sourceTree = "<group>";
 		};
 		DA4F052B2A68F69900D7E7A7 /* AppLifeCycle */ = {
@@ -236,16 +269,13 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		DA86A0F32A62737200525711 /* ReusableViews */ = {
+		DA86A0F32A62737200525711 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */,
-				DAAD530C2A7E291300227BB5 /* EmptyView.swift */,
-				DA86A0F62A62739500525711 /* LoadingIndicator.swift */,
-				DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */,
-				DA8A34ED2A76546F0054FE25 /* BaseTextFieldView.swift */,
+				7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */,
+				7C51EF6E2A94EE22003132A1 /* ReusableViews */,
 			);
-			path = ReusableViews;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		DA86A0F82A62740700525711 /* Networking */ = {
@@ -264,6 +294,7 @@
 				DA8A35032A765F140054FE25 /* TextFieldComponent.swift */,
 				DAAD52E42A7CBD5A00227BB5 /* ButtonComponent.swift */,
 				DAAD53092A7E28F300227BB5 /* EmptyComponent.swift */,
+				7C51EF602A94EB49003132A1 /* SetProfileImageComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -281,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				DAAD52F22A7CC90E00227BB5 /* UITableView+Extension.swift */,
+				7C51EF752A94F4DA003132A1 /* UIView+Extension.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -534,12 +566,15 @@
 				DA8A35012A765BF30054FE25 /* BaseView.swift in Sources */,
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
 				DA8A34FE2A765B850054FE25 /* Component.swift in Sources */,
+				7C51EF732A94EE60003132A1 /* BaseTextFieldView.swift in Sources */,
 				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
 				DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */,
+				7C51EF702A94EE3F003132A1 /* SetProfileImageView.swift in Sources */,
 				DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */,
 				DAAD52EE2A7CBF8A00227BB5 /* ComponentModifier.swift in Sources */,
 				DA8A34F42A7654AC0054FE25 /* UIColor+Extension.swift in Sources */,
+				7C51EF5F2A94E8D1003132A1 /* SetProfileFeature.swift in Sources */,
 				DAAD52F72A7CD58300227BB5 /* AuthenticateFeature.swift in Sources */,
 				DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */,
 				DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */,
@@ -554,6 +589,7 @@
 				DAAD52F32A7CC90E00227BB5 /* UITableView+Extension.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
 				DAF2D3A22A90CA4900A9B47A /* ComponentBuilder.swift in Sources */,
+				7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */,
 				DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */,
 				DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */,
 				DAAD52E22A7C98DE00227BB5 /* BaseBottomButton.swift in Sources */,
@@ -563,7 +599,9 @@
 				DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */,
 				DABA44A62A63CB7600FD2639 /* AuthenticatePhoneNumberViewController.swift in Sources */,
 				DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */,
-				DA8A34EE2A76546F0054FE25 /* BaseTextFieldView.swift in Sources */,
+				7C51EF612A94EB49003132A1 /* SetProfileImageComponent.swift in Sources */,
+				7C51EF5D2A94E8C2003132A1 /* SetProfileViewController.swift in Sources */,
+				7C51EF642A94EBE5003132A1 /* BaseTableView.swift in Sources */,
 				DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */,
 				DA8A34F82A7654DA0054FE25 /* Keyboard.swift in Sources */,
 				DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */,

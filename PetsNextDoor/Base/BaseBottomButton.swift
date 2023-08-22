@@ -32,7 +32,7 @@ class BaseBottomButton: UIButton {
     backgroundColor     = .black
     clipsToBounds       = true
     layer.cornerRadius  = 4
-    setTitleColor(.white, for: .normal)
+		setTitleColor(PND.Colors.commonWhite, for: .normal)
     titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
   }
 }

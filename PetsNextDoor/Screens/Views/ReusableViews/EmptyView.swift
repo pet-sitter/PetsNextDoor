@@ -30,7 +30,7 @@ final class EmptyView: UIView {
     containerView = UIView()
     containerView.set {
       addSubview($0)
-      $0.backgroundColor = .white
+			$0.backgroundColor = PND.Colors.commonWhite
       $0.snp.makeConstraints {
         $0.center.equalToSuperview()
         $0.width.equalTo(UIScreen.fixedScreenSize.width)
