@@ -122,6 +122,14 @@ final class LoginViewController: BaseViewController {
 			}
 			.store(in: &subscriptions)
 		
+    
+//    store
+//      .scope(state: { $0.authenticatePhoneNumber }, action: /Action.didTapAppleLogin)
+//      .ifLet { _ in
+//        print("✅ ")
+//      }
+//      .store(in: &subscriptions)
+//
    
     
 //    viewStore

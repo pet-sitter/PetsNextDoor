@@ -13,3 +13,4 @@ protocol ComponentModifier: Component {
   
   var wrapped: Wrapped { get }
 }
+

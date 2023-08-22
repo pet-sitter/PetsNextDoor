@@ -36,6 +36,21 @@ class BaseTextFieldView: UIView {
     observeControlEvents()
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    textField.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(5)
+      $0.leading.trailing.equalToSuperview().inset(20)
+      $0.bottom.equalToSuperview().inset(5)
+    }
+    
+    focusLineView.snp.makeConstraints {
+      $0.height.equalTo(1)
+      $0.leading.trailing.bottom.equalToSuperview()
+    }
+  }
+  
   convenience init(textFieldPlaceHolder: String) {
     self.init()
     textField.placeholder = textFieldPlaceHolder
@@ -55,21 +70,12 @@ class BaseTextFieldView: UIView {
     textField.set {
       containerView.addSubview($0)
       $0.tintColor = PND.Colors.commonBlack
-      $0.snp.makeConstraints {
-        $0.top.equalToSuperview().inset(5)
-        $0.leading.trailing.equalToSuperview().inset(5)
-        $0.bottom.equalToSuperview().inset(5)
-      }
     }
     
     focusLineView = UIView()
     focusLineView.set {
       containerView.addSubview($0)
       $0.backgroundColor = UIColor(hex: "#D9D9D9")
-      $0.snp.makeConstraints {
-        $0.height.equalTo(1)
-        $0.leading.trailing.bottom.equalToSuperview()
-      }
     }
   }
   

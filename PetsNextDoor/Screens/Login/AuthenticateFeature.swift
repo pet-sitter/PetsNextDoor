@@ -8,16 +8,18 @@
 import Foundation
 import ComposableArchitecture
 
+
+
 struct AuthenticateFeature: Reducer {
 
   struct State: Equatable {
 
     
+    var entity: [String] = []
     
     var nextDestination: PND.Destination? = nil
     
-
-
+ 
   }
   
   enum Action: Equatable {
@@ -27,10 +29,11 @@ struct AuthenticateFeature: Reducer {
     case setNextDestination(PND.Destination?)
   }
   
-  func reduce(
-    into state: inout State,
-    action: Action
-  ) -> EffectTask<Action> {
-    return .none
+  var body: some Reducer<State, Action> {
+    Reduce { state, action in
+      
+      return .none
+    }
   }
 }
+

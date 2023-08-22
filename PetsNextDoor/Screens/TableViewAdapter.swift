@@ -26,6 +26,11 @@ final class TableViewAdapter: NSObject {
   private func configureTableView() {
     tableView.delegate = self
     tableView.dataSource = self
+    registerCommonlyUsedCells()
+  }
+  
+  private func registerCommonlyUsedCells() {
+    tableView.registerCell(ContainerCell<EmptyComponent>.self)
   }
 }
 
@@ -55,7 +60,7 @@ extension TableViewAdapter: UITableViewDataSource {
     guard let component = components[safe: indexPath.row] else { return .init() }
     
     let cellIdentifier = "ContainerCell<\(type(of: component).identifier)>"
-    
+  
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
     
     if let cell = cell as? CellItemModelBindable {
