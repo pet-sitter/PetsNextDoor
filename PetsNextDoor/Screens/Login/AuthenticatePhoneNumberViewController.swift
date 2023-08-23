@@ -64,19 +64,35 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
         $0.bottom.equalTo(bottomButton.snp.top)
       }
     }
-  
+    
     adapter = TableViewAdapter(tableView: tableView)
     adapter.set {
       $0.observeDataSource(componentPublisher: $components)
     }
     
     components = ComponentBuilder {
-      TextFieldComponent(context: .init(textFieldPlaceHolder: "휴대폰 번호"))
-        .onEditingChanged { text, _ in
+      TextFieldComponent(
+        context: .init(
+          textFieldPlaceHolder: "휴대폰 번호",
+          rightView: UIButton()
+            .bgColor(.black)
+            .title("인증하기")
+            .frame(width: 65, height: 32)
+            .titleStyle(font: .systemFont(ofSize: 12, weight: .regular), color: .white)
+            .roundCorners(radius: 50)
+        )
+      )
+      .onEditingChanged { text, _ in
         
-        }
+      }
+      
       EmptyComponent(height: 20)
-      TextFieldComponent(context: .init(textFieldPlaceHolder: "인증번호 6자리"))
+      TextFieldComponent(
+        context: .init(
+          textFieldPlaceHolder: "인증번호 6자리",
+          rightView: nil
+        )
+      )
     }
   }
     
@@ -91,10 +107,5 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
         self?.router.route(to: destination)
       }
       .store(in: &subscriptions)
-    
-    
   }
-
-
-
 }

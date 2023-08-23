@@ -114,14 +114,21 @@ final class LoginViewController: BaseViewController {
 
 		viewStore
 			.publisher
-			.map { $0.nextDestination }
+      .nextDestination
 			.compactMap { $0 }
 			.sink { [weak self] destination in
         defer { self?.viewStore.send(.setNextDestination(nil)) }
 				self?.router.route(to: destination)
 			}
 			.store(in: &subscriptions)
-		
+
+    
+    viewStore
+      .publisher
+      .isLoading
+      .assignNoRetain(to: \.isAnimating, on: loadingIndicator)
+      .store(in: &subscriptions)
+    
     
 //    store
 //      .scope(state: { $0.authenticatePhoneNumber }, action: /Action.didTapAppleLogin)

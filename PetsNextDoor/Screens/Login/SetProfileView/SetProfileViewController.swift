@@ -68,15 +68,40 @@ final class SetProfileViewController: BaseViewController {
 		
 		adapter = TableViewAdapter(tableView: tableView)
 		adapter.observeDataSource(componentPublisher: $components)
-		
+    
 		components = ComponentBuilder {
 			SetProfileImageComponent()
+        .onTouch { _ in
+        }
 			EmptyComponent(height: 20)
-			TextFieldComponent(context: .init(textFieldPlaceHolder: "닉네임(2~10자 이내)"))
+			TextFieldComponent(
+        context: .init(
+          textFieldPlaceHolder: "닉네임 (2~10자 이내)",
+          maxCharactersLimit: 10,
+          rightView: { [weak self] () -> UILabel in
+            guard let self else { return .init() }
+            let label = UILabel()
+              .frame(width: 120, height: 14)
+              .font(.systemFont(ofSize: 12, weight: .medium))
+              .color(.init(hex: "#6A9DFF"))
+              .rightAlignment()
+      
+            viewStore.publisher
+              .nicknameStatusPhrase
+              .sink { label.text($0) }
+              .store(in: &subscriptions)
+            return label
+          }()
+        )
+      )
+      .onEditingChanged { [weak self] text, textComponent in
+        self?.viewStore.send(.textDidChange(text))
+      }
 		}
 	}
 	
 	private func bindState() {
+
 		
 		
 	}

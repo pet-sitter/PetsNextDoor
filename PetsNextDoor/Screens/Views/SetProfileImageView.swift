@@ -16,12 +16,13 @@ final class SetProfileImageView: UIView {
 	var profileImageContainerView: UIView!
 	
 	private struct Constants {
-		
-		static func imageIcon(isImageSet: Bool) -> UIImage? {
-			return isImageSet
-			?	UIImage(systemName: "photo")?.withTintColor(PND.Colors.commonOrange)
-			: UIImage(systemName: "photo")?.withTintColor(PND.Colors.commonBlack)
-		}
+    
+    static let imageIcon = UIImage(systemName: "photo")
+    static func imageTintColor(isImageSet: Bool) -> UIColor {
+      return isImageSet
+      ? PND.Colors.commonOrange
+      : PND.Colors.commonBlack
+    }
 	}
 	
 	init() {
@@ -56,7 +57,8 @@ final class SetProfileImageView: UIView {
 			let imageIcon = UIImageView()
 			imageIcon.set {
 				profileImageContainerView.addSubview($0)
-				$0.image = Constants.imageIcon(isImageSet: false)
+				$0.image = Constants.imageIcon
+        $0.tintColor = Constants.imageTintColor(isImageSet: false)
 				$0.snp.makeConstraints {
 					$0.size.equalTo(24)
 					$0.center.equalToSuperview()

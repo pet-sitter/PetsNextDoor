@@ -5,7 +5,7 @@
 //  Created by kevinkim2586 on 2023/07/30.
 //
 
-import Foundation
+import UIKit
 import Combine 
 
 final class TextFieldComponent: Component, ContainsTextField {
@@ -16,6 +16,8 @@ final class TextFieldComponent: Component, ContainsTextField {
   
   struct Context {
     let textFieldPlaceHolder: String
+    var maxCharactersLimit: Int? = nil
+    var rightView: UIView? = nil
   }
 
   var contentView: ContentView?
@@ -23,14 +25,16 @@ final class TextFieldComponent: Component, ContainsTextField {
   
   var height: CGFloat { ContentView.defaultHeight }
   
-  var onEditingChanged: (( (String?, any Component) ) -> Void)?
-  
   init(context: Context) {
     self.context = context
   }
   
   func createContentView() -> ContentView {
-    let view = BaseTextFieldView(textFieldPlaceHolder: context.textFieldPlaceHolder)
+    let view = BaseTextFieldView(
+      textFieldPlaceHolder: context.textFieldPlaceHolder,
+      maxCharactersLimmit: context.maxCharactersLimit,
+      rightView: context.rightView
+    )
     self.contentView = view
     return view
   }
@@ -43,6 +47,10 @@ final class TextFieldComponent: Component, ContainsTextField {
       }
       .store(in: &subscriptions)
   }
+  
+  //MARK: - ContainsTextField
+  
+  var onEditingChanged: (( (String?, any Component) ) -> Void)?
   
   func onEditingChanged(_ action: @escaping (((String?, any Component))) -> Void) -> Self {
     self.onEditingChanged = action

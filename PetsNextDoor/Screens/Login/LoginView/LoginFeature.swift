@@ -14,7 +14,10 @@ struct LoginFeature: Reducer {
   
   struct State: Equatable {
     
+    var isLoading: Bool = false
+    
     var nextDestination: PND.Destination? = nil
+    
     
     @PresentationState var authenticatePhoneNumber: AuthenticateFeature.State?
     
@@ -29,7 +32,6 @@ struct LoginFeature: Reducer {
     case didTapAppleLogin
     
     case setNextDestination(PND.Destination?)
-    
   }
   
   
@@ -44,30 +46,35 @@ struct LoginFeature: Reducer {
         
       case .viewWillAppear:
         return .none
-      
+        
       case .didTapGoogleLogin:
-        state.authenticatePhoneNumber = AuthenticateFeature.State()
+        state.isLoading = true
         state.nextDestination = .authenticatePhoneNumber
         return .none
-  //      return .run { send in
-  //        let loginResult = await loginService.signInWithGoogle()
-  //
-  //        switch loginResult {
-  //        case .success(let isUserRegistrationNeeded):
-  //          if isUserRegistrationNeeded {
-  //            await send(.setNextDestination(.authenticatePhoneNumber))
-  //          } else {
-  ////            await send(._setNextDestination(.main(onWindow: \)))
-  //            assertionFailure()
-  //          }
-  ////          await send(._setUserRegistrationIsNeeded(true))
-  //
-  //        case .failed(let reason):
-  //          print("❌ failed logging in: \(reason)")
-  //        }
-  //      }
+        
+//        return .run { send in
+//          let loginResult = await loginService.signInWithGoogle()
+//
+//          switch loginResult {
+//          case .success(let isUserRegistrationNeeded):
+//            if isUserRegistrationNeeded {
+//
+//              await send(.setNextDestination(.authenticatePhoneNumber))
+//            } else {
+//  //            await send(._setNextDestination(.main(onWindow: \)))
+//              assertionFailure()
+//            }
+//  //          await send(._setUserRegistrationIsNeeded(true))
+//
+//          case .failed(let reason):
+//            print("❌ failed logging in: \(reason)")
+//          }
+//
+//
+//        }
         
       case .setNextDestination(let destination):
+        state.isLoading = false
         state.nextDestination = destination
         return .none
       

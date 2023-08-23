@@ -17,6 +17,10 @@ class BaseTextFieldView: UIView {
   var textField: UITextField!
   var focusLineView: UIView!
   
+  var rightView: UIView?
+  
+  private var maxCharacterLimit: Int?
+  
   var isTextFieldFirstResponder: Bool {
     didSet {
       UIView.animate(withDuration: 0.25) {
@@ -32,9 +36,23 @@ class BaseTextFieldView: UIView {
   init() {
     isTextFieldFirstResponder = false
     super.init(frame: .zero)
+  }
+  
+  convenience init(
+    textFieldPlaceHolder: String,
+    maxCharactersLimmit: Int?,
+    rightView: UIView? = nil
+  ) {
+    self.init()
+    self.maxCharacterLimit  = maxCharactersLimmit
+    self.rightView          = rightView
     configureUI()
     observeControlEvents()
+    textField.placeholder = textFieldPlaceHolder
   }
+  
+
+  @available(*, unavailable) required init?(coder: NSCoder) { fatalError("Not implemented") }
   
   override func layoutSubviews() {
     super.layoutSubviews()
@@ -47,17 +65,24 @@ class BaseTextFieldView: UIView {
     
     focusLineView.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.bottom.equalToSuperview()
+      $0.leading.trailing.equalToSuperview().inset(20)
+    }
+    
+    if let rightView {
+      rightView.snp.makeConstraints {
+        $0.trailing.equalToSuperview().inset(20)
+        $0.centerY.equalToSuperview()
+        $0.height.equalTo(rightView.frame.height)
+        $0.width.greaterThanOrEqualTo(rightView.frame.size)
+      }
+      
+      textField.snp.updateConstraints {
+        $0.trailing.equalToSuperview().inset(rightView.frame.width + 20 + 5)
+      }
     }
   }
-  
-  convenience init(textFieldPlaceHolder: String) {
-    self.init()
-    textField.placeholder = textFieldPlaceHolder
-  }
-  
-  @available(*, unavailable) required init?(coder: NSCoder) { fatalError("Not implemented") }
-  
+
   private func configureUI() {
     
     containerView = UIView()
@@ -69,6 +94,7 @@ class BaseTextFieldView: UIView {
     textField = UITextField()
     textField.set {
       containerView.addSubview($0)
+      $0.delegate = self
       $0.tintColor = PND.Colors.commonBlack
     }
     
@@ -77,10 +103,14 @@ class BaseTextFieldView: UIView {
       containerView.addSubview($0)
       $0.backgroundColor = UIColor(hex: "#D9D9D9")
     }
+    
+    if let rightView {
+      containerView.addSubview(rightView)
+    }
   }
   
   private func observeControlEvents() {
-        
+    
     textField.controlEventPublisher(for: .editingDidBegin)
       .map { _ in true }
       .assignNoRetain(to: \.isTextFieldFirstResponder, on: self)
@@ -92,3 +122,25 @@ class BaseTextFieldView: UIView {
       .store(in: &subscriptions)
   }
 }
+
+extension BaseTextFieldView: UITextFieldDelegate {
+  
+  func textField(
+    _ textField: UITextField,
+    shouldChangeCharactersIn range: NSRange,
+    replacementString string: String
+  ) -> Bool {
+    guard let maxCharacterLimit else { return true }
+    var currentText = (textField.text ?? "") + string
+    
+    if currentText.count > maxCharacterLimit {
+      return false
+    } else {
+      return true
+    }
+  }
+}
+
+
+// Commonly Used UIViews for BaseTextFieldView rightView property
+
