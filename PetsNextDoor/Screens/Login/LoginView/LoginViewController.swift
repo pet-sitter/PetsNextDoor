@@ -43,6 +43,7 @@ final class LoginViewController: BaseViewController {
     super.viewDidLoad()
     configureActions()
     bindState()
+    configureTopLeftTitle("휴대폰 번호 인증하기")
   }
 	
 	override func viewWillAppear(_ animated: Bool) {

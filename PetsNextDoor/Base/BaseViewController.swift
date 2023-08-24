@@ -32,6 +32,6 @@ class BaseViewController: UIViewController, LoadingIndicatorInsertable {
   }
   
   func configureTopLeftTitle(_ title: String) {
-    self.navigationController?.title = title
+    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: title, style: .done, target: self, action: nil)
   }
 }

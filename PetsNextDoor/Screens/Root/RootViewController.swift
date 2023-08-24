@@ -33,7 +33,7 @@ final class RootViewController: BaseViewController {
     view.addSubview(navigationController.view)
     navigationController.view.frame = view.frame
     navigationController.navigationBar.tintColor = PND.Colors.commonBlack
-    navigationController.navigationBar.prefersLargeTitles = true
+    navigationController.navigationBar.prefersLargeTitles = false
     self.mainNavigationController = navigationController
   }
   

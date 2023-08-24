@@ -33,6 +33,7 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
     self.router     = router
     super.init()
   }
+
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -41,6 +42,7 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
   
   override func configureUI() {
     super.configureUI()
+      
     bottomButton = BaseBottomButton(title: "다음")
     bottomButton.set {
       view.addSubview($0)
