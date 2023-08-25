@@ -42,6 +42,8 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
   
   override func configureUI() {
     super.configureUI()
+    
+    configureTopLeftTitle("프로필 설정하기")
       
     bottomButton = BaseBottomButton(title: "다음")
     bottomButton.set {
@@ -73,6 +75,7 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
     }
     
     components = ComponentBuilder {
+      EmptyComponent(height: 20)
       TextFieldComponent(
         context: .init(
           textFieldPlaceHolder: "휴대폰 번호",

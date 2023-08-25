@@ -32,7 +32,10 @@ struct AuthenticateFeature: Reducer {
       
 			switch action {
 			case .didTapNextButton:
+        
 				return .send(.setNextDestination(.setInitialProfile))
+          
+          
 				
 			case .setNextDestination(let destination):
 				state.nextDestination = destination
