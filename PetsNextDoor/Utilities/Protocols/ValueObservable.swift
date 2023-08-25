@@ -13,4 +13,3 @@ protocol ValueBindable {
   @discardableResult
   func bindValue(_ valuePublisher: AnyPublisher<ObservingValue, Never>) -> Self
 }
-
