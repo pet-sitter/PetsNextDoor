@@ -29,4 +29,21 @@ extension Publisher where Self.Failure == Never {
     }
   }
 
+  
+  func ifFalse(_ actionBlock: @escaping (() -> Void)) -> Publishers.HandleEvents<Self> where Self.Output == Bool {
+    handleEvents(receiveOutput: { boolValue in
+      if boolValue == false {
+        actionBlock()
+      }
+    })
+  }
+  
+  func ifTrue(_ actionBlock: @escaping (() -> Void)) -> Publishers.HandleEvents<Self> where Self.Output == Bool {
+    handleEvents(receiveOutput: { boolValue in
+      if boolValue == true {
+        actionBlock()
+      }
+    })
+  }
+  
 }
