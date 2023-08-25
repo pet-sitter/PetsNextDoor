@@ -7,30 +7,27 @@
 
 import Foundation
 
-struct Server {
+extension PND {
   
-  enum ServerPhase: Int {
-    case dev = 0
-    case prod
-  }
-  
-  struct EndPoint {
+  struct Server {
     
+    //TODO: - 아래 변경 (동적으로 변경 가능하도록)
+    static let shared = Server(currentServerPhase: .dev)
     
+    enum ServerPhase: Int {
+      case dev = 0
+      case prod
+    }
+    
+    private(set) var currentServerPhase: ServerPhase
+    
+    mutating func changeServerPhase(to phase: ServerPhase) {
+      self.currentServerPhase = phase
+    }
   }
-  
-  private(set) var currentServerPhase: ServerPhase
-  
-  
-  mutating func changeServerPhase(to phase: ServerPhase) {
-    self.currentServerPhase = phase
-  }
-  
 }
 
-
-extension Server {
-  
-  var isDev: Bool   { currentServerPhase == .dev }
-  var isProd: Bool  { currentServerPhase == .prod}
+extension PND.Server {
+  var isDev: Bool   { currentServerPhase == .dev  }
+  var isProd: Bool  { currentServerPhase == .prod }
 }
