@@ -9,11 +9,12 @@ import UIKit
 import Combine
 import SnapKit
 import ComposableArchitecture
+import PhotosUI
 
 final class SetProfileViewController: BaseViewController {
 	
 	private var tableView: UITableView!
-	private var bottomButton: BaseBottomButton!
+  private var bottomComponent: BottomButtonComponent!
 	private var adapter: TableViewAdapter!
 	
 	typealias Feature = SetProfileFeature
@@ -24,6 +25,14 @@ final class SetProfileViewController: BaseViewController {
 	private let router: Routable
 	
 	@Published var components: [any Component] = []
+  
+  private var photoPicker: PHPickerViewController?
+  private var photoPickerConfiguration: PHPickerConfiguration {
+    var config = PHPickerConfiguration()
+    config.selectionLimit = 1
+    config.filter = .images
+    return config
+  }
 	
 	init(
 		store:  some StoreOf<Feature>,
@@ -36,25 +45,28 @@ final class SetProfileViewController: BaseViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		bindState()
 	}
 	
 	override func configureUI() {
 		super.configureUI()
-		
-		bottomButton = BaseBottomButton(title: "완료하기")
-		bottomButton.set {
-			view.addSubview($0)
-			$0.snp.makeConstraints {
-				$0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
-				$0.leading.trailing.equalToSuperview().inset(20)
-				$0.height.equalTo(BaseBottomButton.defaultHeight)
-			}
-			$0.onTapGesture { [weak self] in
-				
-			}
-		}
-		
+		    
+    bottomComponent = BottomButtonComponent(context: .init(buttonTitle: "완료"))
+      .onTouch { [weak self] _ in
+        
+      }
+      .bindValue(viewStore.publisher.isBottomButtonEnabled.eraseToAnyPublisher())
+      
+    let bottomButton = bottomComponent.createContentView()
+    bottomButton.set {
+      view.addSubview($0)
+      $0.snp.makeConstraints {
+        $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
+        $0.leading.trailing.equalToSuperview().inset(20)
+        $0.height.equalTo(BaseBottomButton.defaultHeight)
+      }
+    }
+   
 		tableView = BaseTableView()
 		tableView.set {
 			view.addSubview($0)
@@ -69,11 +81,14 @@ final class SetProfileViewController: BaseViewController {
 		adapter = TableViewAdapter(tableView: tableView)
 		adapter.observeDataSource(componentPublisher: $components)
     
-		components = ComponentBuilder {
-			SetProfileImageComponent()
-        .onTouch { _ in
+    components = ComponentBuilder {
+      EmptyComponent(height: 20)
+      SetProfileImageComponent()
+        .onTouch { [weak self] _ in
+          self?.viewStore.send(.profileImageDidTap)
         }
-			EmptyComponent(height: 20)
+        .bindValue(viewStore.publisher.selectedUserImage.eraseToAnyPublisher())
+      EmptyComponent(height: 20)
 			TextFieldComponent(
         context: .init(
           textFieldPlaceHolder: "닉네임 (2~10자 이내)",
@@ -88,7 +103,8 @@ final class SetProfileViewController: BaseViewController {
       
             viewStore.publisher
               .nicknameStatusPhrase
-              .sink { label.text($0) }
+              .compactMap { $0 }
+              .assignNoRetain(to: \.text, on: label)
               .store(in: &subscriptions)
             return label
           }()
@@ -101,9 +117,45 @@ final class SetProfileViewController: BaseViewController {
 	}
 	
 	private func bindState() {
-
-		
-		
+  
+    viewStore.publisher
+      .photoPickerIsPresented
+      .receive(on: DispatchQueue.main)
+      .ifFalse { [weak self] in
+        self?.photoPicker?.dismiss(animated: true)
+      }
+      .ifTrue { [weak self] in
+        guard let self else { return }
+        photoPicker = PHPickerViewController(configuration: photoPickerConfiguration)
+        photoPicker?.delegate = self
+        present(photoPicker!, animated: true)
+      }
+      .sink { _ in }
+      .store(in: &subscriptions)
 	}
-	
+}
+
+//MARK: - PHPickerViewControllerDelegate
+
+extension SetProfileViewController: PHPickerViewControllerDelegate {
+  
+  func picker(
+    _ picker: PHPickerViewController,
+    didFinishPicking results: [PHPickerResult]
+  ) {
+    guard
+      let itemProvider = results.first?.itemProvider,
+      itemProvider.canLoadObject(ofClass: UIImage.self)
+    else { return }
+    
+    itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
+      guard
+        let self,
+        let selectedImage = image as? UIImage
+      else { return }
+      Task { @MainActor [weak self] in
+        self?.viewStore.send(.userImageDidChange(selectedImage))
+      }
+    }
+  }
 }

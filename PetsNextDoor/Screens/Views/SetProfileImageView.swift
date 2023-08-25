@@ -14,6 +14,19 @@ final class SetProfileImageView: UIView {
 	
 	var containerView: UIView!
 	var profileImageContainerView: UIView!
+  var profileImageView: UIImageView!
+  var bottomRightPictureIconImageView: UIImageView!
+  
+  var image: UIImage? {
+    didSet {
+      guard let image else { return }
+      profileImageView.image = image
+      profileImageView.snp.remakeConstraints {
+        $0.edges.equalToSuperview()
+      }
+      bottomRightPictureIconImageView.isHidden = false
+    }
+  }
 	
 	private struct Constants {
     
@@ -54,8 +67,8 @@ final class SetProfileImageView: UIView {
 				$0.width.height.equalTo(Self.defaultHeight)
 			}
 			
-			let imageIcon = UIImageView()
-			imageIcon.set {
+			profileImageView = UIImageView()
+      profileImageView.set {
 				profileImageContainerView.addSubview($0)
 				$0.image = Constants.imageIcon
         $0.tintColor = Constants.imageTintColor(isImageSet: false)
@@ -64,6 +77,22 @@ final class SetProfileImageView: UIView {
 					$0.center.equalToSuperview()
 				}
 			}
+
+      bottomRightPictureIconImageView = UIImageView()
+      bottomRightPictureIconImageView.set {
+        profileImageContainerView.addSubview($0)
+        $0.backgroundColor = PND.Colors.commonBlack
+        $0.tintColor = PND.Colors.commonOrange
+        $0.image = Constants.imageIcon
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 4
+        $0.isHidden = true
+        $0.contentMode = .center
+        $0.snp.makeConstraints {
+          $0.size.equalTo(28)
+          $0.bottom.trailing.equalToSuperview()
+        }
+      }
 		}
 	}
 }
