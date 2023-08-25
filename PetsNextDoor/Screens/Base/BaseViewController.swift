@@ -20,7 +20,10 @@ class BaseViewController: UIViewController, LoadingIndicatorInsertable {
   
   @available(*, unavailable) required init?(coder: NSCoder) { fatalError("Not implemented") }
   
-  deinit { print("✅ DEINIT: \(String(describing: Self.self))")}
+  deinit {
+    loadingIndicator.stopAnimating()
+    print("✅ DEINIT: \(String(describing: Self.self))")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

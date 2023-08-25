@@ -5,10 +5,10 @@
 //  Created by Kevin Kim on 2023/08/22.
 //
 
-import Foundation
+import UIKit
 import Combine
 
-final class SetProfileImageComponent: Component, TouchableComponent {
+final class SetProfileImageComponent: Component, TouchableComponent, ValueBindable {
 
 	typealias ContentView = SetProfileImageView
 	
@@ -39,6 +39,8 @@ final class SetProfileImageComponent: Component, TouchableComponent {
 				self.onTouchAction?(self)
 			}
 	}
+  
+  //MARK: - TouchableComponent
 	
 	var onTouchAction: ((any Component) -> Void)?
 	
@@ -46,5 +48,20 @@ final class SetProfileImageComponent: Component, TouchableComponent {
 		self.onTouchAction = action
 		return self
 	}
+  
+  //MARK: - Value Observable
+  
+  typealias ObservingValue = UIImage?
+  
+  @discardableResult
+  func bindValue(_ valuePublisher: AnyPublisher<ObservingValue, Never>) -> Self {
+    valuePublisher
+      .receive(on: DispatchQueue.main)
+      .withWeak(self)
+      .sink { owner, image in
+        owner?.contentView?.image = image
+      }
+      .store(in: &subscriptions)
+    return self
+  }
 }
-

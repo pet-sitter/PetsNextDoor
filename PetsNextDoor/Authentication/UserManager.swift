@@ -8,21 +8,21 @@
 import Foundation
 
 protocol UserManageable {
-    func logout() async
+  func logout() async
 }
 
 actor UserManager: UserManageable {
+  
+  static let shared = UserManager()
+  
+  
+  // isLoggedIn
+  
+  private init() {}
+  
+  
+  func logout() {
     
-    static let shared = UserManager()
-    
-    
-    // isLoggedIn
-    
-    private init() {}
-    
-    
-    func logout() {
-        
-    }
-
+  }
+  
 }

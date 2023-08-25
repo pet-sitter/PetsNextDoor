@@ -9,8 +9,8 @@ import Foundation
 import Combine
 import SnapKit
 
-final class BottomButtonComponent: Component, TouchableComponent {
-  
+final class BottomButtonComponent: Component, TouchableComponent, ValueBindable {
+
   var subscriptions = Set<AnyCancellable>()
   
   typealias ContentView = BaseBottomButton
@@ -23,8 +23,6 @@ final class BottomButtonComponent: Component, TouchableComponent {
   var context: Context
   
   var height: CGFloat { ContentView.defaultHeight }
-  
-  var onTouchAction: ((any Component) -> Void)?
 
   init(context: Context) {
     self.context = context
@@ -49,9 +47,29 @@ final class BottomButtonComponent: Component, TouchableComponent {
       }
       .store(in: &subscriptions)
   }
+  
+  //MARK: - TouchableComponent
+  
+  var onTouchAction: ((any Component) -> Void)?
 
   func onTouch(_ action: @escaping ComponentAction) -> Self {
     self.onTouchAction = action
+    return self
+  }
+  
+  //MARK: - ValueBindable
+  
+  typealias ObservingValue = Bool
+  
+  @discardableResult
+  func bindValue(_ valuePublisher: AnyPublisher<Bool, Never>) -> Self {
+    valuePublisher
+      .receive(on: DispatchQueue.main)
+      .withWeak(self)
+      .sink { owner, isEnabled in
+        owner?.contentView?.isEnabled = isEnabled
+      }
+      .store(in: &subscriptions)
     return self
   }
 }

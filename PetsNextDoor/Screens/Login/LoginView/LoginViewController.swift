@@ -129,23 +129,6 @@ final class LoginViewController: BaseViewController {
       .isLoading
       .assignNoRetain(to: \.isAnimating, on: loadingIndicator)
       .store(in: &subscriptions)
-    
-    
-//    store
-//      .scope(state: { $0.authenticatePhoneNumber }, action: /Action.didTapAppleLogin)
-//      .ifLet { _ in
-//        print("✅ ")
-//      }
-//      .store(in: &subscriptions)
-//
-   
-    
-//    viewStore
-//      .publisher
-//      .map { $0.cellViewModels }
-//      .bind(to: adapter.dataSource)
-//      .store(in: &subscriptions)
   }
-  
 }
 

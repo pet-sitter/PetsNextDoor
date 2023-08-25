@@ -7,24 +7,18 @@
 
 import Foundation
 import ComposableArchitecture
+import Combine
 
 struct LoginFeature: Reducer {
   
   @Dependency(\.loginService) private var loginService
   
   struct State: Equatable {
-    
     var isLoading: Bool = false
-    
     var nextDestination: PND.Destination? = nil
-    
-    
-    @PresentationState var authenticatePhoneNumber: AuthenticateFeature.State?
-    
   }
   
   enum Action: Equatable {
-    
     case viewWillAppear
     
     case didTapKakaoLogin
@@ -32,51 +26,52 @@ struct LoginFeature: Reducer {
     case didTapAppleLogin
     
     case setNextDestination(PND.Destination?)
+    case setIsLoading(Bool)
   }
-  
   
   init() {
     
   }
-  
+
   var body: some Reducer<State, Action> {
-    
     Reduce { state, action in
       switch action {
-        
       case .viewWillAppear:
         return .none
         
-      case .didTapGoogleLogin:
-        state.isLoading = true
-        state.nextDestination = .authenticatePhoneNumber
+      case .setIsLoading(let isLoading):
+        state.isLoading = isLoading
         return .none
         
-//        return .run { send in
-//          let loginResult = await loginService.signInWithGoogle()
-//
-//          switch loginResult {
-//          case .success(let isUserRegistrationNeeded):
-//            if isUserRegistrationNeeded {
-//
-//              await send(.setNextDestination(.authenticatePhoneNumber))
-//            } else {
-//  //            await send(._setNextDestination(.main(onWindow: \)))
-//              assertionFailure()
-//            }
-//  //          await send(._setUserRegistrationIsNeeded(true))
-//
-//          case .failed(let reason):
-//            print("❌ failed logging in: \(reason)")
-//          }
-//
-//
-//        }
+      case .didTapGoogleLogin:
+        return .run { send in
+          await send(.setIsLoading(true))
+          
+          let loginResult = await loginService.signInWithGoogle()
+          
+          switch loginResult {
+          case .success(let isUserRegistrationNeeded):
+            
+            if isUserRegistrationNeeded {
+              await send(.setNextDestination(.authenticatePhoneNumber))
+            } else {
+              
+            }
+            
+          case .failed(let reason):
+            // ToastMessage 비슷한거 띄우기
+            // 임시
+            await send(.setNextDestination(.authenticatePhoneNumber))
+            break
+          }
+          await send(.setIsLoading(false))
+        }
         
       case .setNextDestination(let destination):
         state.isLoading = false
         state.nextDestination = destination
         return .none
+        
       
       default:
         return .none

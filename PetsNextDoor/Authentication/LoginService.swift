@@ -13,6 +13,7 @@ import AuthenticationServices
 
 enum AuthError: Error {
   case undefined
+  case userEmailUnavailable
 }
 
 enum LoginResult {
@@ -21,56 +22,60 @@ enum LoginResult {
 }
 
 
-protocol LoginServiceable {
 
+protocol LoginServiceable: PNDNetworkProvidable {
   @MainActor
   func signInWithGoogle() async -> LoginResult
 }
 
 
 final class LoginService: LoginServiceable {
-  
-	@MainActor
-	func signInWithGoogle() async -> LoginResult {
-		
-		guard
-			let clientId  = FirebaseApp.app()?.options.clientID,
-			let topMostVC = UIApplication.topViewController()
-		else { return .failed(reason: .undefined) }
-		
-		let googleIdConfig = GIDConfiguration(clientID: clientId)
-		GIDSignIn.sharedInstance.configuration = googleIdConfig
-		
-		do {
-			
-			let signInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topMostVC)
-			
-//			signInResult.user
-			
-			// 가입된 계정이 있는지 자체 서버에서 verifyAPI 호출
-			
-				// 없으면 isUserRegistrationNeeded: true 반환
-			
-			// signInWithCredential을 한 결과 (유저정보)를 자체 서버에 전달
-			
-		  //
-				
-			return .success(isUserRegistrationNeeded: true)
-			
-			
-		} catch {
-			return .failed(reason: .undefined)
-		}
-		
 
-	}
-	
+  typealias Network = PND.Network<PND.API>
+  
+  private(set) var network: Network = .init()
+  
+  @MainActor
+  func signInWithGoogle() async -> LoginResult {
+    
+    guard
+      let clientId  = FirebaseApp.app()?.options.clientID,
+      let topMostVC = UIApplication.topViewController()
+    else { return .failed(reason: .undefined) }
+    
+    let googleIdConfig = GIDConfiguration(clientID: clientId)
+    GIDSignIn.sharedInstance.configuration = googleIdConfig
+    
+    do {
+      let signInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topMostVC)
+      
+      guard let email = signInResult.user.profile?.email else { return .failed(reason: .userEmailUnavailable) }
+    
+      print("✅ email: \(email)")
+      
+      guard let userRegistrationStatus = await checkUserRegistrationStatus(withEmail: email)
+      else { return .failed(reason: .undefined) }
+      
+      return .success(isUserRegistrationNeeded: userRegistrationStatus.status == .notRegistered ? true : false)
+
+    } catch {
+      return .failed(reason: .undefined)
+    }
+    
+    
+  }
+  
+ 
+  
 }
 
 //MARK: - Private Methods
 
 extension LoginService {
   
+  private func checkUserRegistrationStatus(withEmail email: String) async -> PND.UserRegistrationStatus? {
+    try? await network.requestData(.postUserStatus(email: email))
+  }
   
 }
 
@@ -78,9 +83,13 @@ extension LoginService {
 
 final class LoginServiceMock: LoginServiceable {
   
+  typealias Network = PND.MockNetwork<PND.API>
+  
+  private(set) var network: Network = .init()
+
   @MainActor
   func signInWithGoogle() async -> LoginResult {
     return .failed(reason: .undefined)
   }
-  
+
 }
