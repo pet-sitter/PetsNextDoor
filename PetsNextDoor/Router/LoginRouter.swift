@@ -14,11 +14,11 @@ final class LoginRouter: Routable {
 	func route(to destination: PND.Destination) {
 		
 		switch destination {
-		case .authenticatePhoneNumber:
+		case .authenticatePhoneNumber(let state):
 			
       let vc = AuthenticatePhoneNumberViewController(
         store: .init(
-          initialState: .init(),
+          initialState: state,
           reducer: { AuthenticateFeature() }),
         router: LoginRouter()
       )
@@ -29,11 +29,11 @@ final class LoginRouter: Routable {
 				.mainNavigationController?
 				.pushViewController(vc, animated: true)
 			
-		case .setInitialProfile:
+		case .setInitialProfile(let state):
 			
 			let vc = SetProfileViewController(
 				store: .init(
-					initialState: .init(),
+					initialState: state,
 					reducer: { SetProfileFeature() }
 				),
 				router: LoginRouter()

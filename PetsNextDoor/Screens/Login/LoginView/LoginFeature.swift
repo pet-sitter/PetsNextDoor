@@ -20,13 +20,13 @@ struct LoginFeature: Reducer {
   
   enum Action: Equatable {
     case viewWillAppear
-    
     case didTapKakaoLogin
     case didTapGoogleLogin
     case didTapAppleLogin
-    
     case setNextDestination(PND.Destination?)
-    case setIsLoading(Bool)
+    
+    // Internal Cases
+    case _setIsLoading(Bool)
   }
   
   init() {
@@ -39,32 +39,43 @@ struct LoginFeature: Reducer {
       case .viewWillAppear:
         return .none
         
-      case .setIsLoading(let isLoading):
+      case ._setIsLoading(let isLoading):
         state.isLoading = isLoading
         return .none
         
       case .didTapGoogleLogin:
         return .run { send in
-          await send(.setIsLoading(true))
+          await send(._setIsLoading(true))
           
           let loginResult = await loginService.signInWithGoogle()
           
           switch loginResult {
-          case .success(let isUserRegistrationNeeded):
+          case let .success(isUserRegistrationNeeded, userRegisterModel):
             
-            if isUserRegistrationNeeded {
-              await send(.setNextDestination(.authenticatePhoneNumber))
+            if isUserRegistrationNeeded, let userRegisterModel {
+              await send(.setNextDestination(
+                .authenticatePhoneNumber(AuthenticateFeature.State(userRegisterModel: userRegisterModel)))
+              )
             } else {
-              
+              // 곧바로 메인 화면으로 이동
             }
             
           case .failed(let reason):
             // ToastMessage 비슷한거 띄우기
-            // 임시
-            await send(.setNextDestination(.authenticatePhoneNumber))
+            // 아래 코드는 임시
+            print("❌ signInWithGoogle failed : \(reason)")
+            await send(.setNextDestination(.authenticatePhoneNumber(.init(userRegisterModel: .init(email: "", fbProviderType: .google, fbUid: "", fullname: "")))))
             break
           }
-          await send(.setIsLoading(false))
+          await send(._setIsLoading(false))
+        }
+        
+      case .didTapKakaoLogin:
+        return .run { send in
+          await send(._setIsLoading(true))
+          
+          
+          await send(._setIsLoading(false))
         }
         
       case .setNextDestination(let destination):

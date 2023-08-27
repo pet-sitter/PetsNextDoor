@@ -11,19 +11,16 @@ import ComposableArchitecture
 struct AuthenticateFeature: Reducer {
 
   struct State: Equatable {
-
-    
-    var entity: [String] = []
-    
     var nextDestination: PND.Destination? = nil
-    
- 
+    var userRegisterModel: PND.UserRegistrationModel
+  
+    init(userRegisterModel: PND.UserRegistrationModel) {
+      self.userRegisterModel = userRegisterModel
+    }
   }
   
   enum Action: Equatable {
-    
     case didTapNextButton
-    
     case setNextDestination(PND.Destination?)
   }
   
@@ -32,11 +29,8 @@ struct AuthenticateFeature: Reducer {
       
 			switch action {
 			case .didTapNextButton:
-        
-				return .send(.setNextDestination(.setInitialProfile))
+        return .send(.setNextDestination(.setInitialProfile(SetProfileFeature.State(userRegisterModel: state.userRegisterModel))))
           
-          
-				
 			case .setNextDestination(let destination):
 				state.nextDestination = destination
 				return .none

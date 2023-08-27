@@ -8,18 +8,26 @@ import UIKit
 import ComposableArchitecture
 
 struct SetProfileFeature: Reducer {
+  
+  @Dependency(\.loginService) private var loginService
 	
 	struct State: Equatable {
-    
+    var userRegisterModel: PND.UserRegistrationModel
     var nicknameStatusPhrase: String = ""
     var selectedUserImage: UIImage?
     var isBottomButtonEnabled: Bool = false
     var photoPickerIsPresented: Bool = false
+    var isLoading: Bool = false
     
     fileprivate var nicknameText: String = ""
+    
+    init(userRegisterModel: PND.UserRegistrationModel) {
+      self.userRegisterModel = userRegisterModel
+    }
 	}
 	
 	enum Action: Equatable {
+    case didTapBottomButton
 		case textDidChange(String?)
     case userImageDidChange(UIImage)
     case profileImageDidTap
@@ -28,12 +36,27 @@ struct SetProfileFeature: Reducer {
     case _setNicknameStatusPhrase(String)
     case _setNicknameText(String)
     case _setIsBottomButtonEnabled(Bool)
+    case _setIsLoading(Bool)
 	}
 	
 	var body: some Reducer<State, Action> {
 		Reduce { state, action in
       
       switch action {
+        
+      case .didTapBottomButton:
+        state.userRegisterModel.nickname = state.nicknameText
+        
+        return .run { [registerModel = state.userRegisterModel] send in
+          await send(._setIsLoading(true))
+          do {
+            let _ = try await loginService.registerUser(model: registerModel)
+          } catch {
+            
+          }
+          await send(._setIsLoading(false))
+        }
+        
       case .textDidChange(let text):
         guard let text else { return .none }
         if text.count >= 2 && text.count <= 10 {
@@ -69,6 +92,10 @@ struct SetProfileFeature: Reducer {
         
       case ._setIsBottomButtonEnabled(let isEnabled):
         state.isBottomButtonEnabled = isEnabled
+        return .none
+        
+      case ._setIsLoading(let isLoading):
+        state.isLoading = isLoading
         return .none
       }
 

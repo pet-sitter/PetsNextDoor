@@ -19,6 +19,7 @@ extension PND {
   
     //MARK: - Users
     
+    case registerUser(model: PND.UserRegistrationModel)
     case getMyProfile
     case postUserStatus(email: String)
     
@@ -38,21 +39,40 @@ extension PND.API: Moya.TargetType {
   
   var path: String {
     switch self {
+      
+      //MARK: - Auth
+      
+      //MARK: - Media
+      
+      
+    
+      //MARK: - Users
+      
+    case .registerUser:
+      return "/users"
     case .getMyProfile:
       return "/users/me"
     case .postUserStatus:
       return "/users/status"
+      
+      //MARK: - Pets
     }
   }
   
   var method: Moya.Method {
     switch self {
+      
+      //MARK: - GET
+      
     case .getMyProfile:
       return .get
       
-    case .postUserStatus:
+      //MARK: - POST
+      
+    case .registerUser, .postUserStatus:
       return .post
       
+
     default:
       return .get
     }
@@ -67,6 +87,18 @@ extension PND.API: Moya.TargetType {
       
       
       //MARK: - Users
+      
+    case .registerUser(let model):
+      return .requestParameters(
+        parameters: .builder
+          .set(key: "email", value: model.email)
+          .set(key: "fbProviderType", value: model.fbProviderType.rawValue)
+          .set(key: "fbUid", value: model.fbUid)
+          .set(key: "fullname", value: model.fullname)
+          .set(key: "nickname", value: model.nickname)
+          .build(),
+        encoding: JSONEncoding.default
+      )
       
     case .postUserStatus(let email):
       return .requestParameters(
@@ -99,7 +131,7 @@ extension PND.API: Moya.TargetType {
       //MARK: - Pets
       
     default:
-      break 
+      break
     }
     return params
   }

@@ -15,11 +15,11 @@ protocol Routable: AnyObject {
  
 extension PND {
   
-  enum Destination: Equatable {
+  indirect enum Destination: Equatable {
     case main(onWindow: UIWindow?)
     case login(onWindow: UIWindow)
-    case authenticatePhoneNumber
-    case setInitialProfile
+    case authenticatePhoneNumber(AuthenticateFeature.State)
+    case setInitialProfile(SetProfileFeature.State)
     case addPet
   }
 }

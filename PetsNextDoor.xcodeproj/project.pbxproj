@@ -27,6 +27,7 @@
 		DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92182A9872890059690E /* Dictionary+Extension.swift */; };
 		DA0F92222A9894A00059690E /* UserRegistrationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */; };
 		DA0F92242A9895030059690E /* DefaultCodableStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92232A9895030059690E /* DefaultCodableStrategy.swift */; };
+		DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */; };
 		DA275C592A44767100D09F77 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA275C582A44767100D09F77 /* GoogleService-Info.plist */; };
 		DA275C5C2A44777400D09F77 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5B2A44777400D09F77 /* FirebaseAnalytics */; };
 		DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5D2A44777500D09F77 /* FirebaseAnalyticsSwift */; };
@@ -109,6 +110,7 @@
 		DA0F92182A9872890059690E /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationStatus.swift; sourceTree = "<group>"; };
 		DA0F92232A9895030059690E /* DefaultCodableStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCodableStrategy.swift; sourceTree = "<group>"; };
+		DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationModel.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
 		DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameSpace.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 		DA0F921F2A98947C0059690E /* RequestData */ = {
 			isa = PBXGroup;
 			children = (
+				DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */,
 			);
 			path = RequestData;
 			sourceTree = "<group>";
@@ -667,6 +670,7 @@
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 				DAAD52E52A7CBD5A00227BB5 /* ButtonComponent.swift in Sources */,
 				DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */,
+				DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */,
 				DA0F92222A9894A00059690E /* UserRegistrationStatus.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

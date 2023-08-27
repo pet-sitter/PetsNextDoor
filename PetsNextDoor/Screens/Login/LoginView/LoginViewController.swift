@@ -117,6 +117,7 @@ final class LoginViewController: BaseViewController {
 			.publisher
       .nextDestination
 			.compactMap { $0 }
+      .receive(on: DispatchQueue.main)
 			.sink { [weak self] destination in
         defer { self?.viewStore.send(.setNextDestination(nil)) }
 				self?.router.route(to: destination)
@@ -127,6 +128,7 @@ final class LoginViewController: BaseViewController {
     viewStore
       .publisher
       .isLoading
+      .receive(on: DispatchQueue.main)
       .assignNoRetain(to: \.isAnimating, on: loadingIndicator)
       .store(in: &subscriptions)
   }

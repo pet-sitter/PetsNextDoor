@@ -52,9 +52,6 @@ final class SetProfileViewController: BaseViewController {
 		super.configureUI()
 		    
     bottomComponent = BottomButtonComponent(context: .init(buttonTitle: "완료"))
-      .onTouch { [weak self] _ in
-        
-      }
       .bindValue(viewStore.publisher.isBottomButtonEnabled.eraseToAnyPublisher())
       
     let bottomButton = bottomComponent.createContentView()
@@ -64,6 +61,10 @@ final class SetProfileViewController: BaseViewController {
         $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
         $0.leading.trailing.equalToSuperview().inset(20)
         $0.height.equalTo(BaseBottomButton.defaultHeight)
+      }
+      $0.onTapGesture { [weak self] in
+        self?.viewStore.send(.didTapBottomButton)
+         
       }
     }
    
@@ -131,6 +132,13 @@ final class SetProfileViewController: BaseViewController {
         present(photoPicker!, animated: true)
       }
       .sink { _ in }
+      .store(in: &subscriptions)
+    
+    
+    viewStore.publisher
+      .isLoading
+      .receive(on: DispatchQueue.main)
+      .assignNoRetain(to: \.isAnimating, on: loadingIndicator)
       .store(in: &subscriptions)
 	}
 }
