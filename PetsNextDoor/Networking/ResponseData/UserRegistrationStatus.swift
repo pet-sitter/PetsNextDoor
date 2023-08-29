@@ -11,7 +11,7 @@ import Foundation
 
 extension PND {
   struct UserRegistrationStatus: Codable {
-    let fbProviderType: String
+    var fbProviderType: PND.FBProviderType?
     let status: RegistrationStatus
     
     enum CodingKeys: String, CodingKey {

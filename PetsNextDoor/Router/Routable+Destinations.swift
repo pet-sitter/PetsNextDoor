@@ -8,9 +8,18 @@
 import UIKit
 import Combine
 
-protocol Routable: AnyObject {
+protocol Routable {
   @MainActor
   func route(to destination: PND.Destination)
+}
+
+extension Routable {
+  var currentNavigationController: UINavigationController? {
+    AppRouter
+      .shared
+      .rootViewController
+      .mainNavigationController
+  }
 }
  
 extension PND {

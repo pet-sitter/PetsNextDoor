@@ -52,7 +52,7 @@ struct SetProfileFeature: Reducer {
           do {
             let _ = try await loginService.registerUser(model: registerModel)
           } catch {
-            
+            print("❌ registerUser failed: \(error)")
           }
           await send(._setIsLoading(false))
         }

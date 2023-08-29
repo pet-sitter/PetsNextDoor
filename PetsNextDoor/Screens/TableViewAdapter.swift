@@ -24,6 +24,7 @@ final class TableViewAdapter: NSObject {
   }
   
   private func configureTableView() {
+    tableView.allowsSelection = false
     tableView.delegate = self
     tableView.dataSource = self
     registerCommonlyUsedCells()

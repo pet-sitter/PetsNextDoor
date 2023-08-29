@@ -125,13 +125,17 @@ extension PND.API: Moya.TargetType {
       //MARK: - Media
       
       
-    
+      
       //MARK: - Users
       
       //MARK: - Pets
       
+    
+      
     default:
-      break
+      params["Content-Type"] = "application/json"
+      params["accept"] = "application/json;charset=UTF-8"
+    
     }
     return params
   }

@@ -16,6 +16,8 @@ struct LoginFeature: Reducer {
   struct State: Equatable {
     var isLoading: Bool = false
     var nextDestination: PND.Destination? = nil
+    
+    var router: Router<Screens>.State = .init()
   }
   
   enum Action: Equatable {
@@ -27,13 +29,39 @@ struct LoginFeature: Reducer {
     
     // Internal Cases
     case _setIsLoading(Bool)
+    
+    case _routeAction(Router<Screens>.Action)
+  }
+  
+  enum Screens: Equatable, ViewProvidable {
+
+    case authenticatePhone(AuthenticateFeature.State)
+    
+    func createView() -> PresentableView {
+      switch self {
+      case .authenticatePhone(let state):
+        return AuthenticatePhoneNumberViewController(
+          store: .init(initialState: state, reducer: { AuthenticateFeature() }),
+          router: LoginRouter()
+        )
+      }
+    }
   }
   
   init() {
     
   }
-
+  
   var body: some Reducer<State, Action> {
+    
+    Scope(
+      state: \.router,
+      action: /Action._routeAction
+    ) {
+      Router<Screens>()
+    }
+    
+    
     Reduce { state, action in
       switch action {
       case .viewWillAppear:
@@ -44,31 +72,32 @@ struct LoginFeature: Reducer {
         return .none
         
       case .didTapGoogleLogin:
-        return .run { send in
-          await send(._setIsLoading(true))
-          
-          let loginResult = await loginService.signInWithGoogle()
-          
-          switch loginResult {
-          case let .success(isUserRegistrationNeeded, userRegisterModel):
-            
-            if isUserRegistrationNeeded, let userRegisterModel {
-              await send(.setNextDestination(
-                .authenticatePhoneNumber(AuthenticateFeature.State(userRegisterModel: userRegisterModel)))
-              )
-            } else {
-              // 곧바로 메인 화면으로 이동
-            }
-            
-          case .failed(let reason):
-            // ToastMessage 비슷한거 띄우기
-            // 아래 코드는 임시
-            print("❌ signInWithGoogle failed : \(reason)")
-            await send(.setNextDestination(.authenticatePhoneNumber(.init(userRegisterModel: .init(email: "", fbProviderType: .google, fbUid: "", fullname: "")))))
-            break
-          }
-          await send(._setIsLoading(false))
-        }
+        return .send(._routeAction(.pushScreen(.authenticatePhone(AuthenticateFeature.State()), animated: true)))
+//        return .run { send in
+//          await send(._setIsLoading(true))
+//
+//          let loginResult = await loginService.signInWithGoogle()
+//
+//          switch loginResult {
+//          case let .success(isUserRegistrationNeeded, userRegisterModel):
+//
+//            if isUserRegistrationNeeded, let userRegisterModel {
+//              await send(.setNextDestination(
+//                .authenticatePhoneNumber(AuthenticateFeature.State(userRegisterModel: userRegisterModel)))
+//              )
+//            } else {
+//              // 곧바로 메인 화면으로 이동
+//            }
+//
+//          case .failed(let reason):
+//            // ToastMessage 비슷한거 띄우기
+//            // 아래 코드는 임시
+//            print("❌ signInWithGoogle failed : \(reason)")
+//            await send(.setNextDestination(.authenticatePhoneNumber(.init(userRegisterModel: .init(email: "", fbProviderType: .google, fbUid: "", fullname: "")))))
+//            break
+//          }
+//          await send(._setIsLoading(false))
+//        }
         
       case .didTapKakaoLogin:
         return .run { send in

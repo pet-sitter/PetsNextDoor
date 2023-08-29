@@ -102,7 +102,7 @@ final class LoginService: LoginServiceable {
 extension LoginService {
   
   private func checkUserRegistrationStatus(withEmail email: String) async -> PND.UserRegistrationStatus? {
-    try? await network.requestData(.postUserStatus(email: email))
+    return try? await network.requestData(.postUserStatus(email: email))
   }
 }
 
