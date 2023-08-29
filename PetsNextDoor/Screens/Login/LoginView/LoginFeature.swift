@@ -9,6 +9,7 @@ import Foundation
 import ComposableArchitecture
 import Combine
 
+
 struct LoginFeature: Reducer {
   
   @Dependency(\.loginService) private var loginService
@@ -53,14 +54,13 @@ struct LoginFeature: Reducer {
   }
   
   var body: some Reducer<State, Action> {
-    
+
     Scope(
       state: \.router,
       action: /Action._routeAction
     ) {
       Router<Screens>()
     }
-    
     
     Reduce { state, action in
       switch action {
@@ -72,7 +72,8 @@ struct LoginFeature: Reducer {
         return .none
         
       case .didTapGoogleLogin:
-        return .send(._routeAction(.pushScreen(.authenticatePhone(AuthenticateFeature.State()), animated: true)))
+				return .send(._routeAction(.pushScreen(.authenticatePhone(AuthenticateFeature.State()), animated: true)))
+				
 //        return .run { send in
 //          await send(._setIsLoading(true))
 //

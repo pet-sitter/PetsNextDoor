@@ -1,3 +1,4 @@
+
 //
 //  RouterReducer.swift
 //  PetsNextDoor
@@ -7,6 +8,7 @@
 
 import UIKit
 import ComposableArchitecture
+
 
 protocol ViewProvidable {
   typealias PresentableView = UIViewController
@@ -21,7 +23,7 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
   }
   
   enum Action: Equatable {
-//    case pushScreen(Screen, withLogic: Logic)
+		case navigate(withLogic: CustomNavigationLogic)		/// 사용자 커스텀 handler
     case pushScreen(Screen, animated: Bool = true)
     case popScreen(animated: Bool = true)
     case popToRootScreen(animated: Bool = true)
@@ -35,6 +37,10 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     action: Action
   ) -> Effect<Action> {
     switch action {
+			
+		case let .navigate(navigationLogic):
+			navigationLogic.handler()
+			
     case let .pushScreen(screen, animated):
       currentNavigationController?.pushViewController(
         screen.createView(),
@@ -62,7 +68,18 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
   }
   
   
-  
+	final class CustomNavigationLogic: Equatable {
+		
+	 let handler: (() -> Void)
+
+	 init(_ handler: @escaping () -> Void) {
+		 self.handler = handler
+	 }
+	 
+	 static func == (lhs: CustomNavigationLogic, rhs: CustomNavigationLogic) -> Bool {
+		 lhs === rhs
+	 }
+ }
 }
 
 extension Router: Routable {
