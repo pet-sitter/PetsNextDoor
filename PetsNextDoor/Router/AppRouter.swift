@@ -46,8 +46,7 @@ final class AppRouter: Routable {
 				store: .init(
 					initialState: LoginFeature.State(),
 					reducer: { LoginFeature()}
-				),
-				router: LoginRouter()
+				)
 			)
 			
 			rootViewController.configureMainNavigationController(with: BaseNavigationController(rootViewController: loginVC))

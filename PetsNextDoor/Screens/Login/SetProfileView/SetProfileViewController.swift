@@ -22,7 +22,6 @@ final class SetProfileViewController: BaseViewController {
 	typealias Action  = SetProfileFeature.Action
 	
 	private let viewStore: ViewStoreOf<Feature>
-	private let router: Routable
 	
 	@Published var components: [any Component] = []
   
@@ -34,12 +33,8 @@ final class SetProfileViewController: BaseViewController {
     return config
   }
 	
-	init(
-		store:  some StoreOf<Feature>,
-		router: some Routable
-	) {
+	init(store: some StoreOf<Feature>) {
 		self.viewStore  = ViewStore(store, observe: { $0 } )
-		self.router     = router
 		super.init()
 	}
 	

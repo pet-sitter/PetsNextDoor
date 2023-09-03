@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7C0AA8102A701A7F003B129F /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0AA80F2A701A7F003B129F /* LoginRouter.swift */; };
 		7C1277F32A544131004A83A4 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277F22A544131004A83A4 /* BaseNavigationController.swift */; };
 		7C1277F52A544142004A83A4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277F42A544142004A83A4 /* BaseViewController.swift */; };
 		7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1277F62A54418C004A83A4 /* UserManager.swift */; };
@@ -29,6 +28,7 @@
 		DA0F92222A9894A00059690E /* UserRegistrationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */; };
 		DA0F92242A9895030059690E /* DefaultCodableStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92232A9895030059690E /* DefaultCodableStrategy.swift */; };
 		DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */; };
+		DA0FD7392AA479C800497256 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0FD7382AA479C800497256 /* Utility.swift */; };
 		DA275C592A44767100D09F77 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA275C582A44767100D09F77 /* GoogleService-Info.plist */; };
 		DA275C5C2A44777400D09F77 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5B2A44777400D09F77 /* FirebaseAnalytics */; };
 		DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5D2A44777500D09F77 /* FirebaseAnalyticsSwift */; };
@@ -97,7 +97,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7C0AA80F2A701A7F003B129F /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		7C1277F22A544131004A83A4 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		7C1277F42A544142004A83A4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7C1277F62A54418C004A83A4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -118,6 +117,7 @@
 		DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationStatus.swift; sourceTree = "<group>"; };
 		DA0F92232A9895030059690E /* DefaultCodableStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCodableStrategy.swift; sourceTree = "<group>"; };
 		DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationModel.swift; sourceTree = "<group>"; };
+		DA0FD7382AA479C800497256 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA419C902A9B321B00C76AB9 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		DA419C972A9B32C700C76AB9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -373,6 +373,7 @@
 			isa = PBXGroup;
 			children = (
 				DA8A34F72A7654DA0054FE25 /* Keyboard.swift */,
+				DA0FD7382AA479C800497256 /* Utility.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -469,7 +470,6 @@
 			children = (
 				DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */,
 				DABA44802A629A0E00FD2639 /* AppRouter.swift */,
-				7C0AA80F2A701A7F003B129F /* LoginRouter.swift */,
 				DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */,
 			);
 			path = Router;
@@ -667,6 +667,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA0FD7392AA479C800497256 /* Utility.swift in Sources */,
 				DAAD52F02A7CC0ED00227BB5 /* TableViewAdapter.swift in Sources */,
 				DA0F92122A9848110059690E /* API.swift in Sources */,
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
@@ -729,7 +730,6 @@
 				DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */,
 				DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */,
 				DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */,
-				7C0AA8102A701A7F003B129F /* LoginRouter.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 				DAAD52E52A7CBD5A00227BB5 /* ButtonComponent.swift in Sources */,
 				DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */,

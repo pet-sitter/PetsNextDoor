@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 /**
  - 앱 최하단에 항상 깔려있는 ViewController
@@ -26,6 +27,34 @@ final class RootViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  func configureMainTabBarController() {
+    
+    removeMainNavigationController()
+    
+    let tabBarController = MainTabBarController()
+    tabBarController.beginAppearanceTransition(true, animated: true)
+    addChild(tabBarController)
+    tabBarController.didMove(toParent: self)
+    view.addSubview(tabBarController.view)
+    
+    tabBarController.view.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
+    
+    tabBarController.endAppearanceTransition()
+    self.mainTabBarController = tabBarController
+    
+
+  }
+  
+  private func removeMainNavigationController() {
+    
+    mainNavigationController?.removeFromParent()
+    mainNavigationController = nil
+  }
+  
+  
+
   func configureMainNavigationController(with navigationController: UINavigationController) {
     // child 가 uitabbarcontroller이거나 있으면 없애고 추가하기?
     addChild(navigationController)
@@ -37,7 +66,5 @@ final class RootViewController: BaseViewController {
     self.mainNavigationController = navigationController
   }
   
-  func configureMainTabBarController(with tabBarController: UITabBarController) {
-    // child가 navcontroller이거나 있으면 없애고 추가하기?
-  }
+
 }

@@ -27,15 +27,10 @@ final class LoginViewController: BaseViewController {
 
 	private let store: Store<State, Action>
   private let viewStore: ViewStoreOf<LoginFeature>
-	private let router: Routable
 	
-	init(
-		store:  some StoreOf<LoginFeature>,
-		router: some Routable
-	) {
+	init(store: some StoreOf<LoginFeature>) {
 		self.store = store
 		self.viewStore = ViewStore(store, observe: { $0 } )
-		self.router = router
 		super.init()
 	}
 	
@@ -112,18 +107,6 @@ final class LoginViewController: BaseViewController {
   }
   
   private func bindState() {
-
-		viewStore
-			.publisher
-      .nextDestination
-			.compactMap { $0 }
-      .receive(on: DispatchQueue.main)
-			.sink { [weak self] destination in
-        defer { self?.viewStore.send(.setNextDestination(nil)) }
-				self?.router.route(to: destination)
-			}
-			.store(in: &subscriptions)
-
     
     viewStore
       .publisher

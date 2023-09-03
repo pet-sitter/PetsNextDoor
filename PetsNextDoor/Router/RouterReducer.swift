@@ -15,6 +15,8 @@ protocol ViewProvidable {
   func createView() -> PresentableView
 }
 
+
+
 struct Router<Screen: Equatable & ViewProvidable>: Reducer {
 
   struct State: Equatable {
@@ -32,6 +34,9 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     case presentModal(Screen, animated: Bool = true)
   }
   
+
+  
+  @MainActor
   func reduce(
     into state: inout State,
     action: Action
