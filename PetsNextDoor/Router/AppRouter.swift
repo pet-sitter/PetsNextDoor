@@ -9,62 +9,22 @@ import UIKit
 import Combine
 import ComposableArchitecture
 
-enum NavigationOption {
-  case push
-  case presentFullScreen
-  case presentModally
-}
-
-final class AppRouter: Routable {
+final class AppRouter {
 
   static let shared = AppRouter()
 
-  private(set) var rootViewController: RootViewController!
 
   var visibleViewController: UIViewController? { UIApplication.topViewController() }
+  
+  var currentWindow: UIWindow? {
+    (visibleViewController?.view.window?.windowScene?.delegate as? SceneDelegate)?.window
+  }
 
   private init() {}
   
-  func route(to destination: PND.Destination) {
-    Task {
-      await MainActor.run {
-        route(destination)
-      }
-    }
-  }
+  
+  
 
-  @MainActor
-  private func route(_ destination: PND.Destination) {
-    
-		switch destination {
-			
-		case .login(let window):
-			
-			rootViewController = RootViewController()
-			
-			let loginVC     = LoginViewController(
-				store: .init(
-					initialState: LoginFeature.State(),
-					reducer: { LoginFeature()}
-				)
-			)
-			
-			rootViewController.configureMainNavigationController(with: BaseNavigationController(rootViewController: loginVC))
-
-      window.rootViewController = self.rootViewController
-      window.overrideUserInterfaceStyle = .light
-      window.makeKeyAndVisible()
-      
-    case .authenticatePhoneNumber:
-
-      break
-			
-    case .main(let window):
-      break
-
-    default: break
-    }
-  }
 
 }
 

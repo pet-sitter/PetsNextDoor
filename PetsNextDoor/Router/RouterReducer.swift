@@ -22,6 +22,11 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
   struct State: Equatable {
     
     
+    var currentNavigationController: UINavigationController? {
+//      return UIApplication.topNavigationController()
+      AppRouter.shared.visibleViewController?.navigationController
+//      AppRouter.shared.rootViewController.navigationController
+    }
   }
   
   enum Action: Equatable {
@@ -32,6 +37,7 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     case changeRootScreen(toScreen: Screen, animated: Bool = true)
     case presentScreen(Screen, animated: Bool = true)
     case presentModal(Screen, animated: Bool = true)
+  
   }
   
 
@@ -41,19 +47,29 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     into state: inout State,
     action: Action
   ) -> Effect<Action> {
+    
+ 
     switch action {
 			
 		case let .navigate(navigationLogic):
 			navigationLogic.handler()
 			
     case let .pushScreen(screen, animated):
-      currentNavigationController?.pushViewController(
-        screen.createView(),
-        animated: animated
-      )
+      AppRouter
+        .shared
+        .visibleViewController?
+        .navigationController?
+        .pushViewController(
+          screen.createView(),
+          animated: animated
+        )
       
       
-      
+    case let .changeRootScreen(screen, animated):
+      let currentWindow = AppRouter.shared.currentWindow
+      currentWindow?.rootViewController = screen.createView()
+      currentWindow?.makeKeyAndVisible()
+
     default: break
 
 //    case let .popScreen(animated):
@@ -85,12 +101,4 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
 		 lhs === rhs
 	 }
  }
-}
-
-extension Router: Routable {
-  
-  @MainActor
-  func route(to destination: PND.Destination) {
-    print("✅ route to des: \(destination)")
-  }
 }

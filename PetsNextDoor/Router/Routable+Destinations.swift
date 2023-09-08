@@ -8,28 +8,43 @@
 import UIKit
 import Combine
 
-protocol Routable {
-  @MainActor
-  func route(to destination: PND.Destination)
-}
 
-extension Routable {
-  var currentNavigationController: UINavigationController? {
-    AppRouter
-      .shared
-      .rootViewController
-      .mainNavigationController
-  }
-}
- 
+
+
+
+
 extension PND {
   
-  indirect enum Destination: Equatable {
-    case main(onWindow: UIWindow?)
+  enum Destination: Equatable, ViewProvidable {
+    case main
     case login(onWindow: UIWindow)
     case authenticatePhoneNumber(AuthenticateFeature.State)
     case setInitialProfile(SetProfileFeature.State)
-    case addPet
+    
+    func createView() -> PresentableView {
+      switch self {
+        
+      case .main:
+        return MainTabBarController()
+        
+        
+      case .authenticatePhoneNumber(let state):
+        return AuthenticatePhoneNumberViewController(
+          store: .init(initialState: state, reducer: { AuthenticateFeature() })
+        )
+        
+        
+      case .setInitialProfile(let state):
+        return SetProfileViewController(
+          store: .init(initialState: state, reducer: { SetProfileFeature() })
+        )
+        
+      default:
+        // 아래 고치기
+        fatalError()
+        
+      }
+    }
   }
 }
 

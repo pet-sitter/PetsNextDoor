@@ -1,5 +1,5 @@
 //
-//  DiscoverViewController.swift
+//  CommunityViewController.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/08/27.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiscoverViewController: UIViewController {
+final class CommunityViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
