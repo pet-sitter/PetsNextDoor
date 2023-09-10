@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseCore
+import ComposableArchitecture
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -26,7 +27,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     FirebaseApp.configure()
   
     // 로그인 체크하고 분기 처리해야함
-    Task { await AppRouter.shared.route(to: .login(onWindow: window)) } 
+    
+    
+    
+    let loginVC = LoginViewController(
+      store: .init(
+        initialState: LoginFeature.State(),
+        reducer: { LoginFeature()}
+      )
+    )
+    
+    let navController = BaseNavigationController(rootViewController: loginVC)
+    
+    window.rootViewController = navController
+    window.overrideUserInterfaceStyle = .light
+    window.makeKeyAndVisible()
+    
+    
+    
+    
+    
   }
 
   

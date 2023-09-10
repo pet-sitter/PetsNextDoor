@@ -141,6 +141,3 @@ extension BaseTextFieldView: UITextFieldDelegate {
   }
 }
 
-
-// Commonly Used UIViews for BaseTextFieldView rightView property
-

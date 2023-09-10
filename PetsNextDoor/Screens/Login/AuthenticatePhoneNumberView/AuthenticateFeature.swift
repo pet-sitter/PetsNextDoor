@@ -11,10 +11,9 @@ import ComposableArchitecture
 struct AuthenticateFeature: Reducer {
 
   struct State: Equatable {
-    var nextDestination: PND.Destination? = nil
     var userRegisterModel: PND.UserRegistrationModel
     
-    var router: Router<Screens>.State = .init()
+    var router: Router<PND.Destination>.State = .init()
   
     init(userRegisterModel: PND.UserRegistrationModel) {
       self.userRegisterModel = userRegisterModel
@@ -29,21 +28,7 @@ struct AuthenticateFeature: Reducer {
   enum Action: Equatable {
     case didTapNextButton
     
-    case _routeAction(Router<Screens>.Action)
-  }
-  
-  enum Screens: Equatable, ViewProvidable {
-    
-    case setProfile(SetProfileFeature.State)
-    
-    func createView() -> PresentableView {
-      switch self {
-      case .setProfile(let state):
-        return SetProfileViewController(
-          store: .init(initialState: state, reducer: { SetProfileFeature() })
-        )
-      }
-    }
+    case _routeAction(Router<PND.Destination>.Action)
   }
   
   var body: some Reducer<State, Action> {
@@ -52,14 +37,14 @@ struct AuthenticateFeature: Reducer {
       state: \.router,
       action: /Action._routeAction
     ) {
-      Router<Screens>()
+      Router<PND.Destination>()
     }
     
     Reduce { state, action in
       
 			switch action {
 			case .didTapNextButton:
-        return .send(._routeAction(.pushScreen(.setProfile(.init(userRegisterModel: state.userRegisterModel)), animated: true)))
+        return .send(._routeAction(.pushScreen(.setInitialProfile(.init(userRegisterModel: state.userRegisterModel)), animated: true)))
 
       default:
         return .none

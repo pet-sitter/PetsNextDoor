@@ -38,9 +38,15 @@
 		DA275C672A44817700D09F77 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C662A44817700D09F77 /* GoogleSignIn */; };
 		DA275C692A44817700D09F77 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C682A44817700D09F77 /* GoogleSignInSwift */; };
 		DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C6B2A4481A600D09F77 /* SnapKit */; };
+		DA38FC252AAB02B800A81C93 /* HomeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC242AAB02B800A81C93 /* HomeFeature.swift */; };
+		DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */; };
+		DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC2A2AAB0A7100A81C93 /* UrgentPostCardView.swift */; };
+		DA38FC2E2AADA11900A81C93 /* CommunityFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC2D2AADA11900A81C93 /* CommunityFeature.swift */; };
+		DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */; };
+		DA38FC322AADA19800A81C93 /* MyPageFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC312AADA19800A81C93 /* MyPageFeature.swift */; };
 		DA419C912A9B321B00C76AB9 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C902A9B321B00C76AB9 /* MainTabBarController.swift */; };
 		DA419C982A9B32C700C76AB9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C972A9B32C700C76AB9 /* HomeViewController.swift */; };
-		DA419C9A2A9B32D500C76AB9 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C992A9B32D500C76AB9 /* DiscoverViewController.swift */; };
+		DA419C9A2A9B32D500C76AB9 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C992A9B32D500C76AB9 /* CommunityViewController.swift */; };
 		DA419C9C2A9B32DE00C76AB9 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C9B2A9B32DE00C76AB9 /* ChatListViewController.swift */; };
 		DA419C9E2A9B32E400C76AB9 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C9D2A9B32E400C76AB9 /* MyPageViewController.swift */; };
 		DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA4F05212A68021800D7E7A7 /* ComposableArchitecture */; };
@@ -73,7 +79,6 @@
 		DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */; };
 		DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */; };
 		DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44802A629A0E00FD2639 /* AppRouter.swift */; };
-		DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44832A629AF600FD2639 /* RootViewController.swift */; };
 		DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44862A62F91200FD2639 /* UIControl+Extension.swift */; };
 		DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44892A62FE3A00FD2639 /* CGPoint+Extension.swift */; };
 		DABA44A02A63C62C00FD2639 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */; };
@@ -119,9 +124,15 @@
 		DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationModel.swift; sourceTree = "<group>"; };
 		DA0FD7382AA479C800497256 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DA38FC242AAB02B800A81C93 /* HomeFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeature.swift; sourceTree = "<group>"; };
+		DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardComponent.swift; sourceTree = "<group>"; };
+		DA38FC2A2AAB0A7100A81C93 /* UrgentPostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardView.swift; sourceTree = "<group>"; };
+		DA38FC2D2AADA11900A81C93 /* CommunityFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFeature.swift; sourceTree = "<group>"; };
+		DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListFeature.swift; sourceTree = "<group>"; };
+		DA38FC312AADA19800A81C93 /* MyPageFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageFeature.swift; sourceTree = "<group>"; };
 		DA419C902A9B321B00C76AB9 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		DA419C972A9B32C700C76AB9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		DA419C992A9B32D500C76AB9 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
+		DA419C992A9B32D500C76AB9 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		DA419C9B2A9B32DE00C76AB9 /* ChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		DA419C9D2A9B32E400C76AB9 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
@@ -155,7 +166,6 @@
 		DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorInsertableView.swift; sourceTree = "<group>"; };
 		DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Routable+Destinations.swift"; sourceTree = "<group>"; };
 		DABA44802A629A0E00FD2639 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
-		DABA44832A629AF600FD2639 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		DABA44862A62F91200FD2639 /* UIControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extension.swift"; sourceTree = "<group>"; };
 		DABA44892A62FE3A00FD2639 /* CGPoint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extension.swift"; sourceTree = "<group>"; };
 		DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
@@ -308,12 +318,21 @@
 			path = RequestData;
 			sourceTree = "<group>";
 		};
+		DA38FC272AAB02BB00A81C93 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */,
+				DA38FC2A2AAB0A7100A81C93 /* UrgentPostCardView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		DA419C8F2A9B320000C76AB9 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				DA419C902A9B321B00C76AB9 /* MainTabBarController.swift */,
 				DA419C932A9B329800C76AB9 /* Home */,
-				DA419C942A9B329E00C76AB9 /* Discover */,
+				DA419C942A9B329E00C76AB9 /* Community */,
 				DA419C952A9B32AF00C76AB9 /* Chat */,
 				DA419C962A9B32B500C76AB9 /* MyPage */,
 			);
@@ -323,23 +342,27 @@
 		DA419C932A9B329800C76AB9 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				DA38FC272AAB02BB00A81C93 /* Components */,
 				DA419C972A9B32C700C76AB9 /* HomeViewController.swift */,
+				DA38FC242AAB02B800A81C93 /* HomeFeature.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		DA419C942A9B329E00C76AB9 /* Discover */ = {
+		DA419C942A9B329E00C76AB9 /* Community */ = {
 			isa = PBXGroup;
 			children = (
-				DA419C992A9B32D500C76AB9 /* DiscoverViewController.swift */,
+				DA419C992A9B32D500C76AB9 /* CommunityViewController.swift */,
+				DA38FC2D2AADA11900A81C93 /* CommunityFeature.swift */,
 			);
-			path = Discover;
+			path = Community;
 			sourceTree = "<group>";
 		};
 		DA419C952A9B32AF00C76AB9 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
 				DA419C9B2A9B32DE00C76AB9 /* ChatListViewController.swift */,
+				DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -348,6 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				DA419C9D2A9B32E400C76AB9 /* MyPageViewController.swift */,
+				DA38FC312AADA19800A81C93 /* MyPageFeature.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -478,7 +502,6 @@
 		DABA44822A629ACB00FD2639 /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				DABA44832A629AF600FD2639 /* RootViewController.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -671,17 +694,20 @@
 				DAAD52F02A7CC0ED00227BB5 /* TableViewAdapter.swift in Sources */,
 				DA0F92122A9848110059690E /* API.swift in Sources */,
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
+				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				DA8A34F12A7654900054FE25 /* Colors.swift in Sources */,
 				DA0F50192A9DDF5100E20ADC /* RouterReducer.swift in Sources */,
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
 				DA8A35012A765BF30054FE25 /* BaseView.swift in Sources */,
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
+				DA38FC322AADA19800A81C93 /* MyPageFeature.swift in Sources */,
 				DA8A34FE2A765B850054FE25 /* Component.swift in Sources */,
 				7C51EF732A94EE60003132A1 /* BaseTextFieldView.swift in Sources */,
 				DA419C912A9B321B00C76AB9 /* MainTabBarController.swift in Sources */,
 				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
 				DA0F92172A9869840059690E /* Network.swift in Sources */,
+				DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
 				DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */,
 				7C51EF702A94EE3F003132A1 /* SetProfileImageView.swift in Sources */,
@@ -692,6 +718,7 @@
 				DAAD52F72A7CD58300227BB5 /* AuthenticateFeature.swift in Sources */,
 				DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */,
 				DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */,
+				DA38FC2E2AADA11900A81C93 /* CommunityFeature.swift in Sources */,
 				7C1277F52A544142004A83A4 /* BaseViewController.swift in Sources */,
 				7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */,
 				DAE6FC602A95E20B008BF1F1 /* UILabel+Extension.swift in Sources */,
@@ -706,12 +733,14 @@
 				DAAD52F32A7CC90E00227BB5 /* UITableView+Extension.swift in Sources */,
 				DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
+				DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */,
 				DAF2D3A22A90CA4900A9B47A /* ComponentBuilder.swift in Sources */,
 				7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */,
 				DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */,
 				DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */,
 				DA0F92242A9895030059690E /* DefaultCodableStrategy.swift in Sources */,
 				DAAD52E22A7C98DE00227BB5 /* BaseBottomButton.swift in Sources */,
+				DA38FC252AAB02B800A81C93 /* HomeFeature.swift in Sources */,
 				DAAD530A2A7E28F300227BB5 /* EmptyComponent.swift in Sources */,
 				DA419C9C2A9B32DE00C76AB9 /* ChatListViewController.swift in Sources */,
 				DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */,
@@ -729,11 +758,10 @@
 				DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */,
 				DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */,
 				DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */,
-				DABA44842A629AF600FD2639 /* RootViewController.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 				DAAD52E52A7CBD5A00227BB5 /* ButtonComponent.swift in Sources */,
 				DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */,
-				DA419C9A2A9B32D500C76AB9 /* DiscoverViewController.swift in Sources */,
+				DA419C9A2A9B32D500C76AB9 /* CommunityViewController.swift in Sources */,
 				DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */,
 				DA0F92222A9894A00059690E /* UserRegistrationStatus.swift in Sources */,
 			);
