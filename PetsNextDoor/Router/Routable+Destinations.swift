@@ -10,13 +10,10 @@ import Combine
 
 
 
-
-
-
 extension PND {
   
   enum Destination: Equatable, ViewProvidable {
-    case main
+    case main(homeState: HomeFeature.State, communityState: CommunityFeature.State, chatState: ChatListFeature.State, myPageState: MyPageFeature.State)
     case login(onWindow: UIWindow)
     case authenticatePhoneNumber(AuthenticateFeature.State)
     case setInitialProfile(SetProfileFeature.State)
@@ -24,9 +21,13 @@ extension PND {
     func createView() -> PresentableView {
       switch self {
         
-      case .main:
-        return MainTabBarController()
-        
+      case let .main(homeState, communityState, chatState, myPageState):
+        return MainTabBarController(
+          homeStore:      .init(initialState: homeState, reducer: { HomeFeature() }),
+          communityStore: .init(initialState: communityState, reducer: { CommunityFeature() }),
+          chatListStore:  .init(initialState: chatState, reducer: { ChatListFeature() }),
+          myPageStore:    .init(initialState: myPageState, reducer: { MyPageFeature() })
+        )
         
       case .authenticatePhoneNumber(let state):
         return AuthenticatePhoneNumberViewController(

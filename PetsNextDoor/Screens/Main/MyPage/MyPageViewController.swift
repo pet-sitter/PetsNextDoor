@@ -6,24 +6,35 @@
 //
 
 import UIKit
+import Combine
+import SnapKit
+import ComposableArchitecture
 
-final class MyPageViewController: UIViewController {
+final class MyPageViewController: BaseViewController {
+  
+  typealias Feature = MyPageFeature
+  typealias State   = MyPageFeature.State
+  typealias Action  = MyPageFeature.Action
+  
+  private let viewStore: ViewStoreOf<Feature>
+  
+  init(store: some StoreOf<Feature>) {
+    self.viewStore = ViewStore(store, observe: { $0 })
+    super.init()
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Do any additional setup after loading the view.
+    view.backgroundColor = .systemTeal
+    
+    
   }
   
-  
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destination.
-   // Pass the selected object to the new view controller.
-   }
-   */
+  override func configureUI() {
+    super.configureUI()
+    
+    
+  }
   
 }

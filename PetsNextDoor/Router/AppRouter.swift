@@ -14,11 +14,11 @@ final class AppRouter {
   static let shared = AppRouter()
 
 
-  var visibleViewController: UIViewController? { UIApplication.topViewController() }
-  
-  var currentWindow: UIWindow? {
-    (visibleViewController?.view.window?.windowScene?.delegate as? SceneDelegate)?.window
-  }
+//  var visibleViewController: UIViewController? { UIApplication.topViewController() }
+//  
+//  var currentWindow: UIWindow? {
+//    (visibleViewController?.view.window?.windowScene?.delegate as? SceneDelegate)?.window
+//  }
 
   private init() {}
   

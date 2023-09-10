@@ -9,23 +9,16 @@
 import UIKit
 import ComposableArchitecture
 
-
-protocol ViewProvidable {
-  typealias PresentableView = UIViewController
-  func createView() -> PresentableView
-}
-
-
-
 struct Router<Screen: Equatable & ViewProvidable>: Reducer {
 
   struct State: Equatable {
     
-    
     var currentNavigationController: UINavigationController? {
-//      return UIApplication.topNavigationController()
-      AppRouter.shared.visibleViewController?.navigationController
-//      AppRouter.shared.rootViewController.navigationController
+      UIApplication.topViewController()?.navigationController
+    }
+    
+    var currentWindow: UIWindow? {
+      (UIApplication.topViewController()?.view.window?.windowScene?.delegate as? SceneDelegate)?.window
     }
   }
   
@@ -34,57 +27,42 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     case pushScreen(Screen, animated: Bool = true)
     case popScreen(animated: Bool = true)
     case popToRootScreen(animated: Bool = true)
-    case changeRootScreen(toScreen: Screen, animated: Bool = true)
-    case presentScreen(Screen, animated: Bool = true)
+    case presentFullScreen(Screen, animated: Bool = true)
     case presentModal(Screen, animated: Bool = true)
-  
+    case changeRootScreen(toScreen: Screen)
   }
-  
 
-  
   @MainActor
   func reduce(
     into state: inout State,
     action: Action
   ) -> Effect<Action> {
-    
  
     switch action {
-			
 		case let .navigate(navigationLogic):
-			navigationLogic.handler()
-			
+      navigationLogic.handler()
+      
     case let .pushScreen(screen, animated):
-      AppRouter
-        .shared
-        .visibleViewController?
-        .navigationController?
-        .pushViewController(
-          screen.createView(),
-          animated: animated
-        )
+      state.currentNavigationController?.pushViewController(screen.createView(), animated: animated)
       
+    case let .popScreen(animated):
+      state.currentNavigationController?.popViewController(animated: animated)
       
-    case let .changeRootScreen(screen, animated):
-      let currentWindow = AppRouter.shared.currentWindow
-      currentWindow?.rootViewController = screen.createView()
-      currentWindow?.makeKeyAndVisible()
-
-    default: break
-
-//    case let .popScreen(animated):
-//
-//    case let .popToRootScreen(animated):
-//
-//    case let .changeRootScreen(screen, animated):
-//
-//    case let .presentScreen(animated):
-//
-//    case let .presentModal(animated):
-
-
+    case let .popToRootScreen(animated):
+      state.currentNavigationController?.popToRootViewController(animated: animated)
+      
+    case let .presentFullScreen(screen, animated):
+      let vc = screen.createView()
+      vc.modalPresentationStyle = .overFullScreen
+      state.currentNavigationController?.present(vc, animated: animated)
+      
+    case let .presentModal(screen, animated):
+      state.currentNavigationController?.present(screen.createView(), animated: animated)
+      
+    case let .changeRootScreen(screen):
+      state.currentWindow?.rootViewController = screen.createView()
+      state.currentWindow?.makeKeyAndVisible()
     }
-    
     return .none
   }
   
@@ -101,4 +79,10 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
 		 lhs === rhs
 	 }
  }
+}
+
+
+protocol ViewProvidable {
+  typealias PresentableView = UIViewController
+  func createView() -> PresentableView
 }

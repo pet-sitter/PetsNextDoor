@@ -1,5 +1,5 @@
 //
-//  ChatListViewController.swift
+//  CommunityViewController.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/08/27.
@@ -10,11 +10,11 @@ import Combine
 import SnapKit
 import ComposableArchitecture
 
-final class ChatListViewController: BaseViewController {
+final class CommunityViewController: BaseViewController {
   
-  typealias Feature = ChatListFeature
-  typealias State   = ChatListFeature.State
-  typealias Action  = ChatListFeature.Action
+  typealias Feature = CommunityFeature
+  typealias State   = CommunityFeature.State
+  typealias Action  = CommunityFeature.Action
   
   private let viewStore: ViewStoreOf<Feature>
   
@@ -36,5 +36,7 @@ final class ChatListViewController: BaseViewController {
     
     
   }
+  
+
   
 }
