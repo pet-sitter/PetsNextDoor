@@ -16,6 +16,19 @@ struct ComponentResultBuilder {
     return newComponents
   }
   
+  
+  
+  static func buildArray(_ components: [[any Component]]) -> [any Component] {
+    components.flatMap { $0 }
+  }
+  
+  static func buildBlock(_ components: [any Component]...) -> [any Component] {
+    components.flatMap { $0 }
+  }
+  
+  static func buildExpression(_ expression: any Component) -> [any Component] {
+    [expression]
+  }
 }
 
 func ComponentBuilder(@ComponentResultBuilder components: () -> [any Component]) -> [any Component] {
