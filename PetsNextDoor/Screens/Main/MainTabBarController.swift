@@ -35,7 +35,6 @@ final class MainTabBarController: UITabBarController {
     super.init(nibName: nil, bundle: nil)
   }
   
-  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -74,11 +73,9 @@ final class MainTabBarController: UITabBarController {
         communityNavigationController,
         chatListNavigationController,
         myPageNavigationController
-      ]
-      ,
-      animated: true)
+      ],
+      animated: true
+    )
   }
-  
 
-  
 }

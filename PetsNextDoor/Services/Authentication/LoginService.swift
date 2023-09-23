@@ -23,7 +23,7 @@ enum LoginResult {
 }
 
 
-protocol LoginServiceable: PNDNetworkProvidable {
+protocol LoginServiceProvidable: PNDNetworkProvidable {
 
   @MainActor
   func signInWithGoogle() async -> LoginResult
@@ -31,7 +31,7 @@ protocol LoginServiceable: PNDNetworkProvidable {
 }
 
 
-final class LoginService: LoginServiceable {
+final class LoginService: LoginServiceProvidable {
 
   typealias Network = PND.Network<PND.API>
   
@@ -110,7 +110,7 @@ extension LoginService {
 
 
 
-final class LoginServiceMock: LoginServiceable {
+final class LoginServiceMock: LoginServiceProvidable {
   
   typealias Network = PND.MockNetwork<PND.API>
   

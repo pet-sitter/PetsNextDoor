@@ -15,15 +15,26 @@ extension PND {
 extension PND.Dependency {
   
   enum LoginServiceKey: DependencyKey {
-    static let liveValue: any LoginServiceable = LoginService()
-    static let testValue: any LoginServiceable = LoginServiceMock()
+    static let liveValue: any LoginServiceProvidable = LoginService()
+    static let testValue: any LoginServiceProvidable = LoginServiceMock()
+  }
+  
+  enum UploadServiceKey: DependencyKey {
+    static let liveValue: any UploadServiceProvidable = UploadService()
+    static let testValue: any UploadServiceProvidable = UploadServiceMock()
   }
 }
 
 extension DependencyValues {
-  var loginService: any LoginServiceable {
+  
+  var loginService: any LoginServiceProvidable {
     get { self[PND.Dependency.LoginServiceKey.self] }
     set { self[PND.Dependency.LoginServiceKey.self] = newValue }
+  }
+  
+  var uploadService: any UploadServiceProvidable {
+    get { self[PND.Dependency.UploadServiceKey.self] }
+    set { self[PND.Dependency.UploadServiceKey.self] = newValue }
   }
 }
 
