@@ -14,6 +14,7 @@ extension PND {
     //MARK: - Auth
     
     //MARK: - Media
+    case uploadImage(imageData: Data, imageName: String)
     
     
   
@@ -32,7 +33,7 @@ extension PND.API: Moya.TargetType {
   
   var baseURL: URL {
     switch PND.Server.shared.currentServerPhase {
-    case .dev:  return URL(string: "https://pets-next-door-api-dev.onrender.com/api")!
+    case .dev:  return URL(string: "https://pets-next-door.fly.dev/api")!
     case .prod: return URL(string: "")!
     }
   }
@@ -43,6 +44,8 @@ extension PND.API: Moya.TargetType {
       //MARK: - Auth
       
       //MARK: - Media
+    case .uploadImage:
+      return "/media/images"
       
       
     
@@ -69,7 +72,7 @@ extension PND.API: Moya.TargetType {
       
       //MARK: - POST
       
-    case .registerUser, .postUserStatus:
+    case .registerUser, .postUserStatus, .uploadImage:
       return .post
       
 
@@ -85,7 +88,10 @@ extension PND.API: Moya.TargetType {
       
       //MARK: - Media
       
-      
+    case .uploadImage(let imageData, let imageName):
+      let image = MultipartFormData(provider: .data(imageData), name: imageName, fileName: "\(imageName).jpeg", mimeType: "image/jpeg")
+      return .uploadMultipart([image])
+
       //MARK: - Users
       
     case .registerUser(let model):
@@ -123,7 +129,8 @@ extension PND.API: Moya.TargetType {
       //MARK: - Auth
       
       //MARK: - Media
-      
+    case .uploadImage:
+    params["Content-Type"] = "multipart/form-data"
       
       
       //MARK: - Users

@@ -48,17 +48,17 @@ extension NetworkProvidable {
         provider.request(target, callbackQueue: DispatchQueue.global()) { result in
           switch result {
           case let .success(response):
-            print("✅ Network Success: \(response)")
             do {
               let _ = try response.filterSuccessfulStatusCodes()
               let responseData = try response.map(ResponseData.self)
-              print("✅ responseData: \(responseData)")
+              print("✅ Network Success: \(response) for target: \(target)")
               continuation.resume(returning: responseData)
             } catch {
+              print("❌ Network Error: \(error) for target: \(target)")
               continuation.resume(throwing: error)
             }
           case let .failure(moyaError):
-            print("❌ Network Error: \(moyaError)")
+            print("❌ Moya Error: \(moyaError)")
             continuation.resume(throwing: moyaError)
           }
         }

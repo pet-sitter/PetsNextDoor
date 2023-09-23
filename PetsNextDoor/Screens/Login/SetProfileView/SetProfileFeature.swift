@@ -10,6 +10,7 @@ import ComposableArchitecture
 struct SetProfileFeature: Reducer {
   
   @Dependency(\.loginService) private var loginService
+  @Dependency(\.uploadService) private var uploadService
 	
 	struct State: Equatable {
     var userRegisterModel: PND.UserRegistrationModel
@@ -47,10 +48,19 @@ struct SetProfileFeature: Reducer {
       case .didTapBottomButton:
         state.userRegisterModel.nickname = state.nicknameText
         
-        return .run { [registerModel = state.userRegisterModel] send in
+        return .run { [state] send in
           await send(._setIsLoading(true))
           do {
-            let _ = try await loginService.registerUser(model: registerModel)
+            if let userProfileImage = state.selectedUserImage, let imageData = userProfileImage.jpegData(compressionQuality: 0.7) {
+              let imageModel = try await uploadService.uploadImage(
+                imageData: imageData,
+                imageName: "profileImage"
+              )
+       
+            
+            }
+            
+            let _ = try await loginService.registerUser(model: state.userRegisterModel)
             
             
           } catch {

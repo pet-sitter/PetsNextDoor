@@ -26,7 +26,7 @@ final class UrgentPostCardComponent: Component {
   
   var height: CGFloat { ContentView.defaultHeight }
   
-  init(context: Context){
+  init(context: Context) {
     self.context = context
   }
   

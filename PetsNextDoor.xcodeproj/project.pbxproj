@@ -29,6 +29,9 @@
 		DA0F92242A9895030059690E /* DefaultCodableStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92232A9895030059690E /* DefaultCodableStrategy.swift */; };
 		DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */; };
 		DA0FD7392AA479C800497256 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0FD7382AA479C800497256 /* Utility.swift */; };
+		DA20157A2ABEF8D600F7516A /* UploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2015792ABEF8D600F7516A /* UploadService.swift */; };
+		DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20157B2ABEF9C300F7516A /* ServiceError.swift */; };
+		DA20157F2ABEFC2200F7516A /* UploadMediaResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20157E2ABEFC2200F7516A /* UploadMediaResponseData.swift */; };
 		DA275C592A44767100D09F77 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA275C582A44767100D09F77 /* GoogleService-Info.plist */; };
 		DA275C5C2A44777400D09F77 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5B2A44777400D09F77 /* FirebaseAnalytics */; };
 		DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C5D2A44777500D09F77 /* FirebaseAnalyticsSwift */; };
@@ -123,6 +126,9 @@
 		DA0F92232A9895030059690E /* DefaultCodableStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCodableStrategy.swift; sourceTree = "<group>"; };
 		DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationModel.swift; sourceTree = "<group>"; };
 		DA0FD7382AA479C800497256 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		DA2015792ABEF8D600F7516A /* UploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadService.swift; sourceTree = "<group>"; };
+		DA20157B2ABEF9C300F7516A /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
+		DA20157E2ABEFC2200F7516A /* UploadMediaResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadMediaResponseData.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA38FC242AAB02B800A81C93 /* HomeFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeature.swift; sourceTree = "<group>"; };
 		DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardComponent.swift; sourceTree = "<group>"; };
@@ -306,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */,
+				DA20157E2ABEFC2200F7516A /* UploadMediaResponseData.swift */,
 			);
 			path = ResponseData;
 			sourceTree = "<group>";
@@ -316,6 +323,16 @@
 				DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */,
 			);
 			path = RequestData;
+			sourceTree = "<group>";
+		};
+		DA2015772ABEF8BF00F7516A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DA2015792ABEF8D600F7516A /* UploadService.swift */,
+				DACB0A142A47E08F002D18E7 /* Authentication */,
+				DA20157B2ABEF9C300F7516A /* ServiceError.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		DA38FC272AAB02BB00A81C93 /* Components */ = {
@@ -540,8 +557,8 @@
 				DA68EEFC2A52F05900302AFE /* DependencyKeys */,
 				DABA447B2A628EB300FD2639 /* Router */,
 				7C1277F82A54436A004A83A4 /* Screens */,
+				DA2015772ABEF8BF00F7516A /* Services */,
 				DA86A0F82A62740700525711 /* Networking */,
-				DACB0A142A47E08F002D18E7 /* Authentication */,
 				DACB0A1C2A47E201002D18E7 /* Utilities */,
 				DA275C582A44767100D09F77 /* GoogleService-Info.plist */,
 				DAC6C2D62A3D7932002D33F8 /* Main.storyboard */,
@@ -698,9 +715,11 @@
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				DA8A34F12A7654900054FE25 /* Colors.swift in Sources */,
 				DA0F50192A9DDF5100E20ADC /* RouterReducer.swift in Sources */,
+				DA20157A2ABEF8D600F7516A /* UploadService.swift in Sources */,
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
 				DA8A35012A765BF30054FE25 /* BaseView.swift in Sources */,
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
+				DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */,
 				DA38FC322AADA19800A81C93 /* MyPageFeature.swift in Sources */,
 				DA8A34FE2A765B850054FE25 /* Component.swift in Sources */,
 				7C51EF732A94EE60003132A1 /* BaseTextFieldView.swift in Sources */,
@@ -724,6 +743,7 @@
 				DAE6FC602A95E20B008BF1F1 /* UILabel+Extension.swift in Sources */,
 				DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */,
 				DA419C9E2A9B32E400C76AB9 /* MyPageViewController.swift in Sources */,
+				DA20157F2ABEFC2200F7516A /* UploadMediaResponseData.swift in Sources */,
 				DAAD52E82A7CBF5200227BB5 /* IdentifierProvidable.swift in Sources */,
 				DA86A0FA2A62741700525711 /* Server.swift in Sources */,
 				DA0F92082A971C860059690E /* ValueObservable.swift in Sources */,

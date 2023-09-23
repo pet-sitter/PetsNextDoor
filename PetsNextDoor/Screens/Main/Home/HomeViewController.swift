@@ -52,7 +52,6 @@ final class HomeViewController: BaseViewController {
     adapter.observeDataSource(componentPublisher: $components)
     
     components = ComponentBuilder {
-      
       for _ in (1..<10) {
         UrgentPostCardComponent(
           context: .init(
@@ -61,8 +60,6 @@ final class HomeViewController: BaseViewController {
             location: "반포동",
             cost: "시급 10,500원"))
       }
-      
-
     }
   }
   

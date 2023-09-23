@@ -32,6 +32,10 @@ final class UrgentPostCardView: UIView {
   var costImageView: UIImageView!
   var costLabel: UILabel!
   
+  private struct Constants {
+    static let textFont: UIFont = .systemFont(ofSize: 14, weight: .regular)
+  }
+  
   init() {
     super.init(frame: .zero)
     configureUI()
@@ -67,9 +71,12 @@ final class UrgentPostCardView: UIView {
     containerStackView.set {
       containerView.addSubview($0)
       $0.axis = .vertical
+      $0.spacing = 5
+      $0.distribution = .fillProportionally
       $0.snp.makeConstraints {
-        $0.top.bottom.trailing.equalToSuperview().inset(5)
-        $0.leading.equalTo(mainImageView.snp.trailing).offset(15)
+        $0.top.trailing.equalToSuperview().inset(5)
+        $0.bottom.equalToSuperview().inset(10)
+        $0.leading.equalTo(mainImageView.snp.trailing).offset(10)
       }
     }
     
@@ -83,16 +90,17 @@ final class UrgentPostCardView: UIView {
     dateStackView.set {
       containerStackView.addArrangedSubview($0)
       $0.axis = .horizontal
-      $0.spacing = 10
+      $0.spacing = 6
     }
     
     
     calendarImageView = UIImageView()
     calendarImageView.set {
       dateStackView.addArrangedSubview($0)
-      $0.image = UIImage(systemName: "calendar")
+      $0.image = UIImage(resource: R.image.icon_cal)
+      $0.tintColor = PND.Colors.commonOrange
       $0.snp.makeConstraints {
-        $0.width.height.equalTo(25)
+        $0.width.height.equalTo(16)
       }
     }
     
@@ -100,21 +108,22 @@ final class UrgentPostCardView: UIView {
     dateLabel.set {
       dateStackView.addArrangedSubview($0)
       $0.text = "23.03.21 ~ 23.03.24 | 10:00 ~ 10:30"
+      $0.font = Constants.textFont
     }
     
     locationStackView = UIStackView()
     locationStackView.set {
       containerStackView.addArrangedSubview($0)
       $0.axis = .horizontal
-      $0.spacing = 10
+      $0.spacing = 6
     }
     
     locationImageView = UIImageView()
     locationImageView.set {
       locationStackView.addArrangedSubview($0)
-      $0.image = UIImage(systemName: "location.fill")
+      $0.image = UIImage(resource: R.image.icon_pin)
       $0.snp.makeConstraints {
-        $0.width.height.equalTo(25)
+        $0.width.height.equalTo(16)
       }
     }
     
@@ -122,21 +131,23 @@ final class UrgentPostCardView: UIView {
     locationLabel.set {
       locationStackView.addArrangedSubview($0)
       $0.text = "반포동"
+      $0.font = Constants.textFont
     }
     
     costStackView = UIStackView()
     costStackView.set {
       containerStackView.addArrangedSubview($0)
       $0.axis = .horizontal
-      $0.spacing = 10
+      $0.spacing = 6
     }
     
     costImageView = UIImageView()
     costImageView.set {
       costStackView.addArrangedSubview($0)
-      $0.image = UIImage(systemName: "coloncurrencysign.circle")
+      $0.image = UIImage(resource: R.image.icon_pay)
+      $0.tintColor = PND.Colors.commonOrange
       $0.snp.makeConstraints {
-        $0.width.height.equalTo(25)
+        $0.width.height.equalTo(16)
       }
     }
     
@@ -144,7 +155,9 @@ final class UrgentPostCardView: UIView {
     costLabel.set {
       costStackView.addArrangedSubview($0)
       $0.text = "시급 10,000원"
+      $0.font = Constants.textFont
     }
+  
     
   }
 }
