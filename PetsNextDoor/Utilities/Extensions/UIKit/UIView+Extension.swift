@@ -35,7 +35,7 @@ extension UIView {
   @discardableResult
   func roundCorners(radius: CGFloat) -> Self {
     roundCorners(radius: radius, corners: [.allCorners])
-    
+  
     return self
   }
   

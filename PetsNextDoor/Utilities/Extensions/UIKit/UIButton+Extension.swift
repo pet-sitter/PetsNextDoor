@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Combine
 
 extension UIButton {
 
@@ -337,7 +337,7 @@ extension UIButton {
   }
 
   @discardableResult
-  func enabled(_ enabled: Bool = true) -> Self {
+  func isEnabled(_ enabled: Bool = true) -> Self {
     self.isEnabled = enabled
     return self
   }
