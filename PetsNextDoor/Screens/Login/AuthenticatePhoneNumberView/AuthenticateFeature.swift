@@ -12,6 +12,8 @@ struct AuthenticateFeature: Reducer {
 
   struct State: Equatable {
     var userRegisterModel: PND.UserRegistrationModel
+    var timerMilliseconds: Int? = nil
+    var authenticateButtonIsEnabled: Bool = true 
     
     var router: Router<PND.Destination>.State = .init()
   
@@ -26,8 +28,9 @@ struct AuthenticateFeature: Reducer {
   }
   
   enum Action: Equatable {
+    case didTapAuthenticateButton
     case didTapNextButton
-    
+    case didEndCountDownTimer
     case _routeAction(Router<PND.Destination>.Action)
   }
   
@@ -43,8 +46,22 @@ struct AuthenticateFeature: Reducer {
     Reduce { state, action in
       
 			switch action {
+        
+      case .didTapAuthenticateButton:
+        state.timerMilliseconds = 180000
+        state.authenticateButtonIsEnabled = false
+        return .none
+        
 			case .didTapNextButton:
-        return .send(._routeAction(.pushScreen(.setInitialProfile(.init(userRegisterModel: state.userRegisterModel)), animated: true)))
+        return .send(
+          ._routeAction(
+            .pushScreen(.setInitialProfile(.init(userRegisterModel: state.userRegisterModel)), animated: true)
+          )
+        )
+        
+      case .didEndCountDownTimer:
+        state.authenticateButtonIsEnabled = true
+        return .none
 
       default:
         return .none

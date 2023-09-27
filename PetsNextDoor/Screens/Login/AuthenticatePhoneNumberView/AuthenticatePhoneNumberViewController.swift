@@ -19,7 +19,7 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
   typealias Feature = AuthenticateFeature
   typealias State   = AuthenticateFeature.State
   typealias Action  = AuthenticateFeature.Action
-
+  
   private let viewStore: ViewStoreOf<Feature>
   
   @Published var components: [any Component] = []
@@ -28,7 +28,7 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
     self.viewStore  = ViewStore(store, observe: { $0 } )
     super.init()
   }
-
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,7 +39,7 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
     super.configureUI()
     
     configureTopLeftTitle("프로필 설정하기")
-      
+    
     bottomButton = BaseBottomButton(title: "다음")
     bottomButton.set {
       view.addSubview($0)
@@ -50,7 +50,6 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
       }
       $0.onTapGesture { [weak self] in
         self?.viewStore.send(.didTapNextButton)
-				
       }
     }
     
@@ -69,17 +68,22 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
       $0.observeDataSource(componentPublisher: $components)
     }
     
+    
+
     components = ComponentBuilder {
       EmptyComponent(height: 20)
       TextFieldComponent(
         context: .init(
           textFieldPlaceHolder: "휴대폰 번호",
-          rightView: UIButton()
+          rightView: BaseButton(isEnabled: viewStore.publisher.authenticateButtonIsEnabled)
             .bgColor(.black)
             .title("인증하기")
             .frame(width: 65, height: 32)
             .titleStyle(font: .systemFont(ofSize: 12, weight: .regular), color: .white)
             .roundCorners(radius: 50)
+            .onViewTap { [weak self] in
+              self?.viewStore.send(.didTapAuthenticateButton)
+            }
         )
       )
       .onEditingChanged { text, _ in
@@ -90,14 +94,33 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
       TextFieldComponent(
         context: .init(
           textFieldPlaceHolder: "인증번호 6자리",
-          rightView: nil
+          rightView: {
+            let countDownLabel = CountDownLabel()
+              .frame(width: 33, height: 15)
+            
+            viewStore
+              .publisher
+              .timerMilliseconds
+              .compactMap { $0 }
+              .sink { milliseconds in
+                countDownLabel.configureTimer(milliseconds: milliseconds)
+              }
+              .store(in: &subscriptions)
+            
+            
+            countDownLabel.onTimerEnd = { [weak self] in
+              self?.viewStore.send(.didEndCountDownTimer)
+            }
+            
+            return countDownLabel
+          }()
         )
       )
     }
   }
-    
+  
   private func bindState() {
     
-
+    
   }
 }
