@@ -23,6 +23,8 @@ final class HomeViewController: BaseViewController {
   
   @Published var components: [any Component] = []
   
+  private let districtNameNavigationBarView = DistrictNameView()
+  
   init(store: some StoreOf<Feature>) {
     self.viewStore = ViewStore(store, observe: { $0 })
     super.init()
@@ -31,13 +33,16 @@ final class HomeViewController: BaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
    
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "용답동", style: .done, target: self, action: nil)
-    
-    
+
+
   }
+  
+  
   
   override func configureUI() {
     super.configureUI()
+    
+    configureNavigationBarItems()
     
     tableView = BaseTableView()
     tableView.set {
@@ -63,5 +68,31 @@ final class HomeViewController: BaseViewController {
     }
   }
   
+  private func configureNavigationBarItems() {
+    
+    navigationItem.leftBarButtonItems = [
+      UIBarButtonItem(
+        customView: UIImageView(image: UIImage(resource: R.image.icon_pin_nav_bar))
+          .frame(width: 24, height: 24)
+      ),
+      UIBarButtonItem(customView: districtNameNavigationBarView)
+    ]
+    
+    
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      customView:  UIButton(type: .system)
+        .image(UIImage(resource: R.image.icon_pen))
+        .frame(width: 24, height: 24)
+        .tintColor(PND.Colors.commonBlack)
+        .onTap { [weak self] in
+          // 글쓰기
+          print("✅ did tap post")
+        }
+    )
+    
+    
+  }
+  
+
   
 }

@@ -56,6 +56,7 @@
 		DA419C9A2A9B32D500C76AB9 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C992A9B32D500C76AB9 /* CommunityViewController.swift */; };
 		DA419C9C2A9B32DE00C76AB9 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C9B2A9B32DE00C76AB9 /* ChatListViewController.swift */; };
 		DA419C9E2A9B32E400C76AB9 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA419C9D2A9B32E400C76AB9 /* MyPageViewController.swift */; };
+		DA449DF22AC9A0E60025A397 /* DistrictNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449DF12AC9A0E60025A397 /* DistrictNameView.swift */; };
 		DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA4F05212A68021800D7E7A7 /* ComposableArchitecture */; };
 		DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */; };
 		DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */; };
@@ -149,6 +150,7 @@
 		DA419C992A9B32D500C76AB9 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		DA419C9B2A9B32DE00C76AB9 /* ChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		DA419C9D2A9B32E400C76AB9 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		DA449DF12AC9A0E60025A397 /* DistrictNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictNameView.swift; sourceTree = "<group>"; };
 		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
 		DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameSpace.swift; sourceTree = "<group>"; };
 		DA4F05372A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPhoneNumberCore.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				DA86A0F62A62739500525711 /* LoadingIndicator.swift */,
 				DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */,
 				DA1137092AC3E6B80061F1E0 /* CountDownLabel.swift */,
+				DA449DF12AC9A0E60025A397 /* DistrictNameView.swift */,
 			);
 			path = ReusableViews;
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 				DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 				DAAD52E52A7CBD5A00227BB5 /* ButtonComponent.swift in Sources */,
+				DA449DF22AC9A0E60025A397 /* DistrictNameView.swift in Sources */,
 				DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */,
 				DA419C9A2A9B32D500C76AB9 /* CommunityViewController.swift in Sources */,
 				DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */,
