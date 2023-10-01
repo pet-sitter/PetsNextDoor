@@ -62,7 +62,7 @@ final class BottomButtonComponent: Component, TouchableComponent, ValueBindable 
   typealias ObservingValue = Bool
   
   @discardableResult
-  func bindValue(_ valuePublisher: AnyPublisher<Bool, Never>) -> Self {
+  func bindValue(_ valuePublisher: PNDPublisher<Bool>) -> Self {
     valuePublisher
       .receive(on: DispatchQueue.main)
       .withWeak(self)

@@ -34,7 +34,7 @@ final class SetProfileImageComponent: Component, TouchableComponent, ValueBindab
 	func render(contentView: SetProfileImageView, withContext context: Void) {
 		
 		contentView.profileImageContainerView
-			.onViewTap { [weak self] in
+			.onTap { [weak self] in
 				guard let self else { return }
 				self.onTouchAction?(self)
 			}
@@ -54,7 +54,7 @@ final class SetProfileImageComponent: Component, TouchableComponent, ValueBindab
   typealias ObservingValue = UIImage?
   
   @discardableResult
-  func bindValue(_ valuePublisher: AnyPublisher<ObservingValue, Never>) -> Self {
+  func bindValue(_ valuePublisher: PNDPublisher<ObservingValue>) -> Self {
     valuePublisher
       .receive(on: DispatchQueue.main)
       .withWeak(self)

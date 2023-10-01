@@ -159,10 +159,11 @@ extension UIButton {
 
   @discardableResult
   func image(_ image: UIImage?) -> Self {
-    self.setImage(image, for: .normal)
-    self.setImage(image, for: .selected)
-    self.setImage(image, for: .highlighted)
-    self.setImage(image, for: .disabled)
+    var incomingImage = image?.withRenderingMode(.automatic)
+    self.setImage(incomingImage, for: .normal)
+    self.setImage(incomingImage, for: .selected)
+    self.setImage(incomingImage, for: .highlighted)
+    self.setImage(incomingImage, for: .disabled)
     return self
   }
 

@@ -9,7 +9,10 @@ import Foundation
 import Combine
 
 protocol ValueBindable {
+  
+  var subscriptions: Set<AnyCancellable> { get }
+  
   associatedtype ObservingValue
   @discardableResult
-  func bindValue(_ valuePublisher: AnyPublisher<ObservingValue, Never>) -> Self
+  func bindValue(_ valuePublisher: PNDPublisher<ObservingValue>) -> Self
 }

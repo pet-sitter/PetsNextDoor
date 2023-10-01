@@ -47,7 +47,7 @@ final class SetProfileViewController: BaseViewController {
 		super.configureUI()
 		    
     bottomComponent = BottomButtonComponent(context: .init(buttonTitle: "완료"))
-      .bindValue(viewStore.publisher.isBottomButtonEnabled.eraseToAnyPublisher())
+      .bindValue(viewStore.publisher.isBottomButtonEnabled)
       
     let bottomButton = bottomComponent.createContentView()
     bottomButton.set {
@@ -83,7 +83,7 @@ final class SetProfileViewController: BaseViewController {
         .onTouch { [weak self] _ in
           self?.viewStore.send(.profileImageDidTap)
         }
-        .bindValue(viewStore.publisher.selectedUserImage.eraseToAnyPublisher())
+        .bindValue(viewStore.publisher.selectedUserImage)
       EmptyComponent(height: 20)
 			TextFieldComponent(
         context: .init(

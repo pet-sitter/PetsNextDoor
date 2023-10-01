@@ -48,7 +48,6 @@ final class MainTabBarController: UITabBarController {
     appearance.shadowColor = nil
     tabBar.standardAppearance = appearance
     
-    
     homeNavigationController.tabBarItem.image         = UIImage(named: "icon_home")?.withRenderingMode(.alwaysOriginal)
     homeNavigationController.tabBarItem.selectedImage = UIImage(named: "icon_home_selected")?.withRenderingMode(.alwaysOriginal)
     
@@ -58,7 +57,6 @@ final class MainTabBarController: UITabBarController {
     chatListNavigationController.tabBarItem.image = UIImage(named: "icon_chat")?.withRenderingMode(.alwaysOriginal)
     
     myPageNavigationController.tabBarItem.image = UIImage(named: "icon_user")?.withRenderingMode(.alwaysOriginal)
-    
     
     
     configureViewControllers()

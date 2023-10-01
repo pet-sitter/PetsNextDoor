@@ -48,7 +48,7 @@ struct AuthenticateFeature: Reducer {
 			switch action {
         
       case .didTapAuthenticateButton:
-        state.timerMilliseconds = 180000
+        state.timerMilliseconds = 10000
         state.authenticateButtonIsEnabled = false
         return .none
         

@@ -10,7 +10,7 @@ import UIKit
 extension UIView {
 	
   @discardableResult
-	func onViewTap(_ action : @escaping () -> Void) -> Self {
+	func onTap(_ action : @escaping () -> Void) -> Self {
 		let tap = PNDTapGestureRecognizer(target: self , action: #selector(self.handleTap(_:)))
 		tap.action = action
 		tap.numberOfTapsRequired = 1
