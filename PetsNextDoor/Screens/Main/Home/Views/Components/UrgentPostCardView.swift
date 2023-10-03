@@ -11,7 +11,7 @@ import Combine
 
 final class UrgentPostCardView: UIView {
   
-  static let defaultHeight: CGFloat = 120
+  static let defaultHeight: CGFloat = 112
   
   var containerView: UIView!
   var mainImageView: UIImageView!
@@ -33,7 +33,7 @@ final class UrgentPostCardView: UIView {
   var costLabel: UILabel!
   
   private struct Constants {
-    static let textFont: UIFont = .systemFont(ofSize: 14, weight: .regular)
+    static let textFont: UIFont = .systemFont(ofSize: 12, weight: .medium)
   }
   
   init() {
@@ -48,9 +48,7 @@ final class UrgentPostCardView: UIView {
     containerView = UIView()
     containerView.set {
       addSubview($0)
-      $0.snp.makeConstraints {
-        $0.edges.equalToSuperview()
-      }
+      $0.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
     mainImageView = UIImageView()
@@ -61,8 +59,8 @@ final class UrgentPostCardView: UIView {
       $0.clipsToBounds = true
       $0.layer.cornerRadius = 4
       $0.snp.makeConstraints {
-        $0.top.bottom.equalToSuperview().inset(5)
-        $0.leading.equalToSuperview().inset(20)
+        $0.top.bottom.equalToSuperview().inset(12)
+        $0.leading.equalToSuperview().inset(24)
         $0.width.height.equalTo(88)
       }
     }
@@ -74,9 +72,10 @@ final class UrgentPostCardView: UIView {
       $0.spacing = 5
       $0.distribution = .fillProportionally
       $0.snp.makeConstraints {
-        $0.top.trailing.equalToSuperview().inset(5)
-        $0.bottom.equalToSuperview().inset(10)
-        $0.leading.equalTo(mainImageView.snp.trailing).offset(10)
+        $0.top.equalToSuperview().inset(12)
+        $0.trailing.equalToSuperview().inset(24)
+        $0.bottom.equalToSuperview().inset(12)
+        $0.leading.equalTo(mainImageView.snp.trailing).offset(8)
       }
     }
     

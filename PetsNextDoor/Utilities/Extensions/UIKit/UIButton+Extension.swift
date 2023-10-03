@@ -343,6 +343,10 @@ extension UIButton {
     return self
   }
 
+  func tag(_ tagNum: Int) -> Self {
+    self.tag = tag
+    return self
+  }
 
 }
 

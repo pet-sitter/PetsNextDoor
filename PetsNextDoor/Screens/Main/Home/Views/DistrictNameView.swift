@@ -29,15 +29,13 @@ final class DistrictNameView: UIView {
     containerView.set {
       addSubview($0)
       $0.backgroundColor = .clear
-      $0.snp.makeConstraints {
-        $0.edges.equalToSuperview()
-      }
+      $0.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 
     
     underlineView = UIView()
     underlineView.set {
-      addSubview($0)
+      containerView.addSubview($0)
       $0.backgroundColor = UIColor(hex: "#FFECD6")
       $0.snp.makeConstraints {
         $0.leading.equalToSuperview().offset(-3)
@@ -50,7 +48,7 @@ final class DistrictNameView: UIView {
     
     districtNameLabel = UILabel()
     districtNameLabel.set {
-      addSubview($0)
+      containerView.addSubview($0)
       $0.font = .systemFont(ofSize: 24, weight: .bold)
       $0.text = "이웃집멍냥이네"
       $0.snp.makeConstraints {

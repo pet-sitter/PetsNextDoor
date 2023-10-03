@@ -5,7 +5,7 @@
 //  Created by kevinkim2586 on 2023/08/05.
 //
 
-import Foundation
+import UIKit
 import Combine 
 
 final class EmptyComponent: Component {
@@ -16,6 +16,7 @@ final class EmptyComponent: Component {
   
   struct Context {
     let height: CGFloat
+    let backgroundColor: UIColor
   }
 
   var contentView: EmptyView?
@@ -23,12 +24,12 @@ final class EmptyComponent: Component {
   
   var height: CGFloat { context.height }
   
-  init(height: CGFloat) {
-    self.context = .init(height: height)
+  init(height: CGFloat, backgroundColor: UIColor = PND.Colors.commonWhite) {
+    self.context = .init(height: height, backgroundColor: backgroundColor)
   }
   
   func createContentView() -> EmptyView {
-    let view = EmptyView(height: height)
+    let view = EmptyView(height: height, backgroundColor: context.backgroundColor)
     self.contentView = view
     return view
   }

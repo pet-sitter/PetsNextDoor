@@ -10,17 +10,19 @@ import UIKit
 final class EmptyView: UIView {
   
   private(set) var height: CGFloat = 10
+  private(set) var designedBackgroundColor: UIColor = PND.Colors.commonWhite
   
   private var containerView: UIView!
   
   init() {
     super.init(frame: .zero)
-    configureUI()
   }
   
-  convenience init(height: CGFloat) {
+  convenience init(height: CGFloat, backgroundColor: UIColor = PND.Colors.commonWhite) {
     self.init()
     self.height = height
+    self.designedBackgroundColor = backgroundColor
+    configureUI()
   }
   
   @available(*, unavailable) required init?(coder: NSCoder) { fatalError("Not implemented") }
@@ -30,7 +32,7 @@ final class EmptyView: UIView {
     containerView = UIView()
     containerView.set {
       addSubview($0)
-			$0.backgroundColor = PND.Colors.commonWhite
+			$0.backgroundColor = designedBackgroundColor
       $0.snp.makeConstraints {
         $0.center.equalToSuperview()
         $0.width.equalTo(UIScreen.fixedScreenSize.width)
