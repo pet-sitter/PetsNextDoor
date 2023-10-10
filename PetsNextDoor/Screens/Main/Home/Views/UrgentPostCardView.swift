@@ -60,7 +60,7 @@ final class UrgentPostCardView: UIView {
       $0.layer.cornerRadius = 4
       $0.snp.makeConstraints {
         $0.top.bottom.equalToSuperview().inset(12)
-        $0.leading.equalToSuperview().inset(24)
+        $0.leading.equalToSuperview().inset(PND.Metrics.defaultSpacing)
         $0.width.height.equalTo(88)
       }
     }
@@ -73,7 +73,7 @@ final class UrgentPostCardView: UIView {
       $0.distribution = .fillProportionally
       $0.snp.makeConstraints {
         $0.top.equalToSuperview().inset(12)
-        $0.trailing.equalToSuperview().inset(24)
+        $0.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
         $0.bottom.equalToSuperview().inset(12)
         $0.leading.equalTo(mainImageView.snp.trailing).offset(8)
       }

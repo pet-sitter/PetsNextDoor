@@ -59,14 +59,14 @@ class BaseTextFieldView: UIView {
     
     textField.snp.makeConstraints {
       $0.top.equalToSuperview().inset(5)
-      $0.leading.trailing.equalToSuperview().inset(20)
+      $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
       $0.bottom.equalToSuperview().inset(5)
     }
     
     focusLineView.snp.makeConstraints {
       $0.height.equalTo(1)
       $0.bottom.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(20)
+      $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
     }
     
     if let rightView {

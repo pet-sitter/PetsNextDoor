@@ -9,37 +9,35 @@ import UIKit
 import SnapKit
 import Combine
 
-
-protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable {
-  
-  associatedtype ContentView: UIView
-  associatedtype Context
-  
-  var subscriptions: Set<AnyCancellable> { get set }
-  
-  var contentView: ContentView? { get set }
-  var context: Context { get }
-  
-  func createContentView() -> ContentView
-  func render(contentView: ContentView, withContext context: Context)
+protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, AnyObject {
+	
+	associatedtype ContentView: UIView
+	associatedtype Context
+	
+	var subscriptions: Set<AnyCancellable> { get set }
+	
+	var contentView: ContentView? { get set }
+	var context: Context { get }
+	
+	func createContentView() -> ContentView
+	func render(contentView: ContentView, withContext context: Context)
 }
 
 extension Component {
-  
-//  mutating func isHidden(_ isHiddenPublisher: PNDPublisher<Bool>) -> Self {
-//    isHiddenPublisher
-//      .sink { isHidden in
-//        contentView?.isHidden = isHidden
-//      }
-//      .store(in: &subscriptions)
-//    return self
-//  }
-  
+	
+	func isHidden(_ isHiddenPublisher: PNDPublisher<Bool>) -> Self {
+		isHiddenPublisher
+			.sink { [weak self] isHidden in
+				self?.contentView?.isHidden = isHidden
+			}
+			.store(in: &subscriptions)
+		return self
+	}
 }
 
 
 protocol CellItemModelType {
-
+	
 }
 
 

@@ -68,6 +68,7 @@ final class SetProfileViewController: BaseViewController {
 			view.addSubview($0)
 			$0.registerCell(ContainerCell<SetProfileImageComponent>.self)
 			$0.registerCell(ContainerCell<TextFieldComponent>.self)
+			$0.registerCell(ContainerCell<HorizontalActionButtonComponent>.self)
 			$0.snp.makeConstraints {
 				$0.top.leading.trailing.equalToSuperview()
 				$0.bottom.equalTo(bottomButton.snp.top)
@@ -92,26 +93,27 @@ final class SetProfileViewController: BaseViewController {
         context: .init(
           textFieldPlaceHolder: "닉네임 (2~10자 이내)",
           maxCharactersLimit: 10,
-          rightView: { [weak self] () -> UILabel in
-            guard let self else { return .init() }
-            let label = UILabel()
-              .frame(width: 120, height: 14)
-              .font(.systemFont(ofSize: 12, weight: .medium))
-              .color(.init(hex: "#6A9DFF"))
-              .rightAlignment()
-      
-            viewStore.publisher
-              .nicknameStatusPhrase
-              .compactMap { $0 }
-              .assignNoRetain(to: \.text, on: label)
-              .store(in: &subscriptions)
-            return label
-          }()
+					rightView: BaseLabel(textValue: viewStore.publisher.nicknameStatusPhrase)
+						.frame(width: 120, height: 14)
+						.font(.systemFont(ofSize: 12, weight: .medium))
+						.color(.init(hex: "#6A9DFF"))
+						.rightAlignment()
         )
       )
       .onEditingChanged { [weak self] text, textComponent in
         self?.viewStore.send(.textDidChange(text))
       }
+			
+			EmptyComponent(height: 20)
+			
+			HorizontalActionButtonComponent(
+				context: .init(
+					buttonTitle: "반려동물 추가하기",
+					leftImage: UIImage(systemName: "plus")
+				)
+			)
+			.onTouch { _ in
+			}
       
       
 		}

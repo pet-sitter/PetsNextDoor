@@ -19,6 +19,10 @@
 		7C51EF702A94EE3F003132A1 /* SetProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */; };
 		7C51EF732A94EE60003132A1 /* BaseTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF722A94EE60003132A1 /* BaseTextFieldView.swift */; };
 		7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51EF752A94F4DA003132A1 /* UIView+Extension.swift */; };
+		7C8EDC4A2AD57BDE003431E5 /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8EDC492AD57BDE003431E5 /* BaseLabel.swift */; };
+		7C8EDC4E2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8EDC4D2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift */; };
+		7C8EDC502AD57F3C003431E5 /* HorizontalActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8EDC4F2AD57F3C003431E5 /* HorizontalActionButton.swift */; };
+		7C8EDC552AD585E0003431E5 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8EDC542AD585E0003431E5 /* Metrics.swift */; };
 		DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */; };
 		DA0F50192A9DDF5100E20ADC /* RouterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */; };
 		DA0F92082A971C860059690E /* ValueObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92072A971C860059690E /* ValueObservable.swift */; };
@@ -79,7 +83,7 @@
 		DA8A35012A765BF30054FE25 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A35002A765BF30054FE25 /* BaseView.swift */; };
 		DA8A35042A765F140054FE25 /* TextFieldComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A35032A765F140054FE25 /* TextFieldComponent.swift */; };
 		DAAD52E22A7C98DE00227BB5 /* BaseBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52E12A7C98DE00227BB5 /* BaseBottomButton.swift */; };
-		DAAD52E52A7CBD5A00227BB5 /* ButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52E42A7CBD5A00227BB5 /* ButtonComponent.swift */; };
+		DAAD52E52A7CBD5A00227BB5 /* BottomButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52E42A7CBD5A00227BB5 /* BottomButtonComponent.swift */; };
 		DAAD52E82A7CBF5200227BB5 /* IdentifierProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52E72A7CBF5200227BB5 /* IdentifierProvidable.swift */; };
 		DAAD52EC2A7CBF7400227BB5 /* OnTouchModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52EB2A7CBF7400227BB5 /* OnTouchModifier.swift */; };
 		DAAD52EE2A7CBF8A00227BB5 /* ComponentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52ED2A7CBF8A00227BB5 /* ComponentModifier.swift */; };
@@ -126,6 +130,10 @@
 		7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileImageView.swift; sourceTree = "<group>"; };
 		7C51EF722A94EE60003132A1 /* BaseTextFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTextFieldView.swift; sourceTree = "<group>"; };
 		7C51EF752A94F4DA003132A1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		7C8EDC492AD57BDE003431E5 /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
+		7C8EDC4D2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalActionButtonComponent.swift; sourceTree = "<group>"; };
+		7C8EDC4F2AD57F3C003431E5 /* HorizontalActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalActionButton.swift; sourceTree = "<group>"; };
+		7C8EDC542AD585E0003431E5 /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterReducer.swift; sourceTree = "<group>"; };
 		DA0F92072A971C860059690E /* ValueObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueObservable.swift; sourceTree = "<group>"; };
@@ -179,7 +187,7 @@
 		DA8A35002A765BF30054FE25 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		DA8A35032A765F140054FE25 /* TextFieldComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldComponent.swift; sourceTree = "<group>"; };
 		DAAD52E12A7C98DE00227BB5 /* BaseBottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseBottomButton.swift; sourceTree = "<group>"; };
-		DAAD52E42A7CBD5A00227BB5 /* ButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonComponent.swift; sourceTree = "<group>"; };
+		DAAD52E42A7CBD5A00227BB5 /* BottomButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonComponent.swift; sourceTree = "<group>"; };
 		DAAD52E72A7CBF5200227BB5 /* IdentifierProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProvidable.swift; sourceTree = "<group>"; };
 		DAAD52EB2A7CBF7400227BB5 /* OnTouchModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTouchModifier.swift; sourceTree = "<group>"; };
 		DAAD52ED2A7CBF8A00227BB5 /* ComponentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentModifier.swift; sourceTree = "<group>"; };
@@ -255,6 +263,7 @@
 				7C51EF632A94EBE5003132A1 /* BaseTableView.swift */,
 				DAAD52E12A7C98DE00227BB5 /* BaseBottomButton.swift */,
 				DA11370C2AC3EEDB0061F1E0 /* BaseButton.swift */,
+				7C8EDC492AD57BDE003431E5 /* BaseLabel.swift */,
 				7C1277F22A544131004A83A4 /* BaseNavigationController.swift */,
 				DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */,
 				7C1277F42A544142004A83A4 /* BaseViewController.swift */,
@@ -271,7 +280,6 @@
 				DA8A34FC2A765B7D0054FE25 /* Component */,
 				DAAD52EA2A7CBF6500227BB5 /* ComponentModifier */,
 				DA86A0F32A62737200525711 /* Views */,
-				DABA44822A629ACB00FD2639 /* Root */,
 				DA419C8F2A9B320000C76AB9 /* Main */,
 				7C1277F92A54436E004A83A4 /* Login */,
 			);
@@ -318,6 +326,7 @@
 				DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */,
 				DA1137092AC3E6B80061F1E0 /* CountDownLabel.swift */,
 				DA449DF72AC9A7620025A397 /* SegmentControlView.swift */,
+				7C8EDC4F2AD57F3C003431E5 /* HorizontalActionButton.swift */,
 			);
 			path = ReusableViews;
 			sourceTree = "<group>";
@@ -490,7 +499,8 @@
 				DA8A34FD2A765B850054FE25 /* Component.swift */,
 				DAF2D3A12A90CA4900A9B47A /* ComponentBuilder.swift */,
 				DA8A35032A765F140054FE25 /* TextFieldComponent.swift */,
-				DAAD52E42A7CBD5A00227BB5 /* ButtonComponent.swift */,
+				DAAD52E42A7CBD5A00227BB5 /* BottomButtonComponent.swift */,
+				7C8EDC4D2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift */,
 				DAAD53092A7E28F300227BB5 /* EmptyComponent.swift */,
 				7C51EF602A94EB49003132A1 /* SetProfileImageComponent.swift */,
 				DA449DF92AC9ACC90025A397 /* SegmentControlComponent.swift */,
@@ -542,12 +552,13 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		DABA44742A62821800FD2639 /* Assets */ = {
+		DABA44742A62821800FD2639 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
 				DA8A34F02A7654900054FE25 /* Colors.swift */,
+				7C8EDC542AD585E0003431E5 /* Metrics.swift */,
 			);
-			path = Assets;
+			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 		DABA447B2A628EB300FD2639 /* Router */ = {
@@ -558,13 +569,6 @@
 				DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */,
 			);
 			path = Router;
-			sourceTree = "<group>";
-		};
-		DABA44822A629ACB00FD2639 /* Root */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Root;
 			sourceTree = "<group>";
 		};
 		DABA44A32A63CB5600FD2639 /* LoginView */ = {
@@ -596,7 +600,7 @@
 		DAC6C2CF2A3D7932002D33F8 /* PetsNextDoor */ = {
 			isa = PBXGroup;
 			children = (
-				DABA44742A62821800FD2639 /* Assets */,
+				DABA44742A62821800FD2639 /* DesignSystem */,
 				7C1277F02A5438A1004A83A4 /* App */,
 				DA68EEFC2A52F05900302AFE /* DependencyKeys */,
 				DABA447B2A628EB300FD2639 /* Router */,
@@ -790,6 +794,7 @@
 				7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */,
 				DAE6FC602A95E20B008BF1F1 /* UILabel+Extension.swift in Sources */,
 				DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */,
+				7C8EDC502AD57F3C003431E5 /* HorizontalActionButton.swift in Sources */,
 				DA419C9E2A9B32E400C76AB9 /* MyPageViewController.swift in Sources */,
 				DA20157F2ABEFC2200F7516A /* UploadMediaResponseData.swift in Sources */,
 				DAAD52E82A7CBF5200227BB5 /* IdentifierProvidable.swift in Sources */,
@@ -803,7 +808,9 @@
 				DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */,
 				DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
+				7C8EDC4E2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift in Sources */,
 				DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */,
+				7C8EDC552AD585E0003431E5 /* Metrics.swift in Sources */,
 				DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */,
 				DAF2D3A22A90CA4900A9B47A /* ComponentBuilder.swift in Sources */,
 				7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */,
@@ -834,10 +841,11 @@
 				DA449DFA2AC9ACC90025A397 /* SegmentControlComponent.swift in Sources */,
 				DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
-				DAAD52E52A7CBD5A00227BB5 /* ButtonComponent.swift in Sources */,
+				DAAD52E52A7CBD5A00227BB5 /* BottomButtonComponent.swift in Sources */,
 				DA449DF22AC9A0E60025A397 /* DistrictNameView.swift in Sources */,
 				DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */,
 				DA419C9A2A9B32D500C76AB9 /* CommunityViewController.swift in Sources */,
+				7C8EDC4A2AD57BDE003431E5 /* BaseLabel.swift in Sources */,
 				DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */,
 				DA0F92222A9894A00059690E /* UserRegistrationStatus.swift in Sources */,
 			);
