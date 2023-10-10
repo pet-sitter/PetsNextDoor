@@ -79,12 +79,15 @@ final class SetProfileViewController: BaseViewController {
     
     components = ComponentBuilder {
       EmptyComponent(height: 20)
+      
       SetProfileImageComponent()
         .onTouch { [weak self] _ in
           self?.viewStore.send(.profileImageDidTap)
         }
         .bindValue(viewStore.publisher.selectedUserImage)
+      
       EmptyComponent(height: 20)
+      
 			TextFieldComponent(
         context: .init(
           textFieldPlaceHolder: "닉네임 (2~10자 이내)",
@@ -109,6 +112,8 @@ final class SetProfileViewController: BaseViewController {
       .onEditingChanged { [weak self] text, textComponent in
         self?.viewStore.send(.textDidChange(text))
       }
+      
+      
 		}
 	}
 	

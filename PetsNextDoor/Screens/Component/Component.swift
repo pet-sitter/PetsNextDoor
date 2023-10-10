@@ -24,6 +24,19 @@ protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable {
   func render(contentView: ContentView, withContext context: Context)
 }
 
+extension Component {
+  
+//  mutating func isHidden(_ isHiddenPublisher: PNDPublisher<Bool>) -> Self {
+//    isHiddenPublisher
+//      .sink { isHidden in
+//        contentView?.isHidden = isHidden
+//      }
+//      .store(in: &subscriptions)
+//    return self
+//  }
+  
+}
+
 
 protocol CellItemModelType {
 
@@ -43,8 +56,7 @@ protocol CellItemModelBindable: IdentifierProvidable {
 class ContainerCell<C: Component>: UITableViewCell, CellItemModelBindable {
   
   private var content: C.ContentView!
-  
-  // 나중에 파라미터 옵셔널 제외
+
   func bind(cellItemModel: (any CellItemModelType)?) {
     
     guard let component = cellItemModel as? C else { return }
@@ -61,14 +73,11 @@ class ContainerCell<C: Component>: UITableViewCell, CellItemModelBindable {
     
     component.render(contentView: content, withContext: component.context)
   }
-  
 }
 
 
 
 typealias ComponentAction = ((any Component) -> Void)
-
-
 
 protocol TouchableComponent {
   var onTouchAction: ((any Component) -> Void)? { get }
@@ -81,3 +90,5 @@ protocol ContainsTextField {
   var onEditingChanged: (((String?, any Component)) -> Void)? { get }
   func onEditingChanged(_ action: @escaping (((String?, any Component))) -> Void) -> Self
 }
+
+

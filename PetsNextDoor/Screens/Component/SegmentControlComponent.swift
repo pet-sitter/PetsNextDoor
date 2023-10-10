@@ -37,7 +37,7 @@ final class SegmentControlComponent: Component {
     contentView.onSegmentTap = self.onSegmentChange
   }
   
-  private(set) var onSegmentChange: ((Int) -> Void)?
+  private var onSegmentChange: ((Int) -> Void)?
   
   func onSegmentChange(_ action: ((Int) -> Void)?) -> Self {
     self.onSegmentChange = action

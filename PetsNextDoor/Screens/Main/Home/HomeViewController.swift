@@ -32,13 +32,8 @@ final class HomeViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-   
-
-
   }
-  
-  
-  
+
   override func configureUI() {
     super.configureUI()
     
@@ -48,15 +43,30 @@ final class HomeViewController: BaseViewController {
     tableView.set {
       view.addSubview($0)
       $0.registerCell(ContainerCell<UrgentPostCardComponent>.self)
-      $0.snp.makeConstraints {
-        $0.edges.equalToSuperview()
-      }
+      $0.registerCell(ContainerCell<SegmentControlComponent>.self)
+      $0.registerCell(ContainerCell<SelectCategoryComponent>.self)
+      $0.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
     adapter = TableViewAdapter(tableView: tableView)
     adapter.observeDataSource(componentPublisher: $components)
     
     components = ComponentBuilder {
+      
+      SegmentControlComponent(
+        context: .init(segmentTitles: ["돌봄급구", "돌봄메이트"])
+      )
+      .onSegmentChange { index in
+      }
+      
+      EmptyComponent(height: 16, backgroundColor: UIColor(hex: "#F9F9F9"))
+      
+      SelectCategoryComponent(context: .init())
+        .onCategoryChange { category in
+          
+        }
+      
+      
       for _ in (1..<10) {
         UrgentPostCardComponent(
           context: .init(

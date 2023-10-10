@@ -10,6 +10,7 @@ import Foundation
 protocol IdentifierProvidable {
   static var identifier: String { get }
 }
+
 extension IdentifierProvidable {
   static var identifier: String {
     return String(describing: self)
