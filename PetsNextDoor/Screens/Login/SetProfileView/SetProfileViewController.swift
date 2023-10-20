@@ -69,6 +69,7 @@ final class SetProfileViewController: BaseViewController {
 			$0.registerCell(ContainerCell<SetProfileImageComponent>.self)
 			$0.registerCell(ContainerCell<TextFieldComponent>.self)
 			$0.registerCell(ContainerCell<HorizontalActionButtonComponent>.self)
+      $0.registerCell(ContainerCell<SelectPetComponent>.self)
 			$0.snp.makeConstraints {
 				$0.top.leading.trailing.equalToSuperview()
 				$0.bottom.equalTo(bottomButton.snp.top)
@@ -106,6 +107,19 @@ final class SetProfileViewController: BaseViewController {
 			
 			EmptyComponent(height: 20)
 			
+      SelectPetComponent(context: .init(
+        petImageUrlString: "",
+        petName: "아롱",
+        petSpecies: "비숑 프리제",
+        petAge: 1,
+        isPetNeutralized: true,
+        isPetSelected: false,
+        isDeleteButtonHidden: true
+      ))
+        
+      
+      EmptyComponent(height: 20)
+      
 			HorizontalActionButtonComponent(
 				context: .init(
 					buttonTitle: "반려동물 추가하기",

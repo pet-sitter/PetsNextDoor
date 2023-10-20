@@ -60,7 +60,10 @@ extension TableViewAdapter: UITableViewDataSource {
   ) -> UITableViewCell {
     guard let component = components[safe: indexPath.row] else { return .init() }
     
-    let cellIdentifier = "ContainerCell<\(type(of: component).identifier)>"
+//    let cellIdentifier = "ContainerCell<\(type(of: component).identifier)>"
+    let cellIdentifier = component.identifier
+    
+    
   
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
     

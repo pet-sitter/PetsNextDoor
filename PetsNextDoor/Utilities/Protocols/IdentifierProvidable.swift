@@ -9,6 +9,7 @@ import Foundation
 
 protocol IdentifierProvidable {
   static var identifier: String { get }
+  var identifier: String { get }
 }
 
 extension IdentifierProvidable {

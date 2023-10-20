@@ -7,7 +7,11 @@
 
 import UIKit
 
-extension UITableViewCell: IdentifierProvidable {}
+extension UITableViewCell: IdentifierProvidable {
+  var identifier: String {
+    ""
+  }
+}
 
 extension UITableView {
   

@@ -21,9 +21,15 @@ protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, A
 	
 	func createContentView() -> ContentView
 	func render(contentView: ContentView, withContext context: Context)
+  
+
 }
 
 extension Component {
+  
+  var identifier: String {
+    "ContainerCell<\(Self.identifier)>"
+  }
 	
 	func isHidden(_ isHiddenPublisher: PNDPublisher<Bool>) -> Self {
 		isHiddenPublisher
@@ -33,7 +39,9 @@ extension Component {
 			.store(in: &subscriptions)
 		return self
 	}
+  
 }
+
 
 
 protocol CellItemModelType {

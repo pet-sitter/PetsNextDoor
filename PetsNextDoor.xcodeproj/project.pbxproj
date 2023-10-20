@@ -115,6 +115,8 @@
 		DAE6FC662A96013C008BF1F1 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = DAE6FC652A96013C008BF1F1 /* Moya */; };
 		DAF2D3A22A90CA4900A9B47A /* ComponentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2D3A12A90CA4900A9B47A /* ComponentBuilder.swift */; };
 		DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2D3A52A90CE8400A9B47A /* Array+Extension.swift */; };
+		DAF813232AE299BA00B46E5C /* SelectPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813222AE299BA00B46E5C /* SelectPetView.swift */; };
+		DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */; };
 		DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB93782A5ACE25006FC77C /* Dependency.swift */; };
 /* End PBXBuildFile section */
 
@@ -219,6 +221,8 @@
 		DAE6FC5F2A95E20B008BF1F1 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		DAF2D3A12A90CA4900A9B47A /* ComponentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBuilder.swift; sourceTree = "<group>"; };
 		DAF2D3A52A90CE8400A9B47A /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		DAF813222AE299BA00B46E5C /* SelectPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetView.swift; sourceTree = "<group>"; };
+		DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetComponent.swift; sourceTree = "<group>"; };
 		DAFB93782A5ACE25006FC77C /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -327,6 +331,7 @@
 				DA1137092AC3E6B80061F1E0 /* CountDownLabel.swift */,
 				DA449DF72AC9A7620025A397 /* SegmentControlView.swift */,
 				7C8EDC4F2AD57F3C003431E5 /* HorizontalActionButton.swift */,
+				DAF813222AE299BA00B46E5C /* SelectPetView.swift */,
 			);
 			path = ReusableViews;
 			sourceTree = "<group>";
@@ -504,6 +509,7 @@
 				DAAD53092A7E28F300227BB5 /* EmptyComponent.swift */,
 				7C51EF602A94EB49003132A1 /* SetProfileImageComponent.swift */,
 				DA449DF92AC9ACC90025A397 /* SegmentControlComponent.swift */,
+				DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -799,6 +805,7 @@
 				DA20157F2ABEFC2200F7516A /* UploadMediaResponseData.swift in Sources */,
 				DAAD52E82A7CBF5200227BB5 /* IdentifierProvidable.swift in Sources */,
 				DA86A0FA2A62741700525711 /* Server.swift in Sources */,
+				DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */,
 				DA0F92082A971C860059690E /* ValueObservable.swift in Sources */,
 				DAAD52EC2A7CBF7400227BB5 /* OnTouchModifier.swift in Sources */,
 				DABA44A02A63C62C00FD2639 /* BaseTabBarController.swift in Sources */,
@@ -827,6 +834,7 @@
 				DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */,
 				DABA44A62A63CB7600FD2639 /* AuthenticatePhoneNumberViewController.swift in Sources */,
 				DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */,
+				DAF813232AE299BA00B46E5C /* SelectPetView.swift in Sources */,
 				DAE6FC5D2A95CF93008BF1F1 /* UIButton+Extension.swift in Sources */,
 				DA449DF82AC9A7620025A397 /* SegmentControlView.swift in Sources */,
 				7C51EF612A94EB49003132A1 /* SetProfileImageComponent.swift in Sources */,
