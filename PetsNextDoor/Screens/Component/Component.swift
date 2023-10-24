@@ -20,17 +20,24 @@ protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, A
 	var context: Context { get }
 	
 	func createContentView() -> ContentView
-	func render(contentView: ContentView, withContext context: Context)
+	
+  func render(contentView: ContentView, withContext context: Context)
   
-
+  
+  
+  
+  func contentHeight() -> CGFloat?
+  
+  
 }
 
 extension Component {
   
-  var identifier: String {
-    "ContainerCell<\(Self.identifier)>"
-  }
-	
+  var identifier: String { Self.identifier }
+  
+  func contentHeight() -> CGFloat? { nil }
+  
+
 	func isHidden(_ isHiddenPublisher: PNDPublisher<Bool>) -> Self {
 		isHiddenPublisher
 			.sink { [weak self] isHidden in
@@ -80,6 +87,7 @@ class ContainerCell<C: Component>: UITableViewCell, CellItemModelBindable {
     component.render(contentView: content, withContext: component.context)
   }
 }
+
 
 
 
