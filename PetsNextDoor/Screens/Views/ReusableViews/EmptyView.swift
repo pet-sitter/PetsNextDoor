@@ -18,7 +18,7 @@ final class EmptyView: UIView {
     super.init(frame: .zero)
   }
   
-  convenience init(height: CGFloat, backgroundColor: UIColor = PND.Colors.commonWhite) {
+  convenience init(height: CGFloat, backgroundColor: UIColor = .clear) {
     self.init()
     self.height = height
     self.designedBackgroundColor = backgroundColor
@@ -36,6 +36,7 @@ final class EmptyView: UIView {
       $0.snp.makeConstraints {
         $0.center.equalToSuperview()
         $0.width.equalTo(UIScreen.fixedScreenSize.width)
+        $0.top.bottom.equalToSuperview()
         $0.height.equalTo(height)
       }
     }

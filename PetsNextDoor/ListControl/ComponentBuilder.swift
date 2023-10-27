@@ -20,9 +20,10 @@ struct ComponentBuilder2: ComponentBuildable {
     ComponentBuilder2()
   }
   
-  
-  static func buildBlock(_ c: any ComponentBuildable) -> ComponentBuilder2 {
-    ComponentBuilder2(c)
+  static func buildBlock(_ components: any ComponentBuildable...) -> ComponentBuilder2 {
+    var componentArray: [any Component] = []
+    components.forEach { componentArray.append(contentsOf: $0.buildComponents()) }
+    return ComponentBuilder2(components: componentArray)
   }
   
   static func buildOptional(_ component: (any Component)?) -> (any Component)? {
@@ -46,5 +47,11 @@ extension ComponentBuilder2 {
   
   init(_ c: any ComponentBuildable) {
     components = c.buildComponents()
+  }
+  
+  init(components: any ComponentBuildable...) {
+    var componentArray: [any Component] = []
+    components.forEach { componentArray.append(contentsOf: $0.buildComponents()) }
+    self.components = componentArray
   }
 }
