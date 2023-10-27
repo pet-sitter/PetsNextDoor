@@ -9,20 +9,18 @@ import UIKit
 
 class UITableViewAdapter: NSObject, Adapter {
   
-  var data: [Section]
+  var sectionData: [Section]
 
   private(set) var onSelection: ((ComponentSelectionInfo) -> Void)?
   
   init(data: [Section] = []) {
-    self.data = data
+    self.sectionData = data
   }
   
   func onSelection(_ onSelectionAction: @escaping ((ComponentSelectionInfo) -> Void)) -> Self {
     self.onSelection = onSelectionAction
     return self
   }
-  
-
 }
 
 extension UITableViewAdapter {
@@ -40,7 +38,7 @@ extension UITableViewAdapter {
 extension UITableViewAdapter: UITableViewDataSource {
   
   func numberOfSections(in tableView: UITableView) -> Int {
-    data.count
+    sectionData.count
   }
   
   func tableView(

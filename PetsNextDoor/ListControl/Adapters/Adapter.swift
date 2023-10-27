@@ -9,7 +9,7 @@ import Foundation
 
 protocol Adapter: AnyObject {
   
-  var data: [Section] { get set }
+  var sectionData: [Section] { get set }
 }
 
 extension Adapter {
@@ -21,7 +21,7 @@ extension Adapter {
   ///
   /// - Returns:
   func components(inSection section: Int) -> [any Component] {
-    return data[section].cells
+    return sectionData[section].cells
   }
 
   /// 특정 indexPath에 존재하는 component를 반환한다.

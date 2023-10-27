@@ -8,17 +8,6 @@
 import Foundation
 
 
-protocol SectionsBuildable {
-  func buildSections() -> [Section]
-}
-
-extension Optional: SectionsBuildable where Wrapped: SectionsBuildable {
-  
-  func buildSections() -> [Section] {
-    return self?.buildSections() ?? []
-  }
-}
-
 
 
 struct Section {

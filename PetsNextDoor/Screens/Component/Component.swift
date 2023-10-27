@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, AnyObject {
+protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, AnyObject, ComponentBuildable {
 	
 	associatedtype ContentView: UIView
 	associatedtype Context
@@ -29,6 +29,13 @@ protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, A
   func contentHeight() -> CGFloat?
   
   
+}
+
+extension Component {
+  
+  func buildComponents() -> [any Component] {
+    return [self]
+  }
 }
 
 extension Component {
