@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, AnyObject, ComponentBuildable {
+protocol Component: AnyObject, IdentifierProvidable, ComponentBuildable {
 	
 	associatedtype ContentView: UIView
 	associatedtype Context
@@ -24,11 +24,7 @@ protocol Component: CellItemModelType, HeightProvidable, IdentifierProvidable, A
   func render(contentView: ContentView, withContext context: Context)
   
   
-  
-  
   func contentHeight() -> CGFloat?
-  
-  
 }
 
 extension Component {
@@ -43,7 +39,6 @@ extension Component {
   var identifier: String { Self.identifier }
   
   func contentHeight() -> CGFloat? { nil }
-  
 
 	func isHidden(_ isHiddenPublisher: PNDPublisher<Bool>) -> Self {
 		isHiddenPublisher
@@ -55,47 +50,6 @@ extension Component {
 	}
   
 }
-
-
-
-protocol CellItemModelType {
-	
-}
-
-
-
-// View 사이즈 계산법
-protocol HeightProvidable {
-  var height: CGFloat { get }
-}
-
-protocol CellItemModelBindable: IdentifierProvidable {
-  func bind(cellItemModel: (any CellItemModelType)?)
-}
-
-class ContainerCell<C: Component>: UITableViewCell, CellItemModelBindable {
-  
-  private var content: C.ContentView!
-
-  func bind(cellItemModel: (any CellItemModelType)?) {
-    
-    guard let component = cellItemModel as? C else { return }
-    
-    content = content ?? component.createContentView()
-    
-    guard contentView.subviews.contains(content) == false else {
-      component.render(contentView: content, withContext: component.context)
-      return
-    }
-    
-    contentView.addSubview(content)
-    content.snp.makeConstraints { $0.edges.equalToSuperview() }
-    
-    component.render(contentView: content, withContext: component.context)
-  }
-}
-
-
 
 
 typealias ComponentAction = ((any Component) -> Void)

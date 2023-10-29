@@ -18,13 +18,13 @@ struct Group<Element> {
 
 extension Group: ComponentBuildable where Element == any Component {
  
-  init(@ComponentBuilder2 component: () -> ComponentBuildable) {
+  init(@ComponentBuilder component: () -> ComponentBuildable) {
     self.elements = component().buildComponents()
   }
   
-  init<Data: Sequence, C: ComponentBuildable>(
-    of data: Data,
-    component: (Data.Element) -> C
+  init<ComponentData: Sequence, C: ComponentBuildable>(
+    of data: ComponentData,
+    component: (ComponentData.Element) -> C
   ) {
     self.elements = data.flatMap { component($0).buildComponents() }
   }
@@ -41,9 +41,9 @@ extension Group: SectionsBuildable where Element == Section {
     self.elements = sections().buildSections()
   }
   
-  init<Data: Sequence, S: SectionsBuildable>(
-    of data: Data,
-    section: (Data.Element) -> S
+  init<SectionData: Sequence, S: SectionsBuildable>(
+    of data: SectionData,
+    section: (SectionData.Element) -> S
   ) {
     self.elements = data.flatMap { section($0).buildSections() }
   }

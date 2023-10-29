@@ -31,17 +31,18 @@ final class Renderer<Updater: PetsNextDoor.Updater> {
     updater.prepare(target: target, adapter: adapter)
   }
 
-  func render(_ sectionData: [Section]) {
+  func render<C: Collection>(_ data: C) where C.Element == Section {
     
+    let data = Array(data)
     guard let target else {
-      adapter.sectionData = sectionData
+      adapter.sectionData = data
       return
     }
-    
+
     updater.performUpdates(
       target: target,
       adapter: adapter,
-      sectionData: sectionData
+      sectionData: data
     )
   }
 
@@ -49,7 +50,7 @@ final class Renderer<Updater: PetsNextDoor.Updater> {
     render(sections().buildSections())
   }
   
-  func render<C: ComponentBuildable>(@ComponentBuilder2 components: () -> C) {
+  func render<C: ComponentBuildable>(@ComponentBuilder components: () -> C) {
     render {
       Section(id: UUID(), cells: components)
     }

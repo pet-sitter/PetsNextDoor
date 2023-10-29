@@ -21,10 +21,9 @@ struct Section {
     self.cells = Array(cells)
   }
   
-  init(id: any Hashable, @ComponentBuilder2 cells: () -> any ComponentBuildable) {
+  init(id: any Hashable, @ComponentBuilder cells: () -> any ComponentBuildable) {
     self.init(id: id, cells: cells().buildComponents())
   }
-  
 }
 
 
@@ -33,3 +32,11 @@ extension Section: SectionsBuildable {
     return [self]
   }
 }
+
+
+//extension Section: ComponentBuildable {
+//
+//  func buildComponents() -> [any Component] {
+//    return cells
+//  }
+//}

@@ -8,7 +8,7 @@
 import Foundation
 
 @resultBuilder
-struct ComponentBuilder2: ComponentBuildable {
+struct ComponentBuilder: ComponentBuildable {
 
   var components: [any Component]
   
@@ -16,14 +16,14 @@ struct ComponentBuilder2: ComponentBuildable {
     components
   }
     
-  static func buildBlock() -> ComponentBuilder2 {
-    ComponentBuilder2()
+  static func buildBlock() -> ComponentBuilder {
+    ComponentBuilder()
   }
   
-  static func buildBlock(_ components: any ComponentBuildable...) -> ComponentBuilder2 {
+  static func buildBlock(_ components: any ComponentBuildable...) -> ComponentBuilder {
     var componentArray: [any Component] = []
     components.forEach { componentArray.append(contentsOf: $0.buildComponents()) }
-    return ComponentBuilder2(components: componentArray)
+    return ComponentBuilder(components: componentArray)
   }
   
   static func buildOptional(_ component: (any Component)?) -> (any Component)? {
@@ -39,7 +39,7 @@ struct ComponentBuilder2: ComponentBuildable {
   }
 }
 
-extension ComponentBuilder2 {
+extension ComponentBuilder {
   
   init() {
     components = []

@@ -32,11 +32,13 @@ struct SectionBuilder: SectionsBuildable {
     SectionBuilder()
   }
   
-  static func buildBlock(_ c: any SectionsBuildable) -> SectionBuilder {
-    SectionBuilder(c)
+  static func buildBlock(_ components: any SectionsBuildable...) -> SectionBuilder {
+    var componentArray: [Section] = []
+    components.forEach { componentArray.append(contentsOf: $0.buildSections()) }
+    return SectionBuilder(sections: componentArray)
   }
   
-  static func buildOptional(_ component: ( Section)?) -> ( Section)? {
+  static func buildOptional(_ component: (Section)?) -> (Section)? {
     component
   }
   
@@ -47,8 +49,6 @@ struct SectionBuilder: SectionsBuildable {
   static func buildEither(second component: any SectionsBuildable) -> any SectionsBuildable {
     component
   }
-
-
 }
 
 extension SectionBuilder {
@@ -59,5 +59,11 @@ extension SectionBuilder {
   
   init(_ s: any SectionsBuildable) {
     sections = s.buildSections()
+  }
+  
+  init(sections: any SectionsBuildable...) {
+    var sectionArray: [Section] = []
+    sections.forEach { sectionArray.append(contentsOf: $0.buildSections()) }
+    self.sections = sectionArray
   }
 }
