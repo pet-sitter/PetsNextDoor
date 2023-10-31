@@ -14,32 +14,25 @@ final class BottomButtonComponent: Component, TouchableComponent, ValueBindable 
   var subscriptions = Set<AnyCancellable>()
   
   typealias ContentView = BaseBottomButton
-  
-  struct Context {
-    let buttonTitle: String
-  }
+  typealias ViewModel   = BaseBottomButtonViewModel
   
   var contentView: ContentView?
-  var context: Context
+  var viewModel: ViewModel
   
   var height: CGFloat { ContentView.defaultHeight }
 
-  init(context: Context) {
-    self.context = context
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
   }
   
   func createContentView() -> ContentView {
-    let view = BaseBottomButton(title: context.buttonTitle)
-    self.contentView = view
-    return view
+    BaseBottomButton()
   }
   
-  func render(contentView: ContentView, withContext context: Context) {
-    contentView.snp.remakeConstraints {
-      $0.leading.trailing.equalToSuperview().inset(20)
-      $0.height.equalTo(ContentView.defaultHeight)
-    }
+  func render(contentView: ContentView, withViewModel viewModel: ViewModel) {
     
+    contentView.configure(viewModel: viewModel)
+        
     contentView.controlEventPublisher(for: .touchUpInside)
       .withStrong(self)
       .sink { owner, _ in
@@ -50,13 +43,13 @@ final class BottomButtonComponent: Component, TouchableComponent, ValueBindable 
   
   //MARK: - TouchableComponent
   
-  var onTouchAction: ((any Component) -> Void)?
-
-  func onTouch(_ action: @escaping ComponentAction) -> Self {
+  var onTouchAction: ((BottomButtonComponent) -> Void)?
+  
+  func onTouch(_ action: @escaping ((BottomButtonComponent) -> Void)) -> Self {
     self.onTouchAction = action
     return self
   }
-  
+
   //MARK: - ValueBindable
   
   typealias ObservingValue = Bool

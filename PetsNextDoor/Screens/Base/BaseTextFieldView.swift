@@ -9,6 +9,18 @@ import UIKit
 import SnapKit
 import Combine
 
+final class BaseTextFieldViewModel: HashableViewModel {
+  let textFieldPlaceHolder: String
+  var maxCharactersLimit: Int? = nil
+  var rightView: UIView? = nil
+  
+  init(textFieldPlaceHolder: String, maxCharactersLimit: Int? = nil, rightView: UIView? = nil) {
+    self.textFieldPlaceHolder = textFieldPlaceHolder
+    self.maxCharactersLimit = maxCharactersLimit
+    self.rightView = rightView
+  }
+}
+
 class BaseTextFieldView: UIView {
   
   static let defaultHeight: CGFloat = 54
@@ -36,22 +48,10 @@ class BaseTextFieldView: UIView {
   init() {
     isTextFieldFirstResponder = false
     super.init(frame: .zero)
-  }
-  
-  convenience init(
-    textFieldPlaceHolder: String,
-    maxCharactersLimmit: Int?,
-    rightView: UIView? = nil
-  ) {
-    self.init()
-    self.maxCharacterLimit  = maxCharactersLimmit
-    self.rightView          = rightView
     configureUI()
     observeControlEvents()
-    textField.placeholder = textFieldPlaceHolder
   }
   
-
   @available(*, unavailable) required init?(coder: NSCoder) { fatalError("Not implemented") }
   
   override func layoutSubviews() {
@@ -67,19 +67,6 @@ class BaseTextFieldView: UIView {
       $0.height.equalTo(1)
       $0.bottom.equalToSuperview()
       $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
-    }
-    
-    if let rightView {
-      rightView.snp.makeConstraints {
-        $0.trailing.equalToSuperview().inset(20)
-        $0.centerY.equalToSuperview()
-        $0.height.equalTo(rightView.frame.height)
-        $0.width.greaterThanOrEqualTo(rightView.frame.size)
-      }
-      
-      textField.snp.updateConstraints {
-        $0.trailing.equalToSuperview().inset(rightView.frame.width + 20 + 5)
-      }
     }
   }
 
@@ -103,10 +90,6 @@ class BaseTextFieldView: UIView {
       containerView.addSubview($0)
       $0.backgroundColor = UIColor(hex: "#D9D9D9")
     }
-    
-    if let rightView {
-      containerView.addSubview(rightView)
-    }
   }
   
   private func observeControlEvents() {
@@ -121,6 +104,27 @@ class BaseTextFieldView: UIView {
       .assignNoRetain(to: \.isTextFieldFirstResponder, on: self)
       .store(in: &subscriptions)
   }
+  
+  func configure(viewModel: BaseTextFieldViewModel) {
+    
+    textField.placeholder = viewModel.textFieldPlaceHolder
+    maxCharacterLimit     = viewModel.maxCharactersLimit
+    
+    if let rightView = viewModel.rightView {
+      
+      containerView.addSubview(rightView)
+      rightView.snp.makeConstraints {
+        $0.trailing.equalToSuperview().inset(20)
+        $0.centerY.equalToSuperview()
+        $0.height.equalTo(rightView.frame.height)
+        $0.width.greaterThanOrEqualTo(rightView.frame.size)
+      }
+      
+      textField.snp.updateConstraints {
+        $0.trailing.equalToSuperview().inset(rightView.frame.width + 20 + 5)
+      }
+    }
+  }
 }
 
 extension BaseTextFieldView: UITextFieldDelegate {
@@ -131,7 +135,7 @@ extension BaseTextFieldView: UITextFieldDelegate {
     replacementString string: String
   ) -> Bool {
     guard let maxCharacterLimit else { return true }
-    var currentText = (textField.text ?? "") + string
+    let currentText = (textField.text ?? "") + string
     
     if currentText.count > maxCharacterLimit {
       return false

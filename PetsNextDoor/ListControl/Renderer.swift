@@ -52,7 +52,7 @@ final class Renderer<Updater: PetsNextDoor.Updater> {
   
   func render<C: ComponentBuildable>(@ComponentBuilder components: () -> C) {
     render {
-      Section(id: UUID(), cells: components)
+      Section(id: UUID(), components: components)
     }
   }
 }

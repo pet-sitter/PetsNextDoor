@@ -12,17 +12,16 @@ import Combine
 protocol Component: AnyObject, IdentifierProvidable, ComponentBuildable {
 	
 	associatedtype ContentView: UIView
-	associatedtype Context
+  associatedtype ViewModel: HashableViewModel
 	
 	var subscriptions: Set<AnyCancellable> { get set }
 	
 	var contentView: ContentView? { get set }
-	var context: Context { get }
+	var viewModel: ViewModel { get }
 	
 	func createContentView() -> ContentView
 	
-  func render(contentView: ContentView, withContext context: Context)
-  
+  func render(contentView: ContentView, withViewModel viewModel: ViewModel)
   
   func contentHeight() -> CGFloat?
 }
@@ -52,11 +51,12 @@ extension Component {
 }
 
 
-typealias ComponentAction = ((any Component) -> Void)
-
 protocol TouchableComponent {
-  var onTouchAction: ((any Component) -> Void)? { get }
-  func onTouch(_ action: @escaping ComponentAction) -> Self
+  
+  associatedtype AnyComponent: Component
+  
+  var onTouchAction: ((AnyComponent) -> Void)? { get }
+  func onTouch(_ action: @escaping ((AnyComponent) -> Void)) -> Self
 }
 
 

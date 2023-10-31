@@ -21,9 +21,7 @@ struct ComponentBuilder: ComponentBuildable {
   }
   
   static func buildBlock(_ components: any ComponentBuildable...) -> ComponentBuilder {
-    var componentArray: [any Component] = []
-    components.forEach { componentArray.append(contentsOf: $0.buildComponents()) }
-    return ComponentBuilder(components: componentArray)
+    ComponentBuilder(components: components.flatMap { $0.buildComponents()} )
   }
   
   static func buildOptional(_ component: (any Component)?) -> (any Component)? {
@@ -50,8 +48,6 @@ extension ComponentBuilder {
   }
   
   init(components: any ComponentBuildable...) {
-    var componentArray: [any Component] = []
-    components.forEach { componentArray.append(contentsOf: $0.buildComponents()) }
-    self.components = componentArray
+    self.components = components.flatMap { $0.buildComponents() }
   }
 }

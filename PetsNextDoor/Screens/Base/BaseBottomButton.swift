@@ -7,6 +7,17 @@
 
 import UIKit
 import SnapKit
+import Combine
+
+final class BaseBottomButtonViewModel: HashableViewModel {
+  @Published var isEnabled: Bool = false
+  let buttonTitle: String
+  
+  init(isEnabled: Bool, buttonTitle: String) {
+    self.isEnabled = isEnabled
+    self.buttonTitle = buttonTitle
+  }
+}
 
 class BaseBottomButton: UIButton {
 
@@ -15,16 +26,14 @@ class BaseBottomButton: UIButton {
   override var isEnabled: Bool {
     didSet { backgroundColor = isEnabled ? PND.Colors.commonBlack : .init(hex: "#D1D1D1") }
   }
+  
+  private var subscriptions: Set<AnyCancellable> = .init()
 
   init() {
     super.init(frame: .zero)
     configureUI()
   }
   
-  convenience init(title: String) {
-    self.init()
-    setTitle(title, for: .normal)
-  }
   
   @available(*, unavailable) required init?(coder: NSCoder) { fatalError("Not implemented") }
   
@@ -34,5 +43,21 @@ class BaseBottomButton: UIButton {
     layer.cornerRadius  = 4
 		setTitleColor(PND.Colors.commonWhite, for: .normal)
     titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+  }
+  
+  func configure(viewModel: BaseBottomButtonViewModel) {
+    setTitle(viewModel.buttonTitle, for: .normal)
+    setTitleColor(PND.Colors.commonWhite, for: .normal)
+    titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+    
+    self.snp.remakeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(20)
+      $0.height.equalTo(Self.defaultHeight)
+    }
+    
+    viewModel.$isEnabled
+      .receive(on: DispatchQueue.main)
+      .assignNoRetain(to: \.isEnabled, on: self)
+      .store(in: &subscriptions)
   }
 }

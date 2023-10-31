@@ -13,35 +13,22 @@ final class HorizontalActionButtonComponent: Component, TouchableComponent {
 	var subscriptions: Set<AnyCancellable> = .init()
 	
 	typealias ContentView = HorizontalActionButton
-	
-	struct Context {
-		let buttonBackgroundColor: UIColor = .init(hex: "#F3F3F3")
-		let buttonTitle: String
-		let leftImage: UIImage?
-		let buttonHeight: CGFloat = 54
-	}
+	typealias ViewModel   = HorizontalActionButtonViewModel
 	
 	var contentView: HorizontalActionButton?
-	var context: Context
+	var viewModel: ViewModel
 	
-	var height: CGFloat { ContentView.defaultHeight }
-	
-	init(context: Context) {
-		self.context = context
+	init(viewModel: ViewModel) {
+		self.viewModel = viewModel
 	}
 	
 	func createContentView() -> ContentView {
-		let view = HorizontalActionButton(
-			buttonBackgroundColor: context.buttonBackgroundColor,
-			buttonTitle: context.buttonTitle,
-			leftImage: context.leftImage,
-			buttonHeight: context.buttonHeight
-		)
-		self.contentView = view
-		return view
+    HorizontalActionButton()
 	}
 	
-	func render(contentView: ContentView, withContext context: Context) {
+	func render(contentView: ContentView, withViewModel viewModel: ViewModel) {
+    
+    contentView.configure(viewModel: viewModel)
 		
 		contentView
 			.actionButton
@@ -52,14 +39,18 @@ final class HorizontalActionButtonComponent: Component, TouchableComponent {
 			}
 			.store(in: &subscriptions)
 	}
+  
+  func contentHeight() -> CGFloat? {
+    ContentView.defaultHeight
+  }
 	
 	
 	//MARK: - TouchableComponent
 	
-	private(set) var onTouchAction: ((any Component) -> Void)?
-	
-	func onTouch(_ action: @escaping ComponentAction) -> Self {
-		self.onTouchAction = action
-		return self
-	}
+	private(set) var onTouchAction: ((HorizontalActionButtonComponent) -> Void)?
+  
+  func onTouch(_ action: @escaping ((HorizontalActionButtonComponent) -> Void)) -> Self {
+    self.onTouchAction = action
+    return self
+  }
 }

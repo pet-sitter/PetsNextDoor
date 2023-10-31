@@ -1,13 +1,13 @@
 //
-//  Group.swift
+//  ForEach.swift
 //  PetsNextDoor
 //
-//  Created by kevinkim2586 on 2023/10/27.
+//  Created by kevinkim2586 on 2023/10/31.
 //
 
 import Foundation
 
-struct Group<Element> {
+struct ForEach<Element> {
   
   var elements: [Element]
   
@@ -16,15 +16,17 @@ struct Group<Element> {
   }
 }
 
-extension Group: ComponentBuildable where Element == any Component {
- 
+//MARK: - ComponentBuildable
+
+extension ForEach: ComponentBuildable where Element == any Component {
+  
   init(@ComponentBuilder component: () -> ComponentBuildable) {
     self.elements = component().buildComponents()
   }
   
-  init<ComponentData: Sequence, C: ComponentBuildable>(
-    of data: ComponentData,
-    component: (ComponentData.Element) -> C
+  init<S: Sequence>(
+    _ data: S,
+    component: (S.Element) -> any ComponentBuildable
   ) {
     self.elements = data.flatMap { component($0).buildComponents() }
   }
@@ -35,15 +37,17 @@ extension Group: ComponentBuildable where Element == any Component {
 }
 
 
-extension Group: SectionsBuildable where Element == Section {
+//MARK: - SectionsBuildable
+
+extension ForEach: SectionsBuildable where Element == Section {
   
   init(@SectionBuilder sections: () -> SectionsBuildable) {
     self.elements = sections().buildSections()
   }
   
-  init<SectionData: Sequence, S: SectionsBuildable>(
-    of data: SectionData,
-    section: (SectionData.Element) -> S
+  init<S: Sequence>(
+    _ data: S,
+    section: (S.Element) -> any SectionsBuildable
   ) {
     self.elements = data.flatMap { section($0).buildSections() }
   }

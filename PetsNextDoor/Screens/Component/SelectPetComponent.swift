@@ -10,38 +10,43 @@ import Combine
 
 final class SelectPetComponent: Component, TouchableComponent {
   
-  typealias ContentView = SelectPetView
-  typealias Context     = SelectPetViewModel
+  typealias ContentView   = SelectPetView
+  typealias ViewModel     = SelectPetViewModel
   
   var subscriptions: Set<AnyCancellable> = .init()
   
   var contentView: SelectPetView?
-  var context: SelectPetViewModel
+  var viewModel: SelectPetViewModel
   
-  var height: CGFloat { ContentView.defaultHeight }
-  
-  init(context: Context) {
-    self.context = context
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
   }
   
   func createContentView() -> SelectPetView {
-    let view = SelectPetView()
-    self.contentView = view
-    return view
+    SelectPetView()
   }
   
-  func render(contentView: SelectPetView, withContext context: SelectPetViewModel) {
-    contentView.configure(with: context)
+  func render(contentView: SelectPetView, withViewModel viewModel: SelectPetViewModel) {
+    
+    contentView.configure(viewModel: viewModel)
+    
+    contentView.onTap = { [weak self] in
+      guard let self else { return }
+      onTouchAction?(self)
+//      viewModel.isPetSelected.toggle()
+    }
+  }
+  
+  func contentHeight() -> CGFloat? {
+    ContentView.defaultHeight
   }
   
   //MARK: - TouchableComponent
   
-  var onTouchAction: ((any Component) -> Void)?
+  var onTouchAction: ((SelectPetComponent) -> Void)?
   
-  func onTouch(_ action: @escaping ComponentAction) -> Self {
+  func onTouch(_ action: @escaping ((SelectPetComponent) -> Void)) -> Self {
     self.onTouchAction = action
     return self
   }
-  
-  
 }

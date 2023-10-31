@@ -13,27 +13,22 @@ final class SegmentControlComponent: Component {
   var subscriptions: Set<AnyCancellable> = .init()
   
   typealias ContentView = SegmentControlView
+  typealias ViewModel   = SegmentControlViewModel
   
-  struct Context {
-    let segmentTitles: [String]
-  }
-  
-  var contentView: SegmentControlView?
-  var context: Context
+  var contentView: ContentView?
+  var viewModel: ViewModel
   
   var height: CGFloat { SegmentControlView.defaultHeight }
   
-  init(context: Context) {
-    self.context = context
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
   }
   
   func createContentView() -> SegmentControlView {
-    let view = SegmentControlView(segmentTitles: context.segmentTitles)
-    self.contentView = view
-    return view
+    SegmentControlView(segmentTitles: viewModel.segmentTitles)
   }
   
-  func render(contentView: SegmentControlView, withContext context: Context) {
+  func render(contentView: SegmentControlView, withViewModel viewModel: ViewModel) {
     contentView.onSegmentTap = self.onSegmentChange
   }
   

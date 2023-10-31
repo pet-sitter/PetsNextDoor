@@ -93,10 +93,6 @@ extension UITableViewAdapter: UITableViewDelegate {
   }
 }
 
-
-
-
-
 extension UITableView {
   
   func registerComponent(reuseIdentifier: String) {

@@ -8,44 +8,38 @@
 import UIKit
 import Combine 
 
-final class TextFieldComponent: Component, ContainsTextField {
+final class TextFieldComponent: Component, ContainsTextField {  
   
   var subscriptions = Set<AnyCancellable>()
   
   typealias ContentView = BaseTextFieldView
-  
-  struct Context {
-    let textFieldPlaceHolder: String
-    var maxCharactersLimit: Int? = nil
-    var rightView: UIView? = nil
-  }
+  typealias ViewModel   = BaseTextFieldViewModel
 
   var contentView: ContentView?
-  var context: Context
+  var viewModel: ViewModel
   
-  var height: CGFloat { ContentView.defaultHeight }
-  
-  init(context: Context) {
-    self.context = context
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
   }
   
   func createContentView() -> ContentView {
-    let view = BaseTextFieldView(
-      textFieldPlaceHolder: context.textFieldPlaceHolder,
-      maxCharactersLimmit: context.maxCharactersLimit,
-      rightView: context.rightView
-    )
-    self.contentView = view
-    return view
+    BaseTextFieldView()
   }
   
-  func render(contentView: ContentView, withContext context: Context) {
+  func render(contentView: ContentView, withViewModel viewModel: ViewModel) {
+    
+    contentView.configure(viewModel: viewModel)
+    
     contentView.textField.controlEventPublisher(for: .editingChanged)
       .withStrong(self)
       .sink { owner, _ in
         owner.onEditingChanged?( (contentView.textField.text, owner) )
       }
       .store(in: &subscriptions)
+  }
+  
+  func contentHeight() -> CGFloat? {
+    ContentView.defaultHeight
   }
   
   //MARK: - ContainsTextField

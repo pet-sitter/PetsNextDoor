@@ -11,28 +11,22 @@ import Combine
 final class SetProfileImageComponent: Component, TouchableComponent, ValueBindable {
 
 	typealias ContentView = SetProfileImageView
-	
-	typealias Context = Void
+	typealias ViewModel   = SetProfileImageViewModel
 	
 	var subscriptions = Set<AnyCancellable>()
 	
 	var contentView: SetProfileImageView?
-	var context: Void
-	
-	var height: CGFloat { ContentView.defaultHeight }
+  var viewModel: SetProfileImageViewModel = .init()
 	
 	init() {
 		
 	}
 	
 	func createContentView() -> SetProfileImageView {
-		let view = SetProfileImageView()
-		self.contentView = view
-		return view
+		SetProfileImageView()
 	}
 	
-	func render(contentView: SetProfileImageView, withContext context: Void) {
-		
+	func render(contentView: SetProfileImageView, withViewModel viewModel: ViewModel) {
 		contentView.profileImageContainerView
 			.onTap { [weak self] in
 				guard let self else { return }
@@ -40,15 +34,19 @@ final class SetProfileImageComponent: Component, TouchableComponent, ValueBindab
 			}
 	}
   
+  func contentHeight() -> CGFloat? {
+    ContentView.defaultHeight
+  }
+  
   //MARK: - TouchableComponent
 	
-	var onTouchAction: ((any Component) -> Void)?
-	
-	func onTouch(_ action: @escaping ComponentAction) -> Self {
-		self.onTouchAction = action
-		return self
-	}
+	var onTouchAction: ((SetProfileImageComponent) -> Void)?
   
+  func onTouch(_ action: @escaping ((SetProfileImageComponent) -> Void)) -> Self {
+    self.onTouchAction = action
+    return self
+  }
+
   //MARK: - Value Observable
   
   typealias ObservingValue = UIImage?

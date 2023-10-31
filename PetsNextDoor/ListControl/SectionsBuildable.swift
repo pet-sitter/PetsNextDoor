@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 protocol SectionsBuildable {
   func buildSections() -> [Section]
 }
@@ -33,9 +34,7 @@ struct SectionBuilder: SectionsBuildable {
   }
   
   static func buildBlock(_ components: any SectionsBuildable...) -> SectionBuilder {
-    var componentArray: [Section] = []
-    components.forEach { componentArray.append(contentsOf: $0.buildSections()) }
-    return SectionBuilder(sections: componentArray)
+    SectionBuilder(sections: components.flatMap { $0.buildSections() })
   }
   
   static func buildOptional(_ component: (Section)?) -> (Section)? {
@@ -62,8 +61,6 @@ extension SectionBuilder {
   }
   
   init(sections: any SectionsBuildable...) {
-    var sectionArray: [Section] = []
-    sections.forEach { sectionArray.append(contentsOf: $0.buildSections()) }
-    self.sections = sectionArray
+    self.sections = sections.flatMap { $0.buildSections() }
   }
 }

@@ -13,28 +13,29 @@ final class EmptyComponent: Component {
   var subscriptions = Set<AnyCancellable>()
   
   typealias ContentView = EmptyView
+  typealias ViewModel   = EmptyViewModel
   
-  struct Context {
-    let height: CGFloat
-    let backgroundColor: UIColor
-  }
-
   var contentView: EmptyView?
-  var context: Context
-  
-  var height: CGFloat { context.height }
+  var viewModel: ViewModel
   
   init(height: CGFloat, backgroundColor: UIColor = PND.Colors.commonWhite) {
-    self.context = .init(height: height, backgroundColor: backgroundColor)
+    self.viewModel = .init(height: height, backgroundColor: backgroundColor)
+  }
+  
+  init(viewModel: EmptyViewModel) {
+    self.viewModel = viewModel
   }
   
   func createContentView() -> EmptyView {
-    let view = EmptyView(height: height, backgroundColor: context.backgroundColor)
-    self.contentView = view
-    return view
+    EmptyView()
   }
   
-  func render(contentView: EmptyView, withContext context: Context) {
-    
+  func render(contentView: EmptyView, withViewModel viewModel: ViewModel) {
+    contentView.configure(viewModel: viewModel)
   }
+  
+  func contentHeight() -> CGFloat? {
+    viewModel.height
+  }
+  
 }

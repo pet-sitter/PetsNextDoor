@@ -13,18 +13,15 @@ final class SelectCategoryComponent: Component {
   var subscriptions: Set<AnyCancellable> = .init()
   
   typealias ContentView = SelectCategoryView
-  
-  struct Context {
-    
-  }
+  typealias ViewModel   = SelectCategoryViewModel
   
   var contentView: SelectCategoryView?
-  var context: Context
+  var viewModel: ViewModel
   
   var height: CGFloat { SelectCategoryView.defaultHeight }
   
-  init(context: Context) {
-    self.context = context
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
   }
   
   func createContentView() -> SelectCategoryView {
@@ -33,7 +30,7 @@ final class SelectCategoryComponent: Component {
     return view
   }
   
-  func render(contentView: SelectCategoryView, withContext context: Context) {
+  func render(contentView: SelectCategoryView, withViewModel viewModel: ViewModel) {
     contentView.onCategoryButtonTap = onCategoryChange
   }
   

@@ -25,7 +25,7 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
     let contentView = component.createContentView()
     
     guard contentView.subviews.contains(contentView) == false else {
-      component.render(contentView: contentView, withContext: component.context)
+      component.render(contentView: contentView, withViewModel: component.viewModel)
       return
     }
     
@@ -34,6 +34,6 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
       $0.edges.equalToSuperview()
     }
     
-    component.render(contentView: contentView, withContext: component.context)
+    component.render(contentView: contentView, withViewModel: component.viewModel)
   }
 }

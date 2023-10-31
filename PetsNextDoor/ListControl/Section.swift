@@ -7,22 +7,19 @@
 
 import Foundation
 
-
-
-
 struct Section {
   
   var id: any Hashable
   
   var cells: [any Component]
   
-  init<C: Swift.Collection>(id: any Hashable, cells: C) where C.Element == any Component {
+  init<C: Swift.Collection>(id: any Hashable = UUID(), components: C) where C.Element == any Component {
     self.id = id
-    self.cells = Array(cells)
+    self.cells = Array(components)
   }
   
-  init(id: any Hashable, @ComponentBuilder cells: () -> any ComponentBuildable) {
-    self.init(id: id, cells: cells().buildComponents())
+  init(id: any Hashable = UUID(), @ComponentBuilder components: () -> any ComponentBuildable) {
+    self.init(id: id, components: components().buildComponents())
   }
 }
 
@@ -32,11 +29,3 @@ extension Section: SectionsBuildable {
     return [self]
   }
 }
-
-
-//extension Section: ComponentBuildable {
-//
-//  func buildComponents() -> [any Component] {
-//    return cells
-//  }
-//}
