@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+final class SelectCategoryViewModel: HashableViewModel {
+  
+}
+
 final class SelectCategoryView: UIView {
 
   static let defaultHeight: CGFloat = 40

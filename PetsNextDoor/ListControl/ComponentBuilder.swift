@@ -35,6 +35,10 @@ struct ComponentBuilder: ComponentBuildable {
   static func buildEither(second component: any ComponentBuildable) -> any ComponentBuildable {
     component
   }
+  
+  static func buildOptional(_ component: ComponentBuilder?) -> ComponentBuilder? {
+    component
+  }
 }
 
 extension ComponentBuilder {

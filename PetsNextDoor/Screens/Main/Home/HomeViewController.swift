@@ -10,10 +10,9 @@ import Combine
 import SnapKit
 import ComposableArchitecture
 
-final class HomeViewController: BaseViewController {
+final class HomeViewController: BaseViewController, RenderableViewProvidable {
   
   private var tableView: UITableView!
-  private var adapter: TableViewAdapter!
   
   typealias Feature = HomeFeature
   typealias State   = HomeFeature.State
@@ -21,9 +20,13 @@ final class HomeViewController: BaseViewController {
   
   private let viewStore: ViewStoreOf<Feature>
   
-  @Published var components: [any Component] = []
-  
   private let districtNameNavigationBarView = DistrictNameView()
+  
+  private lazy var renderer = Renderer(
+    adapter: UITableViewAdapter(),
+    updater: UITableViewUpdater(),
+    target: tableView
+  )
   
   init(store: some StoreOf<Feature>) {
     self.viewStore = ViewStore(store, observe: { $0 })
@@ -32,51 +35,48 @@ final class HomeViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    viewStore.send(.viewDidLoad)
+    renderer.render { sectionView }
+  }
+  
+  var sectionView: SectionsBuildable {
+    Section {
+      SegmentControlComponent(
+        viewModel: .init(segmentTitles: ["돌봄급구", "돌봄메이트"])
+      )
+      .onSegmentChange { index in
+        
+      }
+      EmptyComponent(
+        height: 20,
+        backgroundColor: UIColor(hex: "#F9F9F9")
+      )
+      
+      SelectCategoryComponent(viewModel: .init())
+        .onCategoryChange { category in
+          
+        }
+    }
+    
+    Section {
+      ForEach(viewStore.urgenPostCardCellViewModels) { cellVM in
+        UrgentPostCardComponent(viewModel: cellVM)
+      }
+    }
   }
 
   override func configureUI() {
     super.configureUI()
-    
     configureNavigationBarItems()
     
     tableView = BaseTableView()
     tableView.set {
       view.addSubview($0)
-      $0.registerCell(ContainerCell<UrgentPostCardComponent>.self)
-      $0.registerCell(ContainerCell<SegmentControlComponent>.self)
-      $0.registerCell(ContainerCell<SelectCategoryComponent>.self)
       $0.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
-    adapter = TableViewAdapter(tableView: tableView)
-    adapter.observeDataSource(componentPublisher: $components)
-    
-    components = ComponentBuilder {
-      
-      SegmentControlComponent(
-        context: .init(segmentTitles: ["돌봄급구", "돌봄메이트"])
-      )
-      .onSegmentChange { index in
-      }
-      
-      EmptyComponent(height: 16, backgroundColor: UIColor(hex: "#F9F9F9"))
-      
-      SelectCategoryComponent(context: .init())
-        .onCategoryChange { category in
-          
-        }
-      
-      
-      for _ in (1..<10) {
-        UrgentPostCardComponent(
-          context: .init(
-            postTitle: "돌봄 급히 구함",
-            date: "2022-10-30",
-            location: "반포동",
-            cost: "시급 10,500원"))
-      }
-    }
   }
+
   
   private func configureNavigationBarItems() {
     
@@ -95,8 +95,7 @@ final class HomeViewController: BaseViewController {
         .frame(width: 24, height: 24)
         .tintColor(PND.Colors.commonBlack)
         .onTap { [weak self] in
-          // 글쓰기
-          print("✅ did tap post")
+          self?.viewStore.send(.didTapWritePostIcon)
         }
     )
     

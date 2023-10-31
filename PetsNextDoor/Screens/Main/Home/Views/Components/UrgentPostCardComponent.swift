@@ -13,33 +13,24 @@ final class UrgentPostCardComponent: Component {
   var subscriptions = Set<AnyCancellable>()
   
   typealias ContentView = UrgentPostCardView
-  
-  struct Context {
-    let postTitle: String
-    let date: String
-    let location: String
-    let cost: String
-  }
+  typealias ViewModel   = UrgentPostCardViewModel
   
   var contentView: ContentView?
-  var context: Context
+  var viewModel: ViewModel
   
-  var height: CGFloat { ContentView.defaultHeight }
-  
-  init(context: Context) {
-    self.context = context
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
   }
   
   func createContentView() -> ContentView {
-    let view = UrgentPostCardView()
-    view.titleLabel.text    = context.postTitle
-    view.dateLabel.text     = context.date
-    view.locationLabel.text = context.location
-    view.costLabel.text     = context.cost
-    return view
+    UrgentPostCardView()
   }
   
-  func render(contentView: UrgentPostCardView, withContext context: Context) {
-    
+  func render(contentView: UrgentPostCardView, withViewModel viewModel: ViewModel) {
+    contentView.configure(viewModel: viewModel)
+  }
+  
+  func contentHeight() -> CGFloat? {
+    ContentView.defaultHeight
   }
 }

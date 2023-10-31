@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+final class SetProfileImageViewModel: HashableViewModel {
+  
+}
+
 final class SetProfileImageView: UIView {
 	
 	static let defaultHeight: CGFloat = 100

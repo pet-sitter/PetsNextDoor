@@ -12,6 +12,8 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) { fatalError("") }
   
+  private var componentContentView: UIView?
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
@@ -23,8 +25,8 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
   func render(component: some Component) {
     
     let contentView = component.createContentView()
-    
-    guard contentView.subviews.contains(contentView) == false else {
+
+    guard containerView.subviews.contains(contentView) == false else {
       component.render(contentView: contentView, withViewModel: component.viewModel)
       return
     }

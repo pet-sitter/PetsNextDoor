@@ -11,19 +11,16 @@ import SnapKit
 import ComposableArchitecture
 import PhotosUI
 
-final class SetProfileViewController: BaseViewController {
+final class SetProfileViewController: BaseViewController, RenderableViewProvidable {
 	
 	private var tableView: UITableView!
-  private var bottomComponent: BottomButtonComponent!
-	private var adapter: TableViewAdapter!
+  private var bottomButton: BaseBottomButton!
 	
 	typealias Feature = SetProfileFeature
 	typealias State   = SetProfileFeature.State
 	typealias Action  = SetProfileFeature.Action
 	
 	private let viewStore: ViewStoreOf<Feature>
-	
-	@Published var components: [any Component] = []
   
   private var photoPicker: PHPickerViewController?
   private var photoPickerConfiguration: PHPickerConfiguration {
@@ -32,54 +29,15 @@ final class SetProfileViewController: BaseViewController {
     config.filter = .images
     return config
   }
-	
-	init(store: some StoreOf<Feature>) {
-		self.viewStore  = ViewStore(store, observe: { $0 } )
-		super.init()
-	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		bindState()
-	}
-	
-	override func configureUI() {
-		super.configureUI()
-		    
-    bottomComponent = BottomButtonComponent(context: .init(buttonTitle: "완료"))
-      .bindValue(viewStore.publisher.isBottomButtonEnabled)
-      
-    let bottomButton = bottomComponent.createContentView()
-    bottomButton.set {
-      view.addSubview($0)
-      $0.snp.makeConstraints {
-        $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
-        $0.leading.trailing.equalToSuperview().inset(20)
-        $0.height.equalTo(BaseBottomButton.defaultHeight)
-      }
-      $0.onTapGesture { [weak self] in
-        self?.viewStore.send(.didTapBottomButton)
-         
-      }
-    }
-   
-		tableView = BaseTableView()
-		tableView.set {
-			view.addSubview($0)
-			$0.registerCell(ContainerCell<SetProfileImageComponent>.self)
-			$0.registerCell(ContainerCell<TextFieldComponent>.self)
-			$0.registerCell(ContainerCell<HorizontalActionButtonComponent>.self)
-      $0.registerCell(ContainerCell<SelectPetComponent>.self)
-			$0.snp.makeConstraints {
-				$0.top.leading.trailing.equalToSuperview()
-				$0.bottom.equalTo(bottomButton.snp.top)
-			}
-		}
-		
-		adapter = TableViewAdapter(tableView: tableView)
-		adapter.observeDataSource(componentPublisher: $components)
-    
-    components = ComponentBuilder {
+  
+  private lazy var renderer = Renderer(
+    adapter: UITableViewAdapter(),
+    updater: UITableViewUpdater(),
+    target: tableView
+  )
+  
+  var sectionView: SectionsBuildable {
+    Section {
       EmptyComponent(height: 20)
       
       SetProfileImageComponent()
@@ -90,54 +48,102 @@ final class SetProfileViewController: BaseViewController {
       
       EmptyComponent(height: 20)
       
-			TextFieldComponent(
-        context: .init(
+      TextFieldComponent(
+        viewModel: .init(
           textFieldPlaceHolder: "닉네임 (2~10자 이내)",
           maxCharactersLimit: 10,
-					rightView: BaseLabel(textValue: viewStore.publisher.nicknameStatusPhrase)
-						.frame(width: 120, height: 14)
-						.font(.systemFont(ofSize: 12, weight: .medium))
-						.color(.init(hex: "#6A9DFF"))
-						.rightAlignment()
+          rightView: BaseLabel(textValue: viewStore.publisher.nicknameStatusPhrase)
+            .frame(width: 120, height: 14)
+            .font(.systemFont(ofSize: 12, weight: .medium))
+            .color(.init(hex: "#6A9DFF"))
+            .rightAlignment()
         )
       )
       .onEditingChanged { [weak self] text, textComponent in
         self?.viewStore.send(.textDidChange(text))
       }
-			
-			EmptyComponent(height: 20)
-			
-      SelectPetComponent(context: .init(
-        petImageUrlString: "",
-        petName: "아롱",
-        petSpecies: "비숑 프리제",
-        petAge: 1,
-        isPetNeutralized: true,
-        isPetSelected: false,
-        isDeleteButtonHidden: true
-      ))
-        
       
       EmptyComponent(height: 20)
       
-			HorizontalActionButtonComponent(
-				context: .init(
-					buttonTitle: "반려동물 추가하기",
-					leftImage: UIImage(systemName: "plus")
-				)
-			)
-			.onTouch { _ in
+      if !viewStore.state.myPetCellViewModels.isEmpty {
+        ForEach(viewStore.myPetCellViewModels) { cellVM in
+          List {
+            SelectPetComponent(viewModel: cellVM)
+            EmptyComponent(height: 16)
+          }
+        }
+      }
+      
+      EmptyComponent(height: 20)
+      
+      HorizontalActionButtonComponent(
+        viewModel: .init(
+          buttonTitle: "반려동물 추가하기",
+          leftImage: UIImage(systemName: "plus")
+        )
+      )
+      .onTouch { [weak self] _ in
+        self?.viewStore.send(.didTapAddPetButton)
+      }
+      
+    }
+  }
+	
+	init(store: some StoreOf<Feature>) {
+		self.viewStore  = ViewStore(store, observe: { $0 } )
+		super.init()
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+    renderer.render { sectionView }
+		bindState()
+	}
+	
+	override func configureUI() {
+    super.configureUI()
+    
+    configureTopLeftTitle("반려동물 추가하기")
+    
+    bottomButton = BaseBottomButton()
+    bottomButton.set {
+      view.addSubview($0)
+      $0.configure(viewModel: .init(isEnabled: false, buttonTitle: "완료"))
+      $0.snp.makeConstraints {
+        $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
+        $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
+        $0.height.equalTo(BaseBottomButton.defaultHeight)
+      }
+
+      $0.onTapGesture { [weak self] in
+        self?.viewStore.send(.didTapBottomButton)
+      }
+    }
+   
+		tableView = BaseTableView()
+		tableView.set {
+			view.addSubview($0)
+			$0.snp.makeConstraints {
+				$0.top.leading.trailing.equalToSuperview()
+				$0.bottom.equalTo(bottomButton.snp.top)
 			}
-      
-      
 		}
 	}
 	
 	private func bindState() {
-  
+   
+    viewStore.pulse(\.$myPetCellViewModels)
+      .receiveOnMainQueue()
+      .withStrong(self)
+      .sink { strongSelf, pulse in
+        print("✅ pulse: \(pulse)")
+        strongSelf.renderer.render { strongSelf.sectionView }
+      }
+      .store(in: &subscriptions)
+
     viewStore.publisher
       .photoPickerIsPresented
-      .receive(on: DispatchQueue.main)
+      .receiveOnMainQueue()
       .ifFalse { [weak self] in
         self?.photoPicker?.dismiss(animated: true)
       }
@@ -153,8 +159,15 @@ final class SetProfileViewController: BaseViewController {
     
     viewStore.publisher
       .isLoading
-      .receive(on: DispatchQueue.main)
+      .receiveOnMainQueue()
       .assignNoRetain(to: \.isAnimating, on: loadingIndicator)
+      .store(in: &subscriptions)
+    
+    
+    viewStore.publisher
+      .isBottomButtonEnabled
+      .receiveOnMainQueue()
+      .assignNoRetain(to: \.isEnabled, on: bottomButton)
       .store(in: &subscriptions)
 	}
 }

@@ -72,11 +72,12 @@ struct SelectPetFeature: Reducer {
         
         state.selectedPets = state
           .selectPetCellViewModels
-          .filter { $0.isPetSelected == true }
+          .filter(\.isPetSelected)
+          
         
         state.isBottomButtonEnabled = state
           .selectPetCellViewModels
-          .filter { $0.isPetSelected == true }
+          .filter(\.isPetSelected)
           .count > 0
       
         return .none

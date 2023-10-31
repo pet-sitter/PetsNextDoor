@@ -20,6 +20,8 @@ struct SetProfileFeature: Reducer {
     var photoPickerIsPresented: Bool = false
     var isLoading: Bool = false
     
+    @Pulse var myPetCellViewModels: [SelectPetViewModel] = []
+    
     fileprivate var nicknameText: String = ""
     
     init(userRegisterModel: PND.UserRegistrationModel) {
@@ -32,6 +34,7 @@ struct SetProfileFeature: Reducer {
 		case textDidChange(String?)
     case userImageDidChange(UIImage)
     case profileImageDidTap
+    case didTapAddPetButton
     
     // Internal Actions
     case _setNicknameStatusPhrase(String)
@@ -92,6 +95,21 @@ struct SetProfileFeature: Reducer {
         
       case .profileImageDidTap:
         state.photoPickerIsPresented = true
+        return .none
+        
+      case .didTapAddPetButton:
+        state.myPetCellViewModels.append(
+          .init(
+            petImageUrlString: "",
+            petName: "아롱",
+            petSpecies: "비숑 프리제",
+            petAge: 1,
+            isPetNeutralized: true,
+            isPetSelected: false,
+            isDeleteButtonHidden: true
+          )
+        )
+        
         return .none
         
       case ._setNicknameStatusPhrase(let phrase):

@@ -8,6 +8,14 @@
 import UIKit
 import SnapKit
 
+final class SegmentControlViewModel: HashableViewModel {
+  let segmentTitles: [String]
+  
+  init(segmentTitles: [String]) {
+    self.segmentTitles = segmentTitles
+  }
+}
+
 final class SegmentControlView: UIView {
   
   static let defaultHeight: CGFloat = 40

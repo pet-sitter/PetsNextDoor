@@ -46,4 +46,7 @@ extension Publisher where Self.Failure == Never {
     })
   }
   
+  func receiveOnMainQueue<S>(on scheduler: S = DispatchQueue.main) -> Publishers.ReceiveOn<Self, S> where S : Scheduler {
+    receive(on: scheduler)
+  }
 }

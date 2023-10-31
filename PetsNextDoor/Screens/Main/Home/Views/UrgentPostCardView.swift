@@ -9,6 +9,20 @@ import UIKit
 import SnapKit
 import Combine
 
+final class UrgentPostCardViewModel: HashableViewModel {
+  let postTitle: String
+  let date: String
+  let location: String
+  let cost: String
+  
+  init(postTitle: String, date: String, location: String, cost: String) {
+    self.postTitle = postTitle
+    self.date = date
+    self.location = location
+    self.cost = cost
+  }
+}
+
 final class UrgentPostCardView: UIView {
   
   static let defaultHeight: CGFloat = 112
@@ -156,7 +170,12 @@ final class UrgentPostCardView: UIView {
       $0.text = "시급 10,000원"
       $0.font = Constants.textFont
     }
+  }
   
-    
+  func configure(viewModel: UrgentPostCardViewModel) {
+    titleLabel.text     = viewModel.postTitle
+    dateLabel.text      = viewModel.date
+    locationLabel.text  = viewModel.location
+    costLabel.text      = viewModel.cost
   }
 }

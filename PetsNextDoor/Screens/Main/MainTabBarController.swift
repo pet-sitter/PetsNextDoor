@@ -58,7 +58,6 @@ final class MainTabBarController: UITabBarController {
     
     myPageNavigationController.tabBarItem.image = UIImage(named: "icon_user")?.withRenderingMode(.alwaysOriginal)
     
-    
     configureViewControllers()
   }
   

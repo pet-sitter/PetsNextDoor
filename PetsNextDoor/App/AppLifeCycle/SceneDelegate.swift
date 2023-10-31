@@ -10,7 +10,7 @@ import FirebaseCore
 import ComposableArchitecture
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+  
   var window: UIWindow?
 
   func scene(
@@ -25,9 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let window else { return }
     
     FirebaseApp.configure()
+    
+  
+    AppAppearanceManager.shared.configureInitialAppearance()
   
     // 로그인 체크하고 분기 처리해야함
-    
     
     
     let loginVC = LoginViewController(
@@ -36,6 +38,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         reducer: { LoginFeature()}
       )
     )
+    
+ 
+    
     
     let navController = BaseNavigationController(rootViewController: loginVC)
     
