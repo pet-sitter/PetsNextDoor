@@ -13,9 +13,6 @@ final class HeaderTitleComponent: Component {
   typealias ContentView = HeaderTitleView
   typealias ViewModel   = HeaderTitleViewModel
   
-  var subscriptions: Set<AnyCancellable> = .init()
-  
-  var contentView: HeaderTitleView?
   var viewModel: HeaderTitleViewModel
   
   init(viewModel: ViewModel) {
@@ -26,7 +23,7 @@ final class HeaderTitleComponent: Component {
     HeaderTitleView()
   }
   
-  func render(contentView: HeaderTitleView, withViewModel viewModel: HeaderTitleViewModel) {
+  func render(contentView: HeaderTitleView) {
     contentView.configure(viewModel: viewModel)
   }
   

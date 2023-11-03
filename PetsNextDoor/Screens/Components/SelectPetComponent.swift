@@ -13,9 +13,6 @@ final class SelectPetComponent: Component, TouchableComponent {
   typealias ContentView   = SelectPetView
   typealias ViewModel     = SelectPetViewModel
   
-  var subscriptions: Set<AnyCancellable> = .init()
-  
-  var contentView: SelectPetView?
   var viewModel: SelectPetViewModel
   
   init(viewModel: ViewModel) {
@@ -26,14 +23,13 @@ final class SelectPetComponent: Component, TouchableComponent {
     SelectPetView()
   }
   
-  func render(contentView: SelectPetView, withViewModel viewModel: SelectPetViewModel) {
+  func render(contentView: SelectPetView) {
     
     contentView.configure(viewModel: viewModel)
     
     contentView.onTap = { [weak self] in
       guard let self else { return }
       onTouchAction?(self)
-//      viewModel.isPetSelected.toggle()
     }
   }
   

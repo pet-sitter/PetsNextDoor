@@ -10,12 +10,9 @@ import Combine
 
 final class EmptyComponent: Component {
   
-  var subscriptions = Set<AnyCancellable>()
-  
   typealias ContentView = EmptyView
   typealias ViewModel   = EmptyViewModel
   
-  var contentView: EmptyView?
   var viewModel: ViewModel
   
   init(height: CGFloat, backgroundColor: UIColor = PND.Colors.commonWhite) {
@@ -30,7 +27,7 @@ final class EmptyComponent: Component {
     EmptyView()
   }
   
-  func render(contentView: EmptyView, withViewModel viewModel: ViewModel) {
+  func render(contentView: EmptyView) {
     contentView.configure(viewModel: viewModel)
   }
   

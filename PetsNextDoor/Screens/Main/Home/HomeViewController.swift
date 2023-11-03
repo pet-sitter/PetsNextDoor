@@ -57,7 +57,6 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
           
         }
     }
-    
     Section {
       ForEach(viewStore.urgenPostCardCellViewModels) { cellVM in
         UrgentPostCardComponent(viewModel: cellVM)

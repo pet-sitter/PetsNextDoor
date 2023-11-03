@@ -65,7 +65,10 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
       
       EmptyComponent(height: 20)
       
-      if !viewStore.state.myPetCellViewModels.isEmpty {
+//      print("✅ sections: cellVM:\(viewStore.state.myPetCellViewModels)")
+      
+      
+      if !viewStore.myPetCellViewModels.isEmpty {
         ForEach(viewStore.myPetCellViewModels) { cellVM in
           List {
             SelectPetComponent(viewModel: cellVM)
@@ -108,7 +111,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
     bottomButton = BaseBottomButton()
     bottomButton.set {
       view.addSubview($0)
-      $0.configure(viewModel: .init(isEnabled: false, buttonTitle: "완료"))
+      $0.configure(viewModel: .init(isEnabled: true, buttonTitle: "완료"))
       $0.snp.makeConstraints {
         $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
         $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)

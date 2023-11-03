@@ -8,11 +8,13 @@
 import UIKit
 
 class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
-
+  
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) { fatalError("") }
+
   
-  private var componentContentView: UIView?
+  private var renderedComponent: (any Component)?
+
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,18 +26,13 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
   
   func render(component: some Component) {
     
-    let contentView = component.createContentView()
-
-    guard containerView.subviews.contains(contentView) == false else {
-      component.render(contentView: contentView, withViewModel: component.viewModel)
+    guard let renderedComponent else {
+      let contentView   = component.createContentView()
+      renderedComponent = component
+      containerView.addSubview(contentView)
+      contentView.snp.makeConstraints { $0.edges.equalToSuperview() }
+      component.render(contentView: contentView)
       return
     }
-    
-    containerView.addSubview(contentView)
-    contentView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-    }
-    
-    component.render(contentView: contentView, withViewModel: component.viewModel)
   }
 }

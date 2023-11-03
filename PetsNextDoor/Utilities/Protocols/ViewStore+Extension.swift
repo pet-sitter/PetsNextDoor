@@ -46,8 +46,10 @@ extension ViewStore {
 //  }
   
   func pulse<Value>(_ keyPath: KeyPath<ViewState, Pulse<Value>>) -> AnyPublisher<Value, Never> {
-      publisher.map(keyPath).removeDuplicates {
-          $0.valueUpdatedCount == $1.valueUpdatedCount
-      }.map(\.value).eraseToAnyPublisher()
+      publisher
+      .map(keyPath)
+      .removeDuplicates { $0.valueUpdatedCount == $1.valueUpdatedCount }
+      .map(\.value)
+      .eraseToAnyPublisher()
   }
 }

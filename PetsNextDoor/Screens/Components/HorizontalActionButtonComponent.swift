@@ -15,7 +15,6 @@ final class HorizontalActionButtonComponent: Component, TouchableComponent {
 	typealias ContentView = HorizontalActionButton
 	typealias ViewModel   = HorizontalActionButtonViewModel
 	
-	var contentView: HorizontalActionButton?
 	var viewModel: ViewModel
 	
 	init(viewModel: ViewModel) {
@@ -26,7 +25,7 @@ final class HorizontalActionButtonComponent: Component, TouchableComponent {
     HorizontalActionButton()
 	}
 	
-	func render(contentView: ContentView, withViewModel viewModel: ViewModel) {
+	func render(contentView: ContentView) {
     
     contentView.configure(viewModel: viewModel)
 		

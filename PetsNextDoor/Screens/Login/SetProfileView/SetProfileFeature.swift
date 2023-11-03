@@ -16,8 +16,8 @@ struct SetProfileFeature: Reducer {
     var userRegisterModel: PND.UserRegistrationModel
     var nicknameStatusPhrase: String = ""
     var selectedUserImage: UIImage?
-    var isBottomButtonEnabled: Bool = false
-    var photoPickerIsPresented: Bool = false
+    var isBottomButtonEnabled: Bool   = true
+    var photoPickerIsPresented: Bool  = false
     var isLoading: Bool = false
     
     @Pulse var myPetCellViewModels: [SelectPetViewModel] = []
@@ -109,6 +109,7 @@ struct SetProfileFeature: Reducer {
             isDeleteButtonHidden: true
           )
         )
+        print("✅ FEATURE VMs: \(state.myPetCellViewModels)")
         
         return .none
         

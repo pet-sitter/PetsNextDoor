@@ -26,7 +26,7 @@ final class SetProfileImageComponent: Component, TouchableComponent, ValueBindab
 		SetProfileImageView()
 	}
 	
-	func render(contentView: SetProfileImageView, withViewModel viewModel: ViewModel) {
+	func render(contentView: SetProfileImageView) {
 		contentView.profileImageContainerView
 			.onTap { [weak self] in
 				guard let self else { return }

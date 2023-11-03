@@ -30,7 +30,7 @@ final class SelectCategoryComponent: Component {
     return view
   }
   
-  func render(contentView: SelectCategoryView, withViewModel viewModel: ViewModel) {
+  func render(contentView: SelectCategoryView) {
     contentView.onCategoryButtonTap = onCategoryChange
   }
   

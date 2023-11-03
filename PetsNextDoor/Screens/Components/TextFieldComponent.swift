@@ -15,7 +15,6 @@ final class TextFieldComponent: Component, ContainsTextField {
   typealias ContentView = BaseTextFieldView
   typealias ViewModel   = BaseTextFieldViewModel
 
-  var contentView: ContentView?
   var viewModel: ViewModel
   
   init(viewModel: ViewModel) {
@@ -26,7 +25,7 @@ final class TextFieldComponent: Component, ContainsTextField {
     BaseTextFieldView()
   }
   
-  func render(contentView: ContentView, withViewModel viewModel: ViewModel) {
+  func render(contentView: ContentView) {
     
     contentView.configure(viewModel: viewModel)
     

@@ -29,7 +29,7 @@ final class BottomButtonComponent: Component, TouchableComponent, ValueBindable 
     BaseBottomButton()
   }
   
-  func render(contentView: ContentView, withViewModel viewModel: ViewModel) {
+  func render(contentView: ContentView) {
     
     contentView.configure(viewModel: viewModel)
         

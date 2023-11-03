@@ -26,7 +26,7 @@ final class UrgentPostCardComponent: Component {
     UrgentPostCardView()
   }
   
-  func render(contentView: UrgentPostCardView, withViewModel viewModel: ViewModel) {
+  func render(contentView: UrgentPostCardView) {
     contentView.configure(viewModel: viewModel)
   }
   

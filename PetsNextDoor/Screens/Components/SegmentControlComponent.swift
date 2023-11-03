@@ -10,12 +10,9 @@ import Combine
 
 final class SegmentControlComponent: Component {
   
-  var subscriptions: Set<AnyCancellable> = .init()
-  
   typealias ContentView = SegmentControlView
   typealias ViewModel   = SegmentControlViewModel
   
-  var contentView: ContentView?
   var viewModel: ViewModel
   
   var height: CGFloat { SegmentControlView.defaultHeight }
@@ -28,7 +25,7 @@ final class SegmentControlComponent: Component {
     SegmentControlView(segmentTitles: viewModel.segmentTitles)
   }
   
-  func render(contentView: SegmentControlView, withViewModel viewModel: ViewModel) {
+  func render(contentView: SegmentControlView) {
     contentView.onSegmentTap = self.onSegmentChange
   }
   

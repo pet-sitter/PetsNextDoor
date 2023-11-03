@@ -23,3 +23,7 @@ extension ComponentRenderable where Self: UIView {
 extension ComponentRenderable where Self: UITableViewCell {
   var containerView: UIView { contentView }
 }
+
+extension ComponentRenderable where Self: UICollectionViewCell {
+  var containerView: UIView { contentView }
+}
