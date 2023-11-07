@@ -7,9 +7,15 @@
 
 import UIKit
 import SnapKit
+import Combine 
 
 final class SetProfileImageViewModel: HashableViewModel {
   
+  @Published var selectedUserImage: UIImage? = nil
+  
+  init(userImage: any SingleValuePublisher<UIImage?>) {
+    userImage.assign(to: &$selectedUserImage)
+  }
 }
 
 final class SetProfileImageView: UIView {
@@ -41,6 +47,8 @@ final class SetProfileImageView: UIView {
       : PND.Colors.commonBlack
     }
 	}
+  
+  private var subscriptions: Set<AnyCancellable> = .init()
 	
 	init() {
 		super.init(frame: .zero)
@@ -99,4 +107,12 @@ final class SetProfileImageView: UIView {
       }
 		}
 	}
+  
+  func configure(viewModel: SetProfileImageViewModel) {
+    
+    viewModel.$selectedUserImage
+      .receiveOnMainQueue()
+      .assignNoRetain(to: \.image, on: self)
+      .store(in: &subscriptions)
+  }
 }

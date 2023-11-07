@@ -10,8 +10,14 @@ import SnapKit
 import Combine
 
 final class BaseBottomButtonViewModel: HashableViewModel {
+  
   @Published var isEnabled: Bool = false
   let buttonTitle: String
+
+  init(isEnabled: any SingleValuePublisher<Bool>, buttonTitle: String) {
+    self.buttonTitle = buttonTitle
+    isEnabled.assign(to: &$isEnabled)
+  }
   
   init(isEnabled: Bool, buttonTitle: String) {
     self.isEnabled = isEnabled
@@ -56,7 +62,7 @@ class BaseBottomButton: UIButton {
     }
     
     viewModel.$isEnabled
-      .receive(on: DispatchQueue.main)
+      .receiveOnMainQueue()
       .assignNoRetain(to: \.isEnabled, on: self)
       .store(in: &subscriptions)
   }

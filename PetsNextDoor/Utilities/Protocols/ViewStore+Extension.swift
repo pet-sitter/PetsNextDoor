@@ -9,12 +9,13 @@ import Foundation
 
 @propertyWrapper
 struct Pulse<Value: Equatable>: Equatable {
+  
   var value: Value {
-    didSet {
-      riseValueUpdatedCount()
-    }
+    didSet { incrementValueUpdatedCount() }
   }
+  
   var valueUpdatedCount = UInt.min
+  
   init(wrappedValue: Value) {
     self.value = wrappedValue
   }
@@ -26,7 +27,7 @@ struct Pulse<Value: Equatable>: Equatable {
   
   var projectedValue: Pulse<Value> { return self }
   
-  private mutating func riseValueUpdatedCount() {
+  private mutating func incrementValueUpdatedCount() {
     valueUpdatedCount &+= 1
   }
 }
@@ -36,20 +37,14 @@ import ComposableArchitecture
 import Combine
 
 extension ViewStore {
-//  func pulse<Value>(_ keyPath: KeyPath<ViewState, Pulse<Value>>) -> AnyPublisher<Value, Never> {
-//    publisher
-//      .map(keyPath)
-//      .map(\.value)
-//      .eraseToAnyPublisher()
-
-    
-//  }
   
   func pulse<Value>(_ keyPath: KeyPath<ViewState, Pulse<Value>>) -> AnyPublisher<Value, Never> {
-      publisher
+    publisher
       .map(keyPath)
       .removeDuplicates { $0.valueUpdatedCount == $1.valueUpdatedCount }
       .map(\.value)
       .eraseToAnyPublisher()
   }
+  
+
 }

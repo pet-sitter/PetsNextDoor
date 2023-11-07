@@ -11,11 +11,11 @@ struct Section {
   
   var id: any Hashable
   
-  var cells: [any Component]
+  var components: [any Component]
   
   init<C: Swift.Collection>(id: any Hashable = UUID(), components: C) where C.Element == any Component {
     self.id = id
-    self.cells = Array(components)
+    self.components = Array(components)
   }
   
   init(id: any Hashable = UUID(), @ComponentBuilder components: () -> any ComponentBuildable) {
@@ -27,5 +27,11 @@ struct Section {
 extension Section: SectionsBuildable {
   func buildSections() -> [Section] {
     return [self]
+  }
+}
+
+extension Section: ComponentBuildable {
+  func buildComponents() -> [any Component] {
+    components
   }
 }

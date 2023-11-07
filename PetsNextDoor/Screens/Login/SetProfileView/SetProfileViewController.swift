@@ -36,15 +36,14 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
     target: tableView
   )
   
-  var sectionView: SectionsBuildable {
+  var renderableView: RenderableView {
     Section {
       EmptyComponent(height: 20)
       
-      SetProfileImageComponent()
+      SetProfileImageComponent(viewModel: .init(userImage: viewStore.publisher.selectedUserImage))
         .onTouch { [weak self] _ in
           self?.viewStore.send(.profileImageDidTap)
         }
-        .bindValue(viewStore.publisher.selectedUserImage)
       
       EmptyComponent(height: 20)
       
@@ -64,10 +63,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
       }
       
       EmptyComponent(height: 20)
-      
-//      print("✅ sections: cellVM:\(viewStore.state.myPetCellViewModels)")
-      
-      
+            
       if !viewStore.myPetCellViewModels.isEmpty {
         ForEach(viewStore.myPetCellViewModels) { cellVM in
           List {
@@ -91,6 +87,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
       
     }
   }
+
 	
 	init(store: some StoreOf<Feature>) {
 		self.viewStore  = ViewStore(store, observe: { $0 } )
@@ -99,7 +96,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-    renderer.render { sectionView }
+    renderer.render { renderableView }
 		bindState()
 	}
 	
@@ -111,7 +108,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
     bottomButton = BaseBottomButton()
     bottomButton.set {
       view.addSubview($0)
-      $0.configure(viewModel: .init(isEnabled: true, buttonTitle: "완료"))
+      $0.configure(viewModel: .init(isEnabled: viewStore.publisher.isBottomButtonEnabled, buttonTitle: "완료"))
       $0.snp.makeConstraints {
         $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
         $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
@@ -134,16 +131,16 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
 	}
 	
 	private func bindState() {
-   
-    viewStore.pulse(\.$myPetCellViewModels)
-      .receiveOnMainQueue()
+
+    viewStore
+      .publisher
+      .myPetCellViewModels
       .withStrong(self)
-      .sink { strongSelf, pulse in
-        print("✅ pulse: \(pulse)")
-        strongSelf.renderer.render { strongSelf.sectionView }
+      .sink { strongSelf, _ in
+        strongSelf.renderer.render { strongSelf.renderableView }
       }
       .store(in: &subscriptions)
-
+    
     viewStore.publisher
       .photoPickerIsPresented
       .receiveOnMainQueue()
@@ -164,13 +161,6 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
       .isLoading
       .receiveOnMainQueue()
       .assignNoRetain(to: \.isAnimating, on: loadingIndicator)
-      .store(in: &subscriptions)
-    
-    
-    viewStore.publisher
-      .isBottomButtonEnabled
-      .receiveOnMainQueue()
-      .assignNoRetain(to: \.isEnabled, on: bottomButton)
       .store(in: &subscriptions)
 	}
 }

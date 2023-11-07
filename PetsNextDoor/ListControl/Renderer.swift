@@ -51,8 +51,13 @@ final class Renderer<Updater: PetsNextDoor.Updater> {
   }
   
   func render<C: ComponentBuildable>(@ComponentBuilder components: () -> C) {
-    render {
+    renderSection {
       Section(id: UUID(), components: components)
     }
+  }
+  
+  
+  func renderSection<S: SectionsBuildable>(@SectionBuilder sections: () -> S) {
+    render(sections().buildSections())
   }
 }

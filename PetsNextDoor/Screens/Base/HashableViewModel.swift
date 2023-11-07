@@ -7,16 +7,19 @@
 
 import Foundation
 
-class HashableViewModel: Hashable, Equatable {
+protocol HashableViewModel: Hashable, Equatable {
+  var uuid: UUID { get }
+}
+
+extension HashableViewModel {
   
-  let uuid = UUID()
+  var uuid: UUID { UUID() }
   
   func hash(into hasher: inout Hasher) {
     hasher.combine(uuid)
   }
   
-  static func == (lhs: HashableViewModel, rhs: HashableViewModel) -> Bool {
-    lhs.uuid == rhs.uuid
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    return lhs.uuid == rhs.uuid
   }
 }
-

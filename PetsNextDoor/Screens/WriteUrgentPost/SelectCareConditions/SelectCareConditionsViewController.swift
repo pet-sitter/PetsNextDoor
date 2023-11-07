@@ -1,8 +1,8 @@
 //
-//  SelectPetViewController.swift
+//  SelectCareConditionsViewController.swift
 //  PetsNextDoor
 //
-//  Created by kevinkim2586 on 2023/10/30.
+//  Created by kevinkim2586 on 2023/11/03.
 //
 
 import UIKit
@@ -10,9 +10,7 @@ import Combine
 import SnapKit
 import ComposableArchitecture
 
-final class SelectPetViewController: BaseViewController, RenderableViewProvidable {
-  
-  private let viewStore: ViewStoreOf<SelectPetFeature>
+final class SelectCareConditionsViewController: BaseViewController, RenderableViewProvidable {
   
   private var tableView: UITableView!
   private var bottomButton: BaseBottomButton!
@@ -23,42 +21,24 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
     target: tableView
   )
   
-  var sectionView: SectionsBuildable {
+  var renderableView: RenderableView {
     Section {
       HeaderTitleComponent(
         viewModel: .init(
-          title: "반려동물 선택",
+          title: "돌봄 조건",
           textAlignment: .left
         )
       )
       
-      EmptyComponent(height: 16)
-      
-      ForEach(viewStore.selectPetCellViewModels) { cellVM in
-        List {
-          SelectPetComponent(viewModel: cellVM)
-            .onTouch { [weak self] in
-              self?.viewStore.send(.didSelectPet($0.viewModel))
-            }
-          EmptyComponent(height: 16)
-        }
-      }
+      EmptyComponent(height: 20)
     }
-  }
-  
-  init(store: some StoreOf<SelectPetFeature>) {
-    self.viewStore = ViewStore(store, observe: { $0 })
-    super.init()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    viewStore.send(.viewDidLoad)
-    bindState()
-    renderer.render { sectionView }
+    
   }
   
-
   override func configureUI() {
     super.configureUI()
     
@@ -67,7 +47,10 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
     bottomButton = BaseBottomButton()
     bottomButton.set {
       view.addSubview($0)
-      $0.configure(viewModel: .init(isEnabled: false, buttonTitle: "다음 단계로"))
+      
+      
+      
+//      $0.configure(viewModel: .init(isEnabled: false, buttonTitle: "다음 단계로"))
       $0.snp.makeConstraints {
         $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
         $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
@@ -86,12 +69,8 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
   }
   
   private func bindState() {
+  
     
-    viewStore
-      .publisher
-      .isBottomButtonEnabled
-      .assignNoRetain(to: \.isEnabled, on: bottomButton)
-      .store(in: &subscriptions)
   }
-
+  
 }

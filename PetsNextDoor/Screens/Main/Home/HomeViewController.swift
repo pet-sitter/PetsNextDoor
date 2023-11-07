@@ -36,25 +36,25 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
   override func viewDidLoad() {
     super.viewDidLoad()
     viewStore.send(.viewDidLoad)
-    renderer.render { sectionView }
+    renderer.render { renderableView }
   }
   
-  var sectionView: SectionsBuildable {
+  var renderableView: RenderableView {
     Section {
       SegmentControlComponent(
         viewModel: .init(segmentTitles: ["돌봄급구", "돌봄메이트"])
       )
       .onSegmentChange { index in
-        
+
       }
       EmptyComponent(
         height: 20,
         backgroundColor: UIColor(hex: "#F9F9F9")
       )
-      
+
       SelectCategoryComponent(viewModel: .init())
         .onCategoryChange { category in
-          
+
         }
     }
     Section {

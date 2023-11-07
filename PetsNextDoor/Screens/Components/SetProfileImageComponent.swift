@@ -8,18 +8,17 @@
 import UIKit
 import Combine
 
-final class SetProfileImageComponent: Component, TouchableComponent, ValueBindable {
+final class SetProfileImageComponent: Component, TouchableComponent {
 
 	typealias ContentView = SetProfileImageView
 	typealias ViewModel   = SetProfileImageViewModel
 	
 	var subscriptions = Set<AnyCancellable>()
 	
-	var contentView: SetProfileImageView?
-  var viewModel: SetProfileImageViewModel = .init()
+  var viewModel: SetProfileImageViewModel
 	
-	init() {
-		
+  init(viewModel: ViewModel) {
+    self.viewModel = viewModel
 	}
 	
 	func createContentView() -> SetProfileImageView {
@@ -27,6 +26,9 @@ final class SetProfileImageComponent: Component, TouchableComponent, ValueBindab
 	}
 	
 	func render(contentView: SetProfileImageView) {
+    
+    contentView.configure(viewModel: viewModel)
+    
 		contentView.profileImageContainerView
 			.onTap { [weak self] in
 				guard let self else { return }
@@ -44,22 +46,6 @@ final class SetProfileImageComponent: Component, TouchableComponent, ValueBindab
   
   func onTouch(_ action: @escaping ((SetProfileImageComponent) -> Void)) -> Self {
     self.onTouchAction = action
-    return self
-  }
-
-  //MARK: - Value Observable
-  
-  typealias ObservingValue = UIImage?
-  
-  @discardableResult
-  func bindValue(_ valuePublisher: PNDPublisher<ObservingValue>) -> Self {
-    valuePublisher
-      .receive(on: DispatchQueue.main)
-      .withWeak(self)
-      .sink { owner, image in
-        owner?.contentView?.image = image
-      }
-      .store(in: &subscriptions)
     return self
   }
 }

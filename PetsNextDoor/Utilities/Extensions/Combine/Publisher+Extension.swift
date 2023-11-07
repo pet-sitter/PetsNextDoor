@@ -8,6 +8,15 @@
 import Foundation
 import Combine
 
+//MARK: - TypeAliases
+
+typealias TriggerSubject<T>       = PassthroughSubject<T, Never>
+
+typealias SingleValueSubject<T>   = CurrentValueSubject<T, Never>
+typealias SingleValuePublisher<T> = Publisher<T, Never>
+
+//MARK: - Extension Methods
+
 extension Publisher where Self.Failure == Never {
   
   func assignNoRetain<Root>(to keyPath: ReferenceWritableKeyPath<Root, Self.Output>, on object: Root) -> AnyCancellable where Root: AnyObject {

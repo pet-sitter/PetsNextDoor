@@ -27,25 +27,6 @@ final class HorizontalActionButton: UIView {
 
 	private var containerView: UIView!
 	var actionButton: UIButton!
-	
-//	private let buttonBackgroundColor: UIColor
-//	private let buttonTitle: String
-//	private let leftImage: UIImage?
-//	private let buttonHeight: CGFloat
-	
-//	init(
-//		buttonBackgroundColor: UIColor = .init(hex: "#F3F3F3"),
-//		buttonTitle: String,
-//		leftImage: UIImage?,
-//		buttonHeight: CGFloat = 54
-//	) {
-//		self.buttonBackgroundColor 	= buttonBackgroundColor
-//		self.buttonTitle 						= buttonTitle
-//		self.leftImage 							= leftImage
-//		self.buttonHeight 					= buttonHeight
-//		super.init(frame: .zero)
-//		configureUI()
-//	}
   
   init() {
     super.init(frame: .zero)

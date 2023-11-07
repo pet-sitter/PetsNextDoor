@@ -21,7 +21,7 @@ extension Adapter {
   ///
   /// - Returns:
   func components(inSection section: Int) -> [any Component] {
-    return sectionData[section].cells
+    return sectionData[section].components
   }
 
   /// 특정 indexPath에 존재하는 component를 반환한다.

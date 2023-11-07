@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol SectionsBuildable {
   func buildSections() -> [Section]
 }

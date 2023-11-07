@@ -25,6 +25,7 @@
 		7C8EDC552AD585E0003431E5 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8EDC542AD585E0003431E5 /* Metrics.swift */; };
 		DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */; };
 		DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A5ED52AF5233900866138 /* ComponentModifier.swift */; };
+		DA0A5EDB2AF52E0A00866138 /* SelectCareConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A5EDA2AF52E0A00866138 /* SelectCareConditionsViewController.swift */; };
 		DA0F50192A9DDF5100E20ADC /* RouterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */; };
 		DA0F92082A971C860059690E /* ValueObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92072A971C860059690E /* ValueObservable.swift */; };
 		DA0F92122A9848110059690E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92112A9848110059690E /* API.swift */; };
@@ -155,6 +156,7 @@
 		7C8EDC542AD585E0003431E5 /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		DA0A5ED52AF5233900866138 /* ComponentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentModifier.swift; sourceTree = "<group>"; };
+		DA0A5EDA2AF52E0A00866138 /* SelectCareConditionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCareConditionsViewController.swift; sourceTree = "<group>"; };
 		DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterReducer.swift; sourceTree = "<group>"; };
 		DA0F92072A971C860059690E /* ValueObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueObservable.swift; sourceTree = "<group>"; };
 		DA0F92112A9848110059690E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -373,6 +375,23 @@
 			path = ReusableViews;
 			sourceTree = "<group>";
 		};
+		DA0A5ED72AF52DD500866138 /* SelectPet */ = {
+			isa = PBXGroup;
+			children = (
+				DA9534782AEF8B5400ED21F9 /* SelectPetViewController.swift */,
+				DA95347E2AEF8E1800ED21F9 /* SelectPetFeature.swift */,
+			);
+			path = SelectPet;
+			sourceTree = "<group>";
+		};
+		DA0A5ED92AF52DDD00866138 /* SelectCareConditions */ = {
+			isa = PBXGroup;
+			children = (
+				DA0A5EDA2AF52E0A00866138 /* SelectCareConditionsViewController.swift */,
+			);
+			path = SelectCareConditions;
+			sourceTree = "<group>";
+		};
 		DA0F920C2A98412D0059690E /* AuthenticatePhoneNumberView */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,8 +601,8 @@
 		DA9534762AEF8B1000ED21F9 /* WriteUrgentPost */ = {
 			isa = PBXGroup;
 			children = (
-				DA9534782AEF8B5400ED21F9 /* SelectPetViewController.swift */,
-				DA95347E2AEF8E1800ED21F9 /* SelectPetFeature.swift */,
+				DA0A5ED92AF52DDD00866138 /* SelectCareConditions */,
+				DA0A5ED72AF52DD500866138 /* SelectPet */,
 			);
 			path = WriteUrgentPost;
 			sourceTree = "<group>";
@@ -886,6 +905,7 @@
 				DA419C9E2A9B32E400C76AB9 /* MyPageViewController.swift in Sources */,
 				DA20157F2ABEFC2200F7516A /* UploadMediaResponseData.swift in Sources */,
 				DAAD52E82A7CBF5200227BB5 /* IdentifierProvidable.swift in Sources */,
+				DA0A5EDB2AF52E0A00866138 /* SelectCareConditionsViewController.swift in Sources */,
 				DA86A0FA2A62741700525711 /* Server.swift in Sources */,
 				DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */,
 				DA0F92082A971C860059690E /* ValueObservable.swift in Sources */,

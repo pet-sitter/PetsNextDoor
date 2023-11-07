@@ -14,7 +14,7 @@ protocol Component: AnyObject, IdentifierProvidable, ComponentBuildable {
 	associatedtype ContentView: UIView
   associatedtype ViewModel: HashableViewModel
 	
-	var viewModel: ViewModel      { get }
+	var viewModel: ViewModel { get }
 	
 	func createContentView() -> ContentView
 	

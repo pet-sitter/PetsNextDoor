@@ -52,6 +52,7 @@ extension ComponentBuilder {
   }
   
   init(components: any ComponentBuildable...) {
-    self.components = components.flatMap { $0.buildComponents() }
+    self.components = components
+      .flatMap { $0.buildComponents() }
   }
 }
