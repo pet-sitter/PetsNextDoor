@@ -57,6 +57,7 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
 
         }
     }
+    
     Section {
       ForEach(viewStore.urgenPostCardCellViewModels) { cellVM in
         UrgentPostCardComponent(viewModel: cellVM)
@@ -68,14 +69,14 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
     super.configureUI()
     configureNavigationBarItems()
     
+    configureTopLeftTitle("")
+    
     tableView = BaseTableView()
     tableView.set {
       view.addSubview($0)
       $0.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
-    
   }
-
   
   private func configureNavigationBarItems() {
     
@@ -87,7 +88,6 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
       UIBarButtonItem(customView: districtNameNavigationBarView)
     ]
     
-    
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       customView:  UIButton(type: .system)
         .image(UIImage(resource: R.image.icon_pen))
@@ -97,10 +97,5 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
           self?.viewStore.send(.didTapWritePostIcon)
         }
     )
-    
-    
   }
-  
-
-  
 }

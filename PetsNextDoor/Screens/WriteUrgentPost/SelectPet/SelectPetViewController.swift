@@ -59,11 +59,16 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
     renderer.render { renderableView }
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+  }
 
   override func configureUI() {
     super.configureUI()
     
     hidesBottomBarWhenPushed = true
+    
+    configureTopLeftTitle("")
     
     bottomButton = BaseBottomButton()
     bottomButton.set {
@@ -74,6 +79,10 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
         isEnabled: viewStore.publisher.isBottomButtonEnabled,
         buttonTitle: "다음 단계로"
       ))
+      
+      $0.onTap { [weak self] in
+        self?.viewStore.send(.didTapBottomButton)
+      }
       
       
       $0.snp.makeConstraints {

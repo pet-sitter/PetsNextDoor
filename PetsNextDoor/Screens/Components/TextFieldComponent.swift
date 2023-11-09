@@ -43,9 +43,9 @@ final class TextFieldComponent: Component, ContainsTextField {
   
   //MARK: - ContainsTextField
   
-  private(set) var onEditingChanged: (( (String?, any Component) ) -> Void)?
+  private(set) var onEditingChanged: (( (String?, TextFieldComponent) ) -> Void)?
   
-  func onEditingChanged(_ action: @escaping (((String?, any Component))) -> Void) -> Self {
+  func onEditingChanged(_ action: @escaping (((String?, TextFieldComponent))) -> Void) -> Self {
     self.onEditingChanged = action
     return self
   }

@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class HorizontalActionButtonViewModel: HashableViewModel {
+struct HorizontalActionButtonViewModel: HashableViewModel {
   let buttonBackgroundColor: UIColor = .init(hex: "#F3F3F3")
   let buttonTitle: String
   let leftImage: UIImage?
@@ -21,9 +21,9 @@ final class HorizontalActionButtonViewModel: HashableViewModel {
   }
 }
 
-final class HorizontalActionButton: UIView {
+final class HorizontalActionButton: UIView, HeightProvidable {
 	
-	static let defaultHeight: CGFloat = 60       ///버튼 높이 54 + 위 아래 여유 6 정도
+	static var defaultHeight: CGFloat = 60       ///버튼 높이 54 + 위 아래 여유 6 정도
 
 	private var containerView: UIView!
 	var actionButton: UIButton!

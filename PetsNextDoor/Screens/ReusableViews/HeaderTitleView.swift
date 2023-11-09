@@ -20,9 +20,9 @@ final class HeaderTitleViewModel: HashableViewModel {
   }
 }
 
-final class HeaderTitleView: UIView {
+final class HeaderTitleView: UIView, HeightProvidable {
   
-  static let defaultHeight: CGFloat = 24
+  static var defaultHeight: CGFloat = 24
   
   private var titleLabel: UILabel!
   

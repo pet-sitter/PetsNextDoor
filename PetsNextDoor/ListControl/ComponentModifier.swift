@@ -16,10 +16,16 @@ protocol TouchableComponent {
 }
 
 
-
-
 protocol ContainsTextField {
-  var onEditingChanged: (((String?, any Component)) -> Void)? { get }
-  func onEditingChanged(_ action: @escaping (((String?, any Component))) -> Void) -> Self
+  
+  associatedtype AnyComponent: Component
+  
+  var onEditingChanged: (((String?, AnyComponent)) -> Void)? { get }
+  func onEditingChanged(_ action: @escaping (((String?, AnyComponent))) -> Void) -> Self
 }
 
+
+protocol ContainsSegments {
+  var onSegmentChange: ((Int) -> Void)? { get }
+  func onSegmentChange(_ action: ((Int) -> Void)?) -> Self
+}

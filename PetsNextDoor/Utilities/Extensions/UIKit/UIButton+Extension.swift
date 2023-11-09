@@ -342,11 +342,27 @@ extension UIButton {
     self.isEnabled = enabled
     return self
   }
-
+  
   func tag(_ tagNum: Int) -> Self {
     self.tag = tag
     return self
   }
-
+  
 }
 
+extension UIButton {
+  
+  @discardableResult
+  func setBackgroundColor(_ color: UIColor, for state: UIControl.State) -> Self {
+    UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
+    guard let context = UIGraphicsGetCurrentContext() else { return self }
+    context.setFillColor(color.cgColor)
+    context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
+    
+    let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    self.setBackgroundImage(backgroundImage, for: state)
+    return self
+  }
+}

@@ -56,6 +56,7 @@
 		DA275C672A44817700D09F77 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C662A44817700D09F77 /* GoogleSignIn */; };
 		DA275C692A44817700D09F77 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C682A44817700D09F77 /* GoogleSignInSwift */; };
 		DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C6B2A4481A600D09F77 /* SnapKit */; };
+		DA324B212AFCCF9F002BA739 /* StackViewSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */; };
 		DA38FC252AAB02B800A81C93 /* HomeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC242AAB02B800A81C93 /* HomeFeature.swift */; };
 		DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */; };
 		DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC2A2AAB0A7100A81C93 /* UrgentPostCardView.swift */; };
@@ -73,6 +74,12 @@
 		DA449DFD2ACABBAA0025A397 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449DFC2ACABBAA0025A397 /* String+Extension.swift */; };
 		DA449E012ACC488F0025A397 /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449E002ACC488F0025A397 /* SelectCategoryView.swift */; };
 		DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449E022ACC58C30025A397 /* SelectCategoryComponent.swift */; };
+		DA4B2A832AFB28290053217A /* ContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A822AFB28290053217A /* ContainerComponent.swift */; };
+		DA4B2A872AFB44D70053217A /* SelectConditionHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */; };
+		DA4B2A8A2AFB450C0053217A /* HeightProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A892AFB450C0053217A /* HeightProvidable.swift */; };
+		DA4B2A8D2AFB5C400053217A /* SelectConditionHorizontalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A8C2AFB5C400053217A /* SelectConditionHorizontalComponent.swift */; };
+		DA4B2A8F2AFB63680053217A /* ButtonSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A8E2AFB63680053217A /* ButtonSegmentControlView.swift */; };
+		DA4B2A922AFB68C20053217A /* ButtonSegmentControlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A912AFB68C20053217A /* ButtonSegmentControlComponent.swift */; };
 		DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA4F05212A68021800D7E7A7 /* ComposableArchitecture */; };
 		DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */; };
 		DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */; };
@@ -122,6 +129,7 @@
 		DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1A2A47E1B4002D18E7 /* LoginService.swift */; };
 		DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */; };
 		DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */; };
+		DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */; };
 		DADEB6D02AEB8468002BED63 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6CF2AEB8468002BED63 /* Renderer.swift */; };
 		DADEB6D32AEB87A2002BED63 /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6D22AEB87A2002BED63 /* Updater.swift */; };
 		DADEB6D52AEB923D002BED63 /* UITableViewUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6D42AEB923D002BED63 /* UITableViewUpdater.swift */; };
@@ -136,6 +144,7 @@
 		DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */; };
 		DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813272AE2B80C00B46E5C /* AppAppearanceManager.swift */; };
 		DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB93782A5ACE25006FC77C /* Dependency.swift */; };
+		DAFD545D2AFA51400089E93E /* SelectCareConditionFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFD545C2AFA51400089E93E /* SelectCareConditionFeature.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -179,6 +188,7 @@
 		DA20157B2ABEF9C300F7516A /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		DA20157E2ABEFC2200F7516A /* UploadMediaResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadMediaResponseData.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewSpacer.swift; sourceTree = "<group>"; };
 		DA38FC242AAB02B800A81C93 /* HomeFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeature.swift; sourceTree = "<group>"; };
 		DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardComponent.swift; sourceTree = "<group>"; };
 		DA38FC2A2AAB0A7100A81C93 /* UrgentPostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardView.swift; sourceTree = "<group>"; };
@@ -196,6 +206,12 @@
 		DA449DFC2ACABBAA0025A397 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		DA449E002ACC488F0025A397 /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		DA449E022ACC58C30025A397 /* SelectCategoryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryComponent.swift; sourceTree = "<group>"; };
+		DA4B2A822AFB28290053217A /* ContainerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerComponent.swift; sourceTree = "<group>"; };
+		DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionHorizontalView.swift; sourceTree = "<group>"; };
+		DA4B2A892AFB450C0053217A /* HeightProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightProvidable.swift; sourceTree = "<group>"; };
+		DA4B2A8C2AFB5C400053217A /* SelectConditionHorizontalComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionHorizontalComponent.swift; sourceTree = "<group>"; };
+		DA4B2A8E2AFB63680053217A /* ButtonSegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSegmentControlView.swift; sourceTree = "<group>"; };
+		DA4B2A912AFB68C20053217A /* ButtonSegmentControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSegmentControlComponent.swift; sourceTree = "<group>"; };
 		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
 		DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameSpace.swift; sourceTree = "<group>"; };
 		DA4F05372A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPhoneNumberCore.swift; sourceTree = "<group>"; };
@@ -248,6 +264,7 @@
 		DACB0A1A2A47E1B4002D18E7 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
+		DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFilledTextField.swift; sourceTree = "<group>"; };
 		DADEB6CF2AEB8468002BED63 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		DADEB6D22AEB87A2002BED63 /* Updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
 		DADEB6D42AEB923D002BED63 /* UITableViewUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewUpdater.swift; sourceTree = "<group>"; };
@@ -260,6 +277,7 @@
 		DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetComponent.swift; sourceTree = "<group>"; };
 		DAF813272AE2B80C00B46E5C /* AppAppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearanceManager.swift; sourceTree = "<group>"; };
 		DAFB93782A5ACE25006FC77C /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
+		DAFD545C2AFA51400089E93E /* SelectCareConditionFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCareConditionFeature.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +327,7 @@
 				DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */,
 				7C1277F42A544142004A83A4 /* BaseViewController.swift */,
 				7C51EF722A94EE60003132A1 /* BaseTextFieldView.swift */,
+				DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */,
 				DA95348D2AF0D19800ED21F9 /* HashableViewModel.swift */,
 			);
 			path = Base;
@@ -319,7 +338,7 @@
 			children = (
 				7C1277F12A544119004A83A4 /* Base */,
 				DA8A34FC2A765B7D0054FE25 /* Components */,
-				DA86A0F32A62737200525711 /* Views */,
+				7C51EF6E2A94EE22003132A1 /* ReusableViews */,
 				DA419C8F2A9B320000C76AB9 /* Main */,
 				DA9534762AEF8B1000ED21F9 /* WriteUrgentPost */,
 				7C1277F92A54436E004A83A4 /* Login */,
@@ -341,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				7C1277FB2A544A0C004A83A4 /* ShortlyConfigurable.swift */,
+				DA4B2A892AFB450C0053217A /* HeightProvidable.swift */,
 				DA9534932AF1241900ED21F9 /* ViewStore+Extension.swift */,
 				DA0F92072A971C860059690E /* ValueObservable.swift */,
 				DAAD52E72A7CBF5200227BB5 /* IdentifierProvidable.swift */,
@@ -363,11 +383,14 @@
 			isa = PBXGroup;
 			children = (
 				DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */,
+				DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */,
+				7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */,
 				DAAD530C2A7E291300227BB5 /* EmptyView.swift */,
 				DA86A0F62A62739500525711 /* LoadingIndicator.swift */,
 				DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */,
 				DA1137092AC3E6B80061F1E0 /* CountDownLabel.swift */,
 				DA449DF72AC9A7620025A397 /* SegmentControlView.swift */,
+				DA4B2A8E2AFB63680053217A /* ButtonSegmentControlView.swift */,
 				7C8EDC4F2AD57F3C003431E5 /* HorizontalActionButton.swift */,
 				DAF813222AE299BA00B46E5C /* SelectPetView.swift */,
 				DA95347A2AEF8BE100ED21F9 /* HeaderTitleView.swift */,
@@ -388,6 +411,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0A5EDA2AF52E0A00866138 /* SelectCareConditionsViewController.swift */,
+				DAFD545C2AFA51400089E93E /* SelectCareConditionFeature.swift */,
 			);
 			path = SelectCareConditions;
 			sourceTree = "<group>";
@@ -432,6 +456,7 @@
 				DADEB6D12AEB879A002BED63 /* Updaters */,
 				DA15C1282AE55199004D8C58 /* Adapters */,
 				DA8A34FD2A765B850054FE25 /* Component.swift */,
+				DA4B2A822AFB28290053217A /* ContainerComponent.swift */,
 				DA0A5ED52AF5233900866138 /* ComponentModifier.swift */,
 				DA15C12B2AE55206004D8C58 /* Section.swift */,
 				DADEB6D72AEB9BC1002BED63 /* SectionsBuildable.swift */,
@@ -534,6 +559,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		DA4B2A852AFB44260053217A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		DA4F052B2A68F69900D7E7A7 /* AppLifeCycle */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,15 +594,6 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		DA86A0F32A62737200525711 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */,
-				7C51EF6E2A94EE22003132A1 /* ReusableViews */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		DA86A0F82A62740700525711 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,6 +618,8 @@
 				DA449DF92AC9ACC90025A397 /* SegmentControlComponent.swift */,
 				DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */,
 				DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */,
+				DA4B2A8C2AFB5C400053217A /* SelectConditionHorizontalComponent.swift */,
+				DA4B2A912AFB68C20053217A /* ButtonSegmentControlComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -601,6 +627,7 @@
 		DA9534762AEF8B1000ED21F9 /* WriteUrgentPost */ = {
 			isa = PBXGroup;
 			children = (
+				DA4B2A852AFB44260053217A /* Views */,
 				DA0A5ED92AF52DDD00866138 /* SelectCareConditions */,
 				DA0A5ED72AF52DD500866138 /* SelectPet */,
 			);
@@ -859,10 +886,12 @@
 			files = (
 				DA0FD7392AA479C800497256 /* Utility.swift in Sources */,
 				DA0F92122A9848110059690E /* API.swift in Sources */,
+				DAFD545D2AFA51400089E93E /* SelectCareConditionFeature.swift in Sources */,
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
 				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				DA8A34F12A7654900054FE25 /* Colors.swift in Sources */,
+				DA4B2A8D2AFB5C400053217A /* SelectConditionHorizontalComponent.swift in Sources */,
 				DA95347B2AEF8BE100ED21F9 /* HeaderTitleView.swift in Sources */,
 				DA0F50192A9DDF5100E20ADC /* RouterReducer.swift in Sources */,
 				DA449DFD2ACABBAA0025A397 /* String+Extension.swift in Sources */,
@@ -870,12 +899,14 @@
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
 				DA8A35012A765BF30054FE25 /* BaseView.swift in Sources */,
 				DA9534912AF0D74900ED21F9 /* ForEach.swift in Sources */,
+				DA324B212AFCCF9F002BA739 /* StackViewSpacer.swift in Sources */,
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
 				DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */,
 				DA38FC322AADA19800A81C93 /* MyPageFeature.swift in Sources */,
 				DA8A34FE2A765B850054FE25 /* Component.swift in Sources */,
 				7C51EF732A94EE60003132A1 /* BaseTextFieldView.swift in Sources */,
 				DADEB6DB2AEB9DF9002BED63 /* List.swift in Sources */,
+				DA4B2A8A2AFB450C0053217A /* HeightProvidable.swift in Sources */,
 				DA419C912A9B321B00C76AB9 /* MainTabBarController.swift in Sources */,
 				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
 				DA0F92172A9869840059690E /* Network.swift in Sources */,
@@ -894,7 +925,9 @@
 				DA9534942AF1241900ED21F9 /* ViewStore+Extension.swift in Sources */,
 				DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */,
 				DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */,
+				DA4B2A872AFB44D70053217A /* SelectConditionHorizontalView.swift in Sources */,
 				DA38FC2E2AADA11900A81C93 /* CommunityFeature.swift in Sources */,
+				DA4B2A922AFB68C20053217A /* ButtonSegmentControlComponent.swift in Sources */,
 				7C1277F52A544142004A83A4 /* BaseViewController.swift in Sources */,
 				7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */,
 				DAE6FC602A95E20B008BF1F1 /* UILabel+Extension.swift in Sources */,
@@ -913,6 +946,7 @@
 				DA8A35042A765F140054FE25 /* TextFieldComponent.swift in Sources */,
 				DAAD52F32A7CC90E00227BB5 /* UITableView+Extension.swift in Sources */,
 				DA449E012ACC488F0025A397 /* SelectCategoryView.swift in Sources */,
+				DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */,
 				DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */,
 				DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
@@ -944,11 +978,13 @@
 				DA419C982A9B32C700C76AB9 /* HomeViewController.swift in Sources */,
 				DA11370D2AC3EEDB0061F1E0 /* BaseButton.swift in Sources */,
 				DA95347D2AEF8D2200ED21F9 /* HeaderTitleComponent.swift in Sources */,
+				DA4B2A8F2AFB63680053217A /* ButtonSegmentControlView.swift in Sources */,
 				7C51EF5D2A94E8C2003132A1 /* SetProfileViewController.swift in Sources */,
 				DADEB6D02AEB8468002BED63 /* Renderer.swift in Sources */,
 				7C51EF642A94EBE5003132A1 /* BaseTableView.swift in Sources */,
 				DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */,
 				DA8A34F82A7654DA0054FE25 /* Keyboard.swift in Sources */,
+				DA4B2A832AFB28290053217A /* ContainerComponent.swift in Sources */,
 				DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */,
 				DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */,
 				DA449DFA2AC9ACC90025A397 /* SegmentControlComponent.swift in Sources */,

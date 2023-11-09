@@ -8,14 +8,12 @@
 import Foundation
 import Combine
 
-final class SegmentControlComponent: Component {
+final class SegmentControlComponent: Component, ContainsSegments {
   
   typealias ContentView = SegmentControlView
   typealias ViewModel   = SegmentControlViewModel
   
   var viewModel: ViewModel
-  
-  var height: CGFloat { SegmentControlView.defaultHeight }
   
   init(viewModel: ViewModel) {
     self.viewModel = viewModel
@@ -29,7 +27,11 @@ final class SegmentControlComponent: Component {
     contentView.onSegmentTap = self.onSegmentChange
   }
   
-  private var onSegmentChange: ((Int) -> Void)?
+  func contentHeight() -> CGFloat? {
+    SegmentControlView.defaultHeight
+  }
+  
+  private(set) var onSegmentChange: ((Int) -> Void)?
   
   func onSegmentChange(_ action: ((Int) -> Void)?) -> Self {
     self.onSegmentChange = action

@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct HomeFeature: Reducer {
   
   struct State: Equatable {
-    var router: Router<PND.Destination>.State = .init()
+    fileprivate var router: Router<PND.Destination>.State = .init()
     var urgenPostCardCellViewModels: [UrgentPostCardViewModel] = []
   }
   

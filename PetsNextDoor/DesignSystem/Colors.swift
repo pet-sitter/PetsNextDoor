@@ -13,5 +13,6 @@ extension PND {
     static let commonBlack 	= UIColor.black
 		static let commonWhite 	= UIColor.white
 		static let commonOrange = UIColor(hex: "FF8B00")
+    static let commonGrey   = UIColor(hex: "#D9D9D9")
   }
 }

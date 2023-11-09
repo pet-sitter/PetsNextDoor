@@ -26,7 +26,7 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
   
   func render(component: some Component) {
     
-    guard let renderedComponent else {
+    guard renderedComponent != nil else {
       let contentView   = component.createContentView()
       renderedComponent = component
       containerView.addSubview(contentView)

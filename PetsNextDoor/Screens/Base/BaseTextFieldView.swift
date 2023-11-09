@@ -21,9 +21,9 @@ final class BaseTextFieldViewModel: HashableViewModel {
   }
 }
 
-class BaseTextFieldView: UIView {
+class BaseTextFieldView: UIView, HeightProvidable {
   
-  static let defaultHeight: CGFloat = 54
+  static var defaultHeight: CGFloat = 54
   
   var containerView: UIView!
   var textField: UITextField!

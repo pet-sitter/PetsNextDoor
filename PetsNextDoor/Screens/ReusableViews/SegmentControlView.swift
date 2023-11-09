@@ -22,7 +22,6 @@ final class SegmentControlView: UIView {
   
   private var containerView: UIView!
   private var containerStackView: UIStackView!
-  
   private var containerStackViewWidth: CGFloat = 0
   
   private(set) var selectedSegment: Int = 0
@@ -113,5 +112,9 @@ final class SegmentControlView: UIView {
       $0.top.bottom.equalToSuperview()
       $0.leading.equalToSuperview().inset(20)
     }
+  }
+  
+  func configure(viewModel: SegmentControlViewModel) {
+    
   }
 }

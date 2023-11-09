@@ -11,6 +11,12 @@ protocol SectionsBuildable {
   func buildSections() -> [Section]
 }
 
+extension SectionsBuildable {
+  
+  var sections: [Section] { buildSections() }
+  var components: [any Component] { buildSections().flatMap { $0.components} }
+}
+
 extension Optional: SectionsBuildable where Wrapped: SectionsBuildable {
   
   func buildSections() -> [Section] {
