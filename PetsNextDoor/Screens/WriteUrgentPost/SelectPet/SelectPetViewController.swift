@@ -25,6 +25,7 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
   
   var renderableView: RenderableView {
     Section {
+      EmptyComponent(height: 24)
       HeaderTitleComponent(
         viewModel: .init(
           title: "반려동물 선택",

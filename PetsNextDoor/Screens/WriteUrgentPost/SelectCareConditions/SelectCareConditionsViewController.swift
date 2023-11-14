@@ -25,6 +25,7 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
   
   var renderableView: RenderableView {
     Section {
+      EmptyComponent(height: 24)
       HeaderTitleComponent(
         viewModel: .init(
           title: "돌봄 조건",
@@ -64,9 +65,8 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
         maxWidthForRightConditionView: 126
       ))
       .onEditingChanged { text, _ in
-        print("✅ text: \(text)")
-      }
       
+      }
       
       
       EmptyComponent(height: 26)
@@ -92,6 +92,8 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
   override func configureUI() {
     super.configureUI()
     
+    configureTopLeftTitle("")
+    
     hidesBottomBarWhenPushed = true
     
     bottomButton = BaseBottomButton()
@@ -101,6 +103,11 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
         isEnabled: viewStore.publisher.isBottomButtonEnabled,
         buttonTitle: "다음 단계로"
       ))
+      
+      $0.onTap { [weak self] in
+        self?.viewStore.send(.didTapBottomButton)
+      }
+      
       $0.snp.makeConstraints {
         $0.bottom.equalToSuperview().inset(UIScreen.safeAreaBottomInset).inset(50)
         $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)

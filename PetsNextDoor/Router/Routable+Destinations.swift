@@ -18,6 +18,8 @@ extension PND {
     // 돌봄급구 글쓰기
     case selectPet(state: SelectPetFeature.State)
     case selectCareCondition(state: SelectCareConditionFeature.State)
+    case selectOtherRequirements(state: SelectOtherRequirementsFeature.State)
+    case writeUrgentPost(state: WriteUrgentPostFeature.State)
     
     // 로그인 / 회원가입 화면
     case login(onWindow: UIWindow)
@@ -46,6 +48,12 @@ extension PND {
       case .selectCareCondition(let state):
         return SelectCareConditionsViewController(store: .init(initialState: state, reducer: SelectCareConditionFeature() ))
         
+      case .selectOtherRequirements(let state):
+        return SelectOtherRequirementsViewController(store: .init(initialState: state, reducer: SelectOtherRequirementsFeature() ))
+        
+      case .writeUrgentPost(let state):
+        return WriteUrgenPostViewController(store: .init(initialState: state, reducer: WriteUrgentPostFeature() ))
+        
         // 로그인 / 회원가입 화면
         
       case .authenticatePhoneNumber(let state):
@@ -53,16 +61,14 @@ extension PND {
           store: .init(initialState: state, reducer: { AuthenticateFeature() })
         )
         
-        
       case .setInitialProfile(let state):
         return SetProfileViewController(
           store: .init(initialState: state, reducer: { SetProfileFeature() })
         )
         
       default:
-        // 아래 고치기
-        fatalError()
-        
+        assertionFailure("❌ Destination.createView() case NOT DEFINED")
+        return .init()
       }
     }
   }

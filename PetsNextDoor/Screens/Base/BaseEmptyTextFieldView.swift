@@ -1,36 +1,43 @@
 //
-//  BaseFilledTextFieldView.swift
+//  BaseEmptyTextFieldView.swift
 //  PetsNextDoor
 //
-//  Created by kevinkim2586 on 2023/11/08.
+//  Created by kevinkim2586 on 2023/11/14.
 //
 
 import UIKit
-import Combine
 import SnapKit
+import Combine
 
-final class BaseFilledTextFieldViewModel: HashableViewModel {
-  let textFieldPlaceHolder: String
-  let maxCharactersLimit: Int
+final class BaseEmptyTextFieldViewModel: HashableViewModel {
   
-  init(textFieldPlaceHolder: String, maxCharactersLimit: Int) {
+  let textFieldPlaceHolder: String
+  let maxCharactersLimit: Int?
+  let font: UIFont
+  
+  init(
+    textFieldPlaceHolder: String,
+    maxCharactersLimit: Int? = nil,
+    font: UIFont = .systemFont(ofSize: 24, weight: .regular)
+  ) {
     self.textFieldPlaceHolder = textFieldPlaceHolder
     self.maxCharactersLimit = maxCharactersLimit
+    self.font = font
   }
 }
 
-class BaseFilledTextField: UIView, HeightProvidable {
+class BaseEmptyTextFieldView: UIView, HeightProvidable {
   
-  static var defaultHeight: CGFloat { 40.0 }
+  static var defaultHeight: CGFloat { 30.0 }
   
   private var containerView: UIView!
   private var textField: UITextField!
   
+  private var maxCharacterLimit: Int?
+  
   var onTextChange: ((String?) -> Void)?
-  
+
   private var subscriptions = Set<AnyCancellable>()
-  
-  private var viewModel: BaseFilledTextFieldViewModel?
   
   init() {
     super.init(frame: .zero)
@@ -52,24 +59,21 @@ class BaseFilledTextField: UIView, HeightProvidable {
       containerView.addSubview($0)
       $0.delegate = self
       $0.tintColor = PND.Colors.commonBlack
-      $0.backgroundColor = UIColor(hex: "#F3F3F3")
-      $0.layer.cornerRadius = 4
-      $0.rightViewMode = .always
-      $0.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-      $0.textAlignment = .right
+      $0.textAlignment = .left
+      $0.backgroundColor = .clear
       $0.snp.makeConstraints {
-        $0.edges.equalToSuperview()
+        $0.top.bottom.equalToSuperview()
+        $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
       }
     }
-    
   }
   
   @discardableResult
-  func configure(viewModel: BaseFilledTextFieldViewModel) -> Self {
-    
-    self.viewModel = viewModel
+  func configure(viewModel: BaseEmptyTextFieldViewModel) -> Self {
     
     textField.placeholder = viewModel.textFieldPlaceHolder
+    maxCharacterLimit     = viewModel.maxCharactersLimit
+    textField.font        = viewModel.font
     
     textField.controlEventPublisher(for: .editingChanged)
       .withStrong(self)
@@ -82,14 +86,14 @@ class BaseFilledTextField: UIView, HeightProvidable {
   }
 }
 
-extension BaseFilledTextField: UITextFieldDelegate {
+extension BaseEmptyTextFieldView: UITextFieldDelegate {
   
   func textField(
     _ textField: UITextField,
     shouldChangeCharactersIn range: NSRange,
     replacementString string: String
   ) -> Bool {
-    guard let maxCharacterLimit = viewModel?.maxCharactersLimit else { return true }
+    guard let maxCharacterLimit else { return true }
     let currentText = (textField.text ?? "") + string
     
     if currentText.count > maxCharacterLimit {

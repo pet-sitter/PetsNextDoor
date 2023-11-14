@@ -9,12 +9,19 @@ import UIKit
 import SnapKit
 
 final class HeaderTitleViewModel: HashableViewModel {
-  let title: String
+  let title: String?
+  let attributedTitle: NSAttributedString?
   let textAlignment: NSTextAlignment
   var font: UIFont? = nil
   
-  init(title: String, textAlignment: NSTextAlignment, font: UIFont? = nil) {
+  init(
+    title: String? = nil,
+    attributedTitle: NSAttributedString? = nil,
+    textAlignment: NSTextAlignment,
+    font: UIFont? = nil
+  ) {
     self.title = title
+    self.attributedTitle = attributedTitle
     self.textAlignment = textAlignment
     self.font = font
   }
@@ -48,7 +55,15 @@ final class HeaderTitleView: UIView, HeightProvidable {
   }
   
   func configure(viewModel: HeaderTitleViewModel) {
-    titleLabel.text = viewModel.title
+    
+    if let title = viewModel.title {
+      titleLabel.text = title
+    }
+    
+    if let attributedTitle = viewModel.attributedTitle {
+      titleLabel.attributedText = attributedTitle
+    }
+
     titleLabel.textAlignment = viewModel.textAlignment
     
     if let font = viewModel.font {

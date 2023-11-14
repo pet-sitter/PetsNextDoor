@@ -1,5 +1,5 @@
 //
-//  BaseTextFieldView.swift
+//  BaseUnderlinedTextFieldView.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/07/30.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-final class BaseTextFieldViewModel: HashableViewModel {
+final class BaseUnderlinedTextFieldViewModel: HashableViewModel {
   let textFieldPlaceHolder: String
   var maxCharactersLimit: Int? = nil
   var rightView: UIView? = nil
@@ -21,7 +21,7 @@ final class BaseTextFieldViewModel: HashableViewModel {
   }
 }
 
-class BaseTextFieldView: UIView, HeightProvidable {
+class BaseUnderlinedTextFieldView: UIView, HeightProvidable {
   
   static var defaultHeight: CGFloat = 54
   
@@ -105,7 +105,7 @@ class BaseTextFieldView: UIView, HeightProvidable {
       .store(in: &subscriptions)
   }
   
-  func configure(viewModel: BaseTextFieldViewModel) {
+  func configure(viewModel: BaseUnderlinedTextFieldViewModel) {
     
     textField.placeholder = viewModel.textFieldPlaceHolder
     maxCharacterLimit     = viewModel.maxCharactersLimit
@@ -127,7 +127,7 @@ class BaseTextFieldView: UIView, HeightProvidable {
   }
 }
 
-extension BaseTextFieldView: UITextFieldDelegate {
+extension BaseUnderlinedTextFieldView: UITextFieldDelegate {
   
   func textField(
     _ textField: UITextField,

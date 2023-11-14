@@ -11,7 +11,6 @@ import Combine
 //MARK: - TypeAliases
 
 typealias TriggerSubject<T>       = PassthroughSubject<T, Never>
-
 typealias SingleValueSubject<T>   = CurrentValueSubject<T, Never>
 typealias SingleValuePublisher<T> = Publisher<T, Never>
 

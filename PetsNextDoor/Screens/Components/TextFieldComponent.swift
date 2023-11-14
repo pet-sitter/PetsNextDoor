@@ -12,8 +12,8 @@ final class TextFieldComponent: Component, ContainsTextField {
   
   var subscriptions = Set<AnyCancellable>()
   
-  typealias ContentView = BaseTextFieldView
-  typealias ViewModel   = BaseTextFieldViewModel
+  typealias ContentView = BaseUnderlinedTextFieldView
+  typealias ViewModel   = BaseUnderlinedTextFieldViewModel
 
   var viewModel: ViewModel
   
@@ -22,7 +22,7 @@ final class TextFieldComponent: Component, ContainsTextField {
   }
   
   func createContentView() -> ContentView {
-    BaseTextFieldView()
+    BaseUnderlinedTextFieldView()
   }
   
   func render(contentView: ContentView) {

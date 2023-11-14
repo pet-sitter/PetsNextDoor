@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseCore
 import ComposableArchitecture
+import IQKeyboardManagerSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
@@ -25,6 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let window else { return }
     
     FirebaseApp.configure()
+    
+    IQKeyboardManager.shared.enable = true
     
   
     AppAppearanceManager.shared.configureInitialAppearance()

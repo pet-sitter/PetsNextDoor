@@ -24,6 +24,12 @@ protocol ContainsTextField {
   func onEditingChanged(_ action: @escaping (((String?, AnyComponent))) -> Void) -> Self
 }
 
+protocol ContainsTextView {
+  
+  var onEditingChanged: ((String?) -> Void)? { get }
+  func onEditingChanged(_ action: @escaping ((String?) -> Void)) -> Self
+}
+
 
 protocol ContainsSegments {
   var onSegmentChange: ((Int) -> Void)? { get }
