@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class UrgentPostCardComponent: Component {
+final class UrgentPostCardComponent: Component, TouchableComponent {
   
   var subscriptions = Set<AnyCancellable>()
   
@@ -28,9 +28,23 @@ final class UrgentPostCardComponent: Component {
   
   func render(contentView: UrgentPostCardView) {
     contentView.configure(viewModel: viewModel)
+    
+    contentView.onTap { [weak self] in
+      guard let self else { return }
+      self.onTouchAction?(self)
+    }
   }
   
   func contentHeight() -> CGFloat? {
     ContentView.defaultHeight
+  }
+  
+  //MARK: - TouchableComponent
+  
+  var onTouchAction: ((UrgentPostCardComponent) -> Void)?
+  
+  func onTouch(_ action: @escaping ((UrgentPostCardComponent) -> Void)) -> Self {
+    self.onTouchAction = action
+    return self 
   }
 }

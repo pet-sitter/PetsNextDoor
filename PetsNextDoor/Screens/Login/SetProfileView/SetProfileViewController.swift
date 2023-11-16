@@ -30,11 +30,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
     return config
   }
   
-  private lazy var renderer = Renderer(
-    adapter: UITableViewAdapter(),
-    updater: UITableViewUpdater(),
-    target: tableView
-  )
+  private lazy var renderer = Renderer(adapter: UITableViewAdapter(target: tableView))
   
   var renderableView: RenderableView {
     Section {

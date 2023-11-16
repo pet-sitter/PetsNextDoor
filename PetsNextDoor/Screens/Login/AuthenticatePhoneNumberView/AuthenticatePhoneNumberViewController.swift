@@ -21,11 +21,7 @@ final class AuthenticatePhoneNumberViewController: BaseViewController {
   
   private let viewStore: ViewStoreOf<Feature>
   
-  private lazy var renderer = Renderer(
-    adapter: UITableViewAdapter(),
-    updater: UITableViewUpdater(),
-    target: tableView
-  )
+  private lazy var renderer = Renderer(adapter: UITableViewAdapter(target: tableView))
   
   init(store: some StoreOf<Feature>) {
     self.viewStore  = ViewStore(store, observe: { $0 } )

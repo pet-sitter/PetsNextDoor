@@ -19,6 +19,7 @@ struct HomeFeature: Reducer {
     
     case viewDidLoad
     case didTapWritePostIcon
+    case didTapUrgentPost(UrgentPostCardViewModel)
     
     // Internal Cases
     case _routeAction(Router<PND.Destination>.Action)
@@ -51,6 +52,10 @@ struct HomeFeature: Reducer {
     
       case .didTapWritePostIcon:
         return .send(._routeAction(.pushScreen(.selectPet(state: .init()), animated: true)))
+        
+      case .didTapUrgentPost(let vm):
+        return .send(._routeAction(.pushScreen(.urgentPostDetail(state: .init()), animated: true)))
+    
         
       default:
         return .none

@@ -9,23 +9,16 @@ import UIKit
 import SnapKit
 import Combine
 
-final class UrgentPostCardViewModel: HashableViewModel {
+struct UrgentPostCardViewModel: HashableViewModel {
   let postTitle: String
   let date: String
   let location: String
   let cost: String
-  
-  init(postTitle: String, date: String, location: String, cost: String) {
-    self.postTitle = postTitle
-    self.date = date
-    self.location = location
-    self.cost = cost
-  }
 }
 
-final class UrgentPostCardView: UIView {
+final class UrgentPostCardView: UIView, HeightProvidable {
   
-  static let defaultHeight: CGFloat = 112
+  static var defaultHeight: CGFloat { 112 }
   
   var containerView: UIView!
   var mainImageView: UIImageView!
@@ -45,6 +38,8 @@ final class UrgentPostCardView: UIView {
   var costStackView: UIStackView!
   var costImageView: UIImageView!
   var costLabel: UILabel!
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   private struct Constants {
     static let textFont: UIFont = .systemFont(ofSize: 12, weight: .medium)

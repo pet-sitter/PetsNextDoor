@@ -21,6 +21,9 @@ extension PND {
     case selectOtherRequirements(state: SelectOtherRequirementsFeature.State)
     case writeUrgentPost(state: WriteUrgentPostFeature.State)
     
+    // 돌봄급구 상세
+    case urgentPostDetail(state: UrgentPostDetailFeature.State)
+    
     // 로그인 / 회원가입 화면
     case login(onWindow: UIWindow)
     case authenticatePhoneNumber(AuthenticateFeature.State)
@@ -53,6 +56,10 @@ extension PND {
         
       case .writeUrgentPost(let state):
         return WriteUrgenPostViewController(store: .init(initialState: state, reducer: WriteUrgentPostFeature() ))
+        
+        // 돌봄급구 상세 Flow
+      case .urgentPostDetail(let state):
+        return UrgentPostDetailViewController(store: .init(initialState: state, reducer: UrgentPostDetailFeature() ))
         
         // 로그인 / 회원가입 화면
         

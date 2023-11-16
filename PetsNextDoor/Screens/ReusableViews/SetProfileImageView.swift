@@ -12,9 +12,18 @@ import Combine
 final class SetProfileImageViewModel: HashableViewModel {
   
   @Published var selectedUserImage: UIImage? = nil
+  let imageViewAlignment: Alignment
   
-  init(userImage: any SingleValuePublisher<UIImage?>) {
+  init(userImage: any SingleValuePublisher<UIImage?>, imageViewAlignment: Alignment = .center) {
+
+    self.imageViewAlignment = imageViewAlignment
     userImage.assign(to: &$selectedUserImage)
+  }
+  
+  enum Alignment {
+    case left
+    case center
+    case right
   }
 }
 
@@ -114,5 +123,23 @@ final class SetProfileImageView: UIView {
       .receiveOnMainQueue()
       .assignNoRetain(to: \.image, on: self)
       .store(in: &subscriptions)
+    
+    switch viewModel.imageViewAlignment {
+    case .center:
+      profileImageContainerView.snp.remakeConstraints {
+        $0.center.equalToSuperview()
+        $0.width.height.equalTo(Self.defaultHeight)
+      }
+    case .left:
+      profileImageContainerView.snp.remakeConstraints {
+        $0.leading.equalToSuperview().inset(PND.Metrics.defaultSpacing)
+        $0.width.height.equalTo(Self.defaultHeight)
+      }
+    case .right:
+      profileImageContainerView.snp.remakeConstraints {
+        $0.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
+        $0.width.height.equalTo(Self.defaultHeight)
+      }
+    }
   }
 }

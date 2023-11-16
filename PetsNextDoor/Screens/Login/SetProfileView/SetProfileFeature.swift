@@ -109,8 +109,6 @@ struct SetProfileFeature: Reducer {
             isDeleteButtonHidden: true
           )
         )
-        print("✅ FEATURE VMs: \(state.myPetCellViewModels)")
-        
         return .none
         
       case ._setNicknameStatusPhrase(let phrase):

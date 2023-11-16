@@ -53,6 +53,8 @@ class BaseTextView: UIView, HeightProvidable {
       $0.textColor = PND.Colors.commonBlack
       $0.delegate = self
       $0.textColor = defaultPlaceHolderColor
+      $0.textContainerInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+      $0.textContainer.lineFragmentPadding = 0
       $0.snp.makeConstraints {
         $0.top.bottom.equalToSuperview()
         $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
@@ -62,7 +64,9 @@ class BaseTextView: UIView, HeightProvidable {
   
   func configure(viewModel: BaseTextViewModel) {
     
-    self.placeHolder = viewModel.placeHolder
+    self.placeHolder    = viewModel.placeHolder
+    textView.textColor  = defaultPlaceHolderColor
+    textView.text       = viewModel.placeHolder
   }
 }
 

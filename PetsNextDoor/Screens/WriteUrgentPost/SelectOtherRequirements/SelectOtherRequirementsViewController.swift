@@ -54,11 +54,7 @@ final class SelectOtherRequirementsViewController: BaseViewController, Renderabl
   private var tableView: UITableView!
   private var bottomButton: BaseBottomButton!
   
-  private lazy var renderer = Renderer(
-    adapter: UITableViewAdapter(),
-    updater: UITableViewUpdater(),
-    target: tableView
-  )
+  private lazy var renderer = Renderer(adapter: UITableViewAdapter(target: tableView))
   
   var renderableView: RenderableView {
     Section {

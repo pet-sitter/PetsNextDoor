@@ -1,22 +1,30 @@
 //
-//  DistrictNameView.swift
+//  NavigationTitleBarView.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/10/01.
 //
 
-//MARK: - 홈화면 좌측 상단 NavigationBar에 사용되는 동네 이름 나타내는 View
+//MARK: - 홈화면 좌측 상단 NavigationBar에 사용되는 View ()
 
 import UIKit
 import SnapKit
 
-final class DistrictNameView: UIView {
+struct NavigationTitleBarViewModel: HashableViewModel {
+  let titleString: String
+  let isUnderlineViewHidden: Bool
+}
+
+final class NavigationTitleBarView: UIView {
   
   private var containerView: UIView!
-  private var districtNameLabel: UILabel!
+  private var titleLabel: UILabel!
   private var underlineView: UIView!
   
-  init() {
+  let viewModel: NavigationTitleBarViewModel
+  
+  init(viewModel: NavigationTitleBarViewModel) {
+    self.viewModel = viewModel
     super.init(frame: .zero)
     configureUI()
   }
@@ -32,7 +40,6 @@ final class DistrictNameView: UIView {
       $0.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 
-    
     underlineView = UIView()
     underlineView.set {
       containerView.addSubview($0)
@@ -43,22 +50,20 @@ final class DistrictNameView: UIView {
         $0.height.equalTo(10)
         $0.bottom.equalToSuperview()
       }
+      $0.isHidden = viewModel.isUnderlineViewHidden
     }
     
-    
-    districtNameLabel = UILabel()
-    districtNameLabel.set {
+    titleLabel = UILabel()
+    titleLabel.set {
       containerView.addSubview($0)
       $0.font = .systemFont(ofSize: 24, weight: .bold)
-      $0.text = "이웃집멍냥이네"
-      $0.snp.makeConstraints {
-        $0.edges.equalToSuperview()
-      }
+      $0.text = viewModel.titleString
+      $0.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
   }
   
   func configureDistrictName(_ districtName: String) {
-    
+    titleLabel.text = districtName
   }
 }

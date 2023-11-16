@@ -12,7 +12,7 @@ import ComposableArchitecture
 
 final class HomeViewController: BaseViewController, RenderableViewProvidable {
   
-  private var tableView: UITableView!
+  private var tableView: BaseTableView!
   
   typealias Feature = HomeFeature
   typealias State   = HomeFeature.State
@@ -20,24 +20,7 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
   
   private let viewStore: ViewStoreOf<Feature>
   
-  private let districtNameNavigationBarView = DistrictNameView()
-  
-  private lazy var renderer = Renderer(
-    adapter: UITableViewAdapter(),
-    updater: UITableViewUpdater(),
-    target: tableView
-  )
-  
-  init(store: some StoreOf<Feature>) {
-    self.viewStore = ViewStore(store, observe: { $0 })
-    super.init()
-  }
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    viewStore.send(.viewDidLoad)
-    renderer.render { renderableView }
-  }
+  private lazy var renderer = Renderer(adapter: UITableViewAdapter(target: tableView))
   
   var renderableView: RenderableView {
     Section {
@@ -47,6 +30,7 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
       .onSegmentChange { index in
 
       }
+      
       EmptyComponent(
         height: 20,
         backgroundColor: UIColor(hex: "#F9F9F9")
@@ -61,10 +45,24 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
     Section {
       ForEach(viewStore.urgenPostCardCellViewModels) { cellVM in
         UrgentPostCardComponent(viewModel: cellVM)
+          .onTouch { [weak self] _ in
+            self?.viewStore.send(.didTapUrgentPost(cellVM))
+          }
       }
     }
   }
-
+  
+  init(store: some StoreOf<Feature>) {
+    self.viewStore = ViewStore(store, observe: { $0 })
+    super.init()
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    viewStore.send(.viewDidLoad)
+    renderer.render { renderableView }
+  }
+  
   override func configureUI() {
     super.configureUI()
     configureNavigationBarItems()
@@ -85,7 +83,12 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
         customView: UIImageView(image: UIImage(resource: R.image.icon_pin_nav_bar))
           .frame(width: 24, height: 24)
       ),
-      UIBarButtonItem(customView: districtNameNavigationBarView)
+      UIBarButtonItem(customView: NavigationTitleBarView(
+        viewModel: .init(
+          titleString: "이웃집멍냥이네",
+          isUnderlineViewHidden: false
+        )
+      ))
     ]
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(
