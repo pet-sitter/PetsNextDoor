@@ -7,43 +7,22 @@
 
 import UIKit
 
-final class Renderer<Updater: PetsNextDoor.Updater> {
+final class Renderer {
   
-  let adapter: Updater.Adapter
-  
-  let updater: Updater
-  
-  weak var target: Updater.Target?
+  let adapter: any Adapter
   
   var sectionData: [Section] {
     get { adapter.sectionData }
-    set { render(newValue)    }
+    set {   render(newValue)  }
   }
   
-  init(
-    adapter: Updater.Adapter,
-    updater: Updater,
-    target: Updater.Target
-  ) {
+  init(adapter: any Adapter) {
     self.adapter = adapter
-    self.updater = updater
-    self.target  = target
-    updater.prepare(target: target, adapter: adapter)
+    self.adapter.prepare()
   }
 
   func render<C: Collection>(_ data: C) where C.Element == Section {
-    
-    let data = Array(data)
-    guard let target else {
-      adapter.sectionData = data
-      return
-    }
-
-    updater.performUpdates(
-      target: target,
-      adapter: adapter,
-      sectionData: data
-    )
+    adapter.reloadData(withSectionData: Array(data))
   }
 
   func render<S: SectionsBuildable>(@SectionBuilder sections: () -> S) {
@@ -55,7 +34,6 @@ final class Renderer<Updater: PetsNextDoor.Updater> {
       Section(id: UUID(), components: components)
     }
   }
-  
   
   func renderSection<S: SectionsBuildable>(@SectionBuilder sections: () -> S) {
     render(sections().buildSections())

@@ -9,7 +9,13 @@ import Foundation
 
 protocol Adapter: AnyObject {
   
+  associatedtype Target: AnyObject
+  
   var sectionData: [Section] { get set }
+  var target: Target { get }
+  
+  func prepare()
+  func reloadData(withSectionData sectionData: [Section])
 }
 
 extension Adapter {

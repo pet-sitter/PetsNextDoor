@@ -9,19 +9,34 @@ import UIKit
 
 class UITableViewAdapter: NSObject, Adapter {
   
+  typealias Target = UITableView
+  
   var sectionData: [Section]
+  private(set) var target: Target
 
   private(set) var onSelection: ((ComponentSelectionInfo) -> Void)?
   
-  init(data: [Section] = []) {
-    self.sectionData = data
+  init(
+    data: [Section] = [],
+    target: Target
+  ) {
+    self.sectionData      = data
+    self.target  = target
+  }
+
+  func prepare() {
+    target.delegate   = self
+    target.dataSource = self
+    target.reloadData()
   }
   
-  func onSelection(_ onSelectionAction: @escaping ((ComponentSelectionInfo) -> Void)) -> Self {
-    self.onSelection = onSelectionAction
-    return self
+  func reloadData(withSectionData sectionData: [Section]) {
+    self.sectionData = sectionData
+    target.reloadData()
   }
 }
+
+//MARK: - Selection Actions
 
 extension UITableViewAdapter {
   
@@ -29,6 +44,11 @@ extension UITableViewAdapter {
     var tableView: UITableView
     var component: any Component
     var indexPath: IndexPath
+  }
+  
+  func onSelection(_ onSelectionAction: @escaping ((ComponentSelectionInfo) -> Void)) -> Self {
+    self.onSelection = onSelectionAction
+    return self
   }
 }
 
@@ -92,6 +112,8 @@ extension UITableViewAdapter: UITableViewDelegate {
     onSelection(selectionInfo)
   }
 }
+
+//MARK: - ETC Methods
 
 extension UITableView {
   
