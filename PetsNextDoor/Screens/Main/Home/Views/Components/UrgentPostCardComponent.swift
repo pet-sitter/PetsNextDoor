@@ -15,7 +15,6 @@ final class UrgentPostCardComponent: Component, TouchableComponent {
   typealias ContentView = UrgentPostCardView
   typealias ViewModel   = UrgentPostCardViewModel
   
-  var contentView: ContentView?
   var viewModel: ViewModel
   
   init(viewModel: ViewModel) {

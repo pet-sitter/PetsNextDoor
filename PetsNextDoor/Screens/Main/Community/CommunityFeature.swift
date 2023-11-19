@@ -11,6 +11,9 @@ import ComposableArchitecture
 struct CommunityFeature: Reducer {
   
   struct State: Equatable {
+    
+    var meetingCardCellViewModels: [MeetingCardViewModel] = []
+    
     fileprivate var router: Router<PND.Destination>.State = .init()
     
   }
@@ -37,6 +40,12 @@ struct CommunityFeature: Reducer {
       switch action {
         
       case .viewDidLoad:
+        for _ in 1..<10 {
+          state.meetingCardCellViewModels.append(
+            MeetingCardViewModel()
+          )
+        }
+        
         
         return .none
 

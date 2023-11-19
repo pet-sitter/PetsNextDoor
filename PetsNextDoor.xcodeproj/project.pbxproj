@@ -117,6 +117,7 @@
 		DAAD52F72A7CD58300227BB5 /* AuthenticateFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52F62A7CD58300227BB5 /* AuthenticateFeature.swift */; };
 		DAAD530A2A7E28F300227BB5 /* EmptyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD53092A7E28F300227BB5 /* EmptyComponent.swift */; };
 		DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD530C2A7E291300227BB5 /* EmptyView.swift */; };
+		DAB571822B087CE900687979 /* MeetingCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB571812B087CE900687979 /* MeetingCardComponent.swift */; };
 		DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */; };
 		DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */; };
 		DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */; };
@@ -259,6 +260,7 @@
 		DAAD52F62A7CD58300227BB5 /* AuthenticateFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateFeature.swift; sourceTree = "<group>"; };
 		DAAD53092A7E28F300227BB5 /* EmptyComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyComponent.swift; sourceTree = "<group>"; };
 		DAAD530C2A7E291300227BB5 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		DAB571812B087CE900687979 /* MeetingCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardComponent.swift; sourceTree = "<group>"; };
 		DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extension.swift"; sourceTree = "<group>"; };
 		DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorInsertableView.swift; sourceTree = "<group>"; };
 		DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Routable+Destinations.swift"; sourceTree = "<group>"; };
@@ -593,6 +595,7 @@
 			isa = PBXGroup;
 			children = (
 				DA4BACED2B06082500A3008D /* MeetingCardView.swift */,
+				DAB571802B087CDC00687979 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -718,6 +721,14 @@
 				DA4F054A2A6955F700D7E7A7 /* Keyboard.swift */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		DAB571802B087CDC00687979 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				DAB571812B087CE900687979 /* MeetingCardComponent.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		DABA44742A62821800FD2639 /* DesignSystem */ = {
@@ -942,6 +953,7 @@
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
 				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
+				DAB571822B087CE900687979 /* MeetingCardComponent.swift in Sources */,
 				DA8A34F12A7654900054FE25 /* Colors.swift in Sources */,
 				DA4B2A8D2AFB5C400053217A /* SelectConditionHorizontalComponent.swift in Sources */,
 				DA95347B2AEF8BE100ED21F9 /* HeaderTitleView.swift in Sources */,
