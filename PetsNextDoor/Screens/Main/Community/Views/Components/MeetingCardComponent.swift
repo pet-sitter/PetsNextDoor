@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import UIKit
+import SwiftUI
 
 final class MeetingCardComponent: Component, TouchableComponent {
   
-  typealias ContentView = MeetingCardView
+  typealias ContentView = UIView
   typealias ViewModel   = MeetingCardViewModel
   
   var viewModel: ViewModel
@@ -18,12 +20,15 @@ final class MeetingCardComponent: Component, TouchableComponent {
     self.viewModel = viewModel
   }
   
-  func createContentView() -> MeetingCardView {
-    MeetingCardView()
+  @MainActor
+  func createContentView() -> ContentView {
+//    MeetingCardView()
+    let config = UIHostingConfiguration { MeetingCardViewSwiftUI() }
+    return config.makeContentView()
   }
   
-  func render(contentView: MeetingCardView) {
-    contentView.configure(viewModel: viewModel)
+  func render(contentView: ContentView) {
+//    contentView.configure(viewModel: viewModel)
     
     contentView.onTap { [weak self] in
       guard let self else { return }
@@ -32,7 +37,8 @@ final class MeetingCardComponent: Component, TouchableComponent {
   }
   
   func contentHeight() -> CGFloat? {
-    ContentView.defaultHeight
+//    ContentView.defaultHeight
+    112
   }
   
   //MARK: - TouchableComponent

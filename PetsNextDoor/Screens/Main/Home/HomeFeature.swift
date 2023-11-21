@@ -46,7 +46,10 @@ struct HomeFeature: Reducer {
               cost: "시급 10,500원"
             )
           )
+          
         }
+        
+        
         return .none
         
     

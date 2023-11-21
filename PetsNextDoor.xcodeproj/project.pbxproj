@@ -88,6 +88,7 @@
 		DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */; };
 		DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */; };
 		DA517D992AFE1D0900343424 /* WriteUrgenPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D982AFE1D0900343424 /* WriteUrgenPostViewController.swift */; };
+		DA7D67512B0C76A900497F51 /* MeetingCardViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardViewSwiftUI.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
 		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
 		DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */; };
@@ -233,6 +234,7 @@
 		DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOtherRequirementsViewController.swift; sourceTree = "<group>"; };
 		DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringBuilder.swift; sourceTree = "<group>"; };
 		DA517D982AFE1D0900343424 /* WriteUrgenPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteUrgenPostViewController.swift; sourceTree = "<group>"; };
+		DA7D67502B0C76A900497F51 /* MeetingCardViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardViewSwiftUI.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
@@ -595,6 +597,7 @@
 			isa = PBXGroup;
 			children = (
 				DA4BACED2B06082500A3008D /* MeetingCardView.swift */,
+				DA7D67502B0C76A900497F51 /* MeetingCardViewSwiftUI.swift */,
 				DAB571802B087CDC00687979 /* Components */,
 			);
 			path = Views;
@@ -1021,6 +1024,7 @@
 				7C8EDC552AD585E0003431E5 /* Metrics.swift in Sources */,
 				DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */,
 				DA517D992AFE1D0900343424 /* WriteUrgenPostViewController.swift in Sources */,
+				DA7D67512B0C76A900497F51 /* MeetingCardViewSwiftUI.swift in Sources */,
 				DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */,
 				DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */,
 				DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */,

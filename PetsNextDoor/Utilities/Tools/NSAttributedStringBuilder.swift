@@ -7,13 +7,6 @@
 
 import UIKit
 
-
-
-import UIKit
-//public typealias Font = UIFont
-//public typealias Color = UIColor
-
-
 public typealias Attributes = [NSAttributedString.Key: Any]
 
 @resultBuilder

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 extension PND {
   
@@ -21,4 +22,14 @@ extension PND {
 
 extension UIColor {
   static var color = PND.Colors.self
+  
+  var asColor: SwiftUI.Color {
+    return Color(self)
+  }
+}
+
+
+extension Color {
+  
+  
 }
