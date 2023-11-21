@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
+final class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
   
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) { fatalError("") }
@@ -30,9 +30,7 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
       let contentView   = component.createContentView()
       renderedComponent = component
 
-      
       if let uiView = contentView as? UIView {
-        
         containerView.addSubview(uiView)
         uiView.snp.makeConstraints { $0.edges.equalToSuperview() }
       }
@@ -43,21 +41,3 @@ class ComponentTableViewCell: UITableViewCell, ComponentRenderable {
     
   }
 }
-
-
-
-import SwiftUI
-
-final class ContainerView<Content: View>: UIView {
-  
-  var configuration: UIHostingConfiguration<Content, SwiftUI.EmptyView>
-  
-  init(_ swiftUIView: Content) {
-    self.configuration = UIHostingConfiguration { swiftUIView }
-    
-    super.init(frame: .zero)
-  }
-  
-  required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-}
-

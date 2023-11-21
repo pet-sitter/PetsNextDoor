@@ -2,126 +2,91 @@
 //  MeetingCardView.swift
 //  PetsNextDoor
 //
-//  Created by kevinkim2586 on 2023/11/16.
+//  Created by kevinkim2586 on 2023/11/21.
 //
 
-import UIKit
-import SnapKit
-import Combine
+import SwiftUI
 
 struct MeetingCardViewModel: HashableViewModel {
-  
-  
+	
 }
 
-final class MeetingCardView: UIView, HeightProvidable {
+struct MeetingCardView: View {
   
-  static var defaultHeight: CGFloat { 112 }
-  
-  private var containerView: UIView!
-  private var mainImageView: UIImageView!
-  
-  private var containerStackView: UIStackView!
-  
-  private var titleLabel: UILabel!
-  
-  private var descriptionStackView: UIStackView!
-  private var peopleImageView: UIImageView!
-  private var peopleInfoLabel: UILabel!
-  private var chatStatusLabel: UILabel!
-  
-  private var tagStackView: UIStackView!
-  
-  private var subscriptions = Set<AnyCancellable>()
-  
-  init() {
-    super.init(frame: .zero)
-    configureUI()
-  }
-  
-  @available(*, unavailable) required init?(coder: NSCoder) { fatalError("Not implemented") }
-  
-  private func configureUI() {
-    
-    containerView = UIView()
-    containerView.set {
-      addSubview($0)
-      $0.snp.makeConstraints { $0.edges.equalToSuperview() }
-    }
-    
-    mainImageView = UIImageView()
-    mainImageView.set {
-      containerView.addSubview($0)
-      $0.contentMode = .scaleAspectFill
-      $0.image = UIImage(named: "dog_test")
-      $0.clipsToBounds = true
-      $0.layer.cornerRadius = 4
-      $0.snp.makeConstraints {
-        $0.top.bottom.equalToSuperview().inset(12)
-        $0.leading.equalToSuperview().inset(PND.Metrics.defaultSpacing)
-        $0.width.height.equalTo(88)
+  var body: some View {
+    HStack(alignment: .center) {
+      
+      Spacer()
+        .frame(width: PND.Metrics.defaultSpacing)
+      
+      Image("dog_test")
+        .resizable()
+        .scaledToFit()
+        .frame(width: 88, height: 88)
+        .cornerRadius(4)
+      
+      Spacer()
+        .frame(width: 8)
+      
+
+      VStack(alignment: .leading) {
+        
+        Text("푸들을 사랑하는 모임")
+          .font(.system(size: 16, weight: .bold))
+        
+        HStack(alignment: .center, spacing: 4) {
+          
+					Image(R.image.person_2)
+						.resizable()
+						.scaledToFit()
+						.frame(width: 16, height: 16)
+        
+          Text("6/10")
+            .font(.system(size: 12, weight: .medium))
+          
+          Spacer()
+            .frame(width: 1)
+
+          Text("방금 활동")
+            .font(.system(size: 12, weight: .medium))
+            .foregroundColor(PND.Colors.commonBlue.asColor)
+        }
+        
+        Spacer()
+          .frame(height: 20)
+				
+				
+				HStack(alignment: .center, spacing: 5) {
+					
+					Text("훈련")
+						.padding(4)
+						.lineLimit(1)
+						.frame(height: 22)
+						.font(.system(size: 12, weight: .medium))
+						.background(Color(hex: "#F3F3F3"))
+						.cornerRadius(4)
+						.lineLimit(1)
+						.foregroundColor(.black)
+        }
+				
+				
+				
       }
+      Spacer(minLength: PND.Metrics.defaultSpacing)
+      
     }
-    
-    containerStackView = UIStackView()
-    containerStackView.set {
-      containerView.addSubview($0)
-      $0.axis = .vertical
-      $0.spacing = 5
-      $0.distribution = .fillProportionally
-      $0.snp.makeConstraints {
-        $0.top.equalToSuperview().inset(12)
-        $0.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
-        $0.bottom.equalToSuperview().inset(12)
-        $0.leading.equalTo(mainImageView.snp.trailing).offset(8)
-      }
-    }
-    
-    titleLabel = UILabel()
-    titleLabel.set {
-      containerStackView.addArrangedSubview($0)
-      $0.font = .systemFont(ofSize: 17, weight: .bold)
-    }
-    
-    
-    descriptionStackView = UIStackView()
-    descriptionStackView.set {
-      containerStackView.addArrangedSubview($0)
-      $0.spacing = 4
-      $0.axis = .horizontal
-    }
-    
-    peopleImageView = UIImageView()
-    peopleImageView.set {
-      descriptionStackView.addArrangedSubview($0)
-      $0.image = UIImage(systemName: "person.2.fill")
-      $0.tintColor = PND.Colors.commonOrange
-      $0.snp.makeConstraints {
-        $0.size.equalTo(16)
-      }
-    }
-    
-    peopleInfoLabel = UILabel()
-    peopleInfoLabel.set {
-      descriptionStackView.addArrangedSubview($0)
-      $0.text = "6/10"
-      $0.font = .systemFont(ofSize: 12, weight: .medium)
-      $0.textColor = .color.commonBlack
-    }
-    
-    
-    chatStatusLabel = UILabel()
-    chatStatusLabel.set {
-      descriptionStackView.addArrangedSubview($0)
-      $0.text = "방금 활동"
-      $0.textColor = .color.commonBlue
-      $0.font = .systemFont(ofSize: 12, weight: .medium)
-    }
-    
-    
-  }
-  
-  func configure(viewModel: MeetingCardViewModel) {
-    
+    .ignoresSafeArea(edges: .all)
   }
 }
+
+//#Preview {
+//	MeetingCardView()
+//}
+
+//struct MeetingCardViewSwiftUI_Previews: PreviewProvider {
+//  static var previews: some View {
+//    MeetingCardViewSwiftUI()
+//  }
+//}
+
+

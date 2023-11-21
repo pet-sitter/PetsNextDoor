@@ -22,14 +22,12 @@ final class MeetingCardComponent: Component, TouchableComponent {
   
   @MainActor
   func createContentView() -> ContentView {
-//    MeetingCardView()
-    let config = UIHostingConfiguration { MeetingCardViewSwiftUI() }
+    let config = UIHostingConfiguration { MeetingCardView() }
+			.margins(.all, 0)
     return config.makeContentView()
   }
   
   func render(contentView: ContentView) {
-//    contentView.configure(viewModel: viewModel)
-    
     contentView.onTap { [weak self] in
       guard let self else { return }
       self.onTouchAction?(self)
@@ -37,7 +35,6 @@ final class MeetingCardComponent: Component, TouchableComponent {
   }
   
   func contentHeight() -> CGFloat? {
-//    ContentView.defaultHeight
     112
   }
   

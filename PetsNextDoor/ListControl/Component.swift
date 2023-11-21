@@ -10,14 +10,16 @@ import SnapKit
 import Combine
 import SwiftUI
 
-protocol ContentViewCompatable {
+protocol ContentViewCompatible {
 }
 
-extension UIView: ContentViewCompatable {}
+extension UIView: ContentViewCompatible {}
+
+
 
 protocol Component: AnyObject, IdentifierProvidable, ComponentBuildable {
 	
-	associatedtype ContentView: ContentViewCompatable
+	associatedtype ContentView: ContentViewCompatible
   associatedtype ViewModel: HashableViewModel
 	
 	var viewModel: ViewModel { get }
@@ -48,92 +50,4 @@ extension Component {
   var identifier: String { Self.identifier }
   
   func contentHeight() -> CGFloat? { nil }
-}
-
-
-
-
-// TEST
- 
-
-import SwiftUI
-
-struct UserCellViewModel: HashableViewModel {
-  
-}
-
-
-final class UserCellComponent: Component {
-  
-  typealias ContentView = UIView
-  typealias ViewModel   = UserCellViewModel
-
-  var viewModel: UserCellViewModel
-  
-  init(viewModel: ViewModel) {
-    self.viewModel = viewModel
-  }
-
-  @MainActor
-  func createContentView() -> ContentView {
-    let config = UIHostingConfiguration { UserCell() }
-    return config.makeContentView()
-  }
-
-  func render(contentView: ContentView) {
-    
-  }
-
-  func contentHeight() -> CGFloat? {
-    80
-  }
-
-}
-
-struct UserCell: View {
-  
-  var body: some View {
-    HStack {
-      CircularProfileImageView()
-      
-      VStack(alignment: .leading) {
-        Text("kevinkim256")
-          .fontWeight(.semibold)
-        
-        Text("김영채")
-          .font(.footnote)
-        
-      }
-      .font(.footnote)
-      
-      
-      Spacer()
-        .foregroundColor(.blue)
-      
-      Text("Follow")
-        .font(.subheadline)
-        .fontWeight(.semibold)
-        .frame(width: 100, height: 32)
-        .overlay {
-          RoundedRectangle(cornerRadius: 10)
-            .stroke(Color(.systemGray4), lineWidth: 1)
-        }
-    }
-    .padding(.horizontal)
-
-  }
-}
-
-
-
-
-
-struct CircularProfileImageView: View {
-  var body: some View {
-    Image(systemName: "person.fill")
-      .resizable()
-      .scaledToFill()
-      .frame(width: 40, height: 40)
-      .clipShape(Circle())
-  }
 }

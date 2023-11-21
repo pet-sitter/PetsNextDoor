@@ -31,5 +31,8 @@ extension UIColor {
 
 extension Color {
   
-  
+	init(hex: String) {
+		let uiColor = UIColor(hex: hex)
+		self.init(uiColor)
+	}
 }

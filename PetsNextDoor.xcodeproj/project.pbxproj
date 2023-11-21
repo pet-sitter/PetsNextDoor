@@ -80,7 +80,6 @@
 		DA4B2A8D2AFB5C400053217A /* SelectConditionHorizontalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A8C2AFB5C400053217A /* SelectConditionHorizontalComponent.swift */; };
 		DA4B2A8F2AFB63680053217A /* ButtonSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A8E2AFB63680053217A /* ButtonSegmentControlView.swift */; };
 		DA4B2A922AFB68C20053217A /* ButtonSegmentControlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A912AFB68C20053217A /* ButtonSegmentControlComponent.swift */; };
-		DA4BACEE2B06082500A3008D /* MeetingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BACED2B06082500A3008D /* MeetingCardView.swift */; };
 		DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA4F05212A68021800D7E7A7 /* ComposableArchitecture */; };
 		DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */; };
 		DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */; };
@@ -88,7 +87,7 @@
 		DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */; };
 		DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */; };
 		DA517D992AFE1D0900343424 /* WriteUrgenPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D982AFE1D0900343424 /* WriteUrgenPostViewController.swift */; };
-		DA7D67512B0C76A900497F51 /* MeetingCardViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardViewSwiftUI.swift */; };
+		DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardView.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
 		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
 		DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */; };
@@ -223,7 +222,6 @@
 		DA4B2A8C2AFB5C400053217A /* SelectConditionHorizontalComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionHorizontalComponent.swift; sourceTree = "<group>"; };
 		DA4B2A8E2AFB63680053217A /* ButtonSegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSegmentControlView.swift; sourceTree = "<group>"; };
 		DA4B2A912AFB68C20053217A /* ButtonSegmentControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSegmentControlComponent.swift; sourceTree = "<group>"; };
-		DA4BACED2B06082500A3008D /* MeetingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardView.swift; sourceTree = "<group>"; };
 		DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
 		DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameSpace.swift; sourceTree = "<group>"; };
 		DA4F05372A691D5E00D7E7A7 /* AuthenticationPhoneNumberCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPhoneNumberCore.swift; sourceTree = "<group>"; };
@@ -234,7 +232,7 @@
 		DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOtherRequirementsViewController.swift; sourceTree = "<group>"; };
 		DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringBuilder.swift; sourceTree = "<group>"; };
 		DA517D982AFE1D0900343424 /* WriteUrgenPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteUrgenPostViewController.swift; sourceTree = "<group>"; };
-		DA7D67502B0C76A900497F51 /* MeetingCardViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardViewSwiftUI.swift; sourceTree = "<group>"; };
+		DA7D67502B0C76A900497F51 /* MeetingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardView.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
@@ -596,8 +594,7 @@
 		DA4BACEC2B06081600A3008D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DA4BACED2B06082500A3008D /* MeetingCardView.swift */,
-				DA7D67502B0C76A900497F51 /* MeetingCardViewSwiftUI.swift */,
+				DA7D67502B0C76A900497F51 /* MeetingCardView.swift */,
 				DAB571802B087CDC00687979 /* Components */,
 			);
 			path = Views;
@@ -1024,13 +1021,12 @@
 				7C8EDC552AD585E0003431E5 /* Metrics.swift in Sources */,
 				DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */,
 				DA517D992AFE1D0900343424 /* WriteUrgenPostViewController.swift in Sources */,
-				DA7D67512B0C76A900497F51 /* MeetingCardViewSwiftUI.swift in Sources */,
+				DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */,
 				DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */,
 				DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */,
 				DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */,
 				7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */,
 				DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */,
-				DA4BACEE2B06082500A3008D /* MeetingCardView.swift in Sources */,
 				DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */,
 				DA0F92242A9895030059690E /* DefaultCodableStrategy.swift in Sources */,
 				DA517D812AFE094300343424 /* BaseCheckBoxButton.swift in Sources */,
