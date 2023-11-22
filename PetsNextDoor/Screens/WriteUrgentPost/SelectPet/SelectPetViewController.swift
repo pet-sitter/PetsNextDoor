@@ -31,7 +31,7 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
 
       EmptyComponent(height: 16)
       
-      ForEach(viewStore.selectPetCellViewModels) { cellVM in
+			For(each: viewStore.selectPetCellViewModels) { cellVM in
         List {
           SelectPetComponent(viewModel: cellVM)
             .onTouch { [weak self] in

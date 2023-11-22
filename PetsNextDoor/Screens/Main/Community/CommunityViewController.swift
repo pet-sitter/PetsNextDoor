@@ -46,7 +46,7 @@ final class CommunityViewController: BaseViewController, RenderableViewProvidabl
     Section {
 
 
-      ForEach(viewStore.meetingCardCellViewModels) { cellVM in
+			For(each: viewStore.meetingCardCellViewModels) { cellVM in
         MeetingCardComponent(viewModel: cellVM)
       }
     }

@@ -22,7 +22,7 @@ final class MeetingCardComponent: Component, TouchableComponent {
   
   @MainActor
   func createContentView() -> ContentView {
-    let config = UIHostingConfiguration { MeetingCardView() }
+    let config = UIHostingConfiguration { MeetingCardView(viewModel: viewModel) }
 			.margins(.all, 0)
     return config.makeContentView()
   }

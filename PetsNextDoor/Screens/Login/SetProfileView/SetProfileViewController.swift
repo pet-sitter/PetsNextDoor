@@ -61,7 +61,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
       EmptyComponent(height: 20)
             
       if !viewStore.myPetCellViewModels.isEmpty {
-        ForEach(viewStore.myPetCellViewModels) { cellVM in
+				For(each: viewStore.myPetCellViewModels) { cellVM in
           List {
             SelectPetComponent(viewModel: cellVM)
             EmptyComponent(height: 16)

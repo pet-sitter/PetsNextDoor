@@ -1,5 +1,5 @@
 //
-//  ForEach.swift
+//  For.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/10/31.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ForEach<Element> {
+struct For<Element> {
   
   var elements: [Element]
   
@@ -18,14 +18,14 @@ struct ForEach<Element> {
 
 //MARK: - ComponentBuildable
 
-extension ForEach: ComponentBuildable where Element == any Component {
+extension For: ComponentBuildable where Element == any Component {
   
   init(@ComponentBuilder component: () -> ComponentBuildable) {
     self.elements = component().buildComponents()
   }
   
   init<S: Sequence>(
-    _ data: S,
+    each data: S,
     component: (S.Element) -> any ComponentBuildable
   ) {
     self.elements = data.flatMap { component($0).buildComponents() }
@@ -39,7 +39,7 @@ extension ForEach: ComponentBuildable where Element == any Component {
 
 //MARK: - SectionsBuildable
 
-extension ForEach: SectionsBuildable where Element == Section {
+extension For: SectionsBuildable where Element == Section {
   
   init(@SectionBuilder sections: () -> SectionsBuildable) {
     self.elements = sections().buildSections()

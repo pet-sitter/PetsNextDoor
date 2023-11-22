@@ -108,7 +108,7 @@
 		DA95347D2AEF8D2200ED21F9 /* HeaderTitleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */; };
 		DA95347F2AEF8E1800ED21F9 /* SelectPetFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347E2AEF8E1800ED21F9 /* SelectPetFeature.swift */; };
 		DA95348E2AF0D19800ED21F9 /* HashableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95348D2AF0D19800ED21F9 /* HashableViewModel.swift */; };
-		DA9534912AF0D74900ED21F9 /* ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9534902AF0D74900ED21F9 /* ForEach.swift */; };
+		DA9534912AF0D74900ED21F9 /* For.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9534902AF0D74900ED21F9 /* For.swift */; };
 		DA9534942AF1241900ED21F9 /* ViewStore+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9534932AF1241900ED21F9 /* ViewStore+Extension.swift */; };
 		DAAD52E22A7C98DE00227BB5 /* BaseBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52E12A7C98DE00227BB5 /* BaseBottomButton.swift */; };
 		DAAD52E52A7CBD5A00227BB5 /* BottomButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52E42A7CBD5A00227BB5 /* BottomButtonComponent.swift */; };
@@ -251,7 +251,7 @@
 		DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleComponent.swift; sourceTree = "<group>"; };
 		DA95347E2AEF8E1800ED21F9 /* SelectPetFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetFeature.swift; sourceTree = "<group>"; };
 		DA95348D2AF0D19800ED21F9 /* HashableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashableViewModel.swift; sourceTree = "<group>"; };
-		DA9534902AF0D74900ED21F9 /* ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEach.swift; sourceTree = "<group>"; };
+		DA9534902AF0D74900ED21F9 /* For.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = For.swift; sourceTree = "<group>"; };
 		DA9534932AF1241900ED21F9 /* ViewStore+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewStore+Extension.swift"; sourceTree = "<group>"; };
 		DAAD52E12A7C98DE00227BB5 /* BaseBottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseBottomButton.swift; sourceTree = "<group>"; };
 		DAAD52E42A7CBD5A00227BB5 /* BottomButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonComponent.swift; sourceTree = "<group>"; };
@@ -489,7 +489,7 @@
 				DA8DF4872AE7FB3400FA0D9D /* ComponentTableViewCell.swift */,
 				DADEB6CF2AEB8468002BED63 /* Renderer.swift */,
 				DADEB6DA2AEB9DF9002BED63 /* List.swift */,
-				DA9534902AF0D74900ED21F9 /* ForEach.swift */,
+				DA9534902AF0D74900ED21F9 /* For.swift */,
 			);
 			path = ListControl;
 			sourceTree = "<group>";
@@ -963,7 +963,7 @@
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
 				DAE1212D2B036A6F008EF9AC /* EmptyTextFieldComponent.swift in Sources */,
 				DA8A35012A765BF30054FE25 /* BaseView.swift in Sources */,
-				DA9534912AF0D74900ED21F9 /* ForEach.swift in Sources */,
+				DA9534912AF0D74900ED21F9 /* For.swift in Sources */,
 				DA324B212AFCCF9F002BA739 /* StackViewSpacer.swift in Sources */,
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
 				DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */,
