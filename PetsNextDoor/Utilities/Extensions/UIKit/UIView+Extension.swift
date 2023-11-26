@@ -50,6 +50,13 @@ extension UIView {
     
     return self
   }
+	
+	@discardableResult
+	func cornerRadius(radius: CGFloat) -> Self {
+		clipsToBounds = true
+		layer.cornerRadius = radius
+		return self 
+	}
   
   @discardableResult
   func makeCircle() -> Self {

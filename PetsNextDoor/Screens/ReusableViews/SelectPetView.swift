@@ -111,6 +111,7 @@ final class SelectPetView: UIView {
     isNeutralizedLabel = UILabel()
     isNeutralizedLabel.set {
       stackView.addArrangedSubview($0)
+			$0.frame = .init(x: 0, y: 0, width: 53, height: 18)
       $0.backgroundColor = UIColor(hex: "#FFF0DD")
       $0.textColor = PND.Colors.commonOrange
       $0.clipsToBounds = true

@@ -45,7 +45,7 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
     }
     
     Section {
-			For(each: viewStore.urgenPostCardCellViewModels) { cellVM in
+			For(each: viewStore.urgentPostCardCellViewModels) { cellVM in
         UrgentPostCardComponent(viewModel: cellVM)
           .onTouch { [weak self] _ in
             self?.viewStore.send(.didTapUrgentPost(cellVM))

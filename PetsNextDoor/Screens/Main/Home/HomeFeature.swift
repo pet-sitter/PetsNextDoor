@@ -12,7 +12,7 @@ struct HomeFeature: Reducer {
   
   struct State: Equatable {
     fileprivate var router: Router<PND.Destination>.State = .init()
-    var urgenPostCardCellViewModels: [UrgentPostCardViewModel] = []
+    var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
   }
   
   enum Action: Equatable {
@@ -38,7 +38,7 @@ struct HomeFeature: Reducer {
         
       case .viewDidLoad:
         for _ in 1..<10 {
-          state.urgenPostCardCellViewModels.append(
+          state.urgentPostCardCellViewModels.append(
             UrgentPostCardViewModel(
               postTitle: "돌봄 급히 구함",
               date: "2022-10-30",

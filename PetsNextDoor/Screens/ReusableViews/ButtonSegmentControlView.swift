@@ -71,13 +71,14 @@ final class ButtonSegmentControlView: UIView, HeightProvidable {
         self.segmentButtons.append(segmentButton)
         
         segmentButton
+					.frame(.init(x: 0, y: 0, width: 92, height: 26))
           .normalTitleStyle(font: .systemFont(ofSize: Constants.fontSize, weight: .bold), color: PND.Colors.commonGrey)
           .selectedTitleStyle(font: .systemFont(ofSize: Constants.fontSize, weight: .bold), color: PND.Colors.commonWhite)
           .setBackgroundColor(PND.Colors.commonWhite, for: .normal)
           .setBackgroundColor(PND.Colors.commonBlack, for: .selected)
+					.contentEdgeInsets(top: nil, left: 12, bottom: nil, right: 12)
+					.cornerRadius(radius: 4)
           .title(title)
-//          .roundCorners(radius: 4)
-//          .titleEdgeInsets(top: 4, left: 12, bottom: 4, right: 12)
           .onTap { [weak self] in
             self?.onSegmentTap?(index)
             segmentButton.isSelected = true

@@ -1,5 +1,5 @@
 //
-//  WriteUrgenPostViewController.swift
+//  WriteUrgentPostViewController.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/11/10.
@@ -58,7 +58,7 @@ struct WriteUrgentPostFeature: Reducer {
   }
 }
 
-final class WriteUrgenPostViewController: BaseViewController, RenderableViewProvidable {
+final class WriteUrgentPostViewController: BaseViewController, RenderableViewProvidable {
   
   private let viewStore: ViewStoreOf<WriteUrgentPostFeature>
   
@@ -171,7 +171,7 @@ final class WriteUrgenPostViewController: BaseViewController, RenderableViewProv
 
 //MARK: - PHPickerViewControllerDelegate
 
-extension WriteUrgenPostViewController: PHPickerViewControllerDelegate {
+extension WriteUrgentPostViewController: PHPickerViewControllerDelegate {
   
   func picker(
     _ picker: PHPickerViewController,

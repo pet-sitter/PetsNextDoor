@@ -47,6 +47,7 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
   init(store: some StoreOf<SelectPetFeature>) {
     self.viewStore = ViewStore(store, observe: { $0 })
     super.init()
+		self.hidesBottomBarWhenPushed = true
   }
   
   override func viewDidLoad() {
@@ -62,15 +63,14 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
 
   override func configureUI() {
     super.configureUI()
-    
-    hidesBottomBarWhenPushed = true
+
     
     configureTopLeftTitle("")
     
     bottomButton = BaseBottomButton()
     bottomButton.set {
       view.addSubview($0)
-
+			
       
       $0.configure(viewModel: .init(
         isEnabled: viewStore.publisher.isBottomButtonEnabled,

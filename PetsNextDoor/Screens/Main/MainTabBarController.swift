@@ -55,6 +55,7 @@ final class MainTabBarController: UITabBarController {
     communityNavigationController.tabBarItem.selectedImage  = UIImage(named: "icon_community_selected")?.withRenderingMode(.alwaysOriginal)
     
     chatListNavigationController.tabBarItem.image = UIImage(named: "icon_chat")?.withRenderingMode(.alwaysOriginal)
+		chatListNavigationController.tabBarItem.selectedImage = UIImage(named: "icon_chat_selected")?.withRenderingMode(.alwaysOriginal)
     
     myPageNavigationController.tabBarItem.image = UIImage(named: "icon_user")?.withRenderingMode(.alwaysOriginal)
     

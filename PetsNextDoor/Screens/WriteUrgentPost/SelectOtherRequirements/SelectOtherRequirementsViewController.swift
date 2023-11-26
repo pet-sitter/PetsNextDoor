@@ -90,6 +90,19 @@ final class SelectOtherRequirementsViewController: BaseViewController, Renderabl
           .configure(viewModel: .init(isChecked: false)),
         maxWidthForRightConditionView: BaseCheckBoxButton.defaultHeight
       ))
+			
+			EmptyComponent(height: 14)
+			
+			SelectConditionHorizontalComponent(viewModel: .init(
+				systemImageName: "person.2.fill",
+				conditionTitle: "반려 동물 등록 여부",
+				rightConditionView: BaseCheckBoxButton()
+					.configure(viewModel: .init(isChecked: false)),
+				maxWidthForRightConditionView: BaseCheckBoxButton.defaultHeight
+			))
+			
+			
+			
     }
   }
   
