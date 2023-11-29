@@ -12,7 +12,7 @@ struct SetProfileFeature: Reducer {
   @Dependency(\.loginService) private var loginService
   @Dependency(\.uploadService) private var uploadService
 	
-	struct State: Equatable {
+	struct State: Equatable, RoutableState {
     var userRegisterModel: PND.UserRegistrationModel
     var nicknameStatusPhrase: String = ""
     var selectedUserImage: UIImage?
@@ -23,13 +23,15 @@ struct SetProfileFeature: Reducer {
     @Pulse var myPetCellViewModels: [SelectPetViewModel] = []
     
     fileprivate var nicknameText: String = ""
+		
+		var router: Router<PND.Destination>.State = .init()
     
     init(userRegisterModel: PND.UserRegistrationModel) {
       self.userRegisterModel = userRegisterModel
     }
 	}
 	
-	enum Action: Equatable {
+	enum Action: Equatable, RoutableAction {
     case didTapBottomButton
 		case textDidChange(String?)
     case userImageDidChange(UIImage)
@@ -41,9 +43,16 @@ struct SetProfileFeature: Reducer {
     case _setNicknameText(String)
     case _setIsBottomButtonEnabled(Bool)
     case _setIsLoading(Bool)
+		case _routeAction(Router<PND.Destination>.Action)
 	}
 	
 	var body: some Reducer<State, Action> {
+		Scope(
+			state: \.router,
+			action: /Action._routeAction
+		) {
+			Router<PND.Destination>()
+		}
 		Reduce { state, action in
       
       switch action {
@@ -98,18 +107,20 @@ struct SetProfileFeature: Reducer {
         return .none
         
       case .didTapAddPetButton:
-        state.myPetCellViewModels.append(
-          .init(
-            petImageUrlString: "",
-            petName: "아롱",
-            petSpecies: "비숑 프리제",
-            petAge: 1,
-            isPetNeutralized: true,
-            isPetSelected: false,
-            isDeleteButtonHidden: true
-          )
-        )
-        return .none
+				return .send(._routeAction(.presentFullScreen(.selectEitherCatOrDog(.init()), animated: true)))
+				
+//        state.myPetCellViewModels.append(
+//          .init(
+//            petImageUrlString: "",
+//            petName: "아롱",
+//            petSpecies: "비숑 프리제",
+//            petAge: 1,
+//            isPetNeutralized: true,
+//            isPetSelected: false,
+//            isDeleteButtonHidden: true
+//          )
+//        )
+        
         
       case ._setNicknameStatusPhrase(let phrase):
         state.nicknameStatusPhrase = phrase
@@ -126,6 +137,9 @@ struct SetProfileFeature: Reducer {
       case ._setIsLoading(let isLoading):
         state.isLoading = isLoading
         return .none
+				
+			default:
+				return .none
       }
 
 		}

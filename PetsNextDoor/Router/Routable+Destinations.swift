@@ -28,6 +28,7 @@ extension PND {
     case login(onWindow: UIWindow)
     case authenticatePhoneNumber(AuthenticateFeature.State)
     case setInitialProfile(SetProfileFeature.State)
+		case selectEitherCatOrDog(SelectEitherCatOrDogFeature.State)
     
     func createView() -> PresentableView {
       switch self {
@@ -41,8 +42,26 @@ extension PND {
           chatListStore:  .init(initialState: chatState, reducer: { ChatListFeature() }),
           myPageStore:    .init(initialState: myPageState, reducer: { MyPageFeature() })
         )
+				
+				// 로그인 / 회원가입 화면
+				
+			case .authenticatePhoneNumber(let state):
+				return AuthenticatePhoneNumberViewController(
+					store: .init(initialState: state, reducer: { AuthenticateFeature() })
+				)
+				
+			case .setInitialProfile(let state):
+				return SetProfileViewController(
+					store: .init(initialState: state, reducer: { SetProfileFeature() })
+				)
+				
+			case .selectEitherCatOrDog(let state):
+				return SelectEitherCatOrDogViewController(
+					store: .init(initialState: state, reducer: { SelectEitherCatOrDogFeature() })
+				)
         
         // 돌봄급구 글쓰기 Flow
+				
       case .selectPet(let state):
         return SelectPetViewController(
           store: .init(initialState: state, reducer: { SelectPetFeature() })
@@ -58,20 +77,9 @@ extension PND {
         return WriteUrgentPostViewController(store: .init(initialState: state, reducer: WriteUrgentPostFeature() ))
         
         // 돌봄급구 상세 Flow
+				
       case .urgentPostDetail(let state):
         return UrgentPostDetailViewController(store: .init(initialState: state, reducer: UrgentPostDetailFeature() ))
-        
-        // 로그인 / 회원가입 화면
-        
-      case .authenticatePhoneNumber(let state):
-        return AuthenticatePhoneNumberViewController(
-          store: .init(initialState: state, reducer: { AuthenticateFeature() })
-        )
-        
-      case .setInitialProfile(let state):
-        return SetProfileViewController(
-          store: .init(initialState: state, reducer: { SetProfileFeature() })
-        )
         
       default:
         assertionFailure("❌ Destination.createView() case NOT DEFINED")

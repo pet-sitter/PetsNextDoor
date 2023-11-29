@@ -83,9 +83,9 @@ struct MeetingCardView: View {
   }
 }
 
-#Preview {
-	MeetingCardView(viewModel: .init(title: "푸들을 짱 사랑하는 모임", currentlyGatheredPeople: 7, totalGatheringPeople: 10, activityStatus: "방금 활동", tags: ["훈련", "케어초보", "정보공유"]))
-}
+//#Preview {
+//	MeetingCardView(viewModel: .init(title: "푸들을 짱 사랑하는 모임", currentlyGatheredPeople: 7, totalGatheringPeople: 10, activityStatus: "방금 활동", tags: ["훈련", "케어초보", "정보공유"]))
+//}
 
 //struct MeetingCardViewSwiftUI_Previews: PreviewProvider {
 //  static var previews: some View {

@@ -10,12 +10,12 @@ import ComposableArchitecture
 
 struct HomeFeature: Reducer {
   
-  struct State: Equatable {
-    fileprivate var router: Router<PND.Destination>.State = .init()
+  struct State: Equatable, RoutableState {
+		var router: Router<PND.Destination>.State = .init()
     var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
   }
   
-  enum Action: Equatable {
+  enum Action: Equatable, RoutableAction {
     
     case viewDidLoad
     case didTapWritePostIcon

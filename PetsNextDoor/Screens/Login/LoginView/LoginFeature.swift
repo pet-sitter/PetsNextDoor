@@ -13,12 +13,12 @@ struct LoginFeature: Reducer {
   
   @Dependency(\.loginService) private var loginService
   
-  struct State: Equatable {
+  struct State: Equatable, RoutableState {
     var isLoading: Bool = false
     var router: Router<PND.Destination>.State = .init()
   }
   
-  enum Action: Equatable {
+  enum Action: Equatable, RoutableAction {
     case viewWillAppear
     case didTapKakaoLogin
     case didTapGoogleLogin
@@ -51,14 +51,14 @@ struct LoginFeature: Reducer {
       
       case .didTapGoogleLogin:
         
-        return .send(._routeAction(.changeRootScreen(toScreen: .main(
-          homeState: .init(),
-          communityState: .init(),
-          chatState: .init(),
-          myPageState: .init()
-        ))))
+//        return .send(._routeAction(.changeRootScreen(toScreen: .main(
+//          homeState: .init(),
+//          communityState: .init(),
+//          chatState: .init(),
+//          myPageState: .init()
+//        ))))
         
-//        return .send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init()))))
+        return .send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init()))))
 //        
         
 //        state.isLoading = true

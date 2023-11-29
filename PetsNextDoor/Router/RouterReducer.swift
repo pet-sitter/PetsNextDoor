@@ -9,6 +9,14 @@
 import UIKit
 import ComposableArchitecture
 
+protocol RoutableState {
+	var router: Router<PND.Destination>.State { get }
+}
+
+protocol RoutableAction {
+	static func _routeAction(_: Router<PND.Destination>.Action) -> Self
+}
+
 struct Router<Screen: Equatable & ViewProvidable>: Reducer {
 
   struct State: Equatable {
@@ -23,12 +31,13 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
   }
   
   enum Action: Equatable {
-		case navigate(withLogic: CustomNavigationLogic)		/// 사용자 커스텀 handler
+		case navigate(withLogic: CustomHandler)		/// 사용자 커스텀 handler
     case pushScreen(Screen, animated: Bool = true)
     case popScreen(animated: Bool = true)
     case popToRootScreen(animated: Bool = true)
     case presentFullScreen(Screen, animated: Bool = true)
     case presentModal(Screen, animated: Bool = true)
+		case dismiss(completion: CustomHandler? = nil)
     case changeRootScreen(toScreen: Screen)
   }
 
@@ -53,12 +62,16 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
       
     case let .presentFullScreen(screen, animated):
       let vc = screen.createView()
-      vc.modalPresentationStyle = .overFullScreen
-      state.currentNavigationController?.present(vc, animated: animated)
+			let nc = BaseNavigationController(rootViewController: vc)
+			nc.modalPresentationStyle = .overFullScreen
+      state.currentNavigationController?.present(nc, animated: animated)
       
     case let .presentModal(screen, animated):
       state.currentNavigationController?.present(screen.createView(), animated: animated)
       
+		case .dismiss(let customHandler):
+			state.currentNavigationController?.dismiss(animated: true, completion: customHandler?.handler)
+			
     case let .changeRootScreen(screen):
       state.currentWindow?.rootViewController = screen.createView()
       state.currentWindow?.makeKeyAndVisible()
@@ -67,7 +80,7 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
   }
   
   
-	final class CustomNavigationLogic: Equatable {
+	final class CustomHandler: Equatable {
 		
 	 let handler: (() -> Void)
 
@@ -75,7 +88,7 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
 		 self.handler = handler
 	 }
 	 
-	 static func == (lhs: CustomNavigationLogic, rhs: CustomNavigationLogic) -> Bool {
+	 static func == (lhs: CustomHandler, rhs: CustomHandler) -> Bool {
 		 lhs === rhs
 	 }
  }
