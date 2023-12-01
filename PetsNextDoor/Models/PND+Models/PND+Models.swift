@@ -13,4 +13,9 @@ extension PND {
 		case dog
 		case cat
 	}
+  
+  enum GenderType {
+    case male
+    case female
+  }
 }

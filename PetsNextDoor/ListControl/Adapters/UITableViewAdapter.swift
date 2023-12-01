@@ -97,6 +97,7 @@ extension UITableViewAdapter: UITableViewDelegate {
     heightForRowAt indexPath: IndexPath
   ) -> CGFloat {
     let component = components(atIndexPath: indexPath)
+
     return component.contentHeight() ?? UITableView.automaticDimension
   }
   

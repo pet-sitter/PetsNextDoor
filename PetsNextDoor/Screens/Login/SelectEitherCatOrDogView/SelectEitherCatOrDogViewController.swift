@@ -44,7 +44,7 @@ struct SelectEitherCatOrDogFeature: Reducer {
 				return .none
 				
 			case .didTapBottomButton:
-				return .none
+        return .send(._routeAction(.pushScreen(.addPet(AddPetFeature.State(selectedPetType: state.selectedPetType ?? .dog)), animated: true)))
 				
 			case .onDismiss:
 				return .send(._routeAction(.dismiss(completion: nil)))

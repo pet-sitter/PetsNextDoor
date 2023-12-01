@@ -15,6 +15,13 @@ extension PND {
     // 메인
     case main(homeState: HomeFeature.State, communityState: CommunityFeature.State, chatState: ChatListFeature.State, myPageState: MyPageFeature.State)
     
+    // 로그인 / 회원가입 화면
+    case login(onWindow: UIWindow)
+    case authenticatePhoneNumber(AuthenticateFeature.State)
+    case setInitialProfile(SetProfileFeature.State)
+    case selectEitherCatOrDog(SelectEitherCatOrDogFeature.State)
+    case addPet(AddPetFeature.State)
+    
     // 돌봄급구 글쓰기
     case selectPet(state: SelectPetFeature.State)
     case selectCareCondition(state: SelectCareConditionFeature.State)
@@ -24,11 +31,7 @@ extension PND {
     // 돌봄급구 상세
     case urgentPostDetail(state: UrgentPostDetailFeature.State)
     
-    // 로그인 / 회원가입 화면
-    case login(onWindow: UIWindow)
-    case authenticatePhoneNumber(AuthenticateFeature.State)
-    case setInitialProfile(SetProfileFeature.State)
-		case selectEitherCatOrDog(SelectEitherCatOrDogFeature.State)
+
     
     func createView() -> PresentableView {
       switch self {
@@ -59,6 +62,11 @@ extension PND {
 				return SelectEitherCatOrDogViewController(
 					store: .init(initialState: state, reducer: { SelectEitherCatOrDogFeature() })
 				)
+        
+      case .addPet(let state):
+        return AddPetViewController(
+          store: .init(initialState: state, reducer: { AddPetFeature() })
+        )
         
         // 돌봄급구 글쓰기 Flow
 				

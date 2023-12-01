@@ -11,22 +11,30 @@ import SnapKit
 
 final class SelectConditionViewModel: HashableViewModel {
   
-  let systemImageName: String
+  let systemImageName: String?
   let conditionTitle: String
   let rightConditionView: UIView
   var maxWidthForRightConditionView: CGFloat?
+  var titleLabelFont: UIFont?
   
-  init(systemImageName: String, conditionTitle: String, rightConditionView: UIView, maxWidthForRightConditionView: CGFloat?) {
+  init(
+    systemImageName: String?,
+    conditionTitle: String,
+    rightConditionView: UIView,
+    maxWidthForRightConditionView: CGFloat?,
+    titleLabelFont: UIFont? = nil
+  ) {
     self.systemImageName    = systemImageName
     self.conditionTitle     = conditionTitle
     self.rightConditionView = rightConditionView
     self.maxWidthForRightConditionView = maxWidthForRightConditionView
+    self.titleLabelFont = titleLabelFont
   }
 }
 
 final class SelectConditionHorizontalView: UIView, HeightProvidable {
 
-  static var defaultHeight: CGFloat { 45.0 }
+  static var defaultHeight: CGFloat { 30.0 }
 
   private var containerView: UIView!
   private var leftImageView: UIImageView!
@@ -80,8 +88,21 @@ final class SelectConditionHorizontalView: UIView, HeightProvidable {
   
   func configure(viewModel: SelectConditionViewModel) {
     
-    leftImageView.image       = UIImage(systemName: viewModel.systemImageName)
+    if let leftImage = viewModel.systemImageName {
+      leftImageView.image = UIImage(systemName: leftImage)
+    } else {
+      leftImageView.isHidden = true
+      leftImageView.removeFromSuperview()
+      conditionTitleLabel.snp.remakeConstraints {
+        $0.leading.top.bottom.equalToSuperview()
+      }
+    }
+
     conditionTitleLabel.text  = viewModel.conditionTitle
+    
+    if let titleLabelFont = viewModel.titleLabelFont {
+      conditionTitleLabel.font = titleLabelFont
+    }
     
     rightConditionView = viewModel.rightConditionView
     

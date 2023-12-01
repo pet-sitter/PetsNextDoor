@@ -27,7 +27,6 @@
 		7CF354EE2B176BCD0058DCA7 /* SelectEitherCatOrDogComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF354ED2B176BCD0058DCA7 /* SelectEitherCatOrDogComponent.swift */; };
 		7CF354F32B176DDA0058DCA7 /* PND+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF354F22B176DDA0058DCA7 /* PND+Models.swift */; };
 		7CF7614C2B136ACB0003F684 /* SelectEitherCatOrDogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF7614B2B136ACB0003F684 /* SelectEitherCatOrDogViewController.swift */; };
-		7CF7614E2B136AD40003F684 /* SelectEitherCatOrDogFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF7614D2B136AD40003F684 /* SelectEitherCatOrDogFeature.swift */; };
 		DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */; };
 		DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A5ED52AF5233900866138 /* ComponentModifier.swift */; };
 		DA0A5EDB2AF52E0A00866138 /* SelectCareConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A5EDA2AF52E0A00866138 /* SelectCareConditionsViewController.swift */; };
@@ -122,6 +121,7 @@
 		DAAD52F72A7CD58300227BB5 /* AuthenticateFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD52F62A7CD58300227BB5 /* AuthenticateFeature.swift */; };
 		DAAD530A2A7E28F300227BB5 /* EmptyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD53092A7E28F300227BB5 /* EmptyComponent.swift */; };
 		DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAD530C2A7E291300227BB5 /* EmptyView.swift */; };
+		DAB395A42B1A0B2100B5415E /* AddPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB395A32B1A0B2100B5415E /* AddPetViewController.swift */; };
 		DAB571822B087CE900687979 /* MeetingCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB571812B087CE900687979 /* MeetingCardComponent.swift */; };
 		DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */; };
 		DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */; };
@@ -182,7 +182,6 @@
 		7CF354ED2B176BCD0058DCA7 /* SelectEitherCatOrDogComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEitherCatOrDogComponent.swift; sourceTree = "<group>"; };
 		7CF354F22B176DDA0058DCA7 /* PND+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PND+Models.swift"; sourceTree = "<group>"; };
 		7CF7614B2B136ACB0003F684 /* SelectEitherCatOrDogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEitherCatOrDogViewController.swift; sourceTree = "<group>"; };
-		7CF7614D2B136AD40003F684 /* SelectEitherCatOrDogFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEitherCatOrDogFeature.swift; sourceTree = "<group>"; };
 		DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		DA0A5ED52AF5233900866138 /* ComponentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentModifier.swift; sourceTree = "<group>"; };
 		DA0A5EDA2AF52E0A00866138 /* SelectCareConditionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCareConditionsViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +269,7 @@
 		DAAD52F62A7CD58300227BB5 /* AuthenticateFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateFeature.swift; sourceTree = "<group>"; };
 		DAAD53092A7E28F300227BB5 /* EmptyComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyComponent.swift; sourceTree = "<group>"; };
 		DAAD530C2A7E291300227BB5 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		DAB395A32B1A0B2100B5415E /* AddPetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetViewController.swift; sourceTree = "<group>"; };
 		DAB571812B087CE900687979 /* MeetingCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardComponent.swift; sourceTree = "<group>"; };
 		DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extension.swift"; sourceTree = "<group>"; };
 		DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorInsertableView.swift; sourceTree = "<group>"; };
@@ -387,6 +387,7 @@
 				DA0F920C2A98412D0059690E /* AuthenticatePhoneNumberView */,
 				7C51EF5A2A94E851003132A1 /* SetProfileView */,
 				7CF761492B136A910003F684 /* SelectEitherCatOrDogView */,
+				DAB395A22B1A0B1500B5415E /* AddPetView */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -453,7 +454,6 @@
 			isa = PBXGroup;
 			children = (
 				7CF7614B2B136ACB0003F684 /* SelectEitherCatOrDogViewController.swift */,
-				7CF7614D2B136AD40003F684 /* SelectEitherCatOrDogFeature.swift */,
 				7CF354EA2B1767980058DCA7 /* SelectEitherCatOrDogView.swift */,
 				7CF354ED2B176BCD0058DCA7 /* SelectEitherCatOrDogComponent.swift */,
 			);
@@ -761,6 +761,14 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		DAB395A22B1A0B1500B5415E /* AddPetView */ = {
+			isa = PBXGroup;
+			children = (
+				DAB395A32B1A0B2100B5415E /* AddPetViewController.swift */,
+			);
+			path = AddPetView;
+			sourceTree = "<group>";
+		};
 		DAB571802B087CDC00687979 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -1018,7 +1026,6 @@
 				DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */,
 				DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */,
 				DA8DF4882AE7FB3400FA0D9D /* ComponentTableViewCell.swift in Sources */,
-				7CF7614E2B136AD40003F684 /* SelectEitherCatOrDogFeature.swift in Sources */,
 				DA95347F2AEF8E1800ED21F9 /* SelectPetFeature.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
 				DA11370A2AC3E6B80061F1E0 /* CountDownLabel.swift in Sources */,
@@ -1118,6 +1125,7 @@
 				DA0F922B2A98BEE70059690E /* UserRegistrationModel.swift in Sources */,
 				DA9534792AEF8B5400ED21F9 /* SelectPetViewController.swift in Sources */,
 				DA0F92222A9894A00059690E /* UserRegistrationStatus.swift in Sources */,
+				DAB395A42B1A0B2100B5415E /* AddPetViewController.swift in Sources */,
 				DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */,
 				DA8DF4862AE7FA1E00FA0D9D /* ComponentRenderable.swift in Sources */,
 			);

@@ -12,10 +12,22 @@ import SnapKit
 final class BaseFilledTextFieldViewModel: HashableViewModel {
   let textFieldPlaceHolder: String
   let maxCharactersLimit: Int
+  let backgroundColor: UIColor
+  let font: UIFont
+  let keyboardType: UIKeyboardType
   
-  init(textFieldPlaceHolder: String, maxCharactersLimit: Int) {
+  init(
+    textFieldPlaceHolder: String,
+    maxCharactersLimit: Int,
+    backgroundColor: UIColor = UIColor(hex: "#F3F3F3"),
+    font: UIFont = .systemFont(ofSize: 20, weight: .regular),
+    keyboardType: UIKeyboardType = .default
+  ) {
     self.textFieldPlaceHolder = textFieldPlaceHolder
-    self.maxCharactersLimit = maxCharactersLimit
+    self.maxCharactersLimit   = maxCharactersLimit
+    self.backgroundColor      = backgroundColor
+    self.font                 = font
+    self.keyboardType         = keyboardType
   }
 }
 
@@ -52,7 +64,6 @@ class BaseFilledTextField: UIView, HeightProvidable {
       containerView.addSubview($0)
       $0.delegate = self
       $0.tintColor = PND.Colors.commonBlack
-      $0.backgroundColor = UIColor(hex: "#F3F3F3")
       $0.layer.cornerRadius = 4
       $0.rightViewMode = .always
       $0.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
@@ -69,7 +80,10 @@ class BaseFilledTextField: UIView, HeightProvidable {
     
     self.viewModel = viewModel
     
-    textField.placeholder = viewModel.textFieldPlaceHolder
+    textField.keyboardType    = viewModel.keyboardType
+    textField.placeholder     = viewModel.textFieldPlaceHolder
+    textField.font            = viewModel.font
+    textField.backgroundColor = viewModel.backgroundColor
     
     textField.controlEventPublisher(for: .editingChanged)
       .withStrong(self)

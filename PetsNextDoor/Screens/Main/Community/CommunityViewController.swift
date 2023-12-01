@@ -28,7 +28,7 @@ final class CommunityViewController: BaseViewController, RenderableViewProvidabl
         viewModel: .init(segmentTitles: ["둘러보기", "내 모임"])
       )
       .onSegmentChange { index in
-
+        
       }
       
       EmptyComponent(
@@ -38,13 +38,13 @@ final class CommunityViewController: BaseViewController, RenderableViewProvidabl
       
       SelectCategoryComponent(viewModel: .init())
         .onCategoryChange { category in
-
+          
         }
       
     }
     
     Section {
-			For(each: viewStore.meetingCardCellViewModels) { cellVM in
+      For(each: viewStore.meetingCardCellViewModels) { cellVM in
         MeetingCardComponent(viewModel: cellVM)
       }
     }
