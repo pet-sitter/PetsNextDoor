@@ -16,27 +16,39 @@ struct SelectEitherCatOrDogFeature: Reducer {
 		var router: Router<PND.Destination>.State = .init()
 		var isBottomButtonEnabled: Bool = false
 		var selectedPetType: PND.PetType? = nil
-		
+
+    var addPetState: AddPetFeature.State?
 	}
 	
 	enum Action: Equatable, RoutableAction {
 		case onPetSelection(PND.PetType)
 		case didTapBottomButton
 		case onDismiss
-		
+    
+    case onPetAddComplete(AddPetFeature.State)
+    		
 		case _routeAction(Router<PND.Destination>.Action)
+    case _addPetAction(AddPetFeature.Action)
 	}
 	
 	var body: some Reducer<State, Action> {
 		Scope(
 			state: \.router,
 			action: /Action._routeAction
-		) {
-			Router<PND.Destination>()
-		}
-		
+    ) {
+      Router<PND.Destination>()
+    }
+    
 		Reduce { state, action in
 			switch action {
+        
+      case ._addPetAction(.onPetAddition):
+        if let addPetState = state.addPetState {
+          
+          return .send(.onPetAddComplete(addPetState))
+        }
+        return .none
+
 				
 			case .onPetSelection(let petType):
 				state.selectedPetType = petType
@@ -44,7 +56,8 @@ struct SelectEitherCatOrDogFeature: Reducer {
 				return .none
 				
 			case .didTapBottomButton:
-        return .send(._routeAction(.pushScreen(.addPet(AddPetFeature.State(selectedPetType: state.selectedPetType ?? .dog)), animated: true)))
+        state.addPetState = .init()
+        return .none
 				
 			case .onDismiss:
 				return .send(._routeAction(.dismiss(completion: nil)))
@@ -52,6 +65,12 @@ struct SelectEitherCatOrDogFeature: Reducer {
 			default: return .none
 			}
 		}
+    .ifLet(
+      \.addPetState,
+       action: /Action._addPetAction
+    ) {
+      AddPetFeature()
+    }
 	}
 }
 
@@ -60,6 +79,7 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 	private var tableView: BaseTableView!
 	private var bottomButton: BaseBottomButton!
 	
+  private let store: StoreOf<SelectEitherCatOrDogFeature>
 	private let viewStore: ViewStoreOf<SelectEitherCatOrDogFeature>
 	
 	private lazy var renderer = Renderer(adapter: UITableViewAdapter(target: tableView))
@@ -89,6 +109,7 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 	}
 	
 	init(store: some StoreOf<SelectEitherCatOrDogFeature>) {
+    self.store     = store
 		self.viewStore = ViewStore(store, observe: { $0 })
 		super.init()
 	}
@@ -96,6 +117,7 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		renderer.render { renderableView }
+    bindState()
 	}
 	
 	override func configureUI() {
@@ -142,6 +164,20 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 		)
 
 	}
+  
+  private func bindState() {
+    
+    store.scope(
+      state: \.addPetState,
+      action: SelectEitherCatOrDogFeature.Action._addPetAction
+    )
+    .ifLet(then: { store in
+      AppRouter.shared.receive(.pushScreen(.custom(AddPetViewController(store: store))))
+    })
+    .store(in: &subscriptions)
+    
+    
+  }
 	
 		
 }

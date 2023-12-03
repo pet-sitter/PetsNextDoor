@@ -23,6 +23,8 @@ struct SetProfileFeature: Reducer {
     @Pulse var myPetCellViewModels: [SelectPetViewModel] = []
     
     fileprivate var nicknameText: String = ""
+
+    var selectEitherCatOrDogState: SelectEitherCatOrDogFeature.State?
 		
 		var router: Router<PND.Destination>.State = .init()
     
@@ -39,23 +41,39 @@ struct SetProfileFeature: Reducer {
     case didTapAddPetButton
     
     // Internal Actions
+    case _appendSelectPetViewModel(SelectPetViewModel)
     case _setNicknameStatusPhrase(String)
     case _setNicknameText(String)
     case _setIsBottomButtonEnabled(Bool)
     case _setIsLoading(Bool)
 		case _routeAction(Router<PND.Destination>.Action)
+    
+    // Child Actions
+    case _selectEitherCatOrDogAction(SelectEitherCatOrDogFeature.Action)
+
 	}
 	
 	var body: some Reducer<State, Action> {
+    
 		Scope(
 			state: \.router,
 			action: /Action._routeAction
 		) {
 			Router<PND.Destination>()
 		}
+    
+    
 		Reduce { state, action in
       
       switch action {
+        
+      case ._selectEitherCatOrDogAction(.onPetAddComplete(let addPetState)):
+        print("✅ _selectEitherCatOrDogAction")
+        return .none
+        
+
+ 
+
         
       case .didTapBottomButton:
         state.userRegisterModel.nickname = state.nicknameText
@@ -68,7 +86,7 @@ struct SetProfileFeature: Reducer {
                 imageData: imageData,
                 imageName: "profileImage"
               )
-       
+              
             
             }
             
@@ -107,21 +125,13 @@ struct SetProfileFeature: Reducer {
         return .none
         
       case .didTapAddPetButton:
-				return .send(._routeAction(.presentFullScreen(.selectEitherCatOrDog(.init()), animated: true)))
-				
-//        state.myPetCellViewModels.append(
-//          .init(
-//            petImageUrlString: "",
-//            petName: "아롱",
-//            petSpecies: "비숑 프리제",
-//            petAge: 1,
-//            isPetNeutralized: true,
-//            isPetSelected: false,
-//            isDeleteButtonHidden: true
-//          )
-//        )
-        
-        
+        state.selectEitherCatOrDogState = .init()
+        return .none
+
+      case ._appendSelectPetViewModel(let petVM):
+        state.myPetCellViewModels.append(petVM)
+        return .none
+
       case ._setNicknameStatusPhrase(let phrase):
         state.nicknameStatusPhrase = phrase
         return .none
@@ -137,11 +147,19 @@ struct SetProfileFeature: Reducer {
       case ._setIsLoading(let isLoading):
         state.isLoading = isLoading
         return .none
-				
-			default:
-				return .none
+        
+      default:
+        return .none
       }
+      
+    }
+    .ifLet(
+      \.selectEitherCatOrDogState,
+       action: /Action._selectEitherCatOrDogAction
+    ) {
+      SelectEitherCatOrDogFeature()
+    }
+    
 
-		}
 	}
 }

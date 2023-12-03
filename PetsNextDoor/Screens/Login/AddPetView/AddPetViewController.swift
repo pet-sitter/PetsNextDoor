@@ -17,10 +17,11 @@ struct AddPetFeature: Reducer {
     var router: Router<PND.Destination>.State = .init()
     var isBottomButtonEnabled: Bool = false
     
-    let selectedPetType: PND.PetType
+    let selectedPetType: PND.PetType = .dog
     
     var petImage: UIImage?
     var petName: String = ""
+    var petAge: Int?
     var gender: PND.GenderType = .male
     var isNeutralized: Bool = false
     var speciesType: String = ""
@@ -30,7 +31,6 @@ struct AddPetFeature: Reducer {
     var otherInfo: String?
     
     var photoPickerIsPresented: Bool  = false
-    
   }
   
   enum Action: Equatable, RoutableAction {
@@ -39,6 +39,7 @@ struct AddPetFeature: Reducer {
     case petImageDidChange(UIImage)
     case textDidChange(String?)
     case didTapBottomButton
+    case onPetAddition
   }
   
   var body: some Reducer<State,Action> {
@@ -51,29 +52,40 @@ struct AddPetFeature: Reducer {
     }
     
     Reduce { state, action in
+      return .none
       switch action {
-        
+
       case .petImageDidTap:
         state.photoPickerIsPresented = true
         return .none
-        
+
       case .petImageDidChange(let image):
         state.photoPickerIsPresented = false
         state.petImage = image
         return .none
-        
+
       case .textDidChange(let text):
         guard let text else { return .none }
         if text.count >= 2 && text.count <= 20 {
           state.petName = text
+          state.isBottomButtonEnabled = true
         } else {
           state.isBottomButtonEnabled = false
         }
         return .none
-        
+
 
       case .didTapBottomButton:
-        return .none
+
+        state.petName = "아롱"
+        state.speciesType = "비숑 프리제"
+        state.petAge = 2
+        state.isNeutralized = true
+        
+        return .send(.onPetAddition)
+        
+      case .onPetAddition:
+        return .send(._routeAction(.dismiss()))
         
       default: return .none
       }

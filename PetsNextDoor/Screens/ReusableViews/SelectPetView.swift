@@ -11,15 +11,23 @@ import SnapKit
 
 final class SelectPetViewModel: HashableViewModel {
 
-  let petImageUrlString: String
-  let petName: String
-  let petSpecies: String
-  let petAge: Int
-  let isPetNeutralized: Bool
+  @Published var petImageUrlString: String
+  @Published var petName: String
+  @Published var petSpecies: String
+  @Published var petAge: Int
+  @Published var isPetNeutralized: Bool
   @Published var isPetSelected: Bool
-  let isDeleteButtonHidden: Bool
+  @Published var isDeleteButtonHidden: Bool
   
-  init(petImageUrlString: String, petName: String, petSpecies: String, petAge: Int, isPetNeutralized: Bool, isPetSelected: Bool, isDeleteButtonHidden: Bool) {
+  init(
+    petImageUrlString: String,
+    petName: String,
+    petSpecies: String,
+    petAge: Int,
+    isPetNeutralized: Bool = false,
+    isPetSelected: Bool = false,
+    isDeleteButtonHidden: Bool = true
+  ) {
     self.petImageUrlString = petImageUrlString
     self.petName = petName
     self.petSpecies = petSpecies
@@ -126,16 +134,36 @@ final class SelectPetView: UIView {
     
     // 펫 이미지 설정
     
-    petNameLabel.text = viewModel.petName
-    petInformationLabel.text = viewModel.petSpecies + "  |  " + "\(viewModel.petAge)살"
-    isNeutralizedLabel.text = viewModel.isPetNeutralized ? "중성화 O" : "중성화 X"
+    viewModel.$petName
+      .compactMap { $0 }
+      .receiveOnMainQueue()
+      .assignNoRetain(to: \.text, on: petNameLabel)
+      .store(in: &subscriptions)
     
-    isNeutralizedLabel.snp.makeConstraints {
-      $0.width.equalTo(isNeutralizedLabel.intrinsicContentSize.width)
+    Publishers.CombineLatest(
+      viewModel.$petSpecies,
+      viewModel.$petAge
+    )
+    .receiveOnMainQueue()
+    .sink { [weak self] species, age in
+      self?.petInformationLabel.text = species + "  |  "  + "\(age)살"
     }
+    .store(in: &subscriptions)
     
+    viewModel.$isPetNeutralized
+      .receiveOnMainQueue()
+      .map { $0 ? "중성화 O" : "중성화 X" }
+      .sink { [weak self] text in
+        guard let self else { return }
+        isNeutralizedLabel.text = text
+        isNeutralizedLabel.snp.makeConstraints {
+          $0.width.equalTo(self.isNeutralizedLabel.intrinsicContentSize.width)
+        }
+      }
+      .store(in: &subscriptions)
+      
     viewModel.$isPetSelected
-      .receive(on: DispatchQueue.main)
+      .receiveOnMainQueue()
       .sink { [weak self] isSelected in
         self?.containerView.layer.borderColor = isSelected
         ? PND.Colors.commonOrange.cgColor

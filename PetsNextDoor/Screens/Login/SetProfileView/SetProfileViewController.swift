@@ -20,6 +20,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
 	typealias State   = SetProfileFeature.State
 	typealias Action  = SetProfileFeature.Action
 	
+  private let store: StoreOf<Feature>
 	private let viewStore: ViewStoreOf<Feature>
   
   private var photoPicker: PHPickerViewController?
@@ -86,6 +87,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
 
 	
 	init(store: some StoreOf<Feature>) {
+    self.store      = store
 		self.viewStore  = ViewStore(store, observe: { $0 } )
 		super.init()
 	}
@@ -122,16 +124,27 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
 			$0.snp.makeConstraints {
 				$0.top.leading.trailing.equalToSuperview()
 				$0.bottom.equalTo(bottomButton.snp.top)
-			}
-		}
-	}
-	
-	private func bindState() {
+      }
+    }
+  }
+  
+  private func bindState() {
+    
+    store.scope(
+      state: \.selectEitherCatOrDogState,
+      action: SetProfileFeature.Action._selectEitherCatOrDogAction
+    )
+    .ifLet(then: { store in
+      AppRouter.shared.receive(.presentFullScreen(.custom(SelectEitherCatOrDogViewController(store: store))))
+    })
+    .store(in: &subscriptions)
+    
 
     viewStore
       .publisher
       .myPetCellViewModels
       .withStrong(self)
+      .delay(for: .seconds(1), scheduler: RunLoop.main)
       .sink { strongSelf, _ in
         strongSelf.renderer.render { strongSelf.renderableView }
       }

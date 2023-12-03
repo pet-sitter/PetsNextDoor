@@ -35,10 +35,12 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     case pushScreen(Screen, animated: Bool = true)
     case popScreen(animated: Bool = true)
     case popToRootScreen(animated: Bool = true)
-    case presentFullScreen(Screen, animated: Bool = true)
+    case presentFullScreen(Screen, animated: Bool = true, completion: CustomHandler? = nil)
     case presentModal(Screen, animated: Bool = true)
 		case dismiss(completion: CustomHandler? = nil)
     case changeRootScreen(toScreen: Screen)
+    
+    
   }
 
   @MainActor
@@ -60,11 +62,11 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     case let .popToRootScreen(animated):
       state.currentNavigationController?.popToRootViewController(animated: animated)
       
-    case let .presentFullScreen(screen, animated):
+    case let .presentFullScreen(screen, animated, completion):
       let vc = screen.createView()
 			let nc = BaseNavigationController(rootViewController: vc)
 			nc.modalPresentationStyle = .overFullScreen
-      state.currentNavigationController?.present(nc, animated: animated)
+      state.currentNavigationController?.present(nc, animated: animated, completion: completion?.handler)
       
     case let .presentModal(screen, animated):
       state.currentNavigationController?.present(screen.createView(), animated: animated)
@@ -82,9 +84,9 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
   
 	final class CustomHandler: Equatable {
 		
-	 let handler: (() -> Void)
+	 let handler: (@Sendable () -> Void)
 
-	 init(_ handler: @escaping () -> Void) {
+	 init(_ handler: @Sendable @escaping () -> Void) {
 		 self.handler = handler
 	 }
 	 

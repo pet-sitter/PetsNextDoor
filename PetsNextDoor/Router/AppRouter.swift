@@ -13,17 +13,18 @@ final class AppRouter {
 
   static let shared = AppRouter()
 
+  private let store: StoreOf<Router<PND.Destination>>
+  private let viewStore: ViewStoreOf<Router<PND.Destination>>
 
-//  var visibleViewController: UIViewController? { UIApplication.topViewController() }
-//  
-//  var currentWindow: UIWindow? {
-//    (visibleViewController?.view.window?.windowScene?.delegate as? SceneDelegate)?.window
-//  }
-
-  private init() {}
+  private init() {
+    self.store = StoreOf<Router<PND.Destination>>(initialState: Router.State(), reducer: Router())
+    self.viewStore = ViewStore(store, observe: { $0 } )
+  }
   
   
-  
+  func receive(_ action: Router<PND.Destination>.Action) {
+    viewStore.send(action)
+  }
 
 
 }

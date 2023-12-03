@@ -31,6 +31,8 @@ extension PND {
     // 돌봄급구 상세
     case urgentPostDetail(state: UrgentPostDetailFeature.State)
     
+    // Custom
+    case custom(ViewProvidable.PresentableView)
 
     
     func createView() -> PresentableView {
@@ -88,6 +90,11 @@ extension PND {
 				
       case .urgentPostDetail(let state):
         return UrgentPostDetailViewController(store: .init(initialState: state, reducer: UrgentPostDetailFeature() ))
+        
+        // Custom
+        
+      case .custom(let vc):
+        return vc
         
       default:
         assertionFailure("❌ Destination.createView() case NOT DEFINED")
