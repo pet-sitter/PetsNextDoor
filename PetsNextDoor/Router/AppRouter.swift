@@ -17,8 +17,8 @@ final class AppRouter {
   private let viewStore: ViewStoreOf<Router<PND.Destination>>
 
   private init() {
-    self.store = StoreOf<Router<PND.Destination>>(initialState: Router.State(), reducer: Router())
-    self.viewStore = ViewStore(store, observe: { $0 } )
+    self.store      = StoreOf<Router<PND.Destination>>(initialState: Router.State(), reducer: Router())
+    self.viewStore  = ViewStore(store, observe: { $0 } )
   }
   
   

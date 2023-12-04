@@ -144,7 +144,6 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
       .publisher
       .myPetCellViewModels
       .withStrong(self)
-      .delay(for: .seconds(1), scheduler: RunLoop.main)
       .sink { strongSelf, _ in
         strongSelf.renderer.render { strongSelf.renderableView }
       }

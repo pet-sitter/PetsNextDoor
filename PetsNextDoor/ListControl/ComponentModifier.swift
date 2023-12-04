@@ -35,3 +35,8 @@ protocol ContainsSegments {
   var onSegmentChange: ((Int) -> Void)? { get }
   func onSegmentChange(_ action: ((Int) -> Void)?) -> Self
 }
+
+protocol ContainsCheckBox {
+  var onCheckBoxChange: ((Bool) -> Void)? { get }
+  func onCheckBoxChange(_ action: ((Bool) -> Void)?) -> Self
+}

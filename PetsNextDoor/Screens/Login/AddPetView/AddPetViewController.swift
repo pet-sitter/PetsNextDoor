@@ -17,7 +17,7 @@ struct AddPetFeature: Reducer {
     var router: Router<PND.Destination>.State = .init()
     var isBottomButtonEnabled: Bool = false
     
-    let selectedPetType: PND.PetType = .dog
+    let selectedPetType: PND.PetType 
     
     var petImage: UIImage?
     var petName: String = ""
@@ -34,12 +34,15 @@ struct AddPetFeature: Reducer {
   }
   
   enum Action: Equatable, RoutableAction {
-    case _routeAction(Router<PND.Destination>.Action)
+
     case petImageDidTap
     case petImageDidChange(UIImage)
     case textDidChange(String?)
+    case onIsNeutralizedCheckBoxTap(Bool)
     case didTapBottomButton
     case onPetAddition
+    
+    case _routeAction(Router<PND.Destination>.Action)
   }
   
   var body: some Reducer<State,Action> {
@@ -52,7 +55,7 @@ struct AddPetFeature: Reducer {
     }
     
     Reduce { state, action in
-      return .none
+
       switch action {
 
       case .petImageDidTap:
@@ -74,13 +77,13 @@ struct AddPetFeature: Reducer {
         }
         return .none
 
-
+      case .onIsNeutralizedCheckBoxTap(let isSelected):
+        state.isNeutralized = isSelected
+        return .none
+        
       case .didTapBottomButton:
-
-        state.petName = "아롱"
         state.speciesType = "비숑 프리제"
         state.petAge = 2
-        state.isNeutralized = true
         
         return .send(.onPetAddition)
         
@@ -89,8 +92,7 @@ struct AddPetFeature: Reducer {
         
       default: return .none
       }
-    }
-  }
+    }  }
 }
 
 final class AddPetViewController: BaseViewController, RenderableViewProvidable {
@@ -152,6 +154,10 @@ final class AddPetViewController: BaseViewController, RenderableViewProvidable {
         maxWidthForRightConditionView: BaseCheckBoxButton.defaultHeight,
         titleLabelFont: .systemFont(ofSize: 20, weight: .semibold)
       ))
+      .onCheckBoxChange { [weak self] isSelected in
+        self?.viewStore.send(.onIsNeutralizedCheckBoxTap(isSelected))
+      }
+      
       
       EmptyComponent(height: 17)
       

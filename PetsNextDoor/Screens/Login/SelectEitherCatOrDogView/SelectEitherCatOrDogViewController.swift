@@ -21,6 +21,8 @@ struct SelectEitherCatOrDogFeature: Reducer {
 	}
 	
 	enum Action: Equatable, RoutableAction {
+    
+    case viewDidAppear
 		case onPetSelection(PND.PetType)
 		case didTapBottomButton
 		case onDismiss
@@ -42,6 +44,10 @@ struct SelectEitherCatOrDogFeature: Reducer {
 		Reduce { state, action in
 			switch action {
         
+      case .viewDidAppear:
+        state.addPetState = nil
+        return .none
+        
       case ._addPetAction(.onPetAddition):
         if let addPetState = state.addPetState {
           
@@ -56,7 +62,8 @@ struct SelectEitherCatOrDogFeature: Reducer {
 				return .none
 				
 			case .didTapBottomButton:
-        state.addPetState = .init()
+        guard let petType = state.selectedPetType else { return .none }
+        state.addPetState = AddPetFeature.State(selectedPetType: petType)
         return .none
 				
 			case .onDismiss:
@@ -119,6 +126,11 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 		renderer.render { renderableView }
     bindState()
 	}
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    viewStore.send(.viewDidAppear)
+  }
 	
 	override func configureUI() {
 		super.configureUI()

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class SelectConditionHorizontalComponent: Component, ContainsSegments, ContainsTextField {
+final class SelectConditionHorizontalComponent: Component, ContainsSegments, ContainsTextField, ContainsCheckBox {
 
   typealias ContentView = SelectConditionHorizontalView
   typealias ViewModel   = SelectConditionViewModel
@@ -33,6 +33,13 @@ final class SelectConditionHorizontalComponent: Component, ContainsSegments, Con
         onEditingChanged?( (text, self) )
       }
     }
+    
+    if let checkBoxView = viewModel.rightConditionView as? BaseCheckBoxButton {
+      
+      checkBoxView.onCheckBoxTap = { [weak self] isSelected in
+        self?.onCheckBoxChange?(isSelected)
+      }
+    }
   }
   
   func contentHeight() -> CGFloat? {
@@ -54,6 +61,15 @@ final class SelectConditionHorizontalComponent: Component, ContainsSegments, Con
   
   func onEditingChanged(_ action: @escaping (((String?, SelectConditionHorizontalComponent))) -> Void) -> Self {
     self.onEditingChanged = action
+    return self
+  }
+  
+  //MARK: - ContainsCheckBox
+  
+  private(set)var onCheckBoxChange: ((Bool) -> Void)?
+  
+  func onCheckBoxChange(_ action: ((Bool) -> Void)?) -> Self {
+    self.onCheckBoxChange = action
     return self
   }
 }

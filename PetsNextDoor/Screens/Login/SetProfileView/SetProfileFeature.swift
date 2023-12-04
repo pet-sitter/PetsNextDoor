@@ -50,7 +50,6 @@ struct SetProfileFeature: Reducer {
     
     // Child Actions
     case _selectEitherCatOrDogAction(SelectEitherCatOrDogFeature.Action)
-
 	}
 	
 	var body: some Reducer<State, Action> {
@@ -68,12 +67,20 @@ struct SetProfileFeature: Reducer {
       switch action {
         
       case ._selectEitherCatOrDogAction(.onPetAddComplete(let addPetState)):
-        print("✅ _selectEitherCatOrDogAction")
-        return .none
         
+        let selectPetViewModel = SelectPetViewModel(
+          petImageUrlString: "",
+          petName: addPetState.petName,
+          petSpecies: addPetState.speciesType,
+          petAge: addPetState.petAge ?? 1,
+          isPetNeutralized: addPetState.isNeutralized,
+          isPetSelected: false,
+          isDeleteButtonHidden: false
+        )
 
- 
-
+        state.selectEitherCatOrDogState = nil 
+        state.myPetCellViewModels.append(selectPetViewModel)
+        return .none
         
       case .didTapBottomButton:
         state.userRegisterModel.nickname = state.nicknameText
