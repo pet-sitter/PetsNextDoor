@@ -69,7 +69,7 @@ struct SetProfileFeature: Reducer {
       case ._selectEitherCatOrDogAction(.onPetAddComplete(let addPetState)):
         
         let selectPetViewModel = SelectPetViewModel(
-          petImageUrlString: "",
+					petImage: addPetState.petImage,
           petName: addPetState.petName,
           petSpecies: addPetState.speciesType,
           petAge: addPetState.petAge ?? 1,
@@ -77,6 +77,7 @@ struct SetProfileFeature: Reducer {
           isPetSelected: false,
           isDeleteButtonHidden: false
         )
+				
 
         state.selectEitherCatOrDogState = nil 
         state.myPetCellViewModels.append(selectPetViewModel)

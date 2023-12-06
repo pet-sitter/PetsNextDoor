@@ -12,6 +12,8 @@ import SnapKit
 final class SelectPetViewModel: HashableViewModel {
 
   @Published var petImageUrlString: String
+	@Published var petImage: UIImage?
+	
   @Published var petName: String
   @Published var petSpecies: String
   @Published var petAge: Int
@@ -20,7 +22,8 @@ final class SelectPetViewModel: HashableViewModel {
   @Published var isDeleteButtonHidden: Bool
   
   init(
-    petImageUrlString: String,
+    petImageUrlString: String = "",
+		petImage: UIImage? = nil,
     petName: String,
     petSpecies: String,
     petAge: Int,
@@ -29,6 +32,7 @@ final class SelectPetViewModel: HashableViewModel {
     isDeleteButtonHidden: Bool = true
   ) {
     self.petImageUrlString = petImageUrlString
+		self.petImage = petImage
     self.petName = petName
     self.petSpecies = petSpecies
     self.petAge = petAge
@@ -98,7 +102,6 @@ final class SelectPetView: UIView {
         $0.leading.equalTo(petImageView.snp.trailing).offset(17)
         $0.bottom.equalToSuperview().inset(21)
         $0.trailing.equalToSuperview().inset(17)
-
       }
     }
     
@@ -119,7 +122,7 @@ final class SelectPetView: UIView {
     isNeutralizedLabel = UILabel()
     isNeutralizedLabel.set {
       stackView.addArrangedSubview($0)
-			$0.frame = .init(x: 0, y: 0, width: 53, height: 18)
+//			$0.frame = .init(x: 0, y: 0, width: 53, height: 18)
       $0.backgroundColor = UIColor(hex: "#FFF0DD")
       $0.textColor = PND.Colors.commonOrange
       $0.clipsToBounds = true
@@ -127,6 +130,11 @@ final class SelectPetView: UIView {
       $0.layer.borderColor = UIColor.clear.cgColor
       $0.layer.borderWidth = 1
       $0.font = .systemFont(ofSize: 12, weight: .bold)
+			$0.snp.makeConstraints {
+				$0.width.equalTo(55)
+				$0.top.equalTo(petInformationLabel.snp.bottom)
+				$0.bottom.equalTo(stackView.snp.bottom)
+			}
     }
   }
   
@@ -139,6 +147,12 @@ final class SelectPetView: UIView {
       .receiveOnMainQueue()
       .assignNoRetain(to: \.text, on: petNameLabel)
       .store(in: &subscriptions)
+		
+		viewModel.$petImage
+			.compactMap { $0 }
+			.receiveOnMainQueue()
+			.assignNoRetain(to: \.image, on: petImageView)
+			.store(in: &subscriptions)
     
     Publishers.CombineLatest(
       viewModel.$petSpecies,
