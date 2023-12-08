@@ -21,11 +21,8 @@ final class AppRouter {
     self.viewStore  = ViewStore(store, observe: { $0 } )
   }
   
-  
   func receive(_ action: Router<PND.Destination>.Action) {
     viewStore.send(action)
   }
-
-
 }
 

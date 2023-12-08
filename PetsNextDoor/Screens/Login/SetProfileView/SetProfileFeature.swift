@@ -78,6 +78,7 @@ struct SetProfileFeature: Reducer {
           isPetSelected: false,
           isDeleteButtonHidden: false
         )
+				
 
         state.selectEitherCatOrDogState = nil 
         state.myPetCellViewModels.append(selectPetViewModel)

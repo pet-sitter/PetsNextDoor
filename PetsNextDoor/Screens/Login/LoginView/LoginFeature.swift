@@ -51,14 +51,14 @@ struct LoginFeature: Reducer {
       
       case .didTapGoogleLogin:
         
-//        return .send(._routeAction(.changeRootScreen(toScreen: .main(
-//          homeState: .init(),
-//          communityState: .init(),
-//          chatState: .init(),
-//          myPageState: .init()
-//        ))))
+        return .send(._routeAction(.changeRootScreen(toScreen: .main(
+					homeState: HomeFeature.State(),
+					communityState: CommunityFeature.State(),
+					chatState: ChatListFeature.State(),
+					myPageState: MyPageFeature.State()
+        ))))
         
-        return .send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init()))))
+//        return .send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init()))))
 
         
         
