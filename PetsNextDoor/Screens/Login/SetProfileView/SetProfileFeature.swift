@@ -39,6 +39,7 @@ struct SetProfileFeature: Reducer {
     case userImageDidChange(UIImage)
     case profileImageDidTap
     case didTapAddPetButton
+    case didTapPetDeleteButton(SelectPetViewModel)
     
     // Internal Actions
     case _appendSelectPetViewModel(SelectPetViewModel)
@@ -66,10 +67,10 @@ struct SetProfileFeature: Reducer {
       
       switch action {
         
-      case ._selectEitherCatOrDogAction(.onPetAddComplete(let addPetState)):
+      case ._selectEitherCatOrDogAction(.delegate(.onPetAddComplete(let addPetState))):
         
         let selectPetViewModel = SelectPetViewModel(
-          petImageUrlString: "",
+          petImage: addPetState.petImage,
           petName: addPetState.petName,
           petSpecies: addPetState.speciesType,
           petAge: addPetState.petAge ?? 1,
@@ -80,6 +81,10 @@ struct SetProfileFeature: Reducer {
 
         state.selectEitherCatOrDogState = nil 
         state.myPetCellViewModels.append(selectPetViewModel)
+        return .none
+        
+      case ._selectEitherCatOrDogAction(.delegate(.dismissComplete)):
+        state.selectEitherCatOrDogState = nil
         return .none
         
       case .didTapBottomButton:
@@ -133,6 +138,13 @@ struct SetProfileFeature: Reducer {
         
       case .didTapAddPetButton:
         state.selectEitherCatOrDogState = .init()
+        return .none
+        
+      case .didTapPetDeleteButton(let petVM):
+        state.myPetCellViewModels = state
+          .myPetCellViewModels
+          .filter { $0 == petVM }
+        
         return .none
 
       case ._appendSelectPetViewModel(let petVM):

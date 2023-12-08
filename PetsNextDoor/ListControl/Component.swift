@@ -17,6 +17,7 @@ extension UIView: ContentViewCompatible {}
 
 
 
+
 protocol Component: AnyObject, IdentifierProvidable, ComponentBuildable {
 	
 	associatedtype ContentView: ContentViewCompatible

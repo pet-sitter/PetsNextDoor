@@ -19,7 +19,7 @@ final class BaseFilledTextFieldViewModel: HashableViewModel {
   init(
     textFieldPlaceHolder: String,
     maxCharactersLimit: Int,
-    backgroundColor: UIColor = UIColor(hex: "#F3F3F3"),
+    backgroundColor: UIColor = PND.Colors.gray20,
     font: UIFont = .systemFont(ofSize: 20, weight: .regular),
     keyboardType: UIKeyboardType = .default
   ) {

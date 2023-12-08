@@ -20,7 +20,7 @@ final class SegmentControlComponent: Component, ContainsSegments {
   }
   
   func createContentView() -> SegmentControlView {
-    SegmentControlView(segmentTitles: viewModel.segmentTitles)
+    SegmentControlView(segmentTitles: viewModel.segmentTitles, stackViewSpacing: viewModel.stackViewSpacing)
   }
   
   func render(contentView: SegmentControlView) {

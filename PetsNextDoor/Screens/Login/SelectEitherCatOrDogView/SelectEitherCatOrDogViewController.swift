@@ -20,54 +20,71 @@ struct SelectEitherCatOrDogFeature: Reducer {
     var addPetState: AddPetFeature.State?
 	}
 	
-	enum Action: Equatable, RoutableAction {
+	enum Action: Equatable, RestrictiveAction {
     
-    case viewDidAppear
-		case onPetSelection(PND.PetType)
-		case didTapBottomButton
-		case onDismiss
+    enum ViewAction: Equatable {
+      case viewDidAppear
+      case onPetSelection(PND.PetType)
+      case didTapBottomButton
+      case onDismiss
+    }
     
-    case onPetAddComplete(AddPetFeature.State)
-    		
-		case _routeAction(Router<PND.Destination>.Action)
+    enum DelegateAction: Equatable {
+      case dismissComplete
+      case onPetAddComplete(AddPetFeature.State)
+    }
+    
+    enum InternalAction: Equatable {
+
+    }
+    
+    case view(ViewAction)
+    case delegate(DelegateAction)
+    case `internal`(InternalAction)
+    
     case _addPetAction(AddPetFeature.Action)
+    case _routeAction(Router<PND.Destination>.Action)
 	}
 	
 	var body: some Reducer<State, Action> {
 		Scope(
 			state: \.router,
-			action: /Action._routeAction
+      action: /Action._routeAction
     ) {
       Router<PND.Destination>()
     }
     
 		Reduce { state, action in
 			switch action {
-        
-      case .viewDidAppear:
+      
+      case .view(.viewDidAppear):
         state.addPetState = nil
         return .none
-        
-      case ._addPetAction(.onPetAddition):
-        if let addPetState = state.addPetState {
-          
-          return .send(.onPetAddComplete(addPetState))
-        }
-        return .none
 
-				
-			case .onPetSelection(let petType):
+      case .view(.onPetSelection(let petType)):
 				state.selectedPetType = petType
 				state.isBottomButtonEnabled = true
 				return .none
 				
-			case .didTapBottomButton:
+      case .view(.didTapBottomButton):
         guard let petType = state.selectedPetType else { return .none }
         state.addPetState = AddPetFeature.State(selectedPetType: petType)
         return .none
-				
-			case .onDismiss:
-				return .send(._routeAction(.dismiss(completion: nil)))
+        
+      case .view(.onDismiss):
+        
+        return .merge([
+          .send(._routeAction(.dismiss(completion: nil))),
+          .send(.delegate(.dismissComplete))
+        ])
+        
+        
+      case ._addPetAction(.onPetAddition):
+        if let addPetState = state.addPetState {
+          return .send(.delegate(.onPetAddComplete(addPetState)))
+        }
+        return .none
+        
 				
 			default: return .none
 			}
@@ -107,7 +124,7 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 			SelectEitherCatOrDogComponent(
 				viewModel: .init(
 					onPetSelection: { [weak self] petType in
-						self?.viewStore.send(.onPetSelection(petType))
+            self?.viewStore.send(.view(.onPetSelection(petType)))
 					}
 				)
 			)
@@ -129,7 +146,7 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    viewStore.send(.viewDidAppear)
+    viewStore.send(.view(.viewDidAppear))
   }
 	
 	override func configureUI() {
@@ -149,7 +166,7 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 			}
 
 			$0.onTapGesture { [weak self] in
-				self?.viewStore.send(.didTapBottomButton)
+        self?.viewStore.send(.view(.didTapBottomButton))
 			}
 		}
 	 
@@ -171,7 +188,7 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
 			title: nil,
 			image: UIImage(systemName: "xmark"),
 			primaryAction: .init(handler: { [weak self] _ in
-				self?.viewStore.send(.onDismiss)
+        self?.viewStore.send(.view(.onDismiss))
 			})
 		)
 

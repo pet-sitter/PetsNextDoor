@@ -17,7 +17,8 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
   private var tableView: UITableView!
   private var bottomButton: BaseBottomButton!
   
-  private lazy var renderer = Renderer(adapter: UITableViewAdapter(target: tableView))
+  private lazy var adapter = UITableViewAdapter(target: tableView)
+  private lazy var renderer = Renderer(adapter: adapter)
   
   var renderableView: RenderableView {
     Section {
@@ -34,9 +35,6 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
 			For(each: viewStore.selectPetCellViewModels) { cellVM in
         List {
           SelectPetComponent(viewModel: cellVM)
-            .onTouch { [weak self] in
-              self?.viewStore.send(.didSelectPet($0.viewModel))
-            }
           EmptyComponent(height: 16)
         }
       }
@@ -55,6 +53,13 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
     viewStore.send(.viewDidLoad)
     bindState()
     renderer.render { renderableView }
+    
+    adapter
+      .onSelection { [weak self] selectionInfo in
+        guard let petVM = selectionInfo.component.viewModel as? SelectPetViewModel else { return }
+        self?.viewStore.send(.didSelectPet(petVM))
+      }
+      
   }
   
   override func viewDidAppear(_ animated: Bool) {

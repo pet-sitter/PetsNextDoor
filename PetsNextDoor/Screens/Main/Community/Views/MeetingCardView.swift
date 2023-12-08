@@ -68,9 +68,8 @@ struct MeetingCardView: View {
 							.lineLimit(1)
 							.frame(height: 22)
 							.font(.system(size: 12, weight: .medium))
-							.background(Color(hex: "#F3F3F3"))
+              .background(PND.Colors.gray20.asColor)
 							.cornerRadius(4)
-							.lineLimit(1)
 							.foregroundColor(.black)
 					}
 					

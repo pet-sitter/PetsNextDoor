@@ -82,7 +82,7 @@ final class SetProfileImageView: UIView {
 			containerView.addSubview($0)
 			$0.clipsToBounds = true
 			$0.layer.cornerRadius = 4
-			$0.backgroundColor = UIColor(hex: "F3F3F3")
+			$0.backgroundColor = PND.Colors.gray20
 			$0.snp.makeConstraints {
 				$0.center.equalToSuperview()
 				$0.width.height.equalTo(Self.defaultHeight)

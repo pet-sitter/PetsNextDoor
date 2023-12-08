@@ -10,9 +10,11 @@ import SnapKit
 
 final class SegmentControlViewModel: HashableViewModel {
   let segmentTitles: [String]
+  let stackViewSpacing: CGFloat
   
-  init(segmentTitles: [String]) {
+  init(segmentTitles: [String], stackViewSpacing: CGFloat) {
     self.segmentTitles = segmentTitles
+    self.stackViewSpacing = stackViewSpacing
   }
 }
 
@@ -22,9 +24,10 @@ final class SegmentControlView: UIView {
   
   private var containerView: UIView!
   private var containerStackView: UIStackView!
-  private var containerStackViewWidth: CGFloat = 0
   
   private(set) var selectedSegment: Int = 0
+  
+  private var stackViewSpacing: CGFloat
   
   private let segmentTitles: [String]
   private var segmentButtons: [UIButton]  = []
@@ -32,12 +35,12 @@ final class SegmentControlView: UIView {
   var onSegmentTap: ((Int) -> Void)?
   
   private struct Constants {
-    static let stackViewSpacing: CGFloat = 16.0
     static let fontSize: CGFloat = 20
   }
   
-  init(segmentTitles: [String]) {
+  init(segmentTitles: [String], stackViewSpacing: CGFloat) {
     self.segmentTitles = segmentTitles
+    self.stackViewSpacing = stackViewSpacing
     super.init(frame: .zero)
     configureUI()
   }
@@ -57,9 +60,9 @@ final class SegmentControlView: UIView {
     containerStackView.set {
       containerView.addSubview($0)
       $0.backgroundColor = .clear
+      $0.spacing = stackViewSpacing
       $0.axis = .horizontal
-      $0.distribution = .fill
-      $0.spacing = Constants.stackViewSpacing
+      $0.distribution = .fillEqually
       $0.snp.makeConstraints {
         $0.edges.equalToSuperview()
       }
@@ -75,7 +78,7 @@ final class SegmentControlView: UIView {
         
         segmentButton
           .normalTitleStyle(font: .systemFont(ofSize: Constants.fontSize, weight: .bold), color: UIColor(hex: "#B3B3B3"))
-          .selectedTitleStyle(font: .systemFont(ofSize: Constants.fontSize, weight: .bold), color: PND.Colors.commonOrange)
+          .selectedTitleStyle(font: .systemFont(ofSize: Constants.fontSize, weight: .bold), color: PND.Colors.primary)
           .bgColor(.clear)
           .title(title)
           .onTap { [weak self] in
@@ -87,17 +90,6 @@ final class SegmentControlView: UIView {
           }
         containerStackView.addArrangedSubview(segmentButton)
         
-        containerStackViewWidth += title.calculateEstimateCGRect(
-          fontSize: Constants.fontSize,
-          size: CGSize(
-            width: CGFloat.greatestFiniteMagnitude,
-            height: 24.0
-          ),
-          weight: .bold
-        )
-        .width
-        
-        containerStackViewWidth += Constants.stackViewSpacing
       }
     
     segmentButtons
@@ -108,13 +100,18 @@ final class SegmentControlView: UIView {
         }
       }
     
-    containerStackView.snp.remakeConstraints {
-      $0.top.bottom.equalToSuperview()
-      $0.leading.equalToSuperview().inset(20)
-    }
+//    containerStackView.snp.remakeConstraints {
+//      $0.top.bottom.equalToSuperview()
+//      $0.leading.equalToSuperview().inset(20)
+//    }
   }
   
   func configure(viewModel: SegmentControlViewModel) {
+    
+    self.stackViewSpacing = viewModel.stackViewSpacing
+    containerStackView.spacing = stackViewSpacing
+    layoutIfNeeded()
+    
     
   }
 }

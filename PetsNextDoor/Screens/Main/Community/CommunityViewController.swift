@@ -25,7 +25,7 @@ final class CommunityViewController: BaseViewController, RenderableViewProvidabl
   var renderableView: RenderableView {
     Section {
       SegmentControlComponent(
-        viewModel: .init(segmentTitles: ["둘러보기", "내 모임"])
+        viewModel: .init(segmentTitles: ["둘러보기", "내 모임"], stackViewSpacing: 16)
       )
       .onSegmentChange { index in
         

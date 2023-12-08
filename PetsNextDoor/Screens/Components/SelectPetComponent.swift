@@ -7,10 +7,11 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 final class SelectPetComponent: Component, TouchableComponent {
   
-  typealias ContentView   = SelectPetView
+  typealias ContentView   = UIView
   typealias ViewModel     = SelectPetViewModel
   
   var viewModel: SelectPetViewModel
@@ -19,22 +20,23 @@ final class SelectPetComponent: Component, TouchableComponent {
     self.viewModel = viewModel
   }
   
-  func createContentView() -> SelectPetView {
-    SelectPetView()
+  @MainActor
+  func createContentView() -> ContentView {
+    UIHostingConfiguration { SelectPetView(viewModel: self.viewModel) }
+      .margins(.all, 0)
+      .makeContentView()
   }
   
-  func render(contentView: SelectPetView) {
+  func render(contentView: ContentView) {
     
-    contentView.configure(viewModel: viewModel)
-    
-    contentView.onTap = { [weak self] in
+    viewModel.onDeleteButtonTapped = { [weak self] in
       guard let self else { return }
-      onTouchAction?(self)
+      self.onDeleteAction?(self)
     }
   }
   
   func contentHeight() -> CGFloat? {
-    ContentView.defaultHeight
+    100
   }
   
   //MARK: - TouchableComponent
@@ -43,6 +45,13 @@ final class SelectPetComponent: Component, TouchableComponent {
   
   func onTouch(_ action: @escaping ((SelectPetComponent) -> Void)) -> Self {
     self.onTouchAction = action
+    return self
+  }
+  
+  var onDeleteAction: ((SelectPetComponent) -> Void)?
+  
+  func onDelete(_ action: @escaping ((SelectPetComponent) -> Void)) -> Self {
+    self.onDeleteAction = action
     return self
   }
 }

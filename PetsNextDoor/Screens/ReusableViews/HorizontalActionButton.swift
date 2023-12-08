@@ -10,7 +10,7 @@ import Combine
 import SnapKit
 
 struct HorizontalActionButtonViewModel: HashableViewModel {
-  let buttonBackgroundColor: UIColor = .init(hex: "#F3F3F3")
+  let buttonBackgroundColor: UIColor = PND.Colors.gray20
   let buttonTitle: String
   let leftImage: UIImage?
   let buttonHeight: CGFloat = 54

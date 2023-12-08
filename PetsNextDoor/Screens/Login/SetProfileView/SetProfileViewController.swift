@@ -51,7 +51,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
           rightView: BaseLabel(textValue: viewStore.publisher.nicknameStatusPhrase)
             .frame(width: 120, height: 14)
             .font(.systemFont(ofSize: 12, weight: .medium))
-            .color(.init(hex: "#6A9DFF"))
+            .color(PND.Colors.commonBlue)
             .rightAlignment()
         )
       )
@@ -65,6 +65,10 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
 				For(each: viewStore.myPetCellViewModels) { cellVM in
           List {
             SelectPetComponent(viewModel: cellVM)
+              .onDelete { [weak self] _ in
+                self?.viewStore.send(.didTapPetDeleteButton(cellVM))
+              }
+              
             EmptyComponent(height: 16)
           }
         }

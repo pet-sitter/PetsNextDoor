@@ -22,11 +22,11 @@ struct SelectEitherCatOrDogView: View {
 		HStack(alignment: .center) {
 			
 			Rectangle()
-			.foregroundColor(.clear)
+        .foregroundColor(viewModel.selectedPetType == .cat ? PND.Colors.primary.asColor : .clear)
 			.background(Color(red: 0.95, green: 0.95, blue: 0.95))
 			.cornerRadius(4)
 			.overlay {
-				Image(viewModel.selectedPetType == .cat ? "add_cat_selected" : "add_cat_unselected")
+				Image("selectCat")
 					.resizable()
 					.scaledToFit()
 			}
@@ -44,11 +44,11 @@ struct SelectEitherCatOrDogView: View {
 			Spacer()
 			
 			Rectangle()
-			.foregroundColor(.clear)
+        .foregroundColor(viewModel.selectedPetType == .dog ? PND.Colors.primary.asColor : .clear)
 			.background(Color(red: 0.95, green: 0.95, blue: 0.95))
 			.cornerRadius(4)
 			.overlay {
-				Image(viewModel.selectedPetType == .dog ? "add_dog_selected" : "add_dog_unselected")
+				Image("selectDog")
 				.resizable()
 				.scaledToFit()
 			}

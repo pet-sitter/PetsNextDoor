@@ -23,7 +23,7 @@ final class CountDownLabel: UILabel, ValueBindable {
   required init?(coder: NSCoder) { fatalError("") }
   
   private func configureUI() {
-    textColor = UIColor(hex: "#FF2727")
+    textColor = PND.Colors.commonRed
     font      = .systemFont(ofSize: 12, weight: .regular)
   }
   

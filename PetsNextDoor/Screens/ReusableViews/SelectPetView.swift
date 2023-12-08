@@ -9,9 +9,12 @@ import UIKit
 import Combine
 import SnapKit
 
-final class SelectPetViewModel: HashableViewModel {
+final class SelectPetViewModel: HashableViewModel, ObservableObject {
+  
+  var onDeleteButtonTapped: (() -> Void)?
 
-  @Published var petImageUrlString: String
+  @Published var petImageUrlString: String?
+  @Published var petImage: UIImage?
   @Published var petName: String
   @Published var petSpecies: String
   @Published var petAge: Int
@@ -20,7 +23,8 @@ final class SelectPetViewModel: HashableViewModel {
   @Published var isDeleteButtonHidden: Bool
   
   init(
-    petImageUrlString: String,
+    petImageUrlString: String? = nil,
+    petImage: UIImage? = nil,
     petName: String,
     petSpecies: String,
     petAge: Int,
@@ -29,6 +33,7 @@ final class SelectPetViewModel: HashableViewModel {
     isDeleteButtonHidden: Bool = true
   ) {
     self.petImageUrlString = petImageUrlString
+    self.petImage = petImage
     self.petName = petName
     self.petSpecies = petSpecies
     self.petAge = petAge
@@ -38,142 +43,88 @@ final class SelectPetViewModel: HashableViewModel {
   }
 }
 
-final class SelectPetView: UIView {
-  
-  static let defaultHeight: CGFloat = 100
-  
-  private var containerView: UIView!
-  private var petImageView: UIImageView!
-  private var petNameLabel: UILabel!
-  private var petInformationLabel: UILabel!
-  private var isNeutralizedLabel: UILabel!
-  
-  private var subscriptions = Set<AnyCancellable>()
-  
-  var onTap: (() -> Void)?
-  
-  init() {
-    super.init(frame: .zero)
-    configureUI()
-  }
-  
-  required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-  
-  private func configureUI() {
-    
-    containerView = UIView()
-    containerView.set {
-      addSubview($0)
-      $0.backgroundColor = .clear
-      $0.layer.borderWidth = 1
-      $0.layer.borderColor = UIColor(hex: "#D9D9D9").cgColor
-      $0.layer.cornerRadius = 10
-      $0.snp.makeConstraints {
-        $0.top.bottom.equalToSuperview().inset(1)
-        $0.leading.trailing.equalToSuperview().inset(PND.Metrics.defaultSpacing)
-      }
-    }
-    
-    petImageView = UIImageView()
-    petImageView.set {
-      containerView.addSubview($0)
-      $0.contentMode = .scaleAspectFill
-      $0.image = UIImage(named: "dog_test")
-      $0.clipsToBounds = true
-      $0.layer.cornerRadius = 74 / 2
-      $0.snp.makeConstraints {
-        $0.leading.equalToSuperview().inset(16)
-        $0.top.bottom.equalToSuperview().inset(13)
-        $0.width.equalTo(74)
-      }
-    }
-    
-    let stackView = UIStackView()
-    stackView.set {
-      containerView.addSubview($0)
-      $0.axis = .vertical
-      $0.distribution = .fillEqually
-      $0.snp.makeConstraints {
-        $0.top.equalToSuperview().inset(17)
-        $0.leading.equalTo(petImageView.snp.trailing).offset(17)
-        $0.bottom.equalToSuperview().inset(21)
-        $0.trailing.equalToSuperview().inset(17)
 
-      }
-    }
-    
-    petNameLabel = UILabel()
-    petNameLabel.set {
-      stackView.addArrangedSubview($0)
-      $0.font = .systemFont(ofSize: 16, weight: .bold)
-      stackView.setCustomSpacing(4, after: $0)
-    }
-    
-    petInformationLabel = UILabel()
-    petInformationLabel.set {
-      stackView.addArrangedSubview($0)
-      $0.font = .systemFont(ofSize: 14, weight: .regular)
-      stackView.setCustomSpacing(8, after: $0)
-    }
-    
-    isNeutralizedLabel = UILabel()
-    isNeutralizedLabel.set {
-      stackView.addArrangedSubview($0)
-			$0.frame = .init(x: 0, y: 0, width: 53, height: 18)
-      $0.backgroundColor = UIColor(hex: "#FFF0DD")
-      $0.textColor = PND.Colors.commonOrange
-      $0.clipsToBounds = true
-      $0.layer.cornerRadius = 4
-      $0.layer.borderColor = UIColor.clear.cgColor
-      $0.layer.borderWidth = 1
-      $0.font = .systemFont(ofSize: 12, weight: .bold)
-    }
-  }
+import SwiftUI
+
+struct SelectPetView: View {
   
-  func configure(viewModel: SelectPetViewModel) {
-    
-    // 펫 이미지 설정
-    
-    viewModel.$petName
-      .compactMap { $0 }
-      .receiveOnMainQueue()
-      .assignNoRetain(to: \.text, on: petNameLabel)
-      .store(in: &subscriptions)
-    
-    Publishers.CombineLatest(
-      viewModel.$petSpecies,
-      viewModel.$petAge
-    )
-    .receiveOnMainQueue()
-    .sink { [weak self] species, age in
-      self?.petInformationLabel.text = species + "  |  "  + "\(age)살"
-    }
-    .store(in: &subscriptions)
-    
-    viewModel.$isPetNeutralized
-      .receiveOnMainQueue()
-      .map { $0 ? "중성화 O" : "중성화 X" }
-      .sink { [weak self] text in
-        guard let self else { return }
-        isNeutralizedLabel.text = text
-        isNeutralizedLabel.snp.makeConstraints {
-          $0.width.equalTo(self.isNeutralizedLabel.intrinsicContentSize.width)
+  @StateObject var viewModel: SelectPetViewModel
+  
+  var body: some View {
+    VStack {
+      HStack(alignment: .center, spacing: 17) {
+        
+        if let petImageUrl = viewModel.petImageUrlString {
+          AsyncImage(url: URL(string: petImageUrl))
+            .scaledToFill()
+            .frame(width: 74, height: 74)
+            .clipShape(Circle())
+        }
+        
+        if let localPetImage = viewModel.petImage {
+          Image(uiImage: localPetImage)
+            .resizable()
+            .scaledToFill()
+            .frame(width: 74, height: 74)
+            .clipShape(Circle())
+        }
+        
+        VStack(alignment: .leading, spacing: 4) {
+          
+          HStack {
+            Text(viewModel.petName)
+              .font(.system(size: 16, weight: .bold))
+
+            Spacer()
+            
+            if viewModel.isDeleteButtonHidden == false  {
+              Button {
+                viewModel.onDeleteButtonTapped?()
+              } label: {
+                Image(systemName: "xmark")
+                  .foregroundColor(PND.Colors.commonGrey.asColor)
+              }
+            }
+            
+          }
+
+          
+          HStack(spacing: 4) {
+            Text("비숑 프리제")
+              .font(.system(size: 14))
+            
+            Text("|")
+              .font(.system(size: 14))
+            
+            Text("\(viewModel.petAge)살")
+              .font(.system(size: 14))
+          }
+          
+          Text(viewModel.isPetNeutralized ? "중성화 O" : "중성화 X")
+            .padding(4)
+            .lineLimit(1)
+            .frame(height: 22)
+            .background(PND.Colors.lightGreen.asColor)
+            .cornerRadius(4)
+            .foregroundColor(PND.Colors.primary.asColor)
+            .font(.system(size: 12, weight: .bold))
+          
         }
       }
-      .store(in: &subscriptions)
-      
-    viewModel.$isPetSelected
-      .receiveOnMainQueue()
-      .sink { [weak self] isSelected in
-        self?.containerView.layer.borderColor = isSelected
-        ? PND.Colors.commonOrange.cgColor
-        : UIColor(hex: "#D9D9D9").cgColor
-      }
-      .store(in: &subscriptions)
-    
-    containerView
-      .onTap { [weak self] in
-        self?.onTap?()
-      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 13)
+    }
+    .background(
+      RoundedRectangle(cornerRadius: 10)
+        .strokeBorder(
+          viewModel.isPetSelected
+          ? PND.Colors.primary.asColor
+          : PND.Colors.commonGrey.asColor,
+          lineWidth: 1
+        )
+        .clipped()
+    )
+    .padding()
   }
+
 }

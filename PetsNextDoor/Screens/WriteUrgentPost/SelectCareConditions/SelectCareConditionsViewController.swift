@@ -34,7 +34,7 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
       SelectConditionHorizontalComponent(viewModel: .init(
         systemImageName: "heart.fill",
         conditionTitle: "성별",
-        rightConditionView: SegmentControlView(segmentTitles: ["남자만", "여자만", "상관없음"]),
+        rightConditionView: SegmentControlView(segmentTitles: ["남자만", "여자만", "상관없음"], stackViewSpacing: 4),
         maxWidthForRightConditionView: nil
       ))
       

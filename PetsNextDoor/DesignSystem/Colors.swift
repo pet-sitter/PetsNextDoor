@@ -11,12 +11,26 @@ import SwiftUI
 extension PND {
   
   enum Colors {
-    static let commonBlack 	= UIColor.black
-		static let commonWhite 	= UIColor.white
+
 		static let commonOrange = UIColor(hex: "FF8B00")
     static let commonGrey   = UIColor(hex: "#D9D9D9")
     
-    static let commonBlue = UIColor(hex: "6A9DFF")
+    // Design System
+    
+    static let primary = UIColor(hex: "#10C200")
+    static let yellowGreen = UIColor(hex: "B5E5A6")
+    static let lightGreen = UIColor(hex: "E2F7E0")
+    
+    static let gray90 = UIColor(hex: "#333333")
+    static let gray50 = UIColor(hex: "ACACAC")
+    static let gray30 = UIColor(hex: "D9D9D9")
+    static let gray20 = UIColor(hex: "F3F3F3")
+    
+    static let commonBlue = UIColor(hex: "#6A9DFF")
+    static let commonRed = UIColor(hex: "FF2727")
+    static let commonBlack   = UIColor.black
+    static let commonWhite   = UIColor.white
+    
   }
 }
 

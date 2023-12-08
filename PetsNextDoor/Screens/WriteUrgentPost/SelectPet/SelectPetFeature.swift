@@ -48,6 +48,7 @@ struct SelectPetFeature: Reducer {
             isPetNeutralized: true,
             isPetSelected: false,
             isDeleteButtonHidden: true
+            
           ),
           .init(
             petImageUrlString: "",
@@ -87,7 +88,7 @@ struct SelectPetFeature: Reducer {
           .filter(\.isPetSelected)
           
         
-        state.isBottomButtonEnabled = state
+        state.isBottomButtonEnabled = state 
           .selectPetCellViewModels
           .filter(\.isPetSelected)
           .count > 0

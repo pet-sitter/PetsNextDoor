@@ -25,7 +25,7 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
   var renderableView: RenderableView {
     Section {
       SegmentControlComponent(
-        viewModel: .init(segmentTitles: ["돌봄급구", "돌봄메이트"])
+        viewModel: .init(segmentTitles: ["돌봄급구", "돌봄메이트"], stackViewSpacing: 16)
       )
       .onSegmentChange { index in
 

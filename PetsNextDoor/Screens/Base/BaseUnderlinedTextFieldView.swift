@@ -38,7 +38,7 @@ class BaseUnderlinedTextFieldView: UIView, HeightProvidable {
       UIView.animate(withDuration: 0.25) {
         self.focusLineView.backgroundColor = self.isTextFieldFirstResponder
         ? PND.Colors.commonBlack
-        : UIColor(hex: "#D9D9D9")
+        : PND.Colors.gray30
       }
     }
   }
@@ -88,7 +88,7 @@ class BaseUnderlinedTextFieldView: UIView, HeightProvidable {
     focusLineView = UIView()
     focusLineView.set {
       containerView.addSubview($0)
-      $0.backgroundColor = UIColor(hex: "#D9D9D9")
+      $0.backgroundColor = PND.Colors.gray30
     }
   }
   

@@ -46,6 +46,7 @@ extension UITableViewAdapter {
     var indexPath: IndexPath
   }
   
+  @discardableResult
   func onSelection(_ onSelectionAction: @escaping ((ComponentSelectionInfo) -> Void)) -> Self {
     self.onSelection = onSelectionAction
     return self

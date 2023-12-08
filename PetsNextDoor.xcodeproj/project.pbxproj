@@ -42,7 +42,7 @@
 		DA0FD7392AA479C800497256 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0FD7382AA479C800497256 /* Utility.swift */; };
 		DA11370A2AC3E6B80061F1E0 /* CountDownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1137092AC3E6B80061F1E0 /* CountDownLabel.swift */; };
 		DA11370D2AC3EEDB0061F1E0 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11370C2AC3EEDB0061F1E0 /* BaseButton.swift */; };
-		DA1137122AC3FBBD0061F1E0 /* Typealias+TCA.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1137112AC3FBBD0061F1E0 /* Typealias+TCA.swift */; };
+		DA1137122AC3FBBD0061F1E0 /* TCA+Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1137112AC3FBBD0061F1E0 /* TCA+Typealias.swift */; };
 		DA15C12A2AE551CA004D8C58 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C1292AE551CA004D8C58 /* Adapter.swift */; };
 		DA15C12C2AE55206004D8C58 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C12B2AE55206004D8C58 /* Section.swift */; };
 		DA15C12E2AE5623A004D8C58 /* ComponentBuildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C12D2AE5623A004D8C58 /* ComponentBuildable.swift */; };
@@ -91,6 +91,7 @@
 		DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */; };
 		DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */; };
 		DA517D992AFE1D0900343424 /* WriteUrgentPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D982AFE1D0900343424 /* WriteUrgentPostViewController.swift */; };
+		DA5C59BF2B22F20100EACCEF /* TCA+RestrictiveAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5C59BE2B22F20100EACCEF /* TCA+RestrictiveAction.swift */; };
 		DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardView.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
 		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
@@ -197,7 +198,7 @@
 		DA0FD7382AA479C800497256 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		DA1137092AC3E6B80061F1E0 /* CountDownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownLabel.swift; sourceTree = "<group>"; };
 		DA11370C2AC3EEDB0061F1E0 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
-		DA1137112AC3FBBD0061F1E0 /* Typealias+TCA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Typealias+TCA.swift"; sourceTree = "<group>"; };
+		DA1137112AC3FBBD0061F1E0 /* TCA+Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCA+Typealias.swift"; sourceTree = "<group>"; };
 		DA15C1292AE551CA004D8C58 /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
 		DA15C12B2AE55206004D8C58 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		DA15C12D2AE5623A004D8C58 /* ComponentBuildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBuildable.swift; sourceTree = "<group>"; };
@@ -241,6 +242,7 @@
 		DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOtherRequirementsViewController.swift; sourceTree = "<group>"; };
 		DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringBuilder.swift; sourceTree = "<group>"; };
 		DA517D982AFE1D0900343424 /* WriteUrgentPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteUrgentPostViewController.swift; sourceTree = "<group>"; };
+		DA5C59BE2B22F20100EACCEF /* TCA+RestrictiveAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCA+RestrictiveAction.swift"; sourceTree = "<group>"; };
 		DA7D67502B0C76A900497F51 /* MeetingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardView.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -507,7 +509,8 @@
 		DA11370F2AC3FBAE0061F1E0 /* TCA */ = {
 			isa = PBXGroup;
 			children = (
-				DA1137112AC3FBBD0061F1E0 /* Typealias+TCA.swift */,
+				DA1137112AC3FBBD0061F1E0 /* TCA+Typealias.swift */,
+				DA5C59BE2B22F20100EACCEF /* TCA+RestrictiveAction.swift */,
 			);
 			path = TCA;
 			sourceTree = "<group>";
@@ -1079,7 +1082,7 @@
 				DA0F92242A9895030059690E /* DefaultCodableStrategy.swift in Sources */,
 				DA517D812AFE094300343424 /* BaseCheckBoxButton.swift in Sources */,
 				DAAD52E22A7C98DE00227BB5 /* BaseBottomButton.swift in Sources */,
-				DA1137122AC3FBBD0061F1E0 /* Typealias+TCA.swift in Sources */,
+				DA1137122AC3FBBD0061F1E0 /* TCA+Typealias.swift in Sources */,
 				DA38FC252AAB02B800A81C93 /* HomeFeature.swift in Sources */,
 				DAE121272B0311DD008EF9AC /* BaseEmptyTextFieldView.swift in Sources */,
 				7CF354EB2B1767980058DCA7 /* SelectEitherCatOrDogView.swift in Sources */,
@@ -1116,6 +1119,7 @@
 				DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 				DAAD52E52A7CBD5A00227BB5 /* BottomButtonComponent.swift in Sources */,
+				DA5C59BF2B22F20100EACCEF /* TCA+RestrictiveAction.swift in Sources */,
 				DA449DF22AC9A0E60025A397 /* NavigationTitleBarView.swift in Sources */,
 				DA15C12E2AE5623A004D8C58 /* ComponentBuildable.swift in Sources */,
 				DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */,

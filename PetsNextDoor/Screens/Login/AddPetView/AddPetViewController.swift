@@ -139,8 +139,8 @@ final class AddPetViewController: BaseViewController, RenderableViewProvidable {
       SelectConditionHorizontalComponent(viewModel: .init(
         systemImageName: nil,
         conditionTitle: "성별",
-        rightConditionView: SegmentControlView(segmentTitles: ["남자", "여자"]),
-        maxWidthForRightConditionView: nil,
+        rightConditionView: SegmentControlView(segmentTitles: ["남자", "여자"], stackViewSpacing: 6),
+        maxWidthForRightConditionView: 120,
         titleLabelFont: .systemFont(ofSize: 20, weight: .semibold)
       ))
       
@@ -167,9 +167,10 @@ final class AddPetViewController: BaseViewController, RenderableViewProvidable {
         rightConditionView: BaseEmptyTextFieldView()
           .configure(viewModel: .init(
             textFieldPlaceHolder: "묘종 입력하기",
-            font: .systemFont(ofSize: 20, weight: .regular)
+            font: .systemFont(ofSize: 20, weight: .regular),
+            textAlignment: .right
           )),
-        maxWidthForRightConditionView: 126,
+        maxWidthForRightConditionView: 150,
         titleLabelFont: .systemFont(ofSize: 20, weight: .semibold)
       ))
       
