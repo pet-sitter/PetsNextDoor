@@ -52,7 +52,7 @@ final class SetProfileImageView: UIView {
     static let imageIcon = UIImage(systemName: "photo")
     static func imageTintColor(isImageSet: Bool) -> UIColor {
       return isImageSet
-      ? PND.Colors.commonOrange
+      ? PND.Colors.primary
       : PND.Colors.commonBlack
     }
 	}

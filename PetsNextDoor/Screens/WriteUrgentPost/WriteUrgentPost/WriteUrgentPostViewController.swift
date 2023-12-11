@@ -79,7 +79,11 @@ final class WriteUrgentPostViewController: BaseViewController, RenderableViewPro
     Section {
       EmptyComponent(height: 24)
       
-      EmptyTextFieldComponent(viewModel: .init(textFieldPlaceHolder: "돌봄 급구 제목을 입력해주세요."))
+      EmptyTextFieldComponent(viewModel: .init(
+        textFieldPlaceHolder: "돌봄 급구 제목을 입력해주세요.",
+        font: .systemFont(ofSize: 24, weight: .bold),
+        sidePadding: PND.Metrics.defaultSpacing
+      ))
       
       EmptyComponent(height: 20)
       
@@ -98,15 +102,11 @@ final class WriteUrgentPostViewController: BaseViewController, RenderableViewPro
         
       }
       
-      EmptyComponent(height: 100)
+      EmptyComponent(height: 75)
       
-      SetProfileImageComponent(viewModel: .init(
-        userImage: viewStore.publisher.selectedUserImage,
-        imageViewAlignment: .left
-      ))
-      .onTouch { [weak self] _ in
-        self?.viewStore.send(.profileImageDidTap)
-      }
+      SelectImagesHorizontalComponent(viewModel: .init(maxImagesCount: 5))
+      
+
     }
   }
   
@@ -177,10 +177,14 @@ extension WriteUrgentPostViewController: PHPickerViewControllerDelegate {
     _ picker: PHPickerViewController,
     didFinishPicking results: [PHPickerResult]
   ) {
+    
+    
+    
     guard
       let itemProvider = results.first?.itemProvider,
       itemProvider.canLoadObject(ofClass: UIImage.self)
     else { return }
+    print("✅ didfinsi: \(results)")
     
     itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
       guard

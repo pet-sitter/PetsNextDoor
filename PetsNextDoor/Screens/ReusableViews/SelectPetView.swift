@@ -55,10 +55,15 @@ struct SelectPetView: View {
       HStack(alignment: .center, spacing: 17) {
         
         if let petImageUrl = viewModel.petImageUrlString {
-          AsyncImage(url: URL(string: petImageUrl))
-            .scaledToFill()
-            .frame(width: 74, height: 74)
-            .clipShape(Circle())
+          
+          AsyncImage(url: URL(string: petImageUrl)) { image in
+            image.resizable()
+          } placeholder: {
+            ProgressView()
+          }
+          .scaledToFill()
+          .frame(width: 74, height: 74)
+          .clipShape(Circle())
         }
         
         if let localPetImage = viewModel.petImage {

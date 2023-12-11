@@ -41,7 +41,7 @@ struct SelectPetFeature: Reducer {
       case .viewDidLoad:
         state.selectPetCellViewModels = [
           .init(
-            petImageUrlString: "",
+            petImageUrlString: "https://placedog.net/640/480?random",
             petName: "아롱",
             petSpecies: "비숑 프리제",
             petAge: 1,
@@ -51,7 +51,7 @@ struct SelectPetFeature: Reducer {
             
           ),
           .init(
-            petImageUrlString: "",
+            petImageUrlString: "https://placedog.net/640/480?random",
             petName: "비숑이",
             petSpecies: "쿼카",
             petAge: 2,
@@ -60,7 +60,7 @@ struct SelectPetFeature: Reducer {
             isDeleteButtonHidden: true
           ),
           .init(
-            petImageUrlString: "",
+            petImageUrlString: "https://placedog.net/640/480?random",
             petName: "시바견",
             petSpecies: "비숑",
             petAge: 12,
@@ -69,7 +69,7 @@ struct SelectPetFeature: Reducer {
             isDeleteButtonHidden: true
           ),
           .init(
-            petImageUrlString: "",
+            petImageUrlString: "https://placedog.net/640/480?random",
             petName: "키키",
             petSpecies: "말티즈",
             petAge: 5,

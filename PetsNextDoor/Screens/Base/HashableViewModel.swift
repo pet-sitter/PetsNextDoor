@@ -7,13 +7,15 @@
 
 import Foundation
 
-protocol HashableViewModel: Hashable, Equatable {
+protocol HashableViewModel: Hashable, Identifiable {
   var uuid: UUID { get }
 }
 
 extension HashableViewModel {
   
   var uuid: UUID { UUID() }
+  
+  var id: String { uuid.uuidString }
   
   func hash(into hasher: inout Hasher) {
     hasher.combine(uuid)

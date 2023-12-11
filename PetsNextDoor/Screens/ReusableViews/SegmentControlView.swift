@@ -112,6 +112,7 @@ final class SegmentControlView: UIView {
     containerStackView.spacing = stackViewSpacing
     layoutIfNeeded()
     
+4
     
   }
 }

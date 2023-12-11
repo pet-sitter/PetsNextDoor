@@ -15,17 +15,20 @@ final class BaseEmptyTextFieldViewModel: HashableViewModel {
   let maxCharactersLimit: Int?
   let font: UIFont
   let textAlignment: NSTextAlignment
+  let sidePadding: CGFloat
   
   init(
     textFieldPlaceHolder: String,
     maxCharactersLimit: Int? = nil,
     font: UIFont = .systemFont(ofSize: 24, weight: .regular),
-    textAlignment: NSTextAlignment = .left
+    textAlignment: NSTextAlignment = .left,
+    sidePadding: CGFloat = .zero
   ) {
     self.textFieldPlaceHolder = textFieldPlaceHolder
     self.maxCharactersLimit = maxCharactersLimit
     self.font = font
     self.textAlignment = textAlignment
+    self.sidePadding = sidePadding
   }
 }
 
@@ -85,6 +88,11 @@ class BaseEmptyTextFieldView: UIView, HeightProvidable {
       .store(in: &subscriptions)
     
     textField.textAlignment = viewModel.textAlignment
+    
+    textField.snp.remakeConstraints {
+      $0.top.bottom.equalToSuperview()
+      $0.leading.trailing.equalToSuperview().inset(viewModel.sidePadding)
+    }
     
     return self
   }

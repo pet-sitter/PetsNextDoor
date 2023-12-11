@@ -50,13 +50,13 @@ class BaseCheckBoxButton: UIView, HeightProvidable {
       containerView.addSubview($0)
       $0.setImage(
         .init(systemName: "checkmark.square")?
-          .withTintColor(PND.Colors.commonGrey, renderingMode: .alwaysOriginal),
+          .withTintColor(PND.Colors.gray30, renderingMode: .alwaysOriginal),
         for: .normal
       )
       
       $0.setImage(
         .init(systemName: "checkmark.square.fill")?
-          .withTintColor(PND.Colors.commonOrange, renderingMode: .alwaysOriginal),
+          .withTintColor(PND.Colors.primary, renderingMode: .alwaysOriginal),
         for: .selected
       )
       $0.snp.makeConstraints { $0.edges.equalToSuperview() }

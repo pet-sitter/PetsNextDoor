@@ -11,9 +11,11 @@ import Combine
 
 final class BaseTextViewModel: HashableViewModel {
   let placeHolder: String
+  let font: UIFont
   
-  init(placeHolder: String) {
+  init(placeHolder: String, font: UIFont = .systemFont(ofSize: 16, weight: .regular)) {
     self.placeHolder = placeHolder
+    self.font = font
   }
 }
 

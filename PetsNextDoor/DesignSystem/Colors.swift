@@ -25,6 +25,7 @@ extension PND {
     static let gray50 = UIColor(hex: "ACACAC")
     static let gray30 = UIColor(hex: "D9D9D9")
     static let gray20 = UIColor(hex: "F3F3F3")
+    static let gray10 = UIColor(hex: "F9F9F9")
     
     static let commonBlue = UIColor(hex: "#6A9DFF")
     static let commonRed = UIColor(hex: "FF2727")
@@ -49,4 +50,6 @@ extension Color {
 		let uiColor = UIColor(hex: hex)
 		self.init(uiColor)
 	}
+  
+
 }

@@ -66,7 +66,7 @@ final class SelectOtherRequirementsViewController: BaseViewController, Renderabl
               .font(.systemFont(ofSize: 20, weight: .bold))
             AText("(필수 선택)")
               .font(.systemFont(ofSize: 20, weight: .bold))
-              .foregroundColor(PND.Colors.commonOrange)
+              .foregroundColor(PND.Colors.primary)
           },
           textAlignment: .left
         )

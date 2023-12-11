@@ -78,6 +78,9 @@
 		DA449DFD2ACABBAA0025A397 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449DFC2ACABBAA0025A397 /* String+Extension.swift */; };
 		DA449E012ACC488F0025A397 /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449E002ACC488F0025A397 /* SelectCategoryView.swift */; };
 		DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449E022ACC58C30025A397 /* SelectCategoryComponent.swift */; };
+		DA474B6E2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA474B6D2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift */; };
+		DA474B742B26CB91002FADC6 /* Shape+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA474B732B26CB91002FADC6 /* Shape+Extension.swift */; };
+		DA474B762B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA474B752B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift */; };
 		DA4B2A832AFB28290053217A /* ContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A822AFB28290053217A /* ContainerComponent.swift */; };
 		DA4B2A872AFB44D70053217A /* SelectConditionHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */; };
 		DA4B2A8A2AFB450C0053217A /* SizeProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A892AFB450C0053217A /* SizeProvidable.swift */; };
@@ -226,6 +229,9 @@
 		DA449DFC2ACABBAA0025A397 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		DA449E002ACC488F0025A397 /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		DA449E022ACC58C30025A397 /* SelectCategoryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryComponent.swift; sourceTree = "<group>"; };
+		DA474B6D2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImagesHorizontalView.swift; sourceTree = "<group>"; };
+		DA474B732B26CB91002FADC6 /* Shape+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shape+Extension.swift"; sourceTree = "<group>"; };
+		DA474B752B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImagesHorizontalComponent.swift; sourceTree = "<group>"; };
 		DA4B2A822AFB28290053217A /* ContainerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerComponent.swift; sourceTree = "<group>"; };
 		DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionHorizontalView.swift; sourceTree = "<group>"; };
 		DA4B2A892AFB450C0053217A /* SizeProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeProvidable.swift; sourceTree = "<group>"; };
@@ -624,10 +630,20 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		DA474B702B26CB88002FADC6 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				DA474B732B26CB91002FADC6 /* Shape+Extension.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		DA4B2A852AFB44260053217A /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */,
+				DA474B6D2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift */,
+				DA474B752B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -869,6 +885,7 @@
 		DACB0A1D2A47E20F002D18E7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				DA474B702B26CB88002FADC6 /* SwiftUI */,
 				DA11370F2AC3FBAE0061F1E0 /* TCA */,
 				DAF2D3A42A90CE7C00A9B47A /* Foundation */,
 				DAAD52F42A7CC91200227BB5 /* UIKit */,
@@ -1030,6 +1047,7 @@
 				DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */,
 				DA8DF4882AE7FB3400FA0D9D /* ComponentTableViewCell.swift in Sources */,
 				DA95347F2AEF8E1800ED21F9 /* SelectPetFeature.swift in Sources */,
+				DA474B762B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
 				DA11370A2AC3E6B80061F1E0 /* CountDownLabel.swift in Sources */,
 				DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */,
@@ -1065,6 +1083,7 @@
 				DA449E012ACC488F0025A397 /* SelectCategoryView.swift in Sources */,
 				DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */,
 				DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */,
+				DA474B6E2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift in Sources */,
 				DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
 				7C8EDC4E2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift in Sources */,
@@ -1122,6 +1141,7 @@
 				DA5C59BF2B22F20100EACCEF /* TCA+RestrictiveAction.swift in Sources */,
 				DA449DF22AC9A0E60025A397 /* NavigationTitleBarView.swift in Sources */,
 				DA15C12E2AE5623A004D8C58 /* ComponentBuildable.swift in Sources */,
+				DA474B742B26CB91002FADC6 /* Shape+Extension.swift in Sources */,
 				DA0F92192A9872890059690E /* Dictionary+Extension.swift in Sources */,
 				DA419C9A2A9B32D500C76AB9 /* CommunityViewController.swift in Sources */,
 				7C8EDC4A2AD57BDE003431E5 /* BaseLabel.swift in Sources */,

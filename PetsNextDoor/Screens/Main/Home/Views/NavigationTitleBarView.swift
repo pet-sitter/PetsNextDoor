@@ -43,7 +43,7 @@ final class NavigationTitleBarView: UIView {
     underlineView = UIView()
     underlineView.set {
       containerView.addSubview($0)
-      $0.backgroundColor = UIColor(hex: "#FFECD6")
+      $0.backgroundColor = PND.Colors.lightGreen
       $0.snp.makeConstraints {
         $0.leading.equalToSuperview().offset(-3)
         $0.trailing.equalToSuperview().offset(3)
