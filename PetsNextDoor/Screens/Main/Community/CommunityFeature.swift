@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import ComposableArchitecture
 
 struct CommunityFeature: Reducer {
@@ -43,6 +44,7 @@ struct CommunityFeature: Reducer {
         for i in 1..<10 {
           state.meetingCardCellViewModels.append(
 						MeetingCardViewModel(
+              mainImage: UIImage(named: ["dog_test", "dog_test2", "dog_test3", "dog_test4"].randomElement()!)!,
 							title: "푸들을 짱 사랑하는 모임 \(i)",
 							currentlyGatheredPeople: [1,2,3,4,5].randomElement()!,
 							totalGatheringPeople: [6,7,8,9,10,11].randomElement()!,

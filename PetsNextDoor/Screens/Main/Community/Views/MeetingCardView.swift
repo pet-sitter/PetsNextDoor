@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct MeetingCardViewModel: HashableViewModel {
 	
+  let mainImage: UIImage
 	let title: String
 	let currentlyGatheredPeople: Int
 	let totalGatheringPeople: Int
@@ -26,7 +28,7 @@ struct MeetingCardView: View {
 			Spacer()
         .frame(width: PND.Metrics.defaultSpacing)
       
-			Image(["dog_test", "dog_test2", "dog_test3", "dog_test4"].randomElement()!)
+      Image(uiImage: viewModel.mainImage)
         .resizable()
         .scaledToFit()
         .frame(width: 88, height: 88)

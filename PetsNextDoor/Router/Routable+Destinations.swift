@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 extension PND {
   
@@ -89,7 +90,7 @@ extension PND {
         // 돌봄급구 상세 Flow
 				
       case .urgentPostDetail(let state):
-        return UrgentPostDetailViewController(store: .init(initialState: state, reducer: UrgentPostDetailFeature() ))
+        return UIHostingController(rootView: UrgentPostDetailView(store: .init(initialState: state, reducer: UrgentPostDetailFeature())))
         
         // Custom
         

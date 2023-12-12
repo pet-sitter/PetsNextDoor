@@ -18,6 +18,10 @@ typealias SingleValuePublisher<T> = Publisher<T, Never>
 
 extension Publisher where Self.Failure == Never {
   
+  func sink() -> AnyCancellable {
+    self.sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+  }
+  
   func assignNoRetain<Root>(to keyPath: ReferenceWritableKeyPath<Root, Self.Output>, on object: Root) -> AnyCancellable where Root: AnyObject {
     sink { [weak object] (value) in
       object?[keyPath: keyPath] = value
