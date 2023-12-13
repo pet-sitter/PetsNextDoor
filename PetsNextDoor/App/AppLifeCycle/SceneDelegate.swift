@@ -42,10 +42,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       )
     )
     
- 
+		let mainTabVC = MainTabBarController(homeStore: .init(initialState: .init(), reducer: HomeFeature()), communityStore: .init(initialState: .init(), reducer: CommunityFeature()), chatListStore: .init(initialState: .init(), reducer: ChatListFeature()), myPageStore: .init(initialState: .init(), reducer: MyPageFeature()))
     
-    
-    let navController = BaseNavigationController(rootViewController: loginVC)
+		let navController = BaseNavigationController(rootViewController: mainTabVC)
+//    let navController = BaseNavigationController(rootViewController: loginVC)
     
     window.rootViewController = navController
     window.overrideUserInterfaceStyle = .light

@@ -12,28 +12,92 @@ struct UrgentPostDetailFeature: Reducer {
   
   struct State: Equatable {
     
+		@BindingState var selectedTabIndex: Int = 0
+		
+		var isLoading: Bool = false
     
     var detailInfoVM: [UrgentPostDetailInformationViewModel] = []
+		
+		var details: String = ""
+		var postImageUrls: [String] = []
   }
   
-  enum Action: Equatable {
-    case onInit
+  enum Action: Equatable, RestrictiveAction {
+   
+		
+		enum ViewAction: Equatable {
+			case onInit
+			case onSelectedTabIndexChange(Int)
+			case onPostImageTap(index: Int)
+		}
+		
+		enum DelegateAction: Equatable {
+			
+		}
+		
+		enum InternalAction: Equatable {
+			case setIsLoading(Bool)
+			
+			case setDetailInfos([UrgentPostDetailInformationViewModel])
+			case setDetails(String)
+			case setImageUrls([String])
+
+		}
+		
+		case view(ViewAction)
+		case delegate(DelegateAction)
+		case `internal`(InternalAction)
   }
   
   var body: some Reducer<State,Action> {
     Reduce { state, action in
       switch action {
-      case .onInit:
-        state.detailInfoVM.append(contentsOf: [
-          .init(title: "날짜", details: "2023.09.20 ~ 2023.09.23", isDdayVisible: true, dDayString: "D-2"),
-          .init(title: "시간", details: "10:00 ~ 16:00"),
-          .init(title: "위치", details: "염창동 전체"),
-          .init(title: "돌봄형태", details: "위탁 돌봄"),
-          .init(title: "돌봄 도우미 성별", details: "여자만"),
-          .init(title: "페이", details: "시간당 10,000원")
-        ])
-        return .none
-        
+				
+			case .view(.onInit):
+				
+				return .run { send in
+					
+					await send(.internal(.setIsLoading(true)))
+					
+					try await Task.sleep(nanoseconds: 500_000_000)
+					await send(.internal(.setDetails("")))
+					await send(.internal(.setDetailInfos([])))
+					await send(.internal(.setImageUrls([])))
+					await send(.internal(.setIsLoading(false)))
+				}
+				
+			case .view(.onSelectedTabIndexChange(let index)):
+				state.selectedTabIndex = index
+				return .none
+				
+			case .view(.onPostImageTap(let index)):
+				print("✅ onPostImageTap: \(index)")
+				return .none
+				
+			case .internal(.setDetailInfos(let detailInfoVMs)):
+				state.detailInfoVM.append(contentsOf: [
+					.init(title: "날짜", details: "2023.09.20 ~ 2023.09.23", isDdayVisible: true, dDayString: "D-2"),
+					.init(title: "시간", details: "10:00 ~ 16:00"),
+					.init(title: "위치", details: "염창동 전체"),
+					.init(title: "돌봄형태", details: "위탁 돌봄"),
+					.init(title: "돌봄 도우미 성별", details: "여자만"),
+					.init(title: "페이", details: "시간당 10,000원")
+				])
+				return .none
+				
+			case .internal(.setDetails(let details)):
+				state.details = "저희 아롱이는 순하고 사람 좋아하는 성격의 푸들입니다. 돌봄 난이도 최하 보장합니다! 현재 체중 관리중이라 하루에 간식 2번 미만으로 주시고, 실외배변만 오전 산책으로 부탁드려요..! 자세한 내용은 메시지 주시면 말씀드리겠습니다!"
+				return .none
+				
+			case .internal(.setImageUrls(let imageUrls)):
+				state.postImageUrls = ["dog_test", "dog_test2", "dog_test3", "dog_test4"]
+				return .none
+			
+				
+			case .internal(.setIsLoading(let isLoading)):
+				state.isLoading = isLoading
+				return .none
+
       }
     }
   }
@@ -41,8 +105,6 @@ struct UrgentPostDetailFeature: Reducer {
 
 
 struct UrgentPostDetailView: View {
-  
-  @State var currentType: String = "급구조건"
   
   let store: StoreOf<UrgentPostDetailFeature>
   
@@ -57,31 +119,88 @@ struct UrgentPostDetailView: View {
           StretchyHeaderView()
           VStack {
             SwiftUI.Section {
-              
-              HorizontalSectionSelectView(titles: ["급구조건", "상세내용", "반려동물 프로필", "반려동물 프로필4", "반려동물 프로필2", "반려동물 프로필3"])
-//                .onIndexChange { index in
-//                  print("✅ index: \(index)")
-//                }
-              
-              AgreementView()
-              
-              Spacer()
-                .frame(height: 16)
-              
-              ForEach(viewStore.detailInfoVM) { vm in
-                UrgentPostDetailInformationView(viewModel: vm)
-                Spacer()
-                  .frame(height: 15)
-              }
+							
+							HorizontalSectionSelectView(
+								titles: ["급구조건", "상세내용", "반려동물 프로필", "반려동물 프로필4", "반려동물 프로필2", "반려동물 프로필3"],
+								currentIndex: viewStore.binding(
+									get: \.selectedTabIndex,
+									send: { .view(.onSelectedTabIndexChange($0)) }
+								)
+							)
+
+							switch viewStore.selectedTabIndex {
+							
+							case 0:
+								AgreementView()
+								
+								Spacer()
+									.frame(height: 16)
+								
+								ForEach(viewStore.detailInfoVM) { vm in
+									UrgentPostDetailInformationView(viewModel: vm)
+									Spacer()
+										.frame(height: 15)
+								}
+								
+							case 1:
+								VStack(spacing: 25) {
+									
+									Text(viewStore.details)
+										.font(.system(size: 16))
+										.lineSpacing(5)
+									
+									ScrollView(.horizontal) {
+				
+										HStack(spacing: 3) {
+											ForEach(
+												0..<(min(viewStore.postImageUrls.count, 3)),
+												id: \.self
+											) { index in
+												
+												Image(viewStore.postImageUrls[index])
+													.resizable()
+													.aspectRatio(contentMode: .fill)
+													.frame(width: 112, height: 112)
+													.clipped()
+													.cornerRadius(4)
+													.overlay {
+															ZStack {
+																Rectangle()
+																	.foregroundColor(.clear)
+																	.background(.black.opacity(0.5))
+																	.cornerRadius(4)
+																
+																Text("+\(viewStore.postImageUrls.count - 3)")
+																	.foregroundColor(.white)
+																	.font(.system(size: 24, weight: .bold))
+															}
+															.opacity((viewStore.postImageUrls.count > 3 && index == 2) ? 1 : 0)
+													}
+													.onTapGesture {
+														viewStore.send(.view(.onPostImageTap(index: index)))
+													}
+											}
+										}
+									}
+								}
+								.padding(.top, 16)
+								.padding(.horizontal, PND.Metrics.defaultSpacing)
+							
+								
+							default:
+								SwiftUI.EmptyView()
+							}
               
             }
           }
         }
+
       }
+			.redacted(reason: viewStore.isLoading ? .placeholder : [])
       .coordinateSpace(name: "SCROLL")
       .ignoresSafeArea(.container, edges: .vertical)
       .onAppear {
-        viewStore.send(.onInit)
+				viewStore.send(.view(.onInit))
       }
     }
 
@@ -91,9 +210,9 @@ struct UrgentPostDetailView: View {
   func StretchyHeaderView() -> some View {
     GeometryReader { proxy in
       
-      let minY = proxy.frame(in: .named("SCROLL")).minY
-      let size = proxy.size
-      let height = (size.height + minY)
+      let minY 		= proxy.frame(in: .named("SCROLL")).minY
+      let size 		= proxy.size
+      let height 	= size.height + minY
       
       Image("dog_test3")
         .resizable()
@@ -262,8 +381,7 @@ struct UrgentPostDetailInformationView: View {
 struct HorizontalSectionSelectView: View {
   
   let titles: [String]
-  
-  @State var currentIndex: Int = 0
+  @Binding var currentIndex: Int
   
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -280,7 +398,7 @@ struct HorizontalSectionSelectView: View {
             .onTapGesture {
               withAnimation(.interactiveSpring()) {
                 currentIndex = index
-//                onIndexChange?(currentIndex)
+
               }
             }
         }
@@ -290,13 +408,7 @@ struct HorizontalSectionSelectView: View {
       .padding(.bottom, 5)
     }
   }
-  
-//  @Sendable private(set) var onIndexChange: ((Int) -> Void)?
-  
-//  mutating func onIndexChange(_ action: @escaping (Int) -> Void) -> Self {
-//    self.onIndexChange = action
-////    return self.body
-//    return self
-//  }
+	
+
   
 }

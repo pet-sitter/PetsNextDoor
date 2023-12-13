@@ -119,8 +119,6 @@ struct SelectImagesHorizontalView: View {
   }
 
   func imageView(_ image: UIImage, index: Int) -> some View {
-    print("✅ index; \(index)")
-    
     return Rectangle()
       .foregroundColor(.clear)
       .frame(width: 100, height: 100)
