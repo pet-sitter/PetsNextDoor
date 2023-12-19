@@ -17,6 +17,10 @@ extension PND {
     case uploadImage(imageData: Data, imageName: String)
     
     
+    //MARK: - Posts
+    
+    case getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String)
+    
   
     //MARK: - Users
     
@@ -48,7 +52,10 @@ extension PND.API: Moya.TargetType {
       return "/media/images"
       
       
-    
+      //MARK: - Posts
+    case .getSOSPosts:
+      return "/posts/sos"
+      
       //MARK: - Users
       
     case .registerUser:
@@ -91,6 +98,19 @@ extension PND.API: Moya.TargetType {
     case .uploadImage(let imageData, let imageName):
       let image = MultipartFormData(provider: .data(imageData), name: imageName, fileName: "\(imageName).jpeg", mimeType: "image/jpeg")
       return .uploadMultipart([image])
+      
+      //MARK: - Posts
+    case let .getSOSPosts(authorId, page, size, sortBy):
+      return .requestParameters(
+        parameters: .builder
+          .setOptional(key: "authorId", value: authorId)
+          .setOptional(key: "page", value: page)
+          .setOptional(key: "size", value: size)
+          .setOptional(key: "sort_by", value: sortBy)
+          .build(),
+        encoding: URLEncoding.queryString
+      )
+      
 
       //MARK: - Users
       

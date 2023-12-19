@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 struct UrgentPostDetailFeature: Reducer {
   
+  @Dependency(\.sosPostService) var postService
+  
   struct State: Equatable {
     
 		@BindingState var selectedTabIndex: Int = 0
@@ -185,6 +187,49 @@ struct UrgentPostDetailView: View {
 								}
 								.padding(.top, 16)
 								.padding(.horizontal, PND.Metrics.defaultSpacing)
+                
+              case 2:
+                VStack(alignment: .leading) {
+                  
+                  Spacer().frame(height: 12)
+                  
+                  Text("돌봄이 필요한 반려동물")
+                    .font(.system(size: 16, weight: .semibold))
+                  
+                  Spacer().frame(height: 9)
+                  
+                  HStack(spacing: 12) {
+
+                    Circle()
+                      .frame(width: 100, height: 100)
+                      .overlay {
+                        Image("dog_test2")
+                          .resizable()
+                          .scaledToFill()
+                          .clipped()
+                          .cornerRadius(50)
+                         
+                      }
+                    
+                    VStack(spacing: 4) {
+                      
+                      Text("아롱")
+                        .font(.system(size: 20, weight: .bold))
+                      
+                    }
+                    
+                  }
+                  .frame(
+                    maxWidth: UIScreen.fixedScreenSize.width - (PND.Metrics.defaultSpacing * 2),
+                    alignment: .leading
+                  )
+                  .padding()
+                  .background(PND.Colors.gray10.asColor)
+                  .cornerRadius(4)
+                  .frame(height: 142)
+                  
+                }
+      
 							
 								
 							default:

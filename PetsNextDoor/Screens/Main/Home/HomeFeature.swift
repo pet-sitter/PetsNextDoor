@@ -10,9 +10,14 @@ import ComposableArchitecture
 
 struct HomeFeature: Reducer {
   
+  @Dependency(\.sosPostService) var postService
+  
   struct State: Equatable, RoutableState {
+    
+    var isLoading: Bool = false
+    
 		var router: Router<PND.Destination>.State = .init()
-    var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
+    @Pulse var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
   }
   
   enum Action: Equatable, RoutableAction {
@@ -21,7 +26,11 @@ struct HomeFeature: Reducer {
     case didTapWritePostIcon
     case didTapUrgentPost(UrgentPostCardViewModel)
     
+    case setUrgentPostCardCellVMs([UrgentPostCardViewModel])
+    
     // Internal Cases
+    
+    case setIsLoading(Bool)
     case _routeAction(Router<PND.Destination>.Action)
   }
   
@@ -37,19 +46,49 @@ struct HomeFeature: Reducer {
       switch action {
         
       case .viewDidLoad:
-        for _ in 1..<10 {
-          state.urgentPostCardCellViewModels.append(
-            UrgentPostCardViewModel(
-              postTitle: "돌봄 급히 구함",
-              date: "2022-10-30",
-              location: "반포동",
-              cost: "시급 10,500원"
-            )
+        return .run { send in
+          
+          await send(.setIsLoading(true))
+          
+          let postModels = try await postService.getSOSPosts(
+            authorId: nil,
+            page: 1,
+            size: 20,
+            sortBy: "newest"
           )
           
+          let cellVMs = postModels
+            .items
+            .compactMap {
+              UrgentPostCardViewModel(
+                postTitle: $0.title,
+                date: $0.date_end_at,
+                location: "중곡동",
+                cost: "10,500"
+              )
+            }
+          
+          print("✅ count: \(cellVMs.count)")
+          
+
+          await send(.setUrgentPostCardCellVMs(cellVMs))
+          await send(.setIsLoading(false))
         }
         
         
+      case .setUrgentPostCardCellVMs(let cellVMs):
+        state.urgentPostCardCellViewModels.append(contentsOf: cellVMs)
+//        for _ in 1..<10 {
+//          state.urgentPostCardCellViewModels.append(
+//            UrgentPostCardViewModel(
+//              postTitle: "돌봄 급히 구함",
+//              date: "2022-10-30",
+//              location: "반포동",
+//              cost: "시급 10,500원"
+//            )
+//          )
+//          
+//        }
         return .none
         
     
@@ -59,6 +98,10 @@ struct HomeFeature: Reducer {
       case .didTapUrgentPost(let vm):
         return .send(._routeAction(.pushScreen(.urgentPostDetail(state: .init()), animated: true)))
     
+        
+      case .setIsLoading(let isLoading):
+        state.isLoading = isLoading
+        return .none
         
       default:
         return .none

@@ -49,6 +49,13 @@ extension NetworkProvidable {
           switch result {
           case let .success(response):
             do {
+              if let json = try? JSONSerialization.jsonObject(
+                with: response.data,
+                options: .mutableContainers
+              ) {
+                print("✅ json: \(json)")
+              }
+              
               let _ = try response.filterSuccessfulStatusCodes()
               let responseData = try response.map(ResponseData.self)
               print("✅ Network Success: \(response) for target: \(target)")

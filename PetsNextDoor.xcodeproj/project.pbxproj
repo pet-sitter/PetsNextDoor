@@ -109,6 +109,11 @@
 		DA86A0FA2A62741700525711 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F92A62741700525711 /* Server.swift */; };
 		DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */; };
 		DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0FE2A62789200525711 /* RswiftLibrary */; };
+		DA86DECC2B31382D00580D3C /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DECB2B31382D00580D3C /* PostDetailView.swift */; };
+		DA86DED92B317B0C00580D3C /* FloatingLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DED82B317B0C00580D3C /* FloatingLayoutView.swift */; };
+		DA86DEDC2B31821100580D3C /* DependencyKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEDB2B31821100580D3C /* DependencyKeys.swift */; };
+		DA86DEDF2B31825500580D3C /* SOSPostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEDE2B31825500580D3C /* SOSPostService.swift */; };
+		DA86DEE22B31829900580D3C /* SOSPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEE12B31829900580D3C /* SOSPostModel.swift */; };
 		DA8A34F12A7654900054FE25 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F02A7654900054FE25 /* Colors.swift */; };
 		DA8A34F42A7654AC0054FE25 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F32A7654AC0054FE25 /* UIColor+Extension.swift */; };
 		DA8A34F82A7654DA0054FE25 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F72A7654DA0054FE25 /* Keyboard.swift */; };
@@ -151,6 +156,7 @@
 		DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */; };
 		DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */; };
 		DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */; };
+		DADD6DEA2B2D464C009DB81D /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */; };
 		DADEB6D02AEB8468002BED63 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6CF2AEB8468002BED63 /* Renderer.swift */; };
 		DADEB6D82AEB9BC1002BED63 /* SectionsBuildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6D72AEB9BC1002BED63 /* SectionsBuildable.swift */; };
 		DADEB6DB2AEB9DF9002BED63 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6DA2AEB9DF9002BED63 /* List.swift */; };
@@ -266,6 +272,11 @@
 		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		DA86A0F92A62741700525711 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GesturePassthroughView.swift; sourceTree = "<group>"; };
+		DA86DECB2B31382D00580D3C /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
+		DA86DED82B317B0C00580D3C /* FloatingLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLayoutView.swift; sourceTree = "<group>"; };
+		DA86DEDB2B31821100580D3C /* DependencyKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyKeys.swift; sourceTree = "<group>"; };
+		DA86DEDE2B31825500580D3C /* SOSPostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostService.swift; sourceTree = "<group>"; };
+		DA86DEE12B31829900580D3C /* SOSPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostModel.swift; sourceTree = "<group>"; };
 		DA8A34F02A7654900054FE25 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		DA8A34F32A7654AC0054FE25 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DA8A34F72A7654DA0054FE25 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
@@ -310,6 +321,7 @@
 		DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFilledTextField.swift; sourceTree = "<group>"; };
+		DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		DADEB6CF2AEB8468002BED63 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		DADEB6D72AEB9BC1002BED63 /* SectionsBuildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionsBuildable.swift; sourceTree = "<group>"; };
 		DADEB6DA2AEB9DF9002BED63 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -437,6 +449,7 @@
 		7C51EF6E2A94EE22003132A1 /* ReusableViews */ = {
 			isa = PBXGroup;
 			children = (
+				DADD6DE82B2D4641009DB81D /* SwiftUI_Views */,
 				DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */,
 				DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */,
 				7C51EF6F2A94EE3F003132A1 /* SetProfileImageView.swift */,
@@ -510,6 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */,
+				DA86DEE12B31829900580D3C /* SOSPostModel.swift */,
 				DA20157E2ABEFC2200F7516A /* UploadMediaResponseData.swift */,
 			);
 			path = ResponseData;
@@ -567,6 +581,8 @@
 				DA2015792ABEF8D600F7516A /* UploadService.swift */,
 				DACB0A142A47E08F002D18E7 /* Authentication */,
 				DA20157B2ABEF9C300F7516A /* ServiceError.swift */,
+				DA86DEDB2B31821100580D3C /* DependencyKeys.swift */,
+				DA86DEDE2B31825500580D3C /* SOSPostService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -615,6 +631,7 @@
 		DA419C952A9B32AF00C76AB9 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				DA86DECA2B31382500580D3C /* TEST */,
 				DA419C9B2A9B32DE00C76AB9 /* ChatListViewController.swift */,
 				DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */,
 			);
@@ -731,6 +748,15 @@
 				DA0F921F2A98947C0059690E /* RequestData */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		DA86DECA2B31382500580D3C /* TEST */ = {
+			isa = PBXGroup;
+			children = (
+				DA86DECB2B31382D00580D3C /* PostDetailView.swift */,
+				DA86DED82B317B0C00580D3C /* FloatingLayoutView.swift */,
+			);
+			path = TEST;
 			sourceTree = "<group>";
 		};
 		DA8A34FC2A765B7D0054FE25 /* Components */ = {
@@ -923,6 +949,14 @@
 			path = UrgentPostDetail;
 			sourceTree = "<group>";
 		};
+		DADD6DE82B2D4641009DB81D /* SwiftUI_Views */ = {
+			isa = PBXGroup;
+			children = (
+				DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */,
+			);
+			path = SwiftUI_Views;
+			sourceTree = "<group>";
+		};
 		DAF2D3A42A90CE7C00A9B47A /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1041,6 +1075,7 @@
 				DA5926E72B2812A400E00E74 /* UserDefaults+Extension.swift in Sources */,
 				DA0F92122A9848110059690E /* API.swift in Sources */,
 				DAFD545D2AFA51400089E93E /* SelectCareConditionFeature.swift in Sources */,
+				DA86DED92B317B0C00580D3C /* FloatingLayoutView.swift in Sources */,
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
 				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
@@ -1070,6 +1105,7 @@
 				DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */,
 				DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */,
 				DA8DF4882AE7FB3400FA0D9D /* ComponentTableViewCell.swift in Sources */,
+				DA86DEDC2B31821100580D3C /* DependencyKeys.swift in Sources */,
 				DA95347F2AEF8E1800ED21F9 /* SelectPetFeature.swift in Sources */,
 				DA474B762B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
@@ -1105,6 +1141,7 @@
 				DABA44A02A63C62C00FD2639 /* BaseTabBarController.swift in Sources */,
 				DA8A35042A765F140054FE25 /* TextFieldComponent.swift in Sources */,
 				DAAD52F32A7CC90E00227BB5 /* UITableView+Extension.swift in Sources */,
+				DA86DEE22B31829900580D3C /* SOSPostModel.swift in Sources */,
 				DA449E012ACC488F0025A397 /* SelectCategoryView.swift in Sources */,
 				DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */,
 				DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */,
@@ -1114,6 +1151,7 @@
 				7C8EDC4E2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift in Sources */,
 				DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */,
 				7C8EDC552AD585E0003431E5 /* Metrics.swift in Sources */,
+				DA86DEDF2B31825500580D3C /* SOSPostService.swift in Sources */,
 				DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */,
 				DA517D992AFE1D0900343424 /* WriteUrgentPostViewController.swift in Sources */,
 				DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */,
@@ -1131,6 +1169,7 @@
 				DAE121272B0311DD008EF9AC /* BaseEmptyTextFieldView.swift in Sources */,
 				7CF354EB2B1767980058DCA7 /* SelectEitherCatOrDogView.swift in Sources */,
 				DAAD530A2A7E28F300227BB5 /* EmptyComponent.swift in Sources */,
+				DADD6DEA2B2D464C009DB81D /* CircularProfileImageView.swift in Sources */,
 				7CF7614C2B136ACB0003F684 /* SelectEitherCatOrDogViewController.swift in Sources */,
 				DA419C9C2A9B32DE00C76AB9 /* ChatListViewController.swift in Sources */,
 				DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */,
@@ -1162,6 +1201,7 @@
 				DA5926E52B27FDCE00E00E74 /* ErrorTracker.swift in Sources */,
 				DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */,
 				DA449DFA2AC9ACC90025A397 /* SegmentControlComponent.swift in Sources */,
+				DA86DECC2B31382D00580D3C /* PostDetailView.swift in Sources */,
 				DA15C1322AE57699004D8C58 /* UITableViewAdapter.swift in Sources */,
 				DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,

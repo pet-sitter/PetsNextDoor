@@ -63,6 +63,7 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
     super.viewDidLoad()
     viewStore.send(.viewDidLoad)
     renderer.render { renderableView }
+    bindState()
   }
   
   override func configureUI() {
@@ -103,4 +104,17 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
         }
     )
   }
+  
+  private func bindState() {
+    
+    viewStore
+      .publisher
+      .urgentPostCardCellViewModels
+      .withStrong(self)
+      .sink { strongSelf, _ in
+        strongSelf.renderer.render { strongSelf.renderableView }
+      }
+      .store(in: &subscriptions)
+  }
+    
 }

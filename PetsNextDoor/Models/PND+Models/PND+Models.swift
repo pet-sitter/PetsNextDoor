@@ -9,9 +9,17 @@ import Foundation
 
 extension PND {
 	
-	enum PetType {
-		case dog
-		case cat
+  enum PetType: String, Codable {
+		case dog = "dog"
+		case cat = "cat"
+    
+    enum CodingKeys: String, CodingKey {
+      case dog, cat
+    }
+    
+    init(from decoder: Decoder) throws {
+      self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .dog
+    }
 	}
   
   enum GenderType {

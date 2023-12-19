@@ -23,5 +23,12 @@ extension Dictionary {
     func build() -> [String : Any] {
       return dictionary
     }
+    
+    func setOptional(key: String?, value: Any) -> Self {
+      if let key {
+        dictionary[key] = value
+      }
+      return self
+    }
   }
 }

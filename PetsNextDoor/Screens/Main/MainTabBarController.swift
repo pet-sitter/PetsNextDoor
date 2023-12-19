@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import ComposableArchitecture
+import SwiftUI
 
 final class MainTabBarController: UITabBarController {
 
@@ -25,7 +26,8 @@ final class MainTabBarController: UITabBarController {
 
     let homeVC      = HomeViewController(store: homeStore)
     let communityVC = CommunityViewController(store: communityStore)
-    let chatVC      = ChatListViewController(store: chatListStore)
+    let chatVC      = UIHostingController(rootView: PostDetailView())
+//    let chatVC      = ChatListViewController(store: chatListStore)
     let myPageVC    = MyPageViewController(store: myPageStore)
     
     homeNavigationController      = .init(rootViewController: homeVC)
