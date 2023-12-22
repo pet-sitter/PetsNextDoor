@@ -109,8 +109,6 @@
 		DA86A0FA2A62741700525711 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F92A62741700525711 /* Server.swift */; };
 		DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */; };
 		DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0FE2A62789200525711 /* RswiftLibrary */; };
-		DA86DECC2B31382D00580D3C /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DECB2B31382D00580D3C /* PostDetailView.swift */; };
-		DA86DED92B317B0C00580D3C /* FloatingLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DED82B317B0C00580D3C /* FloatingLayoutView.swift */; };
 		DA86DEDC2B31821100580D3C /* DependencyKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEDB2B31821100580D3C /* DependencyKeys.swift */; };
 		DA86DEDF2B31825500580D3C /* SOSPostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEDE2B31825500580D3C /* SOSPostService.swift */; };
 		DA86DEE22B31829900580D3C /* SOSPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEE12B31829900580D3C /* SOSPostModel.swift */; };
@@ -272,8 +270,6 @@
 		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		DA86A0F92A62741700525711 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GesturePassthroughView.swift; sourceTree = "<group>"; };
-		DA86DECB2B31382D00580D3C /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
-		DA86DED82B317B0C00580D3C /* FloatingLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLayoutView.swift; sourceTree = "<group>"; };
 		DA86DEDB2B31821100580D3C /* DependencyKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyKeys.swift; sourceTree = "<group>"; };
 		DA86DEDE2B31825500580D3C /* SOSPostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostService.swift; sourceTree = "<group>"; };
 		DA86DEE12B31829900580D3C /* SOSPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostModel.swift; sourceTree = "<group>"; };
@@ -631,7 +627,6 @@
 		DA419C952A9B32AF00C76AB9 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				DA86DECA2B31382500580D3C /* TEST */,
 				DA419C9B2A9B32DE00C76AB9 /* ChatListViewController.swift */,
 				DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */,
 			);
@@ -748,15 +743,6 @@
 				DA0F921F2A98947C0059690E /* RequestData */,
 			);
 			path = Networking;
-			sourceTree = "<group>";
-		};
-		DA86DECA2B31382500580D3C /* TEST */ = {
-			isa = PBXGroup;
-			children = (
-				DA86DECB2B31382D00580D3C /* PostDetailView.swift */,
-				DA86DED82B317B0C00580D3C /* FloatingLayoutView.swift */,
-			);
-			path = TEST;
 			sourceTree = "<group>";
 		};
 		DA8A34FC2A765B7D0054FE25 /* Components */ = {
@@ -1075,7 +1061,6 @@
 				DA5926E72B2812A400E00E74 /* UserDefaults+Extension.swift in Sources */,
 				DA0F92122A9848110059690E /* API.swift in Sources */,
 				DAFD545D2AFA51400089E93E /* SelectCareConditionFeature.swift in Sources */,
-				DA86DED92B317B0C00580D3C /* FloatingLayoutView.swift in Sources */,
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
 				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
@@ -1201,7 +1186,6 @@
 				DA5926E52B27FDCE00E00E74 /* ErrorTracker.swift in Sources */,
 				DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */,
 				DA449DFA2AC9ACC90025A397 /* SegmentControlComponent.swift in Sources */,
-				DA86DECC2B31382D00580D3C /* PostDetailView.swift in Sources */,
 				DA15C1322AE57699004D8C58 /* UITableViewAdapter.swift in Sources */,
 				DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */,
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
