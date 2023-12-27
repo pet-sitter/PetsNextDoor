@@ -101,6 +101,7 @@
 		DA5926EB2B28136B00E00E74 /* Task+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926EA2B28136B00E00E74 /* Task+Extension.swift */; };
 		DA5926EE2B283A8100E00E74 /* Spacer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926ED2B283A8100E00E74 /* Spacer+Extension.swift */; };
 		DA5C59BF2B22F20100EACCEF /* TCA+RestrictiveAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5C59BE2B22F20100EACCEF /* TCA+RestrictiveAction.swift */; };
+		DA73510F2B39B5DD00306067 /* SOSPostDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */; };
 		DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardView.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
 		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
@@ -264,6 +265,7 @@
 		DA5926EA2B28136B00E00E74 /* Task+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+Extension.swift"; sourceTree = "<group>"; };
 		DA5926ED2B283A8100E00E74 /* Spacer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spacer+Extension.swift"; sourceTree = "<group>"; };
 		DA5C59BE2B22F20100EACCEF /* TCA+RestrictiveAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCA+RestrictiveAction.swift"; sourceTree = "<group>"; };
+		DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostDetailModel.swift; sourceTree = "<group>"; };
 		DA7D67502B0C76A900497F51 /* MeetingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardView.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 			children = (
 				DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */,
 				DA86DEE12B31829900580D3C /* SOSPostModel.swift */,
+				DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */,
 				DA20157E2ABEFC2200F7516A /* UploadMediaResponseData.swift */,
 			);
 			path = ResponseData;
@@ -1159,6 +1162,7 @@
 				DA419C9C2A9B32DE00C76AB9 /* ChatListViewController.swift in Sources */,
 				DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */,
 				DA15C12A2AE551CA004D8C58 /* Adapter.swift in Sources */,
+				DA73510F2B39B5DD00306067 /* SOSPostDetailModel.swift in Sources */,
 				7C1277F32A544131004A83A4 /* BaseNavigationController.swift in Sources */,
 				DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */,
 				7CF354EE2B176BCD0058DCA7 /* SelectEitherCatOrDogComponent.swift in Sources */,

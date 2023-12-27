@@ -20,7 +20,7 @@ extension PND {
     //MARK: - Posts
     
     case getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String)
-    
+    case getSOSPostDetail(id: String)
   
     //MARK: - Users
     
@@ -55,6 +55,9 @@ extension PND.API: Moya.TargetType {
       //MARK: - Posts
     case .getSOSPosts:
       return "/posts/sos"
+      
+    case .getSOSPostDetail(let id):
+      return "/posts/sos/\(id)"
       
       //MARK: - Users
       

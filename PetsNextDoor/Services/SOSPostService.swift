@@ -9,6 +9,7 @@ import Foundation
 
 protocol SOSPostServiceProvidable: PNDNetworkProvidable {
   func getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String) async throws -> PND.SOSPostListModel
+  func getSOSPostDetail(id: String) async throws -> PND.SOSPostDetailModel
 }
 
 
@@ -26,12 +27,17 @@ struct SOSPostService: SOSPostServiceProvidable {
   ) async throws -> PND.SOSPostListModel {
     try await network.requestData(.getSOSPosts(authorId: authorId, page: page, size: size, sortBy: sortBy))
   }
+  
+  func getSOSPostDetail(id: String) async throws -> PND.SOSPostDetailModel {
+    try await network.requestData(.getSOSPostDetail(id: id))
+  }
 }
 
 
 
 
 
+//TODO: - Mock data 추가하기
 
 struct MockSosPostService: SOSPostServiceProvidable {
   
@@ -48,4 +54,7 @@ struct MockSosPostService: SOSPostServiceProvidable {
     try await network.requestData(.getSOSPosts(authorId: authorId, page: page, size: size, sortBy: sortBy))
   }
   
+  func getSOSPostDetail(id: String) async throws -> PND.SOSPostDetailModel {
+    try await network.requestData(.getSOSPostDetail(id: id))
+  }
 }
