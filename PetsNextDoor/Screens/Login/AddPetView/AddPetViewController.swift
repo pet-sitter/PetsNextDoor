@@ -22,7 +22,7 @@ struct AddPetFeature: Reducer {
     var petImage: UIImage?
     var petName: String = ""
     var petAge: Int?
-    var gender: PND.GenderType = .male
+    var gender: PND.Sex = .male
     var isNeutralized: Bool = false
     var speciesType: String = ""
     var birthday: String?
@@ -82,8 +82,9 @@ struct AddPetFeature: Reducer {
         return .none
         
       case .didTapBottomButton:
-        state.speciesType = "비숑 프리제"
-        state.petAge = 2
+        state.speciesType = "브리티시 숏헤어"
+        state.birthday    = "2023/10/10"
+        state.petAge      = 2
         
         return .send(.onPetAddition)
         

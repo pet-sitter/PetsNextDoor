@@ -21,7 +21,10 @@ extension PND {
       session.sessionConfiguration.timeoutIntervalForRequest  = 20
       session.sessionConfiguration.timeoutIntervalForResource = 20
       self.provider = MoyaProvider<APITarget>(
-        session: session
+        session: session,
+        plugins: [
+          PNDLoginPlugin()
+        ]
       )
     }
   }

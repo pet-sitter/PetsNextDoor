@@ -16,13 +16,15 @@ extension PND {
     var fbUid: String
     var fullname: String
     var nickname: String
+    var profileImageId: Int
     
-    init(email: String, fbProviderType: FBProviderType,  fbUid: String, fullname: String) {
+    init(email: String, fbProviderType: FBProviderType,  fbUid: String, fullname: String, profileImageId: Int) {
       self.email = email
       self.fbProviderType = fbProviderType
       self.fbUid = fbUid
       self.fullname = fullname
       self.nickname = ""         /// 회원가입 단계에서 유저한테 이후에 입력 받으므로 초반에는 empty String
+      self.profileImageId = profileImageId
     }
   }
 }

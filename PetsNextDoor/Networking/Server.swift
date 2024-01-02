@@ -11,7 +11,6 @@ extension PND {
   
   struct Server {
     
-    //TODO: - 아래 변경 (동적으로 변경 가능하도록)
     static let shared = Server(currentServerPhase: .dev)
     
     enum ServerPhase: Int {

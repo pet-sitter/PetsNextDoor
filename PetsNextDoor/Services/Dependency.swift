@@ -19,10 +19,21 @@ extension PND.Dependency {
     static let testValue: any LoginServiceProvidable = LoginServiceMock()
   }
   
+  enum UserServiceKey: DependencyKey {
+    static let liveValue: any UserServiceProvidable = UserService()
+    static let testValue: any UserServiceProvidable = UserServiceMock()
+  }
+  
   enum UploadServiceKey: DependencyKey {
     static let liveValue: any UploadServiceProvidable = UploadService()
     static let testValue: any UploadServiceProvidable = UploadServiceMock()
   }
+  
+  enum SOSPostServiceKey: DependencyKey {
+    static let liveValue: any SOSPostServiceProvidable = SOSPostService()
+    static let testValue: any SOSPostServiceProvidable = MockSosPostService()
+  }
+
 }
 
 extension DependencyValues {
@@ -32,9 +43,19 @@ extension DependencyValues {
     set { self[PND.Dependency.LoginServiceKey.self] = newValue }
   }
   
+  var userService: any UserServiceProvidable {
+    get { self[PND.Dependency.UserServiceKey.self] }
+    set { self[PND.Dependency.UserServiceKey.self] = newValue }
+  }
+  
   var uploadService: any UploadServiceProvidable {
     get { self[PND.Dependency.UploadServiceKey.self] }
     set { self[PND.Dependency.UploadServiceKey.self] = newValue }
+  }
+  
+  var sosPostService: any SOSPostServiceProvidable {
+    get { self[PND.Dependency.SOSPostServiceKey.self] }
+    set { self[PND.Dependency.SOSPostServiceKey.self] = newValue}
   }
 }
 

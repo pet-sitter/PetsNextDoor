@@ -75,8 +75,6 @@ final class SelectPetViewController: BaseViewController, RenderableViewProvidabl
     bottomButton = BaseBottomButton()
     bottomButton.set {
       view.addSubview($0)
-			
-      
       $0.configure(viewModel: .init(
         isEnabled: viewStore.publisher.isBottomButtonEnabled,
         buttonTitle: "다음 단계로"

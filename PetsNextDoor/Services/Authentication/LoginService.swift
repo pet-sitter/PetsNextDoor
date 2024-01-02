@@ -27,7 +27,10 @@ protocol LoginServiceProvidable: PNDNetworkProvidable {
 
   @MainActor
   func signInWithGoogle() async -> LoginResult
-  func registerUser(model: PND.UserRegistrationModel) async throws
+  func registerUser(
+    model: PND.UserRegistrationModel,
+    profileImageData: Data
+  ) async throws
 }
 
 
@@ -36,6 +39,7 @@ final class LoginService: LoginServiceProvidable {
   typealias Network = PND.Network<PND.API>
   
   private(set) var network: Network = .init()
+  private let uploadService = UploadService()
   
   @MainActor
   func signInWithGoogle() async -> LoginResult {
@@ -57,30 +61,37 @@ final class LoginService: LoginServiceProvidable {
       else { return .failed(reason: .failedCheckingUserRegistrationStatus) }
       
       let isUserRegistrationNeeded: Bool = userRegistrationStatus.status == .notRegistered ? true : false
-
-      if isUserRegistrationNeeded {     // 가입된 계정이 없다면 FireBase 계정 생성 및 Firebase 로그인 진행
-        
-        guard let idToken = signInResult.user.idToken?.tokenString else { return .failed(reason: .undefined) }
-        
-        let credential = GoogleAuthProvider.credential(
-          withIDToken: idToken,
-          accessToken: signInResult.user.accessToken.tokenString
-        )
-        
-        let authSignInResult = try? await Auth.auth().signIn(with: credential)
-        let signedInUser = authSignInResult?.user
       
+      
+      guard let idToken = signInResult.user.idToken?.tokenString else { return .failed(reason: .undefined) }
+      
+      let credential = GoogleAuthProvider.credential(
+        withIDToken: idToken,
+        accessToken: signInResult.user.accessToken.tokenString
+      )
+      
+      let authSignInResult = try? await Auth.auth().signIn(with: credential)
+      let signedInUser = authSignInResult?.user
+      
+      
+      if isUserRegistrationNeeded {     // 가입된 계정이 없다면 FireBase 계정 생성 및 Firebase 로그인 진행
+    
         return .success(
           isUserRegistrationNeeded: true,
           userRegisterModel: .init(
             email: signedInUser?.email ?? "",
             fbProviderType: .google,
             fbUid: signedInUser?.uid ?? "",
-            fullname: signedInUser?.displayName ?? ""
+            fullname: signedInUser?.displayName ?? "",
+            profileImageId: 0
           )
         )
 
       } else {                          //가입된 계정이 있다면 그대로 로그인 진행
+        print("✅ User register is not needed login proceeding")
+        
+        PNDTokenStore.shared.setAccessTokenValue(to: idToken)
+        
         return .success(
           isUserRegistrationNeeded: false,
           userRegisterModel: nil
@@ -92,8 +103,21 @@ final class LoginService: LoginServiceProvidable {
     }
   }
   
-  func registerUser(model: PND.UserRegistrationModel) async throws {
-    try await network.plainRequest(.registerUser(model: model))
+  func registerUser(
+    model: PND.UserRegistrationModel,
+    profileImageData: Data
+  ) async throws {
+    
+    var registrationModel = model
+    
+    let imageModel = try await uploadService.uploadImage(
+      imageData: profileImageData,
+      imageName: "profileImage"
+    )
+    
+    registrationModel.profileImageId = imageModel.id
+    
+    try await network.plainRequest(.registerUser(model: registrationModel))
   }
 }
 
@@ -120,7 +144,10 @@ final class LoginServiceMock: LoginServiceProvidable {
     return .failed(reason: .undefined)
   }
   
-  func registerUser(model: PND.UserRegistrationModel) async throws {
+  func registerUser(
+    model: PND.UserRegistrationModel,
+    profileImageData: Data
+  ) async throws {
     ()
   }
 

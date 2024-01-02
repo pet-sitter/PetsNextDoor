@@ -39,45 +39,7 @@ struct SelectPetFeature: Reducer {
     Reduce { state, action in
       switch action {
       case .viewDidLoad:
-        state.selectPetCellViewModels = [
-          .init(
-            petImageUrlString: "https://placedog.net/640/480?random",
-            petName: "아롱",
-            petSpecies: "비숑 프리제",
-            petAge: 1,
-            isPetNeutralized: true,
-            isPetSelected: false,
-            isDeleteButtonHidden: true
-            
-          ),
-          .init(
-            petImageUrlString: "https://placedog.net/640/480?random",
-            petName: "비숑이",
-            petSpecies: "쿼카",
-            petAge: 2,
-            isPetNeutralized: false,
-            isPetSelected: false,
-            isDeleteButtonHidden: true
-          ),
-          .init(
-            petImageUrlString: "https://placedog.net/640/480?random",
-            petName: "시바견",
-            petSpecies: "비숑",
-            petAge: 12,
-            isPetNeutralized: false,
-            isPetSelected: false,
-            isDeleteButtonHidden: true
-          ),
-          .init(
-            petImageUrlString: "https://placedog.net/640/480?random",
-            petName: "키키",
-            petSpecies: "말티즈",
-            petAge: 5,
-            isPetNeutralized: true,
-            isPetSelected: false,
-            isDeleteButtonHidden: true
-          )
-        ]
+        state.selectPetCellViewModels = MockDataProvider.selectPetCellViewModels
         return .none
         
       case .didSelectPet(let vm):

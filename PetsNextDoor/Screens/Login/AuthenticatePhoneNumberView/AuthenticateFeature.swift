@@ -20,11 +20,6 @@ struct AuthenticateFeature: Reducer {
     init(userRegisterModel: PND.UserRegistrationModel) {
       self.userRegisterModel = userRegisterModel
     }
-    
-    //TODO: - : 아래 init 지우기
-    init() {
-      self.userRegisterModel = .init(email: "", fbProviderType: .google, fbUid: "", fullname: "")
-    }
   }
   
   enum Action: Equatable {

@@ -29,8 +29,10 @@ extension NetworkProvidable {
           case let .success(response):
             do {
               let networkResponse = try response.filterSuccessfulStatusCodes()
+              print("🛜 Network Success: \(networkResponse) for target: \(target)")
               continuation.resume(returning: networkResponse)
             } catch {
+              print("❌ Network Error: \(error) for target: \(target)")
               continuation.resume(throwing: error)
             }
           case let .failure(moyaError):
@@ -58,7 +60,7 @@ extension NetworkProvidable {
               
               let _ = try response.filterSuccessfulStatusCodes()
               let responseData = try response.map(ResponseData.self)
-              print("✅ Network Success: \(response) for target: \(target)")
+              print("🛜 Network Success: \(response) for target: \(target)")
               continuation.resume(returning: responseData)
             } catch {
               print("❌ Network Error: \(error) for target: \(target)")

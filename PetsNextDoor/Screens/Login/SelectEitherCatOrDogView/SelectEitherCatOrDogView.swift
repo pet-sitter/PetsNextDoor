@@ -37,6 +37,9 @@ struct SelectEitherCatOrDogView: View {
 					.padding(.leading, -70)
 			}
 			.onTapGesture {
+
+          Toast.shared.present(title: "로그인 실패", symbol: "info.circle.fill")
+        
 				viewModel.selectedPetType = .cat
 				viewModel.onPetSelection?(.cat)
 			}
@@ -57,6 +60,7 @@ struct SelectEitherCatOrDogView: View {
 					.fontWeight(.bold)
 					.padding(.top, -64)
 					.padding(.leading, -70)
+
 			}
 			.onTapGesture {
 				viewModel.selectedPetType = .dog
@@ -66,9 +70,13 @@ struct SelectEitherCatOrDogView: View {
 		.frame(height: 160)
 		.padding()
 	}
+
 }
 
 
-//#Preview {
-//	SelectEitherCatOrDogView(viewModel: .init())
-//}
+#Preview {
+  RootView {
+    SelectEitherCatOrDogView(viewModel: .init())
+  }
+	
+}

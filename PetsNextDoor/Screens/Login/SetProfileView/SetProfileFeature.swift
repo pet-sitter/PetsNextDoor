@@ -10,12 +10,13 @@ import ComposableArchitecture
 struct SetProfileFeature: Reducer {
   
   @Dependency(\.loginService) private var loginService
-  @Dependency(\.uploadService) private var uploadService
+  @Dependency(\.userService) private var userService
 	
 	struct State: Equatable, RoutableState {
     var userRegisterModel: PND.UserRegistrationModel
     var nicknameStatusPhrase: String = ""
     var selectedUserImage: UIImage?
+    fileprivate var selectedUserImageData: Data = Data()
     var isBottomButtonEnabled: Bool   = true
     var photoPickerIsPresented: Bool  = false
     var isLoading: Bool = false
@@ -62,7 +63,6 @@ struct SetProfileFeature: Reducer {
 			Router<PND.Destination>()
 		}
     
-    
 		Reduce { state, action in
       
       switch action {
@@ -76,9 +76,12 @@ struct SetProfileFeature: Reducer {
           petAge: addPetState.petAge ?? 1,
           isPetNeutralized: addPetState.isNeutralized,
           isPetSelected: false,
+          gender: addPetState.gender,
+          petType: addPetState.selectedPetType,
+          birthday: addPetState.birthday ?? "",
+          weight: addPetState.weight ?? 0,
           isDeleteButtonHidden: false
         )
-				
 
         state.selectEitherCatOrDogState = nil 
         state.myPetCellViewModels.append(selectPetViewModel)
@@ -89,22 +92,38 @@ struct SetProfileFeature: Reducer {
         return .none
         
       case .didTapBottomButton:
-        state.userRegisterModel.nickname = state.nicknameText
-        
         return .run { [state] send in
           await send(._setIsLoading(true))
           do {
-            if let userProfileImage = state.selectedUserImage, let imageData = userProfileImage.jpegData(compressionQuality: 0.7) {
-              let imageModel = try await uploadService.uploadImage(
-                imageData: imageData,
-                imageName: "profileImage"
-              )
-              
             
-            }
+            let _ = try await loginService.registerUser(
+              model: state.userRegisterModel,
+              profileImageData: state.selectedUserImageData
+            )
             
-            let _ = try await loginService.registerUser(model: state.userRegisterModel)
+            // 회원가입 성공하면 이후 즉시 내 반려동물 등록
             
+            let _ = try await userService.registerMyPets(
+              state.myPetCellViewModels.map { petVM -> PND.Pet in
+                PND.Pet(
+                  id: nil,
+                  name: petVM.petName,
+                  pet_type: petVM.petType,
+                  sex: petVM.gender,
+                  neutered: petVM.isPetNeutralized,
+                  breed: petVM.petSpecies,
+                  birth_date: petVM.birthday,
+                  weight_in_kg: petVM.weight
+                )
+              }
+            )
+            
+            await send(._routeAction(.changeRootScreen(toScreen: .main(
+              homeState: HomeFeature.State(),
+              communityState: CommunityFeature.State(),
+              chatState: ChatListFeature.State(),
+              myPageState: MyPageFeature.State()
+            ))))
             
           } catch {
             print("❌ registerUser failed: \(error)")
@@ -131,6 +150,7 @@ struct SetProfileFeature: Reducer {
       case .userImageDidChange(let image):
         state.photoPickerIsPresented = false
         state.selectedUserImage = image
+        state.selectedUserImageData = PhotoConverter.convertUIImageToJpegData(image: image, compressionQuality: 0.7) ?? Data()
         return .none
         
       case .profileImageDidTap:
@@ -158,6 +178,7 @@ struct SetProfileFeature: Reducer {
         
       case ._setNicknameText(let text):
         state.nicknameText = text
+        state.userRegisterModel.nickname = text
         return .none
         
       case ._setIsBottomButtonEnabled(let isEnabled):

@@ -67,10 +67,7 @@ struct HomeFeature: Reducer {
                 cost: "10,500"
               )
             }
-          
-          print("✅ count: \(cellVMs.count)")
-          
-
+        
           await send(.setUrgentPostCardCellVMs(cellVMs))
           await send(.setIsLoading(false))
         }

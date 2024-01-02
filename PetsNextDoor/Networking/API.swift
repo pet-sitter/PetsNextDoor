@@ -27,6 +27,7 @@ extension PND {
     case registerUser(model: PND.UserRegistrationModel)
     case getMyProfile
     case postUserStatus(email: String)
+    case putMyPets(model: [PND.Pet])
     
     //MARK: - Pets
     
@@ -67,6 +68,8 @@ extension PND.API: Moya.TargetType {
       return "/users/me"
     case .postUserStatus:
       return "/users/status"
+    case .putMyPets:
+      return "users/me/pets"
       
       //MARK: - Pets
     }
@@ -85,7 +88,11 @@ extension PND.API: Moya.TargetType {
     case .registerUser, .postUserStatus, .uploadImage:
       return .post
       
-
+      //MARK: - PUT
+      
+    case .putMyPets:
+      return .put
+      
     default:
       return .get
     }
@@ -99,10 +106,16 @@ extension PND.API: Moya.TargetType {
       //MARK: - Media
       
     case .uploadImage(let imageData, let imageName):
-      let image = MultipartFormData(provider: .data(imageData), name: imageName, fileName: "\(imageName).jpeg", mimeType: "image/jpeg")
-      return .uploadMultipart([image])
+      let imageFormData = MultipartFormData(
+        provider: .data(imageData),
+        name: "file",
+        fileName: "\(imageName).jpeg",
+        mimeType: "image/jpeg"
+      )
+      return .uploadMultipart([imageFormData])
       
       //MARK: - Posts
+      
     case let .getSOSPosts(authorId, page, size, sortBy):
       return .requestParameters(
         parameters: .builder
@@ -125,6 +138,7 @@ extension PND.API: Moya.TargetType {
           .set(key: "fbUid", value: model.fbUid)
           .set(key: "fullname", value: model.fullname)
           .set(key: "nickname", value: model.nickname)
+          .set(key: "profileImageId", value: model.profileImageId)
           .build(),
         encoding: JSONEncoding.default
       )
@@ -133,6 +147,30 @@ extension PND.API: Moya.TargetType {
       return .requestParameters(
         parameters: .builder
           .set(key: "email", value: email)
+          .build(),
+        encoding: JSONEncoding.default
+      )
+      
+    case .putMyPets(let models):
+      var parameters: [[String : Any]] = [[:]]
+      for model in models {
+        parameters.append([
+          "birth_date" : model.birth_date,
+          "breed" : model.breed,
+          "name" : model.name,
+          "neutered" : model.neutered,
+          "pet_type" : model.pet_type.rawValue,
+          "sex" : model.sex.rawValue,
+          "weight_in_kg" : model.weight_in_kg
+        ])
+      }
+      
+      print("✅ parameetsr: \(parameters)")
+      dump(parameters)
+      
+      return .requestParameters(
+        parameters: .builder
+          .set(key: "pets", value: parameters)
           .build(),
         encoding: JSONEncoding.default
       )
@@ -153,7 +191,7 @@ extension PND.API: Moya.TargetType {
       
       //MARK: - Media
     case .uploadImage:
-    params["Content-Type"] = "multipart/form-data"
+      params["Content-Type"] = "multipart/form-data"
       
       
       //MARK: - Users

@@ -22,6 +22,11 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   @Published var isPetSelected: Bool
   @Published var isDeleteButtonHidden: Bool
   
+  @Published var gender: PND.Sex
+  @Published var petType: PND.PetType
+  @Published var birthday: String
+  let weight: Int
+  
   init(
     petImageUrlString: String? = nil,
     petImage: UIImage? = nil,
@@ -30,6 +35,10 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
     petAge: Int,
     isPetNeutralized: Bool = false,
     isPetSelected: Bool = false,
+    gender: PND.Sex,
+    petType: PND.PetType,
+    birthday: String,
+    weight: Int,
     isDeleteButtonHidden: Bool = true
   ) {
     self.petImageUrlString = petImageUrlString
@@ -39,6 +48,10 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
     self.petAge = petAge
     self.isPetNeutralized = isPetNeutralized
     self.isPetSelected = isPetSelected
+    self.gender = gender
+    self.petType = petType
+    self.birthday = birthday
+    self.weight = weight
     self.isDeleteButtonHidden = isDeleteButtonHidden
   }
 }

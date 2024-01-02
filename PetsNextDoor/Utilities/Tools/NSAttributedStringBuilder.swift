@@ -27,13 +27,9 @@ public extension NSAttributedString {
 }
 
 
-#if canImport(UIKit)
+
 import UIKit
 public typealias Size = CGSize
-#elseif canImport(AppKit)
-import AppKit
-public typealias Size = NSSize
-#endif
 
 public protocol AttributeComponent {
   var string: String { get }
@@ -45,9 +41,6 @@ public enum Ligature: Int {
   case none = 0
   case `default` = 1
   
-#if canImport(AppKit)
-  case all = 2 // Value 2 is unsupported on iOS
-#endif
 }
 
 public extension AttributeComponent {
@@ -149,12 +142,7 @@ public extension AttributeComponent {
   func writingDirection(_ writingDirection: NSWritingDirection) -> AttributeComponent {
     attributes([.writingDirection: writingDirection.rawValue])
   }
-  
-#if canImport(AppKit)
-  func vertical() -> AttributeComponent {
-    attributes([.verticalGlyphForm: 1])
-  }
-#endif
+
 }
 
 // MARK: - Paragraph Style Modifiers
@@ -256,32 +244,6 @@ public extension AttributeComponent {
     paragraphStyle.defaultTabInterval = defaultInterval
     return self.paragraphStyle(paragraphStyle)
   }
-  
-#if canImport(AppKit) && !targetEnvironment(macCatalyst)
-  func textBlocks(_ textBlocks: [NSTextBlock]) -> AttributeComponent {
-    let paragraphStyle = getMutableParagraphStyle()
-    paragraphStyle.textBlocks = textBlocks
-    return self.paragraphStyle(paragraphStyle)
-  }
-  
-  func textLists(_ textLists: [NSTextList]) -> AttributeComponent {
-    let paragraphStyle = getMutableParagraphStyle()
-    paragraphStyle.textLists = textLists
-    return self.paragraphStyle(paragraphStyle)
-  }
-  
-  func tighteningFactorForTruncation(_ tighteningFactorForTruncation: Float) -> AttributeComponent {
-    let paragraphStyle = getMutableParagraphStyle()
-    paragraphStyle.tighteningFactorForTruncation = tighteningFactorForTruncation
-    return self.paragraphStyle(paragraphStyle)
-  }
-  
-  func headerLevel(_ headerLevel: Int) -> AttributeComponent {
-    let paragraphStyle = getMutableParagraphStyle()
-    paragraphStyle.headerLevel = headerLevel
-    return self.paragraphStyle(paragraphStyle)
-  }
-#endif
 }
 
 public typealias AText = NSAttributedString.AttrText

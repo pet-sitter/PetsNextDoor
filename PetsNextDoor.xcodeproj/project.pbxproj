@@ -110,7 +110,6 @@
 		DA86A0FA2A62741700525711 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F92A62741700525711 /* Server.swift */; };
 		DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */; };
 		DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0FE2A62789200525711 /* RswiftLibrary */; };
-		DA86DEDC2B31821100580D3C /* DependencyKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEDB2B31821100580D3C /* DependencyKeys.swift */; };
 		DA86DEDF2B31825500580D3C /* SOSPostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEDE2B31825500580D3C /* SOSPostService.swift */; };
 		DA86DEE22B31829900580D3C /* SOSPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEE12B31829900580D3C /* SOSPostModel.swift */; };
 		DA8A34F12A7654900054FE25 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F02A7654900054FE25 /* Colors.swift */; };
@@ -145,6 +144,14 @@
 		DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44892A62FE3A00FD2639 /* CGPoint+Extension.swift */; };
 		DABA44A02A63C62C00FD2639 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */; };
 		DABA44A62A63CB7600FD2639 /* AuthenticatePhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44A52A63CB7600FD2639 /* AuthenticatePhoneNumberViewController.swift */; };
+		DABF953B2B3FE521004DFC3E /* PNDLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF953A2B3FE521004DFC3E /* PNDLogger.swift */; };
+		DABF953E2B3FEEE8004DFC3E /* PhotoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF953D2B3FEEE8004DFC3E /* PhotoConverter.swift */; };
+		DABF954B2B3FF97F004DFC3E /* PNDLoginPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF954A2B3FF97F004DFC3E /* PNDLoginPlugin.swift */; };
+		DABF954E2B3FFADC004DFC3E /* PNDTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF954D2B3FFADC004DFC3E /* PNDTokenStore.swift */; };
+		DABF95552B400106004DFC3E /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF95542B400106004DFC3E /* UserService.swift */; };
+		DABF955A2B400B7B004DFC3E /* MockDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF95592B400B7B004DFC3E /* MockDataProvider.swift */; };
+		DABF95662B40165E004DFC3E /* UrgentPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF95652B40165E004DFC3E /* UrgentPostModel.swift */; };
+		DABF95692B40538D004DFC3E /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABF95682B40538D004DFC3E /* Toast.swift */; };
 		DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */; };
 		DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */; };
 		DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6C2D42A3D7932002D33F8 /* LoginViewController.swift */; };
@@ -272,7 +279,6 @@
 		DA86A0F62A62739500525711 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		DA86A0F92A62741700525711 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GesturePassthroughView.swift; sourceTree = "<group>"; };
-		DA86DEDB2B31821100580D3C /* DependencyKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyKeys.swift; sourceTree = "<group>"; };
 		DA86DEDE2B31825500580D3C /* SOSPostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostService.swift; sourceTree = "<group>"; };
 		DA86DEE12B31829900580D3C /* SOSPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostModel.swift; sourceTree = "<group>"; };
 		DA8A34F02A7654900054FE25 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -307,6 +313,14 @@
 		DABA44892A62FE3A00FD2639 /* CGPoint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extension.swift"; sourceTree = "<group>"; };
 		DABA449F2A63C62C00FD2639 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		DABA44A52A63CB7600FD2639 /* AuthenticatePhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatePhoneNumberViewController.swift; sourceTree = "<group>"; };
+		DABF953A2B3FE521004DFC3E /* PNDLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNDLogger.swift; sourceTree = "<group>"; };
+		DABF953D2B3FEEE8004DFC3E /* PhotoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoConverter.swift; sourceTree = "<group>"; };
+		DABF954A2B3FF97F004DFC3E /* PNDLoginPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNDLoginPlugin.swift; sourceTree = "<group>"; };
+		DABF954D2B3FFADC004DFC3E /* PNDTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNDTokenStore.swift; sourceTree = "<group>"; };
+		DABF95542B400106004DFC3E /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		DABF95592B400B7B004DFC3E /* MockDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataProvider.swift; sourceTree = "<group>"; };
+		DABF95652B40165E004DFC3E /* UrgentPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostModel.swift; sourceTree = "<group>"; };
+		DABF95682B40538D004DFC3E /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetsNextDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -532,6 +546,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0F922A2A98BEE70059690E /* UserRegistrationModel.swift */,
+				DABF95652B40165E004DFC3E /* UrgentPostModel.swift */,
 			);
 			path = RequestData;
 			sourceTree = "<group>";
@@ -580,7 +595,7 @@
 				DA2015792ABEF8D600F7516A /* UploadService.swift */,
 				DACB0A142A47E08F002D18E7 /* Authentication */,
 				DA20157B2ABEF9C300F7516A /* ServiceError.swift */,
-				DA86DEDB2B31821100580D3C /* DependencyKeys.swift */,
+				DAFB93782A5ACE25006FC77C /* Dependency.swift */,
 				DA86DEDE2B31825500580D3C /* SOSPostService.swift */,
 			);
 			path = Services;
@@ -716,18 +731,13 @@
 			path = WriteUrgentPost;
 			sourceTree = "<group>";
 		};
-		DA68EEFC2A52F05900302AFE /* DependencyKeys */ = {
-			isa = PBXGroup;
-			children = (
-				DAFB93782A5ACE25006FC77C /* Dependency.swift */,
-			);
-			path = DependencyKeys;
-			sourceTree = "<group>";
-		};
 		DA86A0EE2A62716A00525711 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				DABF95682B40538D004DFC3E /* Toast.swift */,
 				DA8A34F72A7654DA0054FE25 /* Keyboard.swift */,
+				DABF953A2B3FE521004DFC3E /* PNDLogger.swift */,
+				DABF953D2B3FEEE8004DFC3E /* PhotoConverter.swift */,
 				DA0FD7382AA479C800497256 /* Utility.swift */,
 				DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */,
 				DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */,
@@ -740,6 +750,7 @@
 			children = (
 				DA0F92132A9848720059690E /* NetworkProvidable.swift */,
 				DA0F92162A9869840059690E /* Network.swift */,
+				DABF954A2B3FF97F004DFC3E /* PNDLoginPlugin.swift */,
 				DA86A0F92A62741700525711 /* Server.swift */,
 				DA0F92112A9848110059690E /* API.swift */,
 				DA0F921E2A9894750059690E /* ResponseData */,
@@ -860,6 +871,14 @@
 			path = LoginView;
 			sourceTree = "<group>";
 		};
+		DABF95572B400B70004DFC3E /* MockDataProvider */ = {
+			isa = PBXGroup;
+			children = (
+				DABF95592B400B7B004DFC3E /* MockDataProvider.swift */,
+			);
+			path = MockDataProvider;
+			sourceTree = "<group>";
+		};
 		DAC6C2C42A3D7932002D33F8 = {
 			isa = PBXGroup;
 			children = (
@@ -884,7 +903,6 @@
 				DA15C1262AE54F3D004D8C58 /* ListControl */,
 				DABA44742A62821800FD2639 /* DesignSystem */,
 				7C1277F02A5438A1004A83A4 /* App */,
-				DA68EEFC2A52F05900302AFE /* DependencyKeys */,
 				DABA447B2A628EB300FD2639 /* Router */,
 				7C1277F82A54436A004A83A4 /* Screens */,
 				DA2015772ABEF8BF00F7516A /* Services */,
@@ -903,7 +921,9 @@
 			isa = PBXGroup;
 			children = (
 				DACB0A1A2A47E1B4002D18E7 /* LoginService.swift */,
+				DABF95542B400106004DFC3E /* UserService.swift */,
 				7C1277F62A54418C004A83A4 /* UserManager.swift */,
+				DABF954D2B3FFADC004DFC3E /* PNDTokenStore.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -911,6 +931,7 @@
 		DACB0A1C2A47E201002D18E7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				DABF95572B400B70004DFC3E /* MockDataProvider */,
 				DA86A0EE2A62716A00525711 /* Tools */,
 				7C1277FA2A544A02004A83A4 /* Protocols */,
 				DACB0A1D2A47E20F002D18E7 /* Extensions */,
@@ -1063,6 +1084,7 @@
 				DA0FD7392AA479C800497256 /* Utility.swift in Sources */,
 				DA5926E72B2812A400E00E74 /* UserDefaults+Extension.swift in Sources */,
 				DA0F92122A9848110059690E /* API.swift in Sources */,
+				DABF95662B40165E004DFC3E /* UrgentPostModel.swift in Sources */,
 				DAFD545D2AFA51400089E93E /* SelectCareConditionFeature.swift in Sources */,
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
 				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
@@ -1093,7 +1115,6 @@
 				DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */,
 				DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */,
 				DA8DF4882AE7FB3400FA0D9D /* ComponentTableViewCell.swift in Sources */,
-				DA86DEDC2B31821100580D3C /* DependencyKeys.swift in Sources */,
 				DA95347F2AEF8E1800ED21F9 /* SelectPetFeature.swift in Sources */,
 				DA474B762B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
@@ -1102,6 +1123,7 @@
 				7C51EF702A94EE3F003132A1 /* SetProfileImageView.swift in Sources */,
 				DA86A0F52A62738200525711 /* LoadingIndicatorView.swift in Sources */,
 				DA8A34F42A7654AC0054FE25 /* UIColor+Extension.swift in Sources */,
+				DABF95692B40538D004DFC3E /* Toast.swift in Sources */,
 				7C51EF5F2A94E8D1003132A1 /* SetProfileFeature.swift in Sources */,
 				DAAD52F72A7CD58300227BB5 /* AuthenticateFeature.swift in Sources */,
 				7CF354F32B176DDA0058DCA7 /* PND+Models.swift in Sources */,
@@ -1113,6 +1135,7 @@
 				DA4B2A922AFB68C20053217A /* ButtonSegmentControlComponent.swift in Sources */,
 				7C1277F52A544142004A83A4 /* BaseViewController.swift in Sources */,
 				7C1277F72A54418C004A83A4 /* UserManager.swift in Sources */,
+				DABF955A2B400B7B004DFC3E /* MockDataProvider.swift in Sources */,
 				DAE6FC602A95E20B008BF1F1 /* UILabel+Extension.swift in Sources */,
 				DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */,
 				DA5926EE2B283A8100E00E74 /* Spacer+Extension.swift in Sources */,
@@ -1134,6 +1157,7 @@
 				DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */,
 				DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */,
 				DA474B6E2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift in Sources */,
+				DABF95552B400106004DFC3E /* UserService.swift in Sources */,
 				DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
 				7C8EDC4E2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift in Sources */,
@@ -1144,9 +1168,11 @@
 				DA517D992AFE1D0900343424 /* WriteUrgentPostViewController.swift in Sources */,
 				DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */,
 				DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */,
+				DABF954B2B3FF97F004DFC3E /* PNDLoginPlugin.swift in Sources */,
 				DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */,
 				DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */,
 				7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */,
+				DABF953E2B3FEEE8004DFC3E /* PhotoConverter.swift in Sources */,
 				DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */,
 				DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */,
 				DA0F92242A9895030059690E /* DefaultCodableStrategy.swift in Sources */,
@@ -1184,6 +1210,7 @@
 				DADEB6D02AEB8468002BED63 /* Renderer.swift in Sources */,
 				7C51EF642A94EBE5003132A1 /* BaseTableView.swift in Sources */,
 				DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */,
+				DABF954E2B3FFADC004DFC3E /* PNDTokenStore.swift in Sources */,
 				DA8A34F82A7654DA0054FE25 /* Keyboard.swift in Sources */,
 				DA4B2A832AFB28290053217A /* ContainerComponent.swift in Sources */,
 				DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */,
@@ -1195,6 +1222,7 @@
 				DAC6C2D32A3D7932002D33F8 /* SceneDelegate.swift in Sources */,
 				DAAD52E52A7CBD5A00227BB5 /* BottomButtonComponent.swift in Sources */,
 				DA5C59BF2B22F20100EACCEF /* TCA+RestrictiveAction.swift in Sources */,
+				DABF953B2B3FE521004DFC3E /* PNDLogger.swift in Sources */,
 				DA449DF22AC9A0E60025A397 /* NavigationTitleBarView.swift in Sources */,
 				DA15C12E2AE5623A004D8C58 /* ComponentBuildable.swift in Sources */,
 				DA474B742B26CB91002FADC6 /* Shape+Extension.swift in Sources */,
