@@ -13,12 +13,18 @@ struct SelectCareConditionFeature: Reducer {
   struct State: Equatable {
     var isBottomButtonEnabled: Bool = true
     
-    fileprivate var router: Router<PND.Destination>.State = .init()
+    let selectedPetIds: [Int]
+    
+  
+    
+    var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
     case viewDidLoad
     case didTapBottomButton
+    
+    case onDateChange(Date)
     
     // Internal Cases
     case _routeAction(Router<PND.Destination>.Action)
@@ -40,6 +46,9 @@ struct SelectCareConditionFeature: Reducer {
         
       case .didTapBottomButton:
         return .send(._routeAction(.pushScreen(.selectOtherRequirements(state: .init()), animated: true)))
+        
+      case .onDateChange(let date):
+        return .none
         
       default:
         return .none

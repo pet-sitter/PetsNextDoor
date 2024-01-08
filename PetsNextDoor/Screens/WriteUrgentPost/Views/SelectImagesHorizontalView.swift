@@ -55,7 +55,6 @@ final class SelectImagesHorizontalViewModel: HashableViewModel, ObservableObject
   }
   
   func deleteImage(at index: Int) {
-    print("✅ delete images \(index)")
     selectedImages.remove(at: index)
     selectedPhotoPickerItems.remove(at: index)
   }
@@ -86,7 +85,7 @@ struct SelectImagesHorizontalView: View {
             
             VStack {
               Image(systemName: "photo")
-                .foregroundColor(PND.Colors.primary.asColor)
+                .foregroundColor(PND.Colors.commonBlack.asColor)
                 .frame(width: 28, height: 28)
               
               Text("\($viewModel.selectedPhotoPickerItems.count)/\(viewModel.maxImagesCount)")
@@ -142,7 +141,6 @@ struct SelectImagesHorizontalView: View {
                 .padding()
               
               Button {
-                print("✅ button tapped")
                 viewModel.deleteImage(at: index)
               } label: {
                 Image(systemName: "xmark")
@@ -159,10 +157,3 @@ struct SelectImagesHorizontalView: View {
   }
 }
 
-//struct SelectImagesHorizontalView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    SelectImagesHorizontalView(viewModel: .init(
-//      maxImagesCount: 5)
-//    )
-//  }
-//}

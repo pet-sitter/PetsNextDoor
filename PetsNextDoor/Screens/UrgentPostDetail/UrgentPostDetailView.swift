@@ -360,14 +360,6 @@ struct UrgentPostDetailView: View {
   
 }
 
-struct UrgentPostView_Previews: PreviewProvider {
-  static var previews: some View {
-    UrgentPostDetailView(store: .init(initialState: .init(), reducer: UrgentPostDetailFeature()))
-  }
-}
-
-
-
 //MARK: - 돌봄급구글 상세 - 급구 조건 - 정보 뷰
 struct UrgentPostDetailInformationViewModel: HashableViewModel {
   let title: String

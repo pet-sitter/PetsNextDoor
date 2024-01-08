@@ -13,6 +13,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   
   var onDeleteButtonTapped: (() -> Void)?
 
+  let id: Int
   @Published var petImageUrlString: String?
   @Published var petImage: UIImage?
   @Published var petName: String
@@ -28,6 +29,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   let weight: Int
   
   init(
+    id: Int = UUID().hashValue,
     petImageUrlString: String? = nil,
     petImage: UIImage? = nil,
     petName: String,
@@ -41,6 +43,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
     weight: Int,
     isDeleteButtonHidden: Bool = true
   ) {
+    self.id = id
     self.petImageUrlString = petImageUrlString
     self.petImage = petImage
     self.petName = petName

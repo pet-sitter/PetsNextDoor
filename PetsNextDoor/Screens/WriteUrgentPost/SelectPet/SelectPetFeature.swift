@@ -58,7 +58,8 @@ struct SelectPetFeature: Reducer {
         return .none
         
       case .didTapBottomButton:
-        return .send(._routeAction(.pushScreen(.selectCareCondition(state: .init()), animated: true)))
+        let selectCareConditionState = SelectCareConditionFeature.State(selectedPetIds: state.selectedPets.map { $0.id })
+        return .send(._routeAction(.pushScreen(.selectCareCondition(state: selectCareConditionState), animated: true)))
         
       default:
         return .none

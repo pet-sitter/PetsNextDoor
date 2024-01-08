@@ -39,7 +39,7 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
       ))
       
       
-      EmptyComponent(height: 14)
+      EmptyComponent(height: 20)
       
       SelectConditionHorizontalComponent(viewModel: .init(
         systemImageName: "pawprint.fill",
@@ -48,7 +48,16 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
         maxWidthForRightConditionView: nil
       ))
       
-      EmptyComponent(height: 14)
+      EmptyComponent(height: 20)
+      
+      
+      SelectDateHorizontalComponent(viewModel: .init())
+        .onDateChange { [weak self] date in
+          self?.viewStore.send(.onDateChange(date))
+        }
+      
+      EmptyComponent(height: 20)
+      
       
       SelectConditionHorizontalComponent(viewModel: .init(
         systemImageName: "coloncurrencysign.circle.fill",
@@ -66,9 +75,7 @@ final class SelectCareConditionsViewController: BaseViewController, RenderableVi
       
       
       EmptyComponent(height: 26)
-      
-
-
+    
       
       EmptyComponent(height: 20)
     }

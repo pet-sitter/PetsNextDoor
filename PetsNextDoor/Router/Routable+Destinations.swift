@@ -85,8 +85,8 @@ extension PND {
         return SelectOtherRequirementsViewController(store: .init(initialState: state, reducer: SelectOtherRequirementsFeature() ))
         
       case .writeUrgentPost(let state):
-        return WriteUrgentPostViewController(store: .init(initialState: state, reducer: WriteUrgentPostFeature() ))
-        
+        return UIHostingController(rootView: WriteUrgentPostView(store: .init(initialState: .init(), reducer: WriteUrgentPostFeature())))
+
         // 돌봄급구 상세 Flow
 				
       case .urgentPostDetail(let state):

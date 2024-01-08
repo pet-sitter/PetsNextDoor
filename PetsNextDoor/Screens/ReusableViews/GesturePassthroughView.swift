@@ -9,7 +9,7 @@ import UIKit
 
 class GesturePassthroughView: UIView {
   
-  var shouldGesturePassthrough:Bool = true
+  var shouldGesturePassthrough: Bool = true
   
   weak var outsideOfBoundsView: UIView?
   
