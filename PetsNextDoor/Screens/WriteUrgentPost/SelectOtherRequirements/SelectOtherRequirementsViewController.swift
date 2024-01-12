@@ -10,43 +10,6 @@ import Combine
 import SnapKit
 import ComposableArchitecture
 
-struct SelectOtherRequirementsFeature: Reducer {
-  
-  struct State: Equatable {
-    var isBottomButtonEnabled: Bool = true
-    
-    fileprivate var router: Router<PND.Destination>.State = .init()
-  }
-  
-  enum Action: Equatable {
-    
-    case didTapBottomButton
-    
-    // Internal Cases
-    case _routeAction(Router<PND.Destination>.Action)
-  }
-  
-  var body: some Reducer<State,Action> {
-    
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
-    
-    Reduce { state, action in
-      switch action {
-      case .didTapBottomButton:
-        return .send(._routeAction(.pushScreen(.writeUrgentPost(state: .init()), animated: true)))
-        
-      default:
-        return .none
-      }
-    }
-  }
-}
-
 final class SelectOtherRequirementsViewController: BaseViewController, RenderableViewProvidable {
   
   private let viewStore: ViewStoreOf<SelectOtherRequirementsFeature>

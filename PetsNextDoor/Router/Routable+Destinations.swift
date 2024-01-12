@@ -79,7 +79,7 @@ extension PND {
         )
         
       case .selectCareCondition(let state):
-        return SelectCareConditionsViewController(store: .init(initialState: state, reducer: SelectCareConditionFeature() ))
+        return UIHostingController(rootView: SelectCareConditionsView(store: .init(initialState: state, reducer: SelectCareConditionFeature() )))
         
       case .selectOtherRequirements(let state):
         return SelectOtherRequirementsViewController(store: .init(initialState: state, reducer: SelectOtherRequirementsFeature() ))

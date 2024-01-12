@@ -11,7 +11,11 @@ import ComposableArchitecture
 struct WriteUrgentPostFeature: Reducer {
   
   struct State: Equatable {
-    var isBottomButtonEnabled: Bool   = true
+    
+    var title: String = ""
+    var content: String = ""
+    
+    var isBottomButtonEnabled: Bool   = false
     var photoPickerIsPresented: Bool  = false
     var selectedUserImage: UIImage?
     
@@ -20,6 +24,8 @@ struct WriteUrgentPostFeature: Reducer {
   
   enum Action: Equatable {
     
+    case titleDidChange(String)
+    case contentDidChange(String)
     case profileImageDidTap
     case userImageDidChange(UIImage)
     case setBottomButtonEnabled(Bool)
@@ -39,6 +45,14 @@ struct WriteUrgentPostFeature: Reducer {
     
     Reduce { state, action in
       switch action {
+        
+      case .titleDidChange(let title):
+        state.title = title
+        return .none
+        
+      case .contentDidChange(let content):
+        
+        return .none
        
       case .profileImageDidTap:
         state.photoPickerIsPresented = true
@@ -73,9 +87,16 @@ struct WriteUrgentPostView: View {
         
         Spacer().frame(height: 18)
         
-        TextField("돌봄 급구 제목을 입력해주세요.", text: $title)
-          .font(.system(size: 24, weight: .regular))
-          .padding(.horizontal, PND.Metrics.defaultSpacing)
+        TextField(
+          "돌봄 급구 제목을 입력해주세요.",
+          text: viewStore.binding(
+            get: \.title,
+            send: { .titleDidChange($0) }
+          )
+        )
+        .font(.system(size: 24, weight: .regular))
+        .padding(.horizontal, PND.Metrics.defaultSpacing)
+        
         
         Spacer().frame(height: 20)
         
@@ -86,7 +107,10 @@ struct WriteUrgentPostView: View {
         Spacer().frame(height: 12)
         
         TextEditorWithPlaceholder(
-          text: $content,
+          text: viewStore.binding(
+            get: \.content,
+            send: { .contentDidChange($0) }
+          ),
           placeholder: "요청하고 싶은 돌봄에 대해 상세히 설명해주세요. 돌봄 시 반드시 숙지해야하는 주의사항을 적어주세요. \n\n ex) 실외배변을 위해 매일 2번 이상의 짧은 산책 필수"
         )
         .padding(.horizontal, PND.Metrics.defaultSpacing)
@@ -98,13 +122,13 @@ struct WriteUrgentPostView: View {
        
         BaseBottomButton_SwiftUI(
           isEnabledColor: PND.Colors.primary.asColor,
+          title: "작성완료",
           isEnabled: viewStore.binding(
             get: \.isBottomButtonEnabled,
             send: { .setBottomButtonEnabled($0) }
           )
         )
-        
-
+  
       }
     }
   }
@@ -112,60 +136,4 @@ struct WriteUrgentPostView: View {
 
 #Preview {
   WriteUrgentPostView(store: .init(initialState: .init(), reducer: WriteUrgentPostFeature()))
-}
-
-struct BaseBottomButton_SwiftUI: View {
-  
-  var isEnabledColor: Color = PND.Colors.commonBlack.asColor
-  @Binding var isEnabled: Bool
-  @State var isDisabled: Bool = false
-  
-  
-  var body: some View {
-    Button(action: {
-      
-    }, label: {
-      Rectangle()
-        .padding(.horizontal, PND.Metrics.defaultSpacing)
-        .frame(height: 60)
-        .cornerRadius(4,)
-        .foregroundStyle(
-          isEnabled ? isEnabledColor : PND.Colors.gray30.asColor
-        )
-        .disabled(isEnabled ? false : true)
-        .overlay(
-          Text("완료")
-            .font(.system(size: 20, weight: .bold))
-            .foregroundStyle(.white)
-        )
-    })
-  }
-}
-
-
-struct TextEditorWithPlaceholder: View {
-  
-  @Binding var text: String
-  let placeholder: String
-  
-  var body: some View {
-    ZStack(alignment: .leading) {
-      if text.isEmpty {
-        VStack {
-          Text(placeholder)
-            .padding(.top, 10)
-            .padding(.leading, 6)
-            .foregroundStyle(.black)
-          Spacer()
-        }
-      }
-      
-      VStack {
-        TextEditor(text: $text)
-          .font(.system(size: 16, weight: .regular))
-          .opacity(text.isEmpty ? 0.7 : 1)
-        Spacer()
-      }
-    }
-  }
 }

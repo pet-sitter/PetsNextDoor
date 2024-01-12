@@ -204,9 +204,5 @@ final class SelectEitherCatOrDogViewController: BaseViewController, RenderableVi
       AppRouter.shared.receive(.pushScreen(.custom(AddPetViewController(store: store))))
     })
     .store(in: &subscriptions)
-    
-    
   }
-	
-		
 }
