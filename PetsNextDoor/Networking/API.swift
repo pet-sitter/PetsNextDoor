@@ -21,6 +21,7 @@ extension PND {
     
     case getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String)
     case getSOSPostDetail(id: String)
+    case postSOSPost(model: PND.UrgentPostModel)
   
     //MARK: - Users
     
@@ -60,6 +61,9 @@ extension PND.API: Moya.TargetType {
     case .getSOSPostDetail(let id):
       return "/posts/sos/\(id)"
       
+    case .postSOSPost(let model):
+      return "/posts/sos"
+      
       //MARK: - Users
       
     case .registerUser:
@@ -85,7 +89,7 @@ extension PND.API: Moya.TargetType {
       
       //MARK: - POST
       
-    case .registerUser, .postUserStatus, .uploadImage:
+    case .registerUser, .postUserStatus, .uploadImage, .postSOSPost:
       return .post
       
       //MARK: - PUT
@@ -127,6 +131,8 @@ extension PND.API: Moya.TargetType {
         encoding: URLEncoding.queryString
       )
       
+    case let .postSOSPost(let model):
+      break 
 
       //MARK: - Users
       

@@ -12,25 +12,24 @@ struct SelectOtherRequirementsFeature: Reducer {
   
   struct State: Equatable {
     
-    var cctvAgreed: Bool    = false
-    var idAgreed: Bool      = false
-    var preCallAgreed: Bool = false
+    var conditions: [PND.Condition] = []
+
+    var isBottomButtonEnabled: Bool = false
     
-    var isBottomButtonEnabled: Bool = true
+    var urgentPostModel: PND.UrgentPostModel
     
-    fileprivate var router: Router<PND.Destination>.State = .init()
+    var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
   
+    case onAppear
     case didTapBottomButton
     case setBottomButtonEnabled(Bool)
-    
-    case onCCTVAgreedCheckBoxTap(Bool)
-    case onIdAgreedCheckBoxTap(Bool)
-    case onPreCallAgreedCheckBoxTap(Bool)
+    case onConditionCheckBoxTap(index: Int)
     
     // Internal Cases
+    case _toggleCheckBoxValue(index: Int)
     case _routeAction(Router<PND.Destination>.Action)
   }
   
@@ -45,23 +44,35 @@ struct SelectOtherRequirementsFeature: Reducer {
     
     Reduce { state, action in
       switch action {
+        
+      case .onAppear:
+        state.conditions = [
+          .init(id: 0, name: "· CCTV, 펫캠 촬영 동의", isSelected: false),
+          .init(id: 1, name: "· 신분증 인증", isSelected: false),
+          .init(id: 2, name: "· 사전 통화 가능 여부", isSelected: false)
+        ]
+        return .none
+        
       case .didTapBottomButton:
-        return .send(._routeAction(.pushScreen(.writeUrgentPost(state: .init()), animated: true)))
+        return .send(._routeAction(.pushScreen(.writeUrgentPost(state: .init(urgentPostModel: state.urgentPostModel)), animated: true)))
         
       case .setBottomButtonEnabled(let isEnabled):
         state.isBottomButtonEnabled = isEnabled
         return .none
         
-      case .onCCTVAgreedCheckBoxTap(let isSelected):
-        state.cctvAgreed = isSelected
-        return .none
+      case .onConditionCheckBoxTap(let index):
+        state.conditions[index].isSelected.toggle()
+        state.urgentPostModel.conditionIds = state.conditions.map(\.id)
         
-      case .onIdAgreedCheckBoxTap(let isSelected):
-        state.idAgreed = isSelected
-        return .none
+        if state.conditions.map(\.isSelected).contains(true) {
+          return .send(.setBottomButtonEnabled(true))
+        } else {
+          return .send(.setBottomButtonEnabled(false ))
+        }
         
-      case .onPreCallAgreedCheckBoxTap(let isSelected):
-        state.preCallAgreed = isSelected
+      case ._toggleCheckBoxValue(let index):
+        state.conditions[index].isSelected.toggle()
+        
         return .none
         
       default:
@@ -86,42 +97,22 @@ struct SelectOtherRequirementsView: View {
         
         Spacer().frame(height: 20)
         
-        SelectConditionView(
-          leftImageName: nil,
-          conditionTitle: "· CCTV, 펫캠 촬영 동의",
-          rightContentView: {
-            CheckBoxView(isSelected: viewStore.binding(
-              get: \.cctvAgreed,
-              send: { .onCCTVAgreedCheckBoxTap($0) })
-            )
-          }
-        )
         
-        Spacer().frame(height: PND.Metrics.defaultSpacing)
-        
-        SelectConditionView(
-          leftImageName: nil,
-          conditionTitle: "· 신분증 인증",
-          rightContentView: {
-            CheckBoxView(isSelected: viewStore.binding(
-              get: \.idAgreed,
-              send: { .onIdAgreedCheckBoxTap($0) })
-            )
-          }
-        )
-        
-        Spacer().frame(height: PND.Metrics.defaultSpacing)
-        
-        SelectConditionView(
-          leftImageName: nil,
-          conditionTitle: "· 사전 통화 가능 여부",
-          rightContentView: {
-            CheckBoxView(isSelected: viewStore.binding(
-              get: \.preCallAgreed,
-              send: { .onPreCallAgreedCheckBoxTap($0) })
-            )
-          }
-        )
+        ForEach(0..<viewStore.conditions.count, id: \.self) { index in
+          
+          Spacer().frame(height: PND.Metrics.defaultSpacing)
+          
+          SelectConditionView(
+            leftImageName: nil,
+            conditionTitle: viewStore.conditions[index].name,
+            rightContentView: {
+              CheckBoxView(isSelected: viewStore.binding(
+                get: \.conditions[index].isSelected,
+                send: { _ in .onConditionCheckBoxTap(index: index)}
+              ))
+            }
+          )
+        }
         
         Spacer()
         
@@ -136,6 +127,9 @@ struct SelectOtherRequirementsView: View {
           viewStore.send(.didTapBottomButton)
         }
         
+      }
+      .onAppear {
+        viewStore.send(.onAppear)
       }
     }
   }
@@ -153,5 +147,5 @@ struct SelectOtherRequirementsView: View {
 }
 
 #Preview {
-  SelectOtherRequirementsView(store: .init(initialState: .init(), reducer: { SelectOtherRequirementsFeature() }))
+  SelectOtherRequirementsView(store: .init(initialState: .init(urgentPostModel: .default()), reducer: { SelectOtherRequirementsFeature() }))
 }

@@ -80,12 +80,12 @@ extension PND {
         
       case .selectCareCondition(let state):
         return UIHostingController(rootView: SelectCareConditionsView(store: .init(initialState: state, reducer: SelectCareConditionFeature() )))
-        
+      
       case .selectOtherRequirements(let state):
-        return SelectOtherRequirementsViewController(store: .init(initialState: state, reducer: SelectOtherRequirementsFeature() ))
+        return UIHostingController(rootView: SelectOtherRequirementsView(store: .init(initialState: state, reducer: { SelectOtherRequirementsFeature() })))
         
       case .writeUrgentPost(let state):
-        return UIHostingController(rootView: WriteUrgentPostView(store: .init(initialState: .init(), reducer: WriteUrgentPostFeature())))
+        return UIHostingController(rootView: WriteUrgentPostView(store: .init(initialState: state, reducer: WriteUrgentPostFeature())))
 
         // 돌봄급구 상세 Flow
 				

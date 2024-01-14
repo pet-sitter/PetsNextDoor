@@ -85,7 +85,6 @@
 		DA449E032ACC58C30025A397 /* SelectCategoryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA449E022ACC58C30025A397 /* SelectCategoryComponent.swift */; };
 		DA474B6E2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA474B6D2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift */; };
 		DA474B742B26CB91002FADC6 /* Shape+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA474B732B26CB91002FADC6 /* Shape+Extension.swift */; };
-		DA474B762B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA474B752B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift */; };
 		DA474B7F2B2725CB002FADC6 /* UrgentPostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA474B7E2B2725CB002FADC6 /* UrgentPostDetailView.swift */; };
 		DA4B2A832AFB28290053217A /* ContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A822AFB28290053217A /* ContainerComponent.swift */; };
 		DA4B2A872AFB44D70053217A /* SelectConditionHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */; };
@@ -97,7 +96,6 @@
 		DA4F05282A68EA9E00D7E7A7 /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F05272A68EA9E00D7E7A7 /* LoginFeature.swift */; };
 		DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */; };
 		DA517D812AFE094300343424 /* BaseCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D802AFE094300343424 /* BaseCheckBoxButton.swift */; };
-		DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */; };
 		DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */; };
 		DA5926E52B27FDCE00E00E74 /* ErrorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926E42B27FDCE00E00E74 /* ErrorTracker.swift */; };
 		DA5926E72B2812A400E00E74 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926E62B2812A400E00E74 /* UserDefaults+Extension.swift */; };
@@ -261,7 +259,6 @@
 		DA449E022ACC58C30025A397 /* SelectCategoryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryComponent.swift; sourceTree = "<group>"; };
 		DA474B6D2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImagesHorizontalView.swift; sourceTree = "<group>"; };
 		DA474B732B26CB91002FADC6 /* Shape+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shape+Extension.swift"; sourceTree = "<group>"; };
-		DA474B752B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImagesHorizontalComponent.swift; sourceTree = "<group>"; };
 		DA474B7E2B2725CB002FADC6 /* UrgentPostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostDetailView.swift; sourceTree = "<group>"; };
 		DA4B2A822AFB28290053217A /* ContainerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerComponent.swift; sourceTree = "<group>"; };
 		DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionHorizontalView.swift; sourceTree = "<group>"; };
@@ -276,7 +273,6 @@
 		DA4F05422A694BA000D7E7A7 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		DA4F054A2A6955F700D7E7A7 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		DA517D802AFE094300343424 /* BaseCheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCheckBoxButton.swift; sourceTree = "<group>"; };
-		DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOtherRequirementsViewController.swift; sourceTree = "<group>"; };
 		DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringBuilder.swift; sourceTree = "<group>"; };
 		DA5926E42B27FDCE00E00E74 /* ErrorTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTracker.swift; sourceTree = "<group>"; };
 		DA5926E62B2812A400E00E74 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
@@ -697,7 +693,6 @@
 			children = (
 				DA4B2A862AFB44D70053217A /* SelectConditionHorizontalView.swift */,
 				DA474B6D2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift */,
-				DA474B752B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift */,
 				DAC71A332B4BCF6D00E6B53E /* SelectDateHorizontalView.swift */,
 			);
 			path = Views;
@@ -724,7 +719,6 @@
 		DA517D902AFE130300343424 /* SelectOtherRequirements */ = {
 			isa = PBXGroup;
 			children = (
-				DA517D922AFE131C00343424 /* SelectOtherRequirementsViewController.swift */,
 				DA3A947B2B512BC500B3529C /* SelectOtherRequirementsView.swift */,
 			);
 			path = SelectOtherRequirements;
@@ -1154,7 +1148,6 @@
 				DA3A946F2B51238B00B3529C /* TextEditorWithPlaceholder.swift in Sources */,
 				DA3A94782B5127BD00B3529C /* CheckBoxView.swift in Sources */,
 				DA95347F2AEF8E1800ED21F9 /* SelectPetFeature.swift in Sources */,
-				DA474B762B26CE11002FADC6 /* SelectImagesHorizontalComponent.swift in Sources */,
 				DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */,
 				DA11370A2AC3E6B80061F1E0 /* CountDownLabel.swift in Sources */,
 				DAC6C2D52A3D7932002D33F8 /* LoginViewController.swift in Sources */,
@@ -1209,7 +1202,6 @@
 				DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */,
 				DABF954B2B3FF97F004DFC3E /* PNDLoginPlugin.swift in Sources */,
 				DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */,
-				DA517D932AFE131C00343424 /* SelectOtherRequirementsViewController.swift in Sources */,
 				7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */,
 				DABF953E2B3FEEE8004DFC3E /* PhotoConverter.swift in Sources */,
 				DAC6C2D12A3D7932002D33F8 /* AppDelegate.swift in Sources */,

@@ -16,21 +16,24 @@ struct WriteUrgentPostFeature: Reducer {
     var content: String = ""
     
     var isBottomButtonEnabled: Bool   = false
-    var photoPickerIsPresented: Bool  = false
-    var selectedUserImage: UIImage?
     
-    fileprivate var router: Router<PND.Destination>.State = .init()
+    var selectedImageDatas: [Data] = []
+    
+    var urgentPostModel: PND.UrgentPostModel
+    
+    var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
     
     case titleDidChange(String)
     case contentDidChange(String)
-    case profileImageDidTap
-    case userImageDidChange(UIImage)
+    case onImageDataChange([Data])
+    case onBottomButtonTap
     case setBottomButtonEnabled(Bool)
     
     // Internal Cases
+    case _validateInput
     case _routeAction(Router<PND.Destination>.Action)
   }
   
@@ -48,22 +51,31 @@ struct WriteUrgentPostFeature: Reducer {
         
       case .titleDidChange(let title):
         state.title = title
-        return .none
+        return .send(._validateInput)
         
       case .contentDidChange(let content):
+        state.content = content
+        return .send(._validateInput)
+        
+      case .onImageDataChange(let imageDatas):
+        state.selectedImageDatas = imageDatas
+        return .none
+        
+      case .onBottomButtonTap:
+        
+        // 먼저 이미지를 하나하나 다 올리고, 그 다음에 urgenPostModel에 imageId 다 삽입 후 최종 POST API 호출하기
         
         return .none
-       
-      case .profileImageDidTap:
-        state.photoPickerIsPresented = true
-        return .none
         
-      case .userImageDidChange(let image):
-        state.photoPickerIsPresented = false
-        state.selectedUserImage = image
-        return .none
+      case ._validateInput:
+        if !state.title.isEmpty, !state.content.isEmpty {
+          return .send(.setBottomButtonEnabled(true))
+        } else {
+          return .send(.setBottomButtonEnabled(false ))
+        }
         
       case .setBottomButtonEnabled(let isEnabled):
+        state.isBottomButtonEnabled = isEnabled
         return .none
         
       default:
@@ -75,9 +87,6 @@ struct WriteUrgentPostFeature: Reducer {
 
 
 struct WriteUrgentPostView: View {
-  
-  @State var title: String = ""
-  @State var content: String = ""
   
   let store: StoreOf<WriteUrgentPostFeature>
   
@@ -116,8 +125,14 @@ struct WriteUrgentPostView: View {
         .padding(.horizontal, PND.Metrics.defaultSpacing)
         .frame(height: UIScreen.fixedScreenSize.height / 3)
 
-        SelectImagesHorizontalView(viewModel: .init(maxImagesCount: 5))
-        
+        SelectImagesHorizontalView(
+          maxImagesCount: 5,
+          selectedImageDatas: viewStore.binding(
+            get: \.selectedImageDatas,
+            send: { .onImageDataChange($0) }
+          )
+        )
+
         Spacer()
        
         BaseBottomButton_SwiftUI(
@@ -135,5 +150,5 @@ struct WriteUrgentPostView: View {
 }
 
 #Preview {
-  WriteUrgentPostView(store: .init(initialState: .init(), reducer: WriteUrgentPostFeature()))
+  WriteUrgentPostView(store: .init(initialState: .init(urgentPostModel: .default()), reducer: WriteUrgentPostFeature()))
 }

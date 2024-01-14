@@ -27,7 +27,7 @@ struct SelectCareConditionFeature: Reducer {
     
     // 그 외
 
-    let selectedPetIds: [Int]
+    var urgentPostModel: PND.UrgentPostModel
     var isBottomButtonEnabled: Bool = true
     var router: Router<PND.Destination>.State = .init()
   }
@@ -99,7 +99,16 @@ struct SelectCareConditionFeature: Reducer {
         return .none
         
       case .didTapBottomButton:
-        return .send(._routeAction(.pushScreen(.selectOtherRequirements(state: .init()), animated: true)))
+        state.urgentPostModel.carerGender = state.carerGender
+        state.urgentPostModel.careType = state.careType
+        
+        // 날짜, 페이 세팅해야함 (default value 대체하기)
+//        state.urgentPostModel.dateStartAt = ""
+//        state.urgentPostModel.dateEndAt = ""
+//        state.urgentPostModel.reward = ""
+        
+        
+        return .send(._routeAction(.pushScreen(.selectOtherRequirements(state: SelectOtherRequirementsFeature.State(urgentPostModel: state.urgentPostModel)), animated: true)))
         
       default:
         return .none

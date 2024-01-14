@@ -22,8 +22,8 @@ extension PND {
     }
 	}
   
-  enum GenderType {
-    case male
-    case female
+  enum GenderType: String, Codable  {
+    case male = "male"
+    case female = "female"
   }
 }

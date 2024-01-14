@@ -9,60 +9,19 @@ import SwiftUI
 import UIKit
 import PhotosUI
 
-final class SelectImagesHorizontalViewModel: HashableViewModel, ObservableObject {
-  
-  var selectedImagesCount: Int = 0
-  let maxImagesCount: Int
-  
-  private var selectedImagesData: [Data] = []
-  @Published var selectedImages: [UIImage] = []
-  @Published var selectedPhotoPickerItems: [PhotosPickerItem] = []
-  
-  var isLoadingImages: Bool = false
-  
-  init(maxImagesCount: Int) {
-    self.maxImagesCount = maxImagesCount
-  }
-  
-  @MainActor
-  func convertImageDataToUIImage() async {
-    
-    isLoadingImages = true
-    
-    var uiImages: [UIImage] = []
-    
-    selectedImages.removeAll()
-    
-    if selectedPhotoPickerItems.isEmpty == false {
-      
-      for eachItem in selectedPhotoPickerItems {
-        if let image = await loadImageData(from: eachItem) {
-          uiImages.append(image)
-        }
-      }
-      
-      selectedImages = uiImages
-      selectedImagesCount = selectedPhotoPickerItems.count
-    }
-    
-    isLoadingImages = false
-    
-  }
-  
-  private func loadImageData(from item: PhotosPickerItem) async -> UIImage? {
-    let imageData = try? await item.loadTransferable(type: Data.self)
-    return UIImage(data: imageData ?? Data())
-  }
-  
-  func deleteImage(at index: Int) {
-    selectedImages.remove(at: index)
-    selectedPhotoPickerItems.remove(at: index)
-  }
-}
-
 struct SelectImagesHorizontalView: View {
   
-  @StateObject var viewModel: SelectImagesHorizontalViewModel
+  let maxImagesCount: Int
+  
+  @Binding var selectedImageDatas: [Data]
+  
+  @State private var selectedImages: [UIImage] = []
+  @State private var isLoadingImages: Bool = false
+  @State private var selectedPhotoPickerItems: [PhotosPickerItem] = [] {
+    didSet {
+      Task { await convertImageDataToUIImage() }
+    }
+  }
   
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -72,8 +31,8 @@ struct SelectImagesHorizontalView: View {
           .frame(width: PND.Metrics.defaultSpacing)
         
         PhotosPicker(
-          selection: $viewModel.selectedPhotoPickerItems,
-          maxSelectionCount: viewModel.maxImagesCount,
+          selection: $selectedPhotoPickerItems,
+          maxSelectionCount: maxImagesCount,
           matching: .images)
         {
           ZStack {
@@ -88,7 +47,7 @@ struct SelectImagesHorizontalView: View {
                 .foregroundColor(PND.Colors.commonBlack.asColor)
                 .frame(width: 28, height: 28)
               
-              Text("\($viewModel.selectedPhotoPickerItems.count)/\(viewModel.maxImagesCount)")
+              Text("\($selectedImages.count)/\(maxImagesCount)")
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(PND.Colors.commonBlack.asColor)
             }
@@ -96,12 +55,14 @@ struct SelectImagesHorizontalView: View {
           }
         }
         
-        ForEach(viewModel.selectedImages.indices, id: \.self) { index in
-          imageView(viewModel.selectedImages[index], index: index)
+        ForEach(selectedImages.indices, id: \.self) { index in
+          imageView(selectedImages[index], index: index)
+            .onTapGesture {
+              deleteImage(at: index)
+            }
         }
         
-
-        if viewModel.isLoadingImages {
+        if isLoadingImages {
           Spacer()
             .frame(width: PND.Metrics.defaultSpacing)
           ProgressView()
@@ -110,10 +71,6 @@ struct SelectImagesHorizontalView: View {
         Spacer()
           .frame(width: PND.Metrics.defaultSpacing)
       }
-      .onChange(of: viewModel.selectedPhotoPickerItems) { _ in
-        Task { await viewModel.convertImageDataToUIImage() }
-      }
-      
     }
   }
 
@@ -122,7 +79,6 @@ struct SelectImagesHorizontalView: View {
       .foregroundColor(.clear)
       .frame(width: 100, height: 100)
       .background(
-        
         Image(uiImage: image)
           .resizable()
           .aspectRatio(contentMode: .fill)
@@ -140,14 +96,10 @@ struct SelectImagesHorizontalView: View {
                 .frame(width: 16, height: 16)
                 .padding()
               
-              Button {
-                viewModel.deleteImage(at: index)
-              } label: {
-                Image(systemName: "xmark")
-                  .foregroundColor(.white)
-                  .frame(width: 10, height: 10)
-                  .cornerRadius(4)
-              }
+              Image(systemName: "xmark")
+                .foregroundColor(.white)
+                .frame(width: 7, height: 7)
+                .cornerRadius(4)
             }
             .frame(width: 16, height: 16)
           }
@@ -155,5 +107,49 @@ struct SelectImagesHorizontalView: View {
         }
       }
   }
+  
+  @MainActor
+  private func convertImageDataToUIImage() async {
+    
+    isLoadingImages = true
+    
+    var uiImages: [UIImage] = []
+    var imageData: [Data]   = []
+    
+    selectedImages.removeAll()
+    
+    if selectedPhotoPickerItems.isEmpty == false {
+      
+      for eachItem in selectedPhotoPickerItems {
+        let (uiImage, data) = await loadImageData(from: eachItem)
+        print("✅ image : \(uiImage), data: \(data)")
+        guard let uiImage, let data else {
+          isLoadingImages = false
+          return
+        }
+        
+        uiImages.append(uiImage)
+        imageData.append(data)
+      }
+
+      selectedImages = uiImages
+    }
+    
+    
+    isLoadingImages = false
+  }
+  
+  private func loadImageData(from item: PhotosPickerItem) async -> (UIImage?, Data?) {
+    let imageData = try? await item.loadTransferable(type: Data.self)
+    return (UIImage(data: imageData ?? Data()), imageData)
+  }
+  
+  func deleteImage(at index: Int) {
+    selectedImages.remove(at: index)
+  }
+  
 }
 
+//#Preview {
+//  SelectImagesHorizontalView(viewModel: .init(maxImagesCount: 5))
+//}

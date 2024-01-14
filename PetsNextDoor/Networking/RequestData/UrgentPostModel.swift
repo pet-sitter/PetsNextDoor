@@ -9,20 +9,20 @@ import Foundation
 
 extension PND {
   
-  struct UrgentPostModel: Codable {
-    let careType: PND.CareType
-    let carerGender: PND.Sex
-    let conditionIds: [Int]
-    let content: String
-    let dateEndAt: String
-    let dateStartAt: String
-    let imageIds: [Int]
-    let petIds: [Int]
-    let reward: String
-    let rewardAmount: String
-    let timeEndAt: String
-    let timeStartAt: String
-    let title: String
+  struct UrgentPostModel: Codable, Hashable {
+    var careType: PND.CareType
+    var carerGender: PND.GenderType
+    var conditionIds: [Int]
+    var content: String
+    var dateEndAt: String
+    var dateStartAt: String
+    var imageIds: [Int]
+    var petIds: [Int]
+    var reward: String
+    var rewardAmount: String
+    var timeEndAt: String
+    var timeStartAt: String
+    var title: String
     
     enum CodingKeys: String, CodingKey {
       case careType = "care_type"
@@ -38,6 +38,24 @@ extension PND {
       case timeEndAt = "time_end_at"
       case timeStartAt = "time_start_at"
       case title
+    }
+    
+    static func `default`() -> Self {
+      return .init(
+        careType: .foster,
+        carerGender: .male,
+        conditionIds: [],
+        content: "test content",
+        dateEndAt: "2024-01-28",
+        dateStartAt: "2024-01-20",
+        imageIds: [],
+        petIds: [],
+        reward: "reward",
+        rewardAmount: "10000",
+        timeEndAt: "19:00",
+        timeStartAt: "11:00",
+        title: "돌봄급구 구합니다!"
+      )
     }
   }
 }

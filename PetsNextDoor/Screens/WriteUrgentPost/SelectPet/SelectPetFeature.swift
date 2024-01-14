@@ -15,6 +15,8 @@ struct SelectPetFeature: Reducer {
     var selectedPets: [SelectPetViewModel] = []
     var isBottomButtonEnabled: Bool = false
     
+    var urgentPostModel: PND.UrgentPostModel = .default()
+    
     fileprivate var router: Router<PND.Destination>.State = .init()
   }
   
@@ -48,17 +50,20 @@ struct SelectPetFeature: Reducer {
         state.selectedPets = state
           .selectPetCellViewModels
           .filter(\.isPetSelected)
-          
-        
+      
         state.isBottomButtonEnabled = state 
           .selectPetCellViewModels
           .filter(\.isPetSelected)
           .count > 0
+        
+        state.urgentPostModel.petIds = state.selectedPets.map(\.id)
       
         return .none
         
       case .didTapBottomButton:
-        let selectCareConditionState = SelectCareConditionFeature.State(selectedPetIds: state.selectedPets.map { $0.id })
+        let selectCareConditionState = SelectCareConditionFeature.State(
+          urgentPostModel: state.urgentPostModel
+        )
         return .send(._routeAction(.pushScreen(.selectCareCondition(state: selectCareConditionState), animated: true)))
         
       default:
