@@ -25,8 +25,8 @@ extension PND.Dependency {
   }
   
   enum UploadServiceKey: DependencyKey {
-    static let liveValue: any UploadServiceProvidable = UploadService()
-    static let testValue: any UploadServiceProvidable = UploadServiceMock()
+    static let liveValue: any MediaServiceProvidable = MediaService()
+    static let testValue: any MediaServiceProvidable = UploadServiceMock()
   }
   
   enum SOSPostServiceKey: DependencyKey {
@@ -48,7 +48,7 @@ extension DependencyValues {
     set { self[PND.Dependency.UserServiceKey.self] = newValue }
   }
   
-  var uploadService: any UploadServiceProvidable {
+  var uploadService: any MediaServiceProvidable {
     get { self[PND.Dependency.UploadServiceKey.self] }
     set { self[PND.Dependency.UploadServiceKey.self] = newValue }
   }

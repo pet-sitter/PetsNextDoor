@@ -35,23 +35,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // 로그인 체크하고 분기 처리해야함
     
     
-//    let loginVC = LoginViewController(
-//      store: .init(
-//        initialState: LoginFeature.State(),
-//        reducer: { LoginFeature()}
-//      )
-//    )
-//
-//    let navController = BaseNavigationController(rootViewController: loginVC)
-    
-    let mainTabVC = MainTabBarController(
-      homeStore: .init(initialState: .init(), reducer: HomeFeature()),
-      communityStore: .init(initialState: .init(), reducer: CommunityFeature()),
-      chatListStore: .init(initialState: .init(), reducer: ChatListFeature()),
-      myPageStore: .init(initialState: .init(), reducer: MyPageFeature())
+    let loginVC = LoginViewController(
+      store: .init(
+        initialState: LoginFeature.State(),
+        reducer: { LoginFeature()}
+      )
     )
+
+    let navController = BaseNavigationController(rootViewController: loginVC)
     
-    let navController = BaseNavigationController(rootViewController: mainTabVC)
+//    let mainTabVC = MainTabBarController(
+//      homeStore: .init(initialState: .init(), reducer: HomeFeature()),
+//      communityStore: .init(initialState: .init(), reducer: CommunityFeature()),
+//      chatListStore: .init(initialState: .init(), reducer: ChatListFeature()),
+//      myPageStore: .init(initialState: .init(), reducer: MyPageFeature())
+//    )
+//    
+//    let navController = BaseNavigationController(rootViewController: mainTabVC)
     
     window.rootViewController = navController
     window.overrideUserInterfaceStyle = .light

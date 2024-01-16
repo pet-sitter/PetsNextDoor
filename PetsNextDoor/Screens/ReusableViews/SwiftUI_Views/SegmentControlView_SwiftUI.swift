@@ -16,7 +16,6 @@ struct SegmentControlView_SwiftUI: View {
     HStack(spacing: 12) {
       ForEach(0..<segmentTitles.count, id: \.self) { index in
         segmentTitleView(title: segmentTitles[index], index: index)
-        
       }
     }
   }

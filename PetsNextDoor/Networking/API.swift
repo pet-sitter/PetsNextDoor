@@ -15,7 +15,7 @@ extension PND {
     
     //MARK: - Media
     case uploadImage(imageData: Data, imageName: String)
-    
+    case getMedia(id: Int)
     
     //MARK: - Posts
     
@@ -26,16 +26,19 @@ extension PND {
     //MARK: - Users
     
     case registerUser(model: PND.UserRegistrationModel)
+    case postCheckNickname(nickname: String)
     case getMyProfile
-    case postUserStatus(email: String)
+    case postUserStatus(email: String)        // 이메일로 유저의 가입 상태를 조회
     case putMyPets(model: [PND.Pet])
+    case getMyPets
     
     //MARK: - Pets
+    case getBreeds(pageSize: Int, petType: String)
     
   }
 }
 
-extension PND.API: Moya.TargetType {
+extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
   
   var baseURL: URL {
     switch PND.Server.shared.currentServerPhase {
@@ -52,6 +55,8 @@ extension PND.API: Moya.TargetType {
       //MARK: - Media
     case .uploadImage:
       return "/media/images"
+    case .getMedia(let id):
+      return "/media/\(id)"
       
       
       //MARK: - Posts
@@ -68,14 +73,20 @@ extension PND.API: Moya.TargetType {
       
     case .registerUser:
       return "/users"
+    case .postCheckNickname:
+      return "/users/check/nickname"
     case .getMyProfile:
       return "/users/me"
     case .postUserStatus:
       return "/users/status"
     case .putMyPets:
+      return "/users/me/pets"
+    case .getMyPets:
       return "users/me/pets"
       
       //MARK: - Pets
+    case .getBreeds:
+      return "/breeds"
     }
   }
   
@@ -89,7 +100,7 @@ extension PND.API: Moya.TargetType {
       
       //MARK: - POST
       
-    case .registerUser, .postUserStatus, .uploadImage, .postSOSPost:
+    case .registerUser, .postUserStatus, .uploadImage, .postSOSPost, .postCheckNickname:
       return .post
       
       //MARK: - PUT
@@ -131,8 +142,25 @@ extension PND.API: Moya.TargetType {
         encoding: URLEncoding.queryString
       )
       
-    case let .postSOSPost(let model):
-      break 
+    case .postSOSPost(let model):
+      return .requestParameters(
+        parameters: .builder
+          .set(key: "care_type", value: model.careType.rawValue)
+          .set(key: "carer_gender", value: model.carerGender.rawValue)
+          .set(key: "condition_ids", value: model.conditionIds)
+          .set(key: "content", value: model.content)
+          .set(key: "date_end_at", value: model.dateEndAt)
+          .set(key: "date_start_at", value: model.dateStartAt)
+          .set(key: "image_ids", value: model.imageIds)
+          .set(key: "pet_ids", value: model.petIds)
+          .set(key: "reward", value: model.reward)
+          .set(key: "reward_amount", value: model.rewardAmount)
+          .set(key: "time_end_at", value: model.timeEndAt)
+          .set(key: "time_start_at", value: model.timeStartAt)
+          .set(key: "title", value: model.title)
+          .build(),
+        encoding: JSONEncoding.default
+      )
 
       //MARK: - Users
       
@@ -145,6 +173,14 @@ extension PND.API: Moya.TargetType {
           .set(key: "fullname", value: model.fullname)
           .set(key: "nickname", value: model.nickname)
           .set(key: "profileImageId", value: model.profileImageId)
+          .build(),
+        encoding: JSONEncoding.default
+      )
+      
+    case .postCheckNickname(let nickname):
+      return .requestParameters(
+        parameters: .builder
+          .set(key: "nickname", value: nickname)
           .build(),
         encoding: JSONEncoding.default
       )
@@ -171,9 +207,6 @@ extension PND.API: Moya.TargetType {
         ])
       }
       
-      print("✅ parameetsr: \(parameters)")
-      dump(parameters)
-      
       return .requestParameters(
         parameters: .builder
           .set(key: "pets", value: parameters)
@@ -182,7 +215,14 @@ extension PND.API: Moya.TargetType {
       )
       
       //MARK: - Pets
-      
+    case let .getBreeds(pageSize, petType):
+      return .requestParameters(
+        parameters: .builder
+          .set(key: "size", value: pageSize)
+          .set(key: "pet_type", value: petType)
+          .build(),
+        encoding: URLEncoding.queryString
+      )
       
     default:
       return .requestPlain
@@ -209,9 +249,12 @@ extension PND.API: Moya.TargetType {
     default:
       params["Content-Type"] = "application/json"
       params["accept"] = "application/json;charset=UTF-8"
+      params["Authorization"] = "Bearer \(PNDTokenStore.shared.accessToken)"
     
     }
     return params
   }
+  
+  var authorizationType: AuthorizationType? { .bearer }
 }
 

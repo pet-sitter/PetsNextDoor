@@ -123,7 +123,7 @@ struct UrgentPostDetailView: View {
             SwiftUI.Section {
 							
 							HorizontalSectionSelectView(
-								titles: ["급구조건", "상세내용", "반려동물 프로필", "반려동물 프로필4", "반려동물 프로필2", "반려동물 프로필3"],
+								titles: ["급구조건", "상세내용", "반려동물 프로필"],
 								currentIndex: viewStore.binding(
 									get: \.selectedTabIndex,
 									send: { .view(.onSelectedTabIndexChange($0)) }

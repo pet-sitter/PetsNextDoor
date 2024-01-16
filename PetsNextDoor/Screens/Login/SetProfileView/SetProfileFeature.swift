@@ -46,6 +46,7 @@ struct SetProfileFeature: Reducer {
     case _appendSelectPetViewModel(SelectPetViewModel)
     case _setNicknameStatusPhrase(String)
     case _setNicknameText(String)
+    case _checkNicknameDuplication(String)
     case _setIsBottomButtonEnabled(Bool)
     case _setIsLoading(Bool)
 		case _routeAction(Router<PND.Destination>.Action)
@@ -136,8 +137,7 @@ struct SetProfileFeature: Reducer {
         if text.count >= 2 && text.count <= 10 {
           return .merge([
             .send(._setNicknameText(text)),
-            .send(._setNicknameStatusPhrase("사용 가능한 닉네임이예요.")),
-            .send(._setIsBottomButtonEnabled(true))
+            .send(._checkNicknameDuplication(text))
           ])
         } else {
           return .merge([
@@ -180,6 +180,18 @@ struct SetProfileFeature: Reducer {
         state.nicknameText = text
         state.userRegisterModel.nickname = text
         return .none
+        
+      case ._checkNicknameDuplication:
+        return .run { [nickname = state.nicknameText] send in
+          do {
+            let isNicknameAvailable = try await userService.checkNicknameDuplication(nickname).isAvailable
+            
+            await send(._setNicknameStatusPhrase(isNicknameAvailable ? "사용 가능한 닉네임이에요." : "이미 사용 중인 닉네임이에요."))
+            await send(._setIsBottomButtonEnabled(isNicknameAvailable ? true : false ))
+          } catch {
+            print("❌ check nickname duplication error: \(error)")
+          }
+        }
         
       case ._setIsBottomButtonEnabled(let isEnabled):
         state.isBottomButtonEnabled = isEnabled

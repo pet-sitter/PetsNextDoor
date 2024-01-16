@@ -10,7 +10,7 @@ import Foundation
 protocol SOSPostServiceProvidable: PNDNetworkProvidable {
   func getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String) async throws -> PND.SOSPostListModel
   func getSOSPostDetail(id: String) async throws -> PND.SOSPostDetailModel
-  func postSosPost(model: PND.UrgentPostModel) async throws
+  func postSosPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel
 }
 
 
@@ -32,8 +32,8 @@ struct SOSPostService: SOSPostServiceProvidable {
   func getSOSPostDetail(id: String) async throws -> PND.SOSPostDetailModel {
     try await network.requestData(.getSOSPostDetail(id: id))
   }
-  func postSosPost(model: PND.UrgentPostModel) async throws {
-    
+  
+  func postSosPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel {
     try await network.requestData(.postSOSPost(model: model))
   }
 }
@@ -63,7 +63,7 @@ struct MockSosPostService: SOSPostServiceProvidable {
     try await network.requestData(.getSOSPostDetail(id: id))
   }
   
-  func postSosPost(model: PND.UrgentPostModel) {
+  func postSosPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel {
     try await network.requestData(.postSOSPost(model: model))
   }
 }

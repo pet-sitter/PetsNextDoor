@@ -40,8 +40,6 @@ final class HomeViewController: BaseViewController, RenderableViewProvidable {
         .onCategoryChange { category in
 
         }
-      
-
     }
     
     Section {

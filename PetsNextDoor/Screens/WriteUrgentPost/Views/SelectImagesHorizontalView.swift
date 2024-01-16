@@ -17,11 +17,7 @@ struct SelectImagesHorizontalView: View {
   
   @State private var selectedImages: [UIImage] = []
   @State private var isLoadingImages: Bool = false
-  @State private var selectedPhotoPickerItems: [PhotosPickerItem] = [] {
-    didSet {
-      Task { await convertImageDataToUIImage() }
-    }
-  }
+  @State private var selectedPhotoPickerItems: [PhotosPickerItem] = []
   
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -70,6 +66,9 @@ struct SelectImagesHorizontalView: View {
         
         Spacer()
           .frame(width: PND.Metrics.defaultSpacing)
+      }
+      .onChange(of: selectedPhotoPickerItems) { _ in
+        Task { await convertImageDataToUIImage() }
       }
     }
   }
@@ -122,7 +121,6 @@ struct SelectImagesHorizontalView: View {
       
       for eachItem in selectedPhotoPickerItems {
         let (uiImage, data) = await loadImageData(from: eachItem)
-        print("✅ image : \(uiImage), data: \(data)")
         guard let uiImage, let data else {
           isLoadingImages = false
           return
@@ -134,7 +132,6 @@ struct SelectImagesHorizontalView: View {
 
       selectedImages = uiImages
     }
-    
     
     isLoadingImages = false
   }

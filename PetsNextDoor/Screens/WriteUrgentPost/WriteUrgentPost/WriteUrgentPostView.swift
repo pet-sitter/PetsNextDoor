@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 struct WriteUrgentPostFeature: Reducer {
   
+  @Dependency(\.sosPostService) var postService
+  
   struct State: Equatable {
     
     var title: String = ""
@@ -51,10 +53,12 @@ struct WriteUrgentPostFeature: Reducer {
         
       case .titleDidChange(let title):
         state.title = title
+        state.urgentPostModel.title = title
         return .send(._validateInput)
         
       case .contentDidChange(let content):
         state.content = content
+        state.urgentPostModel.content = content
         return .send(._validateInput)
         
       case .onImageDataChange(let imageDatas):
@@ -63,9 +67,12 @@ struct WriteUrgentPostFeature: Reducer {
         
       case .onBottomButtonTap:
         
+        print("✅ \(dump(state.urgentPostModel))")
         // 먼저 이미지를 하나하나 다 올리고, 그 다음에 urgenPostModel에 imageId 다 삽입 후 최종 POST API 호출하기
-        
-        return .none
+        return .run { [model = state.urgentPostModel] send in
+          let postResult = try? await postService.postSosPost(model: model)
+          print("✅ postResult: \(postResult)")
+        }
         
       case ._validateInput:
         if !state.title.isEmpty, !state.content.isEmpty {
@@ -143,7 +150,9 @@ struct WriteUrgentPostView: View {
             send: { .setBottomButtonEnabled($0) }
           )
         )
-  
+        .onTapGesture {
+          viewStore.send(.onBottomButtonTap)
+        }
       }
     }
   }

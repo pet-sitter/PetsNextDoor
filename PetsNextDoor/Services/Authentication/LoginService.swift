@@ -39,7 +39,7 @@ final class LoginService: LoginServiceProvidable {
   typealias Network = PND.Network<PND.API>
   
   private(set) var network: Network = .init()
-  private let uploadService = UploadService()
+  private let uploadService = MediaService()
   
   @MainActor
   func signInWithGoogle() async -> LoginResult {
@@ -62,7 +62,6 @@ final class LoginService: LoginServiceProvidable {
       
       let isUserRegistrationNeeded: Bool = userRegistrationStatus.status == .notRegistered ? true : false
       
-      
       guard let idToken = signInResult.user.idToken?.tokenString else { return .failed(reason: .undefined) }
       
       let credential = GoogleAuthProvider.credential(
@@ -73,6 +72,9 @@ final class LoginService: LoginServiceProvidable {
       let authSignInResult = try? await Auth.auth().signIn(with: credential)
       let signedInUser = authSignInResult?.user
       
+      guard let token = try await Auth.auth().currentUser?.getIDToken() else { return .failed(reason: .undefined) }
+
+      PNDTokenStore.shared.setAccessTokenValue(to: token)
       
       if isUserRegistrationNeeded {     // 가입된 계정이 없다면 FireBase 계정 생성 및 Firebase 로그인 진행
     
@@ -88,9 +90,6 @@ final class LoginService: LoginServiceProvidable {
         )
 
       } else {                          //가입된 계정이 있다면 그대로 로그인 진행
-        print("✅ User register is not needed login proceeding")
-        
-        PNDTokenStore.shared.setAccessTokenValue(to: idToken)
         
         return .success(
           isUserRegistrationNeeded: false,
