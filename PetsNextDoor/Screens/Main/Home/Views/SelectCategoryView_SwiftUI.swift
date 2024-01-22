@@ -22,17 +22,22 @@ struct SelectCategoryView_SwiftUI: View {
       }
     }
   }
-  
+
   @Binding var selectedCategory: Category
-  
-  
+
   var body: some View {
     HStack {
       
       Spacer().frame(width: PND.Metrics.defaultSpacing)
       
-      Text("최신순")
-        .font(.system(size: 16, weight: .bold))
+      Menu {
+        Button("ADD", action: { })
+      } label: {
+        Text("최신순")
+          .font(.system(size: 16, weight: .bold))
+          .foregroundStyle(PND.Colors.commonBlack.asColor)
+      }
+
       
       Spacer().frame(width: 4)
       
@@ -43,6 +48,7 @@ struct SelectCategoryView_SwiftUI: View {
       Spacer()
       
       ForEach(Category.allCases, id: \.self) { category in
+        checkableButton(category: category)
       }
       
       
@@ -52,23 +58,29 @@ struct SelectCategoryView_SwiftUI: View {
   }
   
   func checkableButton(category: Category) -> some View {
-    Button(action: {
+
+    return Button(action: {
       selectedCategory = category
     }, label: {
       HStack(spacing: 2) {
-        Image(R.image.icon_check)
-          .resizable()
-          .frame(width: 12, height: 12)
+        if selectedCategory == category {
+          Image(R.image.icon_check)
+            .resizable()
+            .frame(width: 12, height: 12)
+        }
         
         Text(category.buttonTitle)
-          .font(.system(size: 12, weight: .semibold))
-          .foregroundStyle(PND.Colors.commonBlack.asColor)
-        
+          .font(.system(size: 12, weight: selectedCategory == category ? .semibold : .regular))
+          .foregroundStyle(
+            selectedCategory == category
+            ? PND.Colors.commonBlack.asColor
+            : UIColor(hex: "#9E9E9E").asColor
+          )
       }
     })
   }
 }
 
 #Preview {
-  SelectCategoryView_SwiftUI(selectedCategory: .constant(.onlyDogs))
+  SelectCategoryView_SwiftUI(selectedCategory: .constant(.onlyCats))
 }

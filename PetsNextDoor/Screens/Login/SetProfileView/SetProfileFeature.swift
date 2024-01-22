@@ -12,33 +12,48 @@ struct SetProfileFeature: Reducer {
   @Dependency(\.loginService) private var loginService
   @Dependency(\.userService) private var userService
 	
-	struct State: Equatable, RoutableState {
+	struct State: Equatable {
     var userRegisterModel: PND.UserRegistrationModel
-    var nicknameStatusPhrase: String = ""
+    
     var selectedUserImage: UIImage?
-    fileprivate var selectedUserImageData: Data = Data()
+    var selectedUserImageData: [Data] = []
+    
+    var nicknameStatusPhrase: String = ""
+
+    
+    var gender: PND.Sex = .male
+    
+  
+    
+    
     var isBottomButtonEnabled: Bool   = true
     var photoPickerIsPresented: Bool  = false
     var isLoading: Bool = false
     
     @Pulse var myPetCellViewModels: [SelectPetViewModel] = []
     
-    fileprivate var nicknameText: String = ""
+    var nicknameText: String = ""
 
     var selectEitherCatOrDogState: SelectEitherCatOrDogFeature.State?
 		
-		var router: Router<PND.Destination>.State = .init()
-    
+
     init(userRegisterModel: PND.UserRegistrationModel) {
       self.userRegisterModel = userRegisterModel
     }
 	}
 	
-	enum Action: Equatable, RoutableAction {
-    case didTapBottomButton
-		case textDidChange(String?)
-    case userImageDidChange(UIImage)
+	enum Action: Equatable {
     case profileImageDidTap
+    case onImageDataChange([Data])
+    
+    case userImageDidChange(UIImage)
+    case textDidChange(String?)
+    
+    
+    case didTapBottomButton
+
+
+
     case didTapAddPetButton
     case didTapPetDeleteButton(SelectPetViewModel)
     
@@ -49,21 +64,13 @@ struct SetProfileFeature: Reducer {
     case _checkNicknameDuplication(String)
     case _setIsBottomButtonEnabled(Bool)
     case _setIsLoading(Bool)
-		case _routeAction(Router<PND.Destination>.Action)
+
     
     // Child Actions
     case _selectEitherCatOrDogAction(SelectEitherCatOrDogFeature.Action)
 	}
 	
 	var body: some Reducer<State, Action> {
-    
-		Scope(
-			state: \.router,
-			action: /Action._routeAction
-		) {
-			Router<PND.Destination>()
-		}
-    
 		Reduce { state, action in
       
       switch action {
@@ -92,6 +99,10 @@ struct SetProfileFeature: Reducer {
         state.selectEitherCatOrDogState = nil
         return .none
         
+      case .onImageDataChange(let imageDatas):
+        state.selectedUserImageData = imageDatas
+        return .none
+        
       case .didTapBottomButton:
         return .run { [state] send in
           await send(._setIsLoading(true))
@@ -99,7 +110,7 @@ struct SetProfileFeature: Reducer {
             
             let _ = try await loginService.registerUser(
               model: state.userRegisterModel,
-              profileImageData: state.selectedUserImageData
+              profileImageData: state.selectedUserImageData.first!
             )
             
             // 회원가입 성공하면 이후 즉시 내 반려동물 등록
@@ -118,13 +129,14 @@ struct SetProfileFeature: Reducer {
                 )
               }
             )
+  
             
-            await send(._routeAction(.changeRootScreen(toScreen: .main(
-              homeState: HomeFeature.State(),
-              communityState: CommunityFeature.State(),
-              chatState: ChatListFeature.State(),
-              myPageState: MyPageFeature.State()
-            ))))
+//            await send(._routeAction(.changeRootScreen(toScreen: .main(
+//              homeState: HomeFeature.State(),
+//              communityState: CommunityFeature.State(),
+//              chatState: ChatListFeature.State(),
+//              myPageState: MyPageFeature.State()
+//            ))))
             
           } catch {
             print("❌ registerUser failed: \(error)")
@@ -150,7 +162,7 @@ struct SetProfileFeature: Reducer {
       case .userImageDidChange(let image):
         state.photoPickerIsPresented = false
         state.selectedUserImage = image
-        state.selectedUserImageData = PhotoConverter.convertUIImageToJpegData(image: image, compressionQuality: 0.7) ?? Data()
+//        state.selectedUserImageData = PhotoConverter.convertUIImageToJpegData(image: image, compressionQuality: 0.7) ?? Data()
         return .none
         
       case .profileImageDidTap:

@@ -34,3 +34,7 @@ struct SegmentControlView_SwiftUI: View {
     })
   }
 }
+
+#Preview {
+  SegmentControlView_SwiftUI(selectedIndex: .constant(0), segmentTitles: ["둘러보기", "내 모임"])
+}

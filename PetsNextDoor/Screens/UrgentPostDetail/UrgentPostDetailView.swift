@@ -12,7 +12,7 @@ struct UrgentPostDetailFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
   
-  struct State: Equatable {
+  struct State: Equatable, Hashable {
     
 		@BindingState var selectedTabIndex: Int = 0
 		

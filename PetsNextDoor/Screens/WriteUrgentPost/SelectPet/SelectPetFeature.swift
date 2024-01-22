@@ -10,14 +10,12 @@ import ComposableArchitecture
 
 struct SelectPetFeature: Reducer {
   
-  struct State: Equatable {
+  struct State: Equatable, Hashable {
     var selectPetCellViewModels: [SelectPetViewModel] = []
     var selectedPets: [SelectPetViewModel] = []
     var isBottomButtonEnabled: Bool = false
     
     var urgentPostModel: PND.UrgentPostModel = .default()
-    
-    fileprivate var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
@@ -25,19 +23,10 @@ struct SelectPetFeature: Reducer {
     case didSelectPet(SelectPetViewModel)
     case didTapBottomButton
     
-    // Internal Cases
-    case _routeAction(Router<PND.Destination>.Action)
+    case setBottomButtonEnabled(Bool)
   }
   
   var body: some Reducer<State, Action> {
-    
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
-    
     Reduce { state, action in
       switch action {
       case .viewDidLoad:
@@ -60,11 +49,15 @@ struct SelectPetFeature: Reducer {
       
         return .none
         
+      case .setBottomButtonEnabled(let isEnabled):
+        
+        return .none
+        
       case .didTapBottomButton:
         let selectCareConditionState = SelectCareConditionFeature.State(
           urgentPostModel: state.urgentPostModel
         )
-        return .send(._routeAction(.pushScreen(.selectCareCondition(state: selectCareConditionState), animated: true)))
+        return .none
         
       default:
         return .none

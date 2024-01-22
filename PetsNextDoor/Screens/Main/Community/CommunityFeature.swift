@@ -15,13 +15,20 @@ struct CommunityFeature: Reducer {
     
     var meetingCardCellViewModels: [MeetingCardViewModel] = []
     
-    fileprivate var router: Router<PND.Destination>.State = .init()
+    var tabIndex: Int = 0
+    var selectedCategory: SelectCategoryView_SwiftUI.Category = .onlyDogs
     
+    
+    fileprivate var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
     case viewDidLoad
     case didTapAddButton
+    
+    case onTabIndexChange(Int)
+    case onSelectedCategoryChange(SelectCategoryView_SwiftUI.Category)
+    
     
 
     // Internal Cases

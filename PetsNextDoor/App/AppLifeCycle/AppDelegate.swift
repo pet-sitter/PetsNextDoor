@@ -7,8 +7,109 @@
 
 import UIKit
 import GoogleSignIn
+import SwiftUI
+import ComposableArchitecture
 
 @main
+struct PNDApp: App {
+  var body: some Scene {
+    WindowGroup {
+      TabView {
+        HomeView(store: .init(
+          initialState: HomeFeature.State(),
+          reducer: {HomeFeature()}
+        ))
+        .tabItem {
+          VStack {
+            Image("icon_home")
+          }
+        }
+        
+        CommunityView(store: .init(
+          initialState: CommunityFeature.State(),
+          reducer: {CommunityFeature()}
+        ))
+        .tabItem {
+          VStack {
+            Image("icon_community")
+          }
+        }
+        
+        ChatListView(store: .init(
+          initialState: .init(),
+          reducer: { ChatListFeature() }
+        ))
+        .tabItem {
+          VStack {
+            Image("icon_chat")
+          }
+        }
+        
+        MyPageView(store: .init(
+          initialState: .init(),
+          reducer: { MyPageFeature()}
+        ))
+        .tabItem {
+          VStack {
+            Image("icon_user")
+          }
+        }
+        
+        
+      }
+    }
+  }
+}
+
+
+
+
+
+struct PNDRootFeature: Reducer {
+  
+  
+  struct State: Equatable {
+    
+  }
+  
+  enum Action: Equatable {
+    
+  }
+  
+  var body: some Reducer<State,Action> {
+    Reduce { state, action in
+      return .none
+    }
+  }
+  
+  //MARK: - Paths
+  
+  struct Path: Reducer {
+    
+    enum State: Equatable {
+      
+      
+    }
+    
+    enum Action: Equatable {
+      
+    }
+    
+    var body: some Reducer<State,Action> {
+      Reduce { state, action in
+        return .none
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+//@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(

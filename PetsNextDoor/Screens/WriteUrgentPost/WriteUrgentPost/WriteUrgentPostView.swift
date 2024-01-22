@@ -158,6 +158,6 @@ struct WriteUrgentPostView: View {
   }
 }
 
-#Preview {
-  WriteUrgentPostView(store: .init(initialState: .init(urgentPostModel: .default()), reducer: WriteUrgentPostFeature()))
-}
+//#Preview {
+//  WriteUrgentPostView(store: .init(initialState: .init(urgentPostModel: .default()), reducer: WriteUrgentPostFeature()))
+//}

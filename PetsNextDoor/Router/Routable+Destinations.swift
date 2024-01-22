@@ -14,7 +14,7 @@ extension PND {
   enum Destination: Equatable, ViewProvidable {
     
     // 메인
-    case main(homeState: HomeFeature.State, communityState: CommunityFeature.State, chatState: ChatListFeature.State, myPageState: MyPageFeature.State)
+//    case main(homeState: HomeFeature.State, communityState: CommunityFeature.State, chatState: ChatListFeature.State, myPageState: MyPageFeature.State)
     
     // 로그인 / 회원가입 화면
     case login(onWindow: UIWindow)
@@ -41,14 +41,14 @@ extension PND {
         
         // 메인
         
-      case let .main(homeState, communityState, chatState, myPageState):
-        return MainTabBarController(
-          homeStore:      .init(initialState: homeState, reducer: { HomeFeature() }),
-          communityStore: .init(initialState: communityState, reducer: { CommunityFeature() }),
-          chatListStore:  .init(initialState: chatState, reducer: { ChatListFeature() }),
-          myPageStore:    .init(initialState: myPageState, reducer: { MyPageFeature() })
-        )
-				
+//      case let .main(homeState, communityState, chatState, myPageState):
+//        return MainTabBarController(
+//          homeStore:      .init(initialState: homeState, reducer: { HomeFeature() }),
+//          communityStore: .init(initialState: communityState, reducer: { CommunityFeature() }),
+//          chatListStore:  .init(initialState: chatState, reducer: { ChatListFeature() }),
+//          myPageStore:    .init(initialState: myPageState, reducer: { MyPageFeature() })
+//        )
+//				
 				// 로그인 / 회원가입 화면
 				
 			case .authenticatePhoneNumber(let state):
@@ -62,9 +62,10 @@ extension PND {
 				)
 				
 			case .selectEitherCatOrDog(let state):
-				return SelectEitherCatOrDogViewController(
-					store: .init(initialState: state, reducer: { SelectEitherCatOrDogFeature() })
-				)
+        fatalError()
+//				return SelectEitherCatOrDogViewController(
+//					store: .init(initialState: state, reducer: { SelectEitherCatOrDogFeature() })
+//				)
         
       case .addPet(let state):
         return AddPetViewController(
@@ -74,23 +75,24 @@ extension PND {
         // 돌봄급구 글쓰기 Flow
 				
       case .selectPet(let state):
-        return SelectPetViewController(
-          store: .init(initialState: state, reducer: { SelectPetFeature() })
-        )
+        fatalError()
+//        return SelectPetViewController(
+//          store: .init(initialState: state, reducer: { SelectPetFeature() })
+//        )
         
       case .selectCareCondition(let state):
-        return UIHostingController(rootView: SelectCareConditionsView(store: .init(initialState: state, reducer: SelectCareConditionFeature() )))
+        return PND.HostingController(rootView: SelectCareConditionsView(store: .init(initialState: state, reducer: SelectCareConditionFeature() )))
       
       case .selectOtherRequirements(let state):
-        return UIHostingController(rootView: SelectOtherRequirementsView(store: .init(initialState: state, reducer: { SelectOtherRequirementsFeature() })))
+        return PND.HostingController(rootView: SelectOtherRequirementsView(store: .init(initialState: state, reducer: { SelectOtherRequirementsFeature() })))
         
       case .writeUrgentPost(let state):
-        return UIHostingController(rootView: WriteUrgentPostView(store: .init(initialState: state, reducer: WriteUrgentPostFeature())))
+        return PND.HostingController(rootView: WriteUrgentPostView(store: .init(initialState: state, reducer: WriteUrgentPostFeature())))
 
         // 돌봄급구 상세 Flow
 				
       case .urgentPostDetail(let state):
-        return UIHostingController(rootView: UrgentPostDetailView(store: .init(initialState: state, reducer: UrgentPostDetailFeature())))
+        return PND.HostingController(rootView: UrgentPostDetailView(store: .init(initialState: state, reducer: UrgentPostDetailFeature())))
         
         // Custom
         

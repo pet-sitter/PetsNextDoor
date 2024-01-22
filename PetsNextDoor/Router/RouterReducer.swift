@@ -26,7 +26,8 @@ struct Router<Screen: Equatable & ViewProvidable>: Reducer {
     }
     
     var currentWindow: UIWindow? {
-      (UIApplication.topViewController()?.view.window?.windowScene?.delegate as? SceneDelegate)?.window
+//      (UIApplication.topViewController()?.view.window?.windowScene?.delegate as? SceneDelegate)?.window
+      nil
     }
   }
   

@@ -75,12 +75,12 @@ struct LoginFeature: Reducer {
             if isUserRegistrationNeeded, let userRegisterModel {
               await send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init(userRegisterModel: userRegisterModel)), animated: true)))
             } else {
-              await send(._routeAction(.changeRootScreen(toScreen: .main(
-                homeState: HomeFeature.State(),
-                communityState: CommunityFeature.State(),
-                chatState: ChatListFeature.State(),
-                myPageState: MyPageFeature.State()
-              ))))
+//              await send(._routeAction(.changeRootScreen(toScreen: .main(
+//                homeState: HomeFeature.State(),
+//                communityState: CommunityFeature.State(),
+//                chatState: ChatListFeature.State(),
+//                myPageState: MyPageFeature.State()
+//              ))))
             }
             
           case .failed(let reason):

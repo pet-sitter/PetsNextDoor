@@ -144,7 +144,6 @@ struct SelectImagesHorizontalView: View {
   func deleteImage(at index: Int) {
     selectedImages.remove(at: index)
   }
-  
 }
 
 //#Preview {

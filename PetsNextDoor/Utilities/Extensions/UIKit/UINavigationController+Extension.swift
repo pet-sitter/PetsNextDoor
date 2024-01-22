@@ -8,7 +8,17 @@
 import UIKit
 import SwiftUI
 
-extension UINavigationController {
+extension UINavigationController: UIGestureRecognizerDelegate {
+  
+  override open func viewDidLoad() {
+    super.viewDidLoad()
+    interactivePopGestureRecognizer?.delegate = self
+  }
+  
+  public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return viewControllers.count > 1
+  }
+  
   
   func presentSwiftUIView(view: some View, animated: Bool, style: UIModalPresentationStyle) {
     let hostView = UIHostingController(rootView: view)

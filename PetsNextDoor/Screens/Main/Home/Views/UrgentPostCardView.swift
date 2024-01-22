@@ -9,12 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-struct UrgentPostCardViewModel: HashableViewModel {
-  let postTitle: String
-  let date: String
-  let location: String
-  let cost: String
-}
+
 
 final class UrgentPostCardView: UIView, HeightProvidable {
   

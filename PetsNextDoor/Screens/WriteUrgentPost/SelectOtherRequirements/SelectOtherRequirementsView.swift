@@ -88,52 +88,55 @@ struct SelectOtherRequirementsView: View {
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack(alignment: .leading) {
-        Spacer().frame(height: PND.Metrics.defaultSpacing)
-        
-        Text(titleAttributedString)
-          .font(.system(size: 20, weight: .bold))
-          .padding(.leading, 20)
-        
-        Spacer().frame(height: 20)
-        
-        
-        ForEach(0..<viewStore.conditions.count, id: \.self) { index in
-          
+      NavigationView {
+        VStack(alignment: .leading) {
           Spacer().frame(height: PND.Metrics.defaultSpacing)
           
-          SelectConditionView(
-            leftImageName: nil,
-            conditionTitle: viewStore.conditions[index].name,
-            rightContentView: {
-              CheckBoxView(isSelected: viewStore.binding(
-                get: \.conditions[index].isSelected,
-                send: { _ in .onConditionCheckBoxTap(index: index)}
-              ))
-            }
+          Text(titleAttributedString)
+            .font(.system(size: 20, weight: .bold))
+            .padding(.leading, 20)
+          
+          Spacer().frame(height: 20)
+          
+          
+          ForEach(0..<viewStore.conditions.count, id: \.self) { index in
+            
+            Spacer().frame(height: PND.Metrics.defaultSpacing)
+            
+            SelectConditionView(
+              leftImageName: nil,
+              conditionTitle: viewStore.conditions[index].name,
+              rightContentView: {
+                CheckBoxView(isSelected: viewStore.binding(
+                  get: \.conditions[index].isSelected,
+                  send: { _ in .onConditionCheckBoxTap(index: index)}
+                ))
+              }
+            )
+          }
+          
+          Spacer()
+          
+          BaseBottomButton_SwiftUI(
+            title: "다음 단계로",
+            isEnabled: viewStore.binding(
+              get: \.isBottomButtonEnabled,
+              send: { .setBottomButtonEnabled($0) }
+            )
           )
+          .onTapGesture {
+            viewStore.send(.didTapBottomButton)
+          }
+          
         }
-        
-        Spacer()
-        
-        BaseBottomButton_SwiftUI(
-          title: "다음 단계로",
-          isEnabled: viewStore.binding(
-            get: \.isBottomButtonEnabled,
-            send: { .setBottomButtonEnabled($0) }
-          )
-        )
-        .onTapGesture {
-          viewStore.send(.didTapBottomButton)
+        .onAppear {
+          viewStore.send(.onAppear)
         }
-        
-      }
-      .onAppear {
-        viewStore.send(.onAppear)
       }
     }
   }
   
+
   var titleAttributedString: AttributedString {
     let title = NSAttributedString {
       AText("기타 요청사항")
@@ -146,6 +149,6 @@ struct SelectOtherRequirementsView: View {
   }
 }
 
-#Preview {
-  SelectOtherRequirementsView(store: .init(initialState: .init(urgentPostModel: .default()), reducer: { SelectOtherRequirementsFeature() }))
-}
+//#Preview {
+//  SelectOtherRequirementsView(store: .init(initialState: .init(urgentPostModel: .default()), reducer: { SelectOtherRequirementsFeature() }))
+//}

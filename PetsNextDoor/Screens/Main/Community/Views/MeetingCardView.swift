@@ -20,8 +20,8 @@ struct MeetingCardViewModel: HashableViewModel {
 
 struct MeetingCardView: View {
 	
-	@State var viewModel: MeetingCardViewModel
-	
+  var viewModel: MeetingCardViewModel
+
 	var body: some View {
 		HStack(alignment: .center) {
 			
@@ -85,13 +85,7 @@ struct MeetingCardView: View {
 }
 
 //#Preview {
-//	MeetingCardView(viewModel: .init(title: "푸들을 짱 사랑하는 모임", currentlyGatheredPeople: 7, totalGatheringPeople: 10, activityStatus: "방금 활동", tags: ["훈련", "케어초보", "정보공유"]))
+//  MeetingCardView(viewModel: .init(mainImage: UIImage(named: "dog_test")!, title: "푸들을 짱 사랑하는 모임", currentlyGatheredPeople: 7, totalGatheringPeople: 10, activityStatus: "방금 활동", tags: ["훈련", "케어초보"]))
 //}
-
-//struct MeetingCardViewSwiftUI_Previews: PreviewProvider {
-//  static var previews: some View {
-//    MeetingCardViewSwiftUI()
-//  }
-//}
-
-
+//
+//

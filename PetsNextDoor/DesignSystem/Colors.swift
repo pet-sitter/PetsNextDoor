@@ -50,6 +50,4 @@ extension Color {
 		let uiColor = UIColor(hex: hex)
 		self.init(uiColor)
 	}
-  
-
 }

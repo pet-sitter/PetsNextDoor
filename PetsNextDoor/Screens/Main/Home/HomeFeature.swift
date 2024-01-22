@@ -14,17 +14,29 @@ struct HomeFeature: Reducer {
   
   struct State: Equatable, RoutableState {
     
-    var isLoading: Bool = false
+    var isLoadingInitialData: Bool = false
+    
+    var tabIndex: Int = 0
+    var selectedCategory: SelectCategoryView_SwiftUI.Category = .onlyDogs
+    
+    
+    var selectPetState: SelectPetFeature.State? = nil
+    
+    
     
 		var router: Router<PND.Destination>.State = .init()
-    @Pulse var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
+    var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
+    
   }
   
   enum Action: Equatable, RoutableAction {
     
-    case viewDidLoad
+    case onAppear
     case didTapWritePostIcon
     case didTapUrgentPost(UrgentPostCardViewModel)
+    case onTabIndexChange(Int)
+    case onSelectedCategoryChange(SelectCategoryView_SwiftUI.Category)
+    
     
     case setUrgentPostCardCellVMs([UrgentPostCardViewModel])
     
@@ -45,22 +57,23 @@ struct HomeFeature: Reducer {
     Reduce { state, action in
       switch action {
         
-      case .viewDidLoad:
+      case .onAppear:
         return .run { send in
           
           await send(.setIsLoading(true))
           
-          let postModels = try await postService.getSOSPosts(
+          let postModel = try await postService.getSOSPosts(
             authorId: nil,
             page: 1,
             size: 20,
             sortBy: "newest"
           )
           
-          let cellVMs = postModels
+          let cellVMs = postModel
             .items
             .compactMap {
               UrgentPostCardViewModel(
+                mainImageUrlString: "",
                 postTitle: $0.title,
                 date: $0.date_end_at,
                 location: "중곡동",
@@ -75,29 +88,30 @@ struct HomeFeature: Reducer {
         
       case .setUrgentPostCardCellVMs(let cellVMs):
         state.urgentPostCardCellViewModels.append(contentsOf: cellVMs)
-//        for _ in 1..<10 {
-//          state.urgentPostCardCellViewModels.append(
-//            UrgentPostCardViewModel(
-//              postTitle: "돌봄 급히 구함",
-//              date: "2022-10-30",
-//              location: "반포동",
-//              cost: "시급 10,500원"
-//            )
-//          )
-//          
-//        }
         return .none
         
     
       case .didTapWritePostIcon:
+        print("✅ didTapWritePostIcon: ")
+//        state.stateStack.append(SelectPetFeature.State())
+        state.selectPetState = SelectPetFeature.State()
         return .send(._routeAction(.pushScreen(.selectPet(state: .init()), animated: true)))
         
       case .didTapUrgentPost(let vm):
-        return .send(._routeAction(.pushScreen(.urgentPostDetail(state: .init()), animated: true)))
     
+        return .none
+//        return .send(._routeAction(.pushScreen(.urgentPostDetail(state: .init()), animated: true)))
+    
+      case .onTabIndexChange(let index):
+        state.tabIndex = index 
+        return .none
+        
+      case .onSelectedCategoryChange(let category):
+        state.selectedCategory = category
+        return .none
         
       case .setIsLoading(let isLoading):
-        state.isLoading = isLoading
+        state.isLoadingInitialData = isLoading
         return .none
         
       default:

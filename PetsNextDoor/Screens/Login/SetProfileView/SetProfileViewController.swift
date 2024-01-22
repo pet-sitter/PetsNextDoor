@@ -139,7 +139,7 @@ final class SetProfileViewController: BaseViewController, RenderableViewProvidab
       action: SetProfileFeature.Action._selectEitherCatOrDogAction
     )
     .ifLet(then: { store in
-      AppRouter.shared.receive(.presentFullScreen(.custom(SelectEitherCatOrDogViewController(store: store))))
+//      AppRouter.shared.receive(.presentFullScreen(.custom(SelectEitherCatOrDogViewController(store: store))))
     })
     .store(in: &subscriptions)
     
