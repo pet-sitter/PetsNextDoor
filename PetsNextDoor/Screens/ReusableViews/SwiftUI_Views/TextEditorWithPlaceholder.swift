@@ -28,6 +28,7 @@ struct TextEditorWithPlaceholder: View {
         TextEditor(text: $text)
           .font(.system(size: 16, weight: .regular))
           .opacity(text.isEmpty ? 0.7 : 1)
+          .tint(.primary)
         Spacer()
       }
     }

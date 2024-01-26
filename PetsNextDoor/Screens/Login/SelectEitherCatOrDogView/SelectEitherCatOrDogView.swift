@@ -10,8 +10,6 @@ import ComposableArchitecture
 
 
 struct SelectEitherCatOrDogView: View {
-	
-//	@State var viewModel: SelectEitherCatOrDogViewModel
   
   let store: StoreOf<SelectEitherCatOrDogFeature>
 	

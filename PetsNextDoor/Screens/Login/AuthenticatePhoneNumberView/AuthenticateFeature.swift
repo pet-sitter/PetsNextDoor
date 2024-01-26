@@ -48,11 +48,12 @@ struct AuthenticateFeature: Reducer {
         return .none
         
 			case .didTapNextButton:
-        return .send(
-          ._routeAction(
-            .pushScreen(.setInitialProfile(.init(userRegisterModel: state.userRegisterModel)), animated: true)
-          )
-        )
+        return .none 
+//        return .send(
+//          ._routeAction(
+//            .pushScreen(.setInitialProfile(.init(userRegisterModel: state.userRegisterModel)), animated: true)
+//          )
+//        )
         
       case .didEndCountDownTimer:
         state.authenticateButtonIsEnabled = true

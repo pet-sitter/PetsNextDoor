@@ -50,4 +50,61 @@ extension Color {
 		let uiColor = UIColor(hex: hex)
 		self.init(uiColor)
 	}
+  
+  static var commonOrange: Self {
+    PND.Colors.commonOrange.asColor
+  }
+  
+  static var commonGrey: Self {
+    PND.Colors.commonGrey.asColor
+  }
+  
+  static var primary: Self {
+    PND.Colors.primary.asColor
+  }
+  
+  static var yellowGreen: Self {
+    PND.Colors.yellowGreen.asColor
+  }
+  
+  static var lightGreen: Self {
+    PND.Colors.lightGreen.asColor
+  }
+  
+  static var gray90: Self {
+    PND.Colors.gray90.asColor
+  }
+  
+  static var gray50: Self {
+    PND.Colors.gray50.asColor
+  }
+  
+  static var gray30: Self {
+    PND.Colors.gray30.asColor
+  }
+  
+  static var gray20: Self {
+    PND.Colors.gray20.asColor
+  }
+  
+  static var gray10: Self {
+    PND.Colors.gray10.asColor
+  }
+  
+  static var commonBlue: Self {
+    PND.Colors.commonBlue.asColor
+  }
+  
+  static var commonRed: Self {
+    PND.Colors.commonRed.asColor
+  }
+  
+  static var commonBlack: Self {
+    PND.Colors.commonBlack.asColor
+  }
+  
+  static var commonWhite: Self {
+    PND.Colors.commonWhite.asColor
+  }
 }
+

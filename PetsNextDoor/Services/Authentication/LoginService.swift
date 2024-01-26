@@ -29,7 +29,7 @@ protocol LoginServiceProvidable: PNDNetworkProvidable {
   func signInWithGoogle() async -> LoginResult
   func registerUser(
     model: PND.UserRegistrationModel,
-    profileImageData: Data
+    profileImageData: Data?
   ) async throws
 }
 
@@ -104,17 +104,18 @@ final class LoginService: LoginServiceProvidable {
   
   func registerUser(
     model: PND.UserRegistrationModel,
-    profileImageData: Data
+    profileImageData: Data?
   ) async throws {
     
     var registrationModel = model
     
-    let imageModel = try await uploadService.uploadImage(
-      imageData: profileImageData,
-      imageName: "profileImage"
-    )
-    
-    registrationModel.profileImageId = imageModel.id
+    if let profileImageData {
+      let imageModel = try await uploadService.uploadImage(
+        imageData: profileImageData,
+        imageName: "profileImage"
+      )
+      registrationModel.profileImageId = imageModel.id
+    }
     
     try await network.plainRequest(.registerUser(model: registrationModel))
   }
@@ -145,7 +146,7 @@ final class LoginServiceMock: LoginServiceProvidable {
   
   func registerUser(
     model: PND.UserRegistrationModel,
-    profileImageData: Data
+    profileImageData: Data?
   ) async throws {
     ()
   }

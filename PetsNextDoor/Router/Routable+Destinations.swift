@@ -19,7 +19,7 @@ extension PND {
     // 로그인 / 회원가입 화면
     case login(onWindow: UIWindow)
     case authenticatePhoneNumber(AuthenticateFeature.State)
-    case setInitialProfile(SetProfileFeature.State)
+//    case setInitialProfile(SetProfileFeature.State)
     case selectEitherCatOrDog(SelectEitherCatOrDogFeature.State)
     case addPet(AddPetFeature.State)
     
@@ -56,10 +56,10 @@ extension PND {
 					store: .init(initialState: state, reducer: { AuthenticateFeature() })
 				)
 				
-			case .setInitialProfile(let state):
-				return SetProfileViewController(
-					store: .init(initialState: state, reducer: { SetProfileFeature() })
-				)
+//			case .setInitialProfile(let state):
+//				return SetProfileViewController(
+//					store: .init(initialState: state, reducer: { SetProfileFeature() })
+//				)
 				
 			case .selectEitherCatOrDog(let state):
         fatalError()

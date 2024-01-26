@@ -6,10 +6,18 @@
 //
 
 import UIKit
+import PhotosUI
+import _PhotosUI_SwiftUI
 
 struct PhotoConverter {
   
   static func convertUIImageToJpegData(image: UIImage, compressionQuality: CGFloat) -> Data? {
     return image.jpegData(compressionQuality: compressionQuality)
   }
+  
+  static func loadImageData(from item: PhotosPickerItem) async -> (UIImage?, Data?) {
+    let imageData = try? await item.loadTransferable(type: Data.self)
+    return (UIImage(data: imageData ?? Data()), imageData)
+  }
+  
 }

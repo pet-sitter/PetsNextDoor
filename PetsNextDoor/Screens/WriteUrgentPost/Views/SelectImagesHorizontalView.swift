@@ -120,7 +120,7 @@ struct SelectImagesHorizontalView: View {
     if selectedPhotoPickerItems.isEmpty == false {
       
       for eachItem in selectedPhotoPickerItems {
-        let (uiImage, data) = await loadImageData(from: eachItem)
+        let (uiImage, data) = await PhotoConverter.loadImageData(from: eachItem)
         guard let uiImage, let data else {
           isLoadingImages = false
           return
@@ -131,14 +131,10 @@ struct SelectImagesHorizontalView: View {
       }
 
       selectedImages = uiImages
+      selectedImageDatas = imageData
     }
     
     isLoadingImages = false
-  }
-  
-  private func loadImageData(from item: PhotosPickerItem) async -> (UIImage?, Data?) {
-    let imageData = try? await item.loadTransferable(type: Data.self)
-    return (UIImage(data: imageData ?? Data()), imageData)
   }
   
   func deleteImage(at index: Int) {

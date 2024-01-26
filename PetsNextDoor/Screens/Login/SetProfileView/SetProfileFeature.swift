@@ -14,19 +14,10 @@ struct SetProfileFeature: Reducer {
 	
 	struct State: Equatable {
     var userRegisterModel: PND.UserRegistrationModel
-    
     var selectedUserImage: UIImage?
-    var selectedUserImageData: [Data] = []
-    
+    var selectedUserImageData: Data?
     var nicknameStatusPhrase: String = ""
-
-    
-    var gender: PND.Sex = .male
-    
-  
-    
-    
-    var isBottomButtonEnabled: Bool   = true
+    var isBottomButtonEnabled: Bool   = false
     var photoPickerIsPresented: Bool  = false
     var isLoading: Bool = false
     
@@ -34,8 +25,8 @@ struct SetProfileFeature: Reducer {
     
     var nicknameText: String = ""
 
-    var selectEitherCatOrDogState: SelectEitherCatOrDogFeature.State?
-		
+    @PresentationState var selectEitherCatOrDogState: SelectEitherCatOrDogFeature.State?
+  
 
     init(userRegisterModel: PND.UserRegistrationModel) {
       self.userRegisterModel = userRegisterModel
@@ -43,10 +34,10 @@ struct SetProfileFeature: Reducer {
 	}
 	
 	enum Action: Equatable {
-    case profileImageDidTap
-    case onImageDataChange([Data])
+
+    case onImageDataChange(Data?)
     
-    case userImageDidChange(UIImage)
+
     case textDidChange(String?)
     
     
@@ -67,16 +58,14 @@ struct SetProfileFeature: Reducer {
 
     
     // Child Actions
-    case _selectEitherCatOrDogAction(SelectEitherCatOrDogFeature.Action)
+    case _selectEitherCatOrDogAction(PresentationAction<SelectEitherCatOrDogFeature.Action>)
 	}
 	
 	var body: some Reducer<State, Action> {
 		Reduce { state, action in
       
       switch action {
-        
-      case ._selectEitherCatOrDogAction(.delegate(.onPetAddComplete(let addPetState))):
-        
+      case ._selectEitherCatOrDogAction(.presented(.delegate(.onPetAddComplete(let addPetState)))):
         let selectPetViewModel = SelectPetViewModel(
           petImage: addPetState.petImage,
           petName: addPetState.petName,
@@ -95,7 +84,7 @@ struct SetProfileFeature: Reducer {
         state.myPetCellViewModels.append(selectPetViewModel)
         return .none
         
-      case ._selectEitherCatOrDogAction(.delegate(.dismissComplete)):
+      case ._selectEitherCatOrDogAction(.presented(.delegate(.dismissComplete))):
         state.selectEitherCatOrDogState = nil
         return .none
         
@@ -110,7 +99,7 @@ struct SetProfileFeature: Reducer {
             
             let _ = try await loginService.registerUser(
               model: state.userRegisterModel,
-              profileImageData: state.selectedUserImageData.first!
+              profileImageData: state.selectedUserImageData
             )
             
             // 회원가입 성공하면 이후 즉시 내 반려동물 등록
@@ -159,15 +148,7 @@ struct SetProfileFeature: Reducer {
           ])
         }
 
-      case .userImageDidChange(let image):
-        state.photoPickerIsPresented = false
-        state.selectedUserImage = image
-//        state.selectedUserImageData = PhotoConverter.convertUIImageToJpegData(image: image, compressionQuality: 0.7) ?? Data()
-        return .none
         
-      case .profileImageDidTap:
-        state.photoPickerIsPresented = true
-        return .none
         
       case .didTapAddPetButton:
         state.selectEitherCatOrDogState = .init()
@@ -219,7 +200,7 @@ struct SetProfileFeature: Reducer {
       
     }
     .ifLet(
-      \.selectEitherCatOrDogState,
+      \.$selectEitherCatOrDogState,
        action: /Action._selectEitherCatOrDogAction
     ) {
       SelectEitherCatOrDogFeature()
