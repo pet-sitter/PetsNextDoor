@@ -63,12 +63,9 @@ struct SelectEitherCatOrDogFeature: Reducer {
         return .none
         
       case .view(.onDismiss):
+        return .send(.delegate(.dismissComplete))
         
-        return .merge([
-//          .send(._routeAction(.dismiss(completion: nil))),
-          .send(.delegate(.dismissComplete))
-        ])
-        
+        //MARK: - AddPetFeature
         
       case ._addPetAction(.onPetAddition):
         if let addPetState = state.addPetState {
@@ -76,7 +73,6 @@ struct SelectEitherCatOrDogFeature: Reducer {
         }
         return .none
         
-				
 			default: return .none
 			}
 		}

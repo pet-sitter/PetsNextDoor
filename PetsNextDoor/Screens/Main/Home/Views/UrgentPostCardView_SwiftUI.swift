@@ -80,6 +80,7 @@ struct UrgentPostCardView_SwiftUI: View {
         .frame(width: PND.Metrics.defaultSpacing)
     }
     .frame(width: UIScreen.fixedScreenSize.width, height: 112, alignment: .leading)
+    .contentShape(Rectangle())
   }
 }
 

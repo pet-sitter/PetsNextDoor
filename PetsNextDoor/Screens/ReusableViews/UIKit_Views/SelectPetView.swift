@@ -95,7 +95,7 @@ struct SelectPetView: View {
           HStack {
             Text(viewModel.petName)
               .font(.system(size: 16, weight: .bold))
-
+            
             Spacer()
             
             if viewModel.isDeleteButtonHidden == false  {
@@ -106,9 +106,7 @@ struct SelectPetView: View {
                   .foregroundColor(PND.Colors.commonGrey.asColor)
               }
             }
-            
           }
-
           
           HStack(spacing: 4) {
             Text("비숑 프리제")
@@ -135,6 +133,7 @@ struct SelectPetView: View {
       .padding(.horizontal, 16)
       .padding(.vertical, 13)
     }
+    .contentShape(Rectangle())
     .background(
       RoundedRectangle(cornerRadius: 10)
         .strokeBorder(

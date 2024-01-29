@@ -12,7 +12,7 @@ struct WriteUrgentPostFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
   
-  struct State: Equatable {
+  struct State: Hashable {
     
     var title: String = ""
     var content: String = ""
@@ -22,12 +22,10 @@ struct WriteUrgentPostFeature: Reducer {
     var selectedImageDatas: [Data] = []
     
     var urgentPostModel: PND.UrgentPostModel
-    
-    var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
-    
+      
     case titleDidChange(String)
     case contentDidChange(String)
     case onImageDataChange([Data])
@@ -36,18 +34,9 @@ struct WriteUrgentPostFeature: Reducer {
     
     // Internal Cases
     case _validateInput
-    case _routeAction(Router<PND.Destination>.Action)
   }
   
   var body: some Reducer<State,Action> {
-    
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
-    
     Reduce { state, action in
       switch action {
         

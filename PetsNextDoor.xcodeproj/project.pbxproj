@@ -27,7 +27,6 @@
 		7CF7614C2B136ACB0003F684 /* SelectEitherCatOrDogFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF7614B2B136ACB0003F684 /* SelectEitherCatOrDogFeature.swift */; };
 		DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */; };
 		DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A5ED52AF5233900866138 /* ComponentModifier.swift */; };
-		DA0F50192A9DDF5100E20ADC /* RouterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */; };
 		DA0F92082A971C860059690E /* ValueObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92072A971C860059690E /* ValueObservable.swift */; };
 		DA0F92122A9848110059690E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92112A9848110059690E /* API.swift */; };
 		DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92132A9848720059690E /* NetworkProvidable.swift */; };
@@ -141,7 +140,6 @@
 		DAB571822B087CE900687979 /* MeetingCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB571812B087CE900687979 /* MeetingCardComponent.swift */; };
 		DABA446F2A627BC900FD2639 /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */; };
 		DABA44722A627DA100FD2639 /* LoadingIndicatorInsertableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */; };
-		DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */; };
 		DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44802A629A0E00FD2639 /* AppRouter.swift */; };
 		DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44862A62F91200FD2639 /* UIControl+Extension.swift */; };
 		DABA448A2A62FE3A00FD2639 /* CGPoint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABA44892A62FE3A00FD2639 /* CGPoint+Extension.swift */; };
@@ -214,7 +212,6 @@
 		7CF7614B2B136ACB0003F684 /* SelectEitherCatOrDogFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEitherCatOrDogFeature.swift; sourceTree = "<group>"; };
 		DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		DA0A5ED52AF5233900866138 /* ComponentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentModifier.swift; sourceTree = "<group>"; };
-		DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterReducer.swift; sourceTree = "<group>"; };
 		DA0F92072A971C860059690E /* ValueObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueObservable.swift; sourceTree = "<group>"; };
 		DA0F92112A9848110059690E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		DA0F92132A9848720059690E /* NetworkProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvidable.swift; sourceTree = "<group>"; };
@@ -321,7 +318,6 @@
 		DAB571812B087CE900687979 /* MeetingCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardComponent.swift; sourceTree = "<group>"; };
 		DABA446E2A627BC900FD2639 /* Publisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extension.swift"; sourceTree = "<group>"; };
 		DABA44712A627DA100FD2639 /* LoadingIndicatorInsertableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorInsertableView.swift; sourceTree = "<group>"; };
-		DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Routable+Destinations.swift"; sourceTree = "<group>"; };
 		DABA44802A629A0E00FD2639 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		DABA44862A62F91200FD2639 /* UIControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extension.swift"; sourceTree = "<group>"; };
 		DABA44892A62FE3A00FD2639 /* CGPoint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extension.swift"; sourceTree = "<group>"; };
@@ -871,9 +867,7 @@
 		DABA447B2A628EB300FD2639 /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				DABA447D2A628EC000FD2639 /* Routable+Destinations.swift */,
 				DABA44802A629A0E00FD2639 /* AppRouter.swift */,
-				DA0F50182A9DDF5100E20ADC /* RouterReducer.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -1135,7 +1129,6 @@
 				DA8A34F12A7654900054FE25 /* Colors.swift in Sources */,
 				DA4B2A8D2AFB5C400053217A /* SelectConditionHorizontalComponent.swift in Sources */,
 				DA95347B2AEF8BE100ED21F9 /* HeaderTitleView.swift in Sources */,
-				DA0F50192A9DDF5100E20ADC /* RouterReducer.swift in Sources */,
 				DA449DFD2ACABBAA0025A397 /* String+Extension.swift in Sources */,
 				DA20157A2ABEF8D600F7516A /* MediaService.swift in Sources */,
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
@@ -1176,7 +1169,6 @@
 				DAAD52F72A7CD58300227BB5 /* AuthenticateFeature.swift in Sources */,
 				7CF354F32B176DDA0058DCA7 /* PND+Models.swift in Sources */,
 				DA9534942AF1241900ED21F9 /* ViewStore+Extension.swift in Sources */,
-				DABA447E2A628EC000FD2639 /* Routable+Destinations.swift in Sources */,
 				DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */,
 				DA4B2A872AFB44D70053217A /* SelectConditionHorizontalView.swift in Sources */,
 				DA38FC2E2AADA11900A81C93 /* CommunityFeature.swift in Sources */,

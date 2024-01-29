@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct SelectCareConditionFeature: Reducer {
   
-  struct State: Equatable {
+  struct State: Hashable {
     // 성별
     var selectedGenderIndex: Int = 0
     var carerGender: PND.GenderType = .female
@@ -29,7 +29,7 @@ struct SelectCareConditionFeature: Reducer {
 
     var urgentPostModel: PND.UrgentPostModel
     var isBottomButtonEnabled: Bool = true
-    var router: Router<PND.Destination>.State = .init()
+    
   }
   
   enum Action: Equatable {
@@ -43,19 +43,13 @@ struct SelectCareConditionFeature: Reducer {
     
     case setBottomButtonEnabled(Bool)
     
-    // Internal Cases
-    case _routeAction(Router<PND.Destination>.Action)
+    
+    
 
   }
   
   var body: some Reducer<State, Action> {
-    
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
+
     
     Reduce { state, action in
       switch action {
@@ -102,16 +96,16 @@ struct SelectCareConditionFeature: Reducer {
         state.urgentPostModel.carerGender = state.carerGender
         state.urgentPostModel.careType = state.careType
         
+        return .none
         // 날짜, 페이 세팅해야함 (default value 대체하기)
 //        state.urgentPostModel.dateStartAt = ""
 //        state.urgentPostModel.dateEndAt = ""
 //        state.urgentPostModel.reward = ""
         
         
-        return .send(._routeAction(.pushScreen(.selectOtherRequirements(state: SelectOtherRequirementsFeature.State(urgentPostModel: state.urgentPostModel)), animated: true)))
+//        return .send(._routeAction(.pushScreen(.selectOtherRequirements(state: SelectOtherRequirementsFeature.State(urgentPostModel: state.urgentPostModel)), animated: true)))
         
-      default:
-        return .none
+
       }
     }
   }

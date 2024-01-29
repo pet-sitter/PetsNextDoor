@@ -90,9 +90,10 @@ struct SetProfileView: View {
     .sheet(
       store: store.scope(
         state: \.$selectEitherCatOrDogState,
-        action: { ._selectEitherCatOrDogAction($0)})) { store in
-          SelectEitherCatOrDogView(store: store)
-        }
+        action: { ._selectEitherCatOrDogAction($0)})
+    ) { store in
+      SelectEitherCatOrDogView(store: store)
+    }
   }
 }
 

@@ -42,13 +42,13 @@ struct AddPetFeature: Reducer {
   
   var body: some Reducer<State,Action> {
     Reduce { state, action in
-
+      
       switch action {
-
+        
       case .onPetImageDataChange(let data):
         state.selectedPetImageData = data
         return .none
-
+        
       case .onPetNameChange(let text):
         guard let text else { return .none }
         if text.count >= 2 && text.count <= 20 {
@@ -66,7 +66,7 @@ struct AddPetFeature: Reducer {
           state.gender = .female
         }
         return .none
-
+        
       case .onIsNeutralizedCheckBoxTap(let isSelected):
         state.isNeutralized = isSelected
         return .none
@@ -88,13 +88,11 @@ struct AddPetFeature: Reducer {
       case .didTapBottomButton:
         state.speciesType = "브리티시 숏헤어"
         state.petAge      = 2
-        
         return .send(.onPetAddition)
         
       case .onPetAddition:
         return .none
-        
-        
       }
-    }  }
+    }
+  }
 }

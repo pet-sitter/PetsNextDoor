@@ -12,29 +12,29 @@ struct HomeView: View {
   
   let store: StoreOf<HomeFeature>
   
-  @State private var navigationPaths = NavigationPath()
+  @EnvironmentObject var router: Router
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      NavigationStack(path: $navigationPaths) {
-        VStack(alignment: .leading) {
+      VStack(alignment: .leading) {
+        
+        Spacer().frame(height: 12)
+        
+        SegmentControlView_SwiftUI(
+          selectedIndex: viewStore.binding(
+            get: \.tabIndex,
+            send: { .onTabIndexChange($0)}
+          ),
+          segmentTitles: ["돌봄급구", "돌봄메이트"]
+        )
+        .padding(.leading, PND.Metrics.defaultSpacing)
+        
+        ScrollView(.vertical) {
           
-          Spacer().frame(height: 12)
-          
-          SegmentControlView_SwiftUI(
-            selectedIndex: viewStore.binding(
-              get: \.tabIndex,
-              send: { .onTabIndexChange($0)}
-            ),
-            segmentTitles: ["돌봄급구", "돌봄메이트"]
-          )
-          .padding(.leading, PND.Metrics.defaultSpacing)
-            
           Rectangle()
             .fill(PND.Colors.gray10.asColor)
             .frame(height: 20)
-            
-
+          
           SelectCategoryView_SwiftUI(selectedCategory: viewStore.binding(
             get: \.selectedCategory,
             send: { .onSelectedCategoryChange($0)}
@@ -43,55 +43,66 @@ struct HomeView: View {
           if viewStore.isLoadingInitialData {
             ProgressView()
               .frame(maxWidth: .infinity, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-          }
-          
-          ScrollView(.vertical) {
+              
+          } else {
             LazyVStack(spacing: 0) {
               ForEach(viewStore.urgentPostCardCellViewModels, id: \.id) { vm in
                 UrgentPostCardView_SwiftUI(viewModel: vm)
                   .onTapGesture {
-                    navigationPaths.append(UrgentPostDetailFeature.State())
+                    router.pushScreen(to: UrgentPostDetailFeature.State())
                   }
               }
             }
           }
         }
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            HStack {
-              Image(R.image.icon_pin_nav_bar)
-                .frame(width: 24, height: 24)
+      }
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          HStack {
+            Image(R.image.icon_pin_nav_bar)
+              .frame(width: 24, height: 24)
+            
+            ZStack {
+              Rectangle()
+                .fill(PND.Colors.lightGreen.asColor)
+                .frame(height: 10)
+                .offset(y: 10)
               
-              ZStack {
-                Rectangle()
-                  .fill(PND.Colors.lightGreen.asColor)
-                  .frame(height: 10)
-                  .offset(y: 10)
-                
-                Text("중곡동")
-                  .font(.system(size: 24, weight: .bold))
-              }
+              Text("중곡동")
+                .font(.system(size: 24, weight: .bold))
             }
           }
-          
-          ToolbarItem(placement: .topBarTrailing) {
-              Button(action: {
-                navigationPaths.append(SelectPetFeature.State())
-              }, label: {
-                Image(R.image.icon_pen)
-                  .resizable()
-                  .frame(width: 24, height: 24)
-                  .tint(PND.Colors.commonBlack.asColor)
-              })
-          }
         }
-        .navigationDestination(for: UrgentPostDetailFeature.State.self) { state in
-          UrgentPostDetailView(store: .init(initialState: state, reducer: { UrgentPostDetailFeature() }))
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          Button(action: {
+            router.pushScreen(to: SelectPetFeature.State())
+          }, label: {
+            Image(R.image.icon_pen)
+              .resizable()
+              .frame(width: 24, height: 24)
+              .tint(PND.Colors.commonBlack.asColor)
+          })
         }
-        .navigationDestination(for: SelectPetFeature.State.self) { selectPetState in
-          SelectPetListView(store: .init(initialState: selectPetState, reducer: { SelectPetFeature() } ))
-        }
-      }     // NavigationStack
+      }
+      .navigationDestination(for: UrgentPostDetailFeature.State.self) { state in
+        UrgentPostDetailView(
+          store: .init(
+            initialState: state,
+            reducer: { UrgentPostDetailFeature() }
+          )
+        )
+        .toolbar(.hidden, for: .tabBar)
+      }
+      .navigationDestination(for: SelectPetFeature.State.self) { selectPetState in
+        SelectPetListView(
+          store: .init(
+            initialState: selectPetState,
+            reducer: { SelectPetFeature() }
+          )
+        )
+        .toolbar(.hidden, for: .tabBar)
+      }
       .onAppear {
         viewStore.send(.onAppear)
       }

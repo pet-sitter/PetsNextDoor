@@ -66,22 +66,22 @@ struct SetProfileFeature: Reducer {
       
       switch action {
       case ._selectEitherCatOrDogAction(.presented(.delegate(.onPetAddComplete(let addPetState)))):
-        let selectPetViewModel = SelectPetViewModel(
-          petImage: addPetState.petImage,
-          petName: addPetState.petName,
-          petSpecies: addPetState.speciesType,
-          petAge: addPetState.petAge ?? 1,
-          isPetNeutralized: addPetState.isNeutralized,
-          isPetSelected: false,
-          gender: addPetState.gender,
-          petType: addPetState.selectedPetType,
-          birthday: addPetState.birthday ?? "",
-          weight: addPetState.weight ?? 0,
-          isDeleteButtonHidden: false
-        )
+//        let selectPetViewModel = SelectPetViewModel(
+//          petImage: addPetState.petImage,
+//          petName: addPetState.petName,
+//          petSpecies: addPetState.speciesType,
+//          petAge: addPetState.petAge ?? 1,
+//          isPetNeutralized: addPetState.isNeutralized,
+//          isPetSelected: false,
+//          gender: addPetState.gender,
+//          petType: addPetState.selectedPetType,
+//          birthday: addPetState.birthday ?? "",
+//          weight: addPetState.weight ?? 0,
+//          isDeleteButtonHidden: false
+//        )
 
-        state.selectEitherCatOrDogState = nil 
-        state.myPetCellViewModels.append(selectPetViewModel)
+//        state.selectEitherCatOrDogState = nil 
+//        state.myPetCellViewModels.append(selectPetViewModel)
         return .none
         
       case ._selectEitherCatOrDogAction(.presented(.delegate(.dismissComplete))):

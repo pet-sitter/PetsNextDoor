@@ -5,24 +5,23 @@
 //  Created by kevinkim2586 on 2023/07/15.
 //
 
-import UIKit
-import Combine
-import ComposableArchitecture
+import SwiftUI
 
-final class AppRouter {
-
-  static let shared = AppRouter()
-
-  private let store: StoreOf<Router<PND.Destination>>
-  private let viewStore: ViewStoreOf<Router<PND.Destination>>
-
-  private init() {
-    self.store      = StoreOf<Router<PND.Destination>>(initialState: Router.State(), reducer: Router())
-    self.viewStore  = ViewStore(store, observe: { $0 } )
+final class Router: ObservableObject {
+  
+  typealias Destination = Hashable
+  
+  @Published var navigationPath: NavigationPath = .init()
+  
+  func pushScreen(to destination: any Destination) {
+    navigationPath.append(destination)
   }
   
-  func receive(_ action: Router<PND.Destination>.Action) {
-    viewStore.send(action)
+  func navigateBackToRoot() {
+    navigationPath.removeLast(navigationPath.count)
+  }
+  
+  func popScreen()  {
+    navigationPath.removeLast()
   }
 }
-

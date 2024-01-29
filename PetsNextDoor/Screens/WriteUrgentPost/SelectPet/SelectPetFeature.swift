@@ -21,7 +21,7 @@ struct SelectPetFeature: Reducer {
   enum Action: Equatable {
     case viewDidLoad
     case didSelectPet(SelectPetViewModel)
-    case didTapBottomButton
+
     
     case setBottomButtonEnabled(Bool)
   }
@@ -35,31 +35,22 @@ struct SelectPetFeature: Reducer {
         
       case .didSelectPet(let vm):
         vm.isPetSelected.toggle()
-        
-        state.selectedPets = state
-          .selectPetCellViewModels
-          .filter(\.isPetSelected)
-      
+    
+    
         state.isBottomButtonEnabled = state 
           .selectPetCellViewModels
           .filter(\.isPetSelected)
           .count > 0
         
-        state.urgentPostModel.petIds = state.selectedPets.map(\.id)
+        state.urgentPostModel.petIds = state
+          .selectPetCellViewModels
+          .filter(\.isPetSelected)
+          .map(\.id)
+
       
         return .none
         
       case .setBottomButtonEnabled(let isEnabled):
-        
-        return .none
-        
-      case .didTapBottomButton:
-        let selectCareConditionState = SelectCareConditionFeature.State(
-          urgentPostModel: state.urgentPostModel
-        )
-        return .none
-        
-      default:
         return .none
       }
     }

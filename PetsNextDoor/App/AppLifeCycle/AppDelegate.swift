@@ -12,18 +12,26 @@ import ComposableArchitecture
 
 @main
 struct PNDApp: App {
+  
+  @StateObject private var router = Router()
+  
   var body: some Scene {
     WindowGroup {
       TabView {
-        HomeView(store: .init(
-          initialState: HomeFeature.State(),
-          reducer: {HomeFeature()}
-        ))
+        NavigationStack(path: $router.navigationPath) {
+          HomeView(store: .init(
+            initialState: HomeFeature.State(),
+            reducer: {HomeFeature()}
+          ))
+        }
+        .tint(.commonBlack)
+        .environmentObject(router)
         .tabItem {
           VStack {
             Image("icon_home")
           }
         }
+
         
         CommunityView(store: .init(
           initialState: CommunityFeature.State(),

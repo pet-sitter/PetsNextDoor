@@ -14,12 +14,11 @@ struct LoginFeature: Reducer {
   
   @Dependency(\.loginService) private var loginService
   
-  struct State: Equatable, RoutableState {
+  struct State: Equatable {
     var isLoading: Bool = false
-    var router: Router<PND.Destination>.State = .init()
   }
   
-  enum Action: Equatable, RoutableAction {
+  enum Action: Equatable {
     case viewWillAppear
     case didTapKakaoLogin
     case didTapGoogleLogin
@@ -27,7 +26,6 @@ struct LoginFeature: Reducer {
     
     // Internal Cases
     
-    case _routeAction(Router<PND.Destination>.Action)
     case _setIsLoading(Bool)
   }
   
@@ -36,14 +34,6 @@ struct LoginFeature: Reducer {
   }
   
   var body: some Reducer<State, Action> {
-
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
-    
     Reduce { state, action in
 
       switch action {
@@ -73,7 +63,7 @@ struct LoginFeature: Reducer {
             print("✅ userRegisterModel: \(userRegisterModel)")
             
             if isUserRegistrationNeeded, let userRegisterModel {
-              await send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init(userRegisterModel: userRegisterModel)), animated: true)))
+//              await send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init(userRegisterModel: userRegisterModel)), animated: true)))
             } else {
 //              await send(._routeAction(.changeRootScreen(toScreen: .main(
 //                homeState: HomeFeature.State(),

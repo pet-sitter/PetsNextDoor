@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct SelectOtherRequirementsFeature: Reducer {
   
-  struct State: Equatable {
+  struct State: Hashable {
     
     var conditions: [PND.Condition] = []
 
@@ -18,30 +18,20 @@ struct SelectOtherRequirementsFeature: Reducer {
     
     var urgentPostModel: PND.UrgentPostModel
     
-    var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
   
     case onAppear
-    case didTapBottomButton
     case setBottomButtonEnabled(Bool)
     case onConditionCheckBoxTap(index: Int)
     
     // Internal Cases
     case _toggleCheckBoxValue(index: Int)
-    case _routeAction(Router<PND.Destination>.Action)
   }
   
   var body: some Reducer<State,Action> {
-    
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
-    
+
     Reduce { state, action in
       switch action {
         
@@ -52,9 +42,6 @@ struct SelectOtherRequirementsFeature: Reducer {
           .init(id: 2, name: "· 사전 통화 가능 여부", isSelected: false)
         ]
         return .none
-        
-      case .didTapBottomButton:
-        return .send(._routeAction(.pushScreen(.writeUrgentPost(state: .init(urgentPostModel: state.urgentPostModel)), animated: true)))
         
       case .setBottomButtonEnabled(let isEnabled):
         state.isBottomButtonEnabled = isEnabled
@@ -74,9 +61,7 @@ struct SelectOtherRequirementsFeature: Reducer {
         state.conditions[index].isSelected.toggle()
         
         return .none
-        
-      default:
-        return .none
+
       }
     }
   }
@@ -86,57 +71,58 @@ struct SelectOtherRequirementsView: View {
   
   let store: StoreOf<SelectOtherRequirementsFeature>
   
+  @EnvironmentObject var router: Router
+  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      NavigationView {
-        VStack(alignment: .leading) {
+      
+      VStack(alignment: .leading) {
+        Spacer().frame(height: PND.Metrics.defaultSpacing)
+        
+        Text(titleAttributedString)
+          .font(.system(size: 20, weight: .bold))
+          .padding(.leading, 20)
+        
+        ForEach(0..<viewStore.conditions.count, id: \.self) { index in
+          
           Spacer().frame(height: PND.Metrics.defaultSpacing)
           
-          Text(titleAttributedString)
-            .font(.system(size: 20, weight: .bold))
-            .padding(.leading, 20)
-          
-          Spacer().frame(height: 20)
-          
-          
-          ForEach(0..<viewStore.conditions.count, id: \.self) { index in
-            
-            Spacer().frame(height: PND.Metrics.defaultSpacing)
-            
-            SelectConditionView(
-              leftImageName: nil,
-              conditionTitle: viewStore.conditions[index].name,
-              rightContentView: {
-                CheckBoxView(isSelected: viewStore.binding(
-                  get: \.conditions[index].isSelected,
-                  send: { _ in .onConditionCheckBoxTap(index: index)}
-                ))
-              }
-            )
-          }
-          
-          Spacer()
-          
-          BaseBottomButton_SwiftUI(
-            title: "다음 단계로",
-            isEnabled: viewStore.binding(
-              get: \.isBottomButtonEnabled,
-              send: { .setBottomButtonEnabled($0) }
-            )
+          SelectConditionView(
+            leftImageName: nil,
+            conditionTitle: viewStore.conditions[index].name,
+            rightContentView: {
+              CheckBoxView(isSelected: viewStore.binding(
+                get: \.conditions[index].isSelected,
+                send: { _ in .onConditionCheckBoxTap(index: index)}
+              ))
+            }
           )
-          .onTapGesture {
-            viewStore.send(.didTapBottomButton)
-          }
-          
         }
-        .onAppear {
-          viewStore.send(.onAppear)
+        
+        Spacer()
+        
+        BaseBottomButton_SwiftUI(
+          title: "다음 단계로",
+          isEnabled: viewStore.binding(
+            get: \.isBottomButtonEnabled,
+            send: { .setBottomButtonEnabled($0) }
+          )
+        )
+        .onTapGesture {
+          router.pushScreen(to: WriteUrgentPostFeature.State(urgentPostModel: viewStore.urgentPostModel))
         }
+        
+      }
+      .navigationDestination(for: WriteUrgentPostFeature.State.self, destination: { state in
+        WriteUrgentPostView(store: .init(initialState: state, reducer: { WriteUrgentPostFeature() }))
+      })
+      .onAppear {
+        viewStore.send(.onAppear)
       }
     }
   }
   
-
+  
   var titleAttributedString: AttributedString {
     let title = NSAttributedString {
       AText("기타 요청사항")

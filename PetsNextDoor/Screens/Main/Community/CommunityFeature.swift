@@ -17,9 +17,6 @@ struct CommunityFeature: Reducer {
     
     var tabIndex: Int = 0
     var selectedCategory: SelectCategoryView_SwiftUI.Category = .onlyDogs
-    
-    
-    fileprivate var router: Router<PND.Destination>.State = .init()
   }
   
   enum Action: Equatable {
@@ -31,19 +28,9 @@ struct CommunityFeature: Reducer {
     
     
 
-    // Internal Cases
-    case _routeAction(Router<PND.Destination>.Action)
   }
   
   var body: some Reducer<State, Action> {
-    
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
-    
     Reduce { state, action in
       switch action {
         

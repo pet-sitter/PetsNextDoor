@@ -15,8 +15,6 @@ struct AuthenticateFeature: Reducer {
     var timerMilliseconds: Int? = nil
     var authenticateButtonIsEnabled: Bool = true 
     
-    var router: Router<PND.Destination>.State = .init()
-  
     init(userRegisterModel: PND.UserRegistrationModel) {
       self.userRegisterModel = userRegisterModel
     }
@@ -26,17 +24,9 @@ struct AuthenticateFeature: Reducer {
     case didTapAuthenticateButton
     case didTapNextButton
     case didEndCountDownTimer
-    case _routeAction(Router<PND.Destination>.Action)
   }
   
   var body: some Reducer<State, Action> {
-    
-    Scope(
-      state: \.router,
-      action: /Action._routeAction
-    ) {
-      Router<PND.Destination>()
-    }
     
     Reduce { state, action in
       

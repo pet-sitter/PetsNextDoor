@@ -144,7 +144,6 @@ struct AddPetView: View {
           
           Spacer().frame(height: 20)
            
-          
           TextEditorWithPlaceholder(
             text: viewStore.binding(
               get: \.otherInfo,
