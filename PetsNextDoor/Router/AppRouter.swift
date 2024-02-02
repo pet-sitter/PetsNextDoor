@@ -24,4 +24,10 @@ final class Router: ObservableObject {
   func popScreen()  {
     navigationPath.removeLast()
   }
+  
+}
+
+extension Router {
+  
+  
 }

@@ -4,71 +4,43 @@
 //
 //  Created by kevinkim2586 on 2023/06/17.
 //
-
-import UIKit
-import GoogleSignIn
 import SwiftUI
+
 import ComposableArchitecture
+import FirebaseCore
+import GoogleSignIn
+import IQKeyboardManagerSwift
 
 @main
-struct PNDApp: App {
+struct PNDRootApp: App {
   
   @StateObject private var router = Router()
   
+  init() {
+    FirebaseApp.configure()
+    IQKeyboardManager.shared.enable = true
+  }
+  
   var body: some Scene {
     WindowGroup {
-      TabView {
-        NavigationStack(path: $router.navigationPath) {
-          HomeView(store: .init(
-            initialState: HomeFeature.State(),
-            reducer: {HomeFeature()}
-          ))
-        }
-        .tint(.commonBlack)
+      RootView { TabBarView() }
         .environmentObject(router)
-        .tabItem {
-          VStack {
-            Image("icon_home")
-          }
-        }
-
-        
-        CommunityView(store: .init(
-          initialState: CommunityFeature.State(),
-          reducer: {CommunityFeature()}
-        ))
-        .tabItem {
-          VStack {
-            Image("icon_community")
-          }
-        }
-        
-        ChatListView(store: .init(
-          initialState: .init(),
-          reducer: { ChatListFeature() }
-        ))
-        .tabItem {
-          VStack {
-            Image("icon_chat")
-          }
-        }
-        
-        MyPageView(store: .init(
-          initialState: .init(),
-          reducer: { MyPageFeature()}
-        ))
-        .tabItem {
-          VStack {
-            Image("icon_user")
-          }
-        }
-        
-        
-      }
     }
   }
+  
+  
+  @ViewBuilder
+  var loginView: some View {
+    NavigationStack(path: $router.navigationPath) {
+      LoginView(store: .init(
+        initialState: .init(),
+        reducer: { LoginFeature() }
+      ))
+    }
+    .tint(.commonBlack)
+    .environmentObject(router)
+  }
 }
-
 
 
 
@@ -90,30 +62,66 @@ struct PNDRootFeature: Reducer {
     }
   }
   
-  //MARK: - Paths
-  
-  struct Path: Reducer {
-    
-    enum State: Equatable {
-      
-      
-    }
-    
-    enum Action: Equatable {
-      
-    }
-    
-    var body: some Reducer<State,Action> {
-      Reduce { state, action in
-        return .none
-      }
-    }
-  }
+
 }
 
 
 
 
+struct TabBarView: View {
+  
+  @EnvironmentObject var router: Router
+  
+  var body: some View {
+    TabView {
+      NavigationStack(path: $router.navigationPath) {
+        HomeView(store: .init(
+          initialState: HomeFeature.State(),
+          reducer: {HomeFeature()}
+        ))
+      }
+      .environmentObject(router)
+      .tabItem {
+        VStack {
+          Image("icon_home")
+        }
+      }
+
+      
+      CommunityView(store: .init(
+        initialState: CommunityFeature.State(),
+        reducer: {CommunityFeature()}
+      ))
+      .tabItem {
+        VStack {
+          Image("icon_community")
+        }
+      }
+      
+      ChatListView(store: .init(
+        initialState: .init(),
+        reducer: { ChatListFeature() }
+      ))
+      .tabItem {
+        VStack {
+          Image("icon_chat")
+        }
+      }
+      
+      MyPageView(store: .init(
+        initialState: .init(),
+        reducer: { MyPageFeature()}
+      ))
+      .tabItem {
+        VStack {
+          Image("icon_user")
+        }
+      }
+      
+      
+    }
+  }
+}
 
 
 

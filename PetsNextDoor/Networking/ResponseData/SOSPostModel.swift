@@ -10,16 +10,14 @@ import Foundation
 extension PND {
   
   struct SOSPostListModel: Codable {
-    
     let page: Int
     let size: Int
     let items: [SOSPostModel]
-    
   }
   
   struct SOSPostModel: Codable {
     
-    let id: Int?
+    let id: Int
     let authorId: Int?
     @DefaultEmptyString var title: String
     @DefaultEmptyString var content: String
@@ -29,22 +27,18 @@ extension PND {
     @DefaultEmptyString var reward: String
     @DefaultEmptyString var date_start_at: String
     @DefaultEmptyString var date_end_at: String
-    @DefaultEmptyString var time_start_at: String
-    @DefaultEmptyString var time_end_at: String
-    @DefaultEmptyString var care_type: String
+    var care_type: PND.CareType
     let carer_gender: PND.Sex?
     @DefaultEmptyString var reward_amount: String
     let thumbnail_id: Int?
   }
   
-  struct MediaModel: Codable {
+  struct MediaModel: Codable, Equatable {
     
     let id: Int?
     let mediaType: MediaType
     let url: String
     let createdAt: String
-    
-
   }
   
   enum MediaType: String, Codable {
@@ -61,13 +55,13 @@ extension PND {
     }
   }
   
-  struct Condition: Codable, Hashable {
+  struct Condition: Codable, Hashable, Equatable {
     let id: Int
     let name: String
     var isSelected: Bool = false
   }
   
-  struct Pet: Codable {
+  struct Pet: Codable, Equatable {
     let id: Int?
     let name: String
     let pet_type: PND.PetType
@@ -83,6 +77,13 @@ extension PND {
     case male    = "male"
     case female  = "female"
     
+    var description: String {
+      switch self {
+      case .male:   "남자만"
+      case .female: "여자만"
+      }
+    }
+    
     enum CodingKeys: String, CodingKey {
       case male, female
     }
@@ -91,5 +92,4 @@ extension PND {
       self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .male
     }
   }
-
 }

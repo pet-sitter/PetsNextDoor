@@ -20,7 +20,7 @@ extension PND {
     //MARK: - Posts
     
     case getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String)
-    case getSOSPostDetail(id: String)
+    case getSOSPostDetail(id: Int)
     case postSOSPost(model: PND.UrgentPostModel)
   
     //MARK: - Users
@@ -218,6 +218,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case let .getBreeds(pageSize, petType):
       return .requestParameters(
         parameters: .builder
+          .set(key: "page", value: 1)
           .set(key: "size", value: pageSize)
           .set(key: "pet_type", value: petType)
           .build(),

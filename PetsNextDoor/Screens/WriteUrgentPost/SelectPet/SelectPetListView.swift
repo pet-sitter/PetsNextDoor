@@ -27,7 +27,7 @@ struct SelectPetListView: View {
               .modifier(HeaderTitleModifier())
             
             ForEach(viewStore.selectPetCellViewModels, id: \.self) { vm in
-              SelectPetView(viewModel: vm)
+              SelectPetView(viewModel: vm, onDeleteButtonTapped: nil)
                 .onTapGesture {
                   viewStore.send(.didSelectPet(vm))
                 }

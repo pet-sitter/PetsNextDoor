@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EmptyViewModel: HashableViewModel {
+final class EmptyViewModel: HashableViewModel {  
   let height: CGFloat
   let backgroundColor: UIColor
   

@@ -14,14 +14,24 @@ struct UrgentPostDetailFeature: Reducer {
   
   struct State: Equatable, Hashable {
     
-		@BindingState var selectedTabIndex: Int = 0
-		
-		var isLoading: Bool = false
+    let postId: Int
+    
+    var title: String = ""
+    var headerImageUrl: URL?
+    var authorProfileImageUrl: URL?
+    var authorName: String = ""
+    var region: String = ""
+    
+    var selectedTabIndex: Int = 0
+    
+    var isLoading: Bool = false
     
     var detailInfoVM: [UrgentPostDetailInformationViewModel] = []
-		
-		var details: String = ""
-		var postImageUrls: [String] = []
+    
+    var details: String = ""
+    var postImageUrls: [URL] = []
+    
+
   }
   
   enum Action: Equatable, RestrictiveAction {
@@ -37,13 +47,12 @@ struct UrgentPostDetailFeature: Reducer {
 			
 		}
 		
-		enum InternalAction: Equatable {
+    enum InternalAction: Equatable {
 			case setIsLoading(Bool)
-			
-			case setDetailInfos([UrgentPostDetailInformationViewModel])
-			case setDetails(String)
-			case setImageUrls([String])
-
+      case setHeaderInfo(PND.SOSPostDetailModel)
+      case setConditionInfo(PND.SOSPostDetailModel)
+      case setDetailInfo(String, [PND.MediaModel])
+      case setPetProfileInfo([PND.Pet])
 		}
 		
 		case view(ViewAction)
@@ -53,47 +62,78 @@ struct UrgentPostDetailFeature: Reducer {
   
   var body: some Reducer<State,Action> {
     Reduce { state, action in
+      
       switch action {
-				
 			case .view(.onInit):
-				
-				return .run { send in
-					
+        return .run { [postId = state.postId] send in
+       
 					await send(.internal(.setIsLoading(true)))
 					
 					try await Task.sleep(nanoseconds: 500_000_000)
-					await send(.internal(.setDetails("")))
-					await send(.internal(.setDetailInfos([])))
-					await send(.internal(.setImageUrls([])))
+          
+          let postDetail = try await postService.getSOSPostDetail(id: postId)
+    
+          
+          await send(.internal(.setHeaderInfo(postDetail)))
+          await send(.internal(.setConditionInfo(postDetail)))
+          await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
+          await send(.internal(.setPetProfileInfo(postDetail.pets)))
+					
+          
+			
+          
 					await send(.internal(.setIsLoading(false)))
-				}
+          
+        } catch: { error, send in
+          print("❌ error")
+        }
 				
 			case .view(.onSelectedTabIndexChange(let index)):
 				state.selectedTabIndex = index
 				return .none
 				
 			case .view(.onPostImageTap(let index)):
-				print("✅ onPostImageTap: \(index)")
+        // ImageViewer 같은거 간단하게 만들어야할듯?
 				return .none
+        
+        
+      case .internal(.setHeaderInfo(let postDetailModel)):
+//        state.title = postDetailModel.title
+        state.title = "급해요!! 푸들 한 마리 돌봐주세요."
+        state.authorProfileImageUrl = URL(string: MockDataProvider.randomPetImageUrlString)
+        state.authorName = "아롱맘"
+        state.region = "화곡동"
+        
+        
+        return .none
 				
-			case .internal(.setDetailInfos(let detailInfoVMs)):
+        // 급구 조건
+			case .internal(.setConditionInfo(let postDetailModel)):
 				state.detailInfoVM.append(contentsOf: [
 					.init(title: "날짜", details: "2023.09.20 ~ 2023.09.23", isDdayVisible: true, dDayString: "D-2"),
-					.init(title: "시간", details: "10:00 ~ 16:00"),
-					.init(title: "위치", details: "염창동 전체"),
-					.init(title: "돌봄형태", details: "위탁 돌봄"),
-					.init(title: "돌봄 도우미 성별", details: "여자만"),
+					.init(title: "위치", details: "N/A"),
+          .init(title: "돌봄형태", details: postDetailModel.careType.description),
+          .init(title: "돌봄 도우미 성별", details: postDetailModel.carerGender.description),
 					.init(title: "페이", details: "시간당 10,000원")
 				])
 				return .none
 				
-			case .internal(.setDetails(let details)):
-				state.details = "저희 아롱이는 순하고 사람 좋아하는 성격의 푸들입니다. 돌봄 난이도 최하 보장합니다! 현재 체중 관리중이라 하루에 간식 2번 미만으로 주시고, 실외배변만 오전 산책으로 부탁드려요..! 자세한 내용은 메시지 주시면 말씀드리겠습니다!"
+        // 상세 내용
+			case .internal(.setDetailInfo(let content, let mediaModel)):
+//        state.details = content
+        state.details = "저희 아롱이는 순하고 사람 좋아하는 성격의 푸들입니다. 돌봄 난이도 최하 보장합니다! 현재 체중 관리중이라 하루에 간식 2번 미만으로 주시고, 실외배변만 오전 산책으로 부탁드려요..! 자세한 내용은 메시지 주시면 말씀드리겠습니다!"
+              
+        state.postImageUrls = mediaModel
+          .map        { $0.url }
+          .compactMap { URL(string: $0) }
+        
 				return .none
+        
+        // 반려동물 프로필
+      case .internal(.setPetProfileInfo(let pets)):
+        
+        return .none
 				
-			case .internal(.setImageUrls(let imageUrls)):
-				state.postImageUrls = ["dog_test", "dog_test2", "dog_test3", "dog_test4"]
-				return .none
 			
 				
 			case .internal(.setIsLoading(let isLoading)):
@@ -105,6 +145,8 @@ struct UrgentPostDetailFeature: Reducer {
   }
 }
 
+
+import Kingfisher
 
 struct UrgentPostDetailView: View {
   
@@ -118,7 +160,14 @@ struct UrgentPostDetailView: View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       ScrollView(.vertical, showsIndicators: false) {
         VStack(spacing: 0) {
-          StretchyHeaderView()
+          
+          StretchyHeaderView(
+            title: viewStore.title,
+            authorName: viewStore.authorName,
+            authorProfileImageUrl: viewStore.authorProfileImageUrl,
+            region: viewStore.region
+          )
+          
           VStack {
             SwiftUI.Section {
 							
@@ -154,39 +203,42 @@ struct UrgentPostDetailView: View {
 									ScrollView(.horizontal) {
 				
 										HStack(spacing: 3) {
-											ForEach(
-												0..<(min(viewStore.postImageUrls.count, 3)),
-												id: \.self
-											) { index in
-												
-												Image(viewStore.postImageUrls[index])
-													.resizable()
-													.aspectRatio(contentMode: .fill)
-													.frame(width: 112, height: 112)
-													.clipped()
-													.cornerRadius(4)
-													.overlay {
-															ZStack {
-																Rectangle()
-																	.foregroundColor(.clear)
-																	.background(.black.opacity(0.5))
-																	.cornerRadius(4)
-																
-																Text("+\(viewStore.postImageUrls.count - 3)")
-																	.foregroundColor(.white)
-																	.font(.system(size: 24, weight: .bold))
-															}
-															.opacity((viewStore.postImageUrls.count > 3 && index == 2) ? 1 : 0)
-													}
-													.onTapGesture {
-														viewStore.send(.view(.onPostImageTap(index: index)))
-													}
-											}
-										}
-									}
-								}
-								.padding(.top, 16)
-								.padding(.horizontal, PND.Metrics.defaultSpacing)
+                      ForEach(
+                        0..<(min(viewStore.postImageUrls.count, 3)),
+                        id: \.self
+                      ) { index in
+                        
+                        KFImage(viewStore.postImageUrls[index])
+                          .placeholder {
+                            ProgressView()
+                          }
+                          .resizable()
+                          .aspectRatio(contentMode: .fill)
+                          .frame(width: 112, height: 112)
+                          .clipped()
+                          .cornerRadius(4)
+                          .overlay {
+                            ZStack {
+                              Rectangle()
+                                .foregroundColor(.clear)
+                                .background(.black.opacity(0.5))
+                                .cornerRadius(4)
+                              
+                              Text("+\(viewStore.postImageUrls.count - 3)")
+                                .foregroundColor(.white)
+                                .font(.system(size: 24, weight: .bold))
+                            }
+                            .opacity((viewStore.postImageUrls.count > 3 && index == 2) ? 1 : 0)
+                          }
+                          .onTapGesture {
+                            viewStore.send(.view(.onPostImageTap(index: index)))
+                          }
+                      }
+                    }
+                  }
+                }
+                .padding(.top, 16)
+                .padding(.horizontal, PND.Metrics.defaultSpacing)
                 
               case 2:
                 VStack(alignment: .leading) {
@@ -252,7 +304,12 @@ struct UrgentPostDetailView: View {
   }
   
 
-  func StretchyHeaderView() -> some View {
+  func StretchyHeaderView(
+    title: String,
+    authorName: String,
+    authorProfileImageUrl: URL?,
+    region: String
+  ) -> some View {
     GeometryReader { proxy in
       
       let minY 		= proxy.frame(in: .named("SCROLL")).minY
@@ -273,7 +330,7 @@ struct UrgentPostDetailView: View {
             )
             
             VStack(alignment: .leading, spacing: 5) {
-              Text("급해요!! 푸들 한 마리 돌봐주세요.")
+              Text(title)
                 .lineLimit(2)
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(.white)
@@ -284,14 +341,17 @@ struct UrgentPostDetailView: View {
                 Circle()
                   .frame(width: 20, height: 20)
                   .overlay {
-                    Image("dog_test2")
-                      .resizable()
-                      .scaledToFill()
-                      .clipped()
-                      .cornerRadius(10)
+                    AsyncImage(url: authorProfileImageUrl) { image in
+                      image.resizable()
+                    } placeholder: {
+                      ProgressView()
+                    }
+                    .scaledToFill()
+                    .clipped()
+                    .cornerRadius(10)
                   }
                 
-                Text("아롱맘")
+                Text(authorName)
                   .font(.system(size: 12, weight: .medium))
                   .foregroundColor(.white)
                 
@@ -305,7 +365,7 @@ struct UrgentPostDetailView: View {
                 Text("·")
                   .foregroundColor(.white)
                 
-                Text("염창1동")
+                Text(region)
                   .font(.system(size: 12, weight: .medium))
                   .foregroundColor(.white)
                 

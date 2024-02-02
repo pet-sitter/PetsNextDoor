@@ -99,6 +99,8 @@
 		DA5926EB2B28136B00E00E74 /* Task+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926EA2B28136B00E00E74 /* Task+Extension.swift */; };
 		DA5926EE2B283A8100E00E74 /* Spacer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926ED2B283A8100E00E74 /* Spacer+Extension.swift */; };
 		DA5C59BF2B22F20100EACCEF /* TCA+RestrictiveAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5C59BE2B22F20100EACCEF /* TCA+RestrictiveAction.swift */; };
+		DA604D802B68AEC5001FE27F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA604D7F2B68AEC5001FE27F /* Kingfisher */; };
+		DA604D9D2B690C71001FE27F /* PetSpeciesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA604D9C2B690C71001FE27F /* PetSpeciesListView.swift */; };
 		DA73510F2B39B5DD00306067 /* SOSPostDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */; };
 		DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardView.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
@@ -279,6 +281,7 @@
 		DA5926EA2B28136B00E00E74 /* Task+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+Extension.swift"; sourceTree = "<group>"; };
 		DA5926ED2B283A8100E00E74 /* Spacer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spacer+Extension.swift"; sourceTree = "<group>"; };
 		DA5C59BE2B22F20100EACCEF /* TCA+RestrictiveAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCA+RestrictiveAction.swift"; sourceTree = "<group>"; };
+		DA604D9C2B690C71001FE27F /* PetSpeciesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSpeciesListView.swift; sourceTree = "<group>"; };
 		DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostDetailModel.swift; sourceTree = "<group>"; };
 		DA7D67502B0C76A900497F51 /* MeetingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardView.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
@@ -378,6 +381,7 @@
 				DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */,
 				DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */,
 				DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */,
+				DA604D802B68AEC5001FE27F /* Kingfisher in Frameworks */,
 				DA275C602A44777500D09F77 /* FirebaseAuth in Frameworks */,
 				DAE121252B030558008EF9AC /* IQKeyboardManagerSwift in Frameworks */,
 				DA275C692A44817700D09F77 /* GoogleSignInSwift in Frameworks */,
@@ -843,6 +847,7 @@
 			children = (
 				DAB395A32B1A0B2100B5415E /* AddPetFeature.swift */,
 				DACDA46C2B63821E00B3A837 /* AddPetView.swift */,
+				DA604D9C2B690C71001FE27F /* PetSpeciesListView.swift */,
 			);
 			path = AddPetView;
 			sourceTree = "<group>";
@@ -1048,6 +1053,7 @@
 				DAE6FC632A96013C008BF1F1 /* CombineMoya */,
 				DAE6FC652A96013C008BF1F1 /* Moya */,
 				DAE121242B030558008EF9AC /* IQKeyboardManagerSwift */,
+				DA604D7F2B68AEC5001FE27F /* Kingfisher */,
 			);
 			productName = PetsNextDoor;
 			productReference = DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */;
@@ -1206,6 +1212,7 @@
 				DAFF56C82B58B4F00085A054 /* SelectPetListView.swift in Sources */,
 				7C8EDC4E2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift in Sources */,
 				DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */,
+				DA604D9D2B690C71001FE27F /* PetSpeciesListView.swift in Sources */,
 				7C8EDC552AD585E0003431E5 /* Metrics.swift in Sources */,
 				DA8BF08E2B5E557900370C84 /* LoginView.swift in Sources */,
 				DA86DEDF2B31825500580D3C /* SOSPostService.swift in Sources */,
@@ -1620,6 +1627,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA4F05202A68021800D7E7A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		DA604D7F2B68AEC5001FE27F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA86A0EB2A62711800525711 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		DA86A0EC2A62711800525711 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

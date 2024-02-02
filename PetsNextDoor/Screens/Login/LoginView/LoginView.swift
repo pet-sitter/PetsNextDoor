@@ -12,6 +12,8 @@ struct LoginView: View {
   
   let store: StoreOf<LoginFeature>
   
+  @EnvironmentObject var router: Router
+  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack {
@@ -45,8 +47,13 @@ struct LoginView: View {
               .frame(width: 67, height: 67)
           })
         }
-        
       }
+      .navigationDestination(
+        store: store.scope(
+          state: \.$setProfileState,
+          action: LoginFeature.Action.setProfileAction
+        )
+      ) { SetProfileView(store: $0) }
     }
   }
 }

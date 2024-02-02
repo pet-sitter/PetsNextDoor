@@ -9,11 +9,11 @@ import Foundation
 
 extension PND {
   
-  struct SOSPostDetailModel: Codable {
+  struct SOSPostDetailModel: Codable, Equatable {
     
     let authorId: Int?
-    let careType: CareType?
-    let carerGender: PND.Sex?
+    let careType: CareType
+    let carerGender: PND.Sex
     @DefaultEmptyArray var conditions: [PND.Condition]
     @DefaultEmptyString var content: String
     let createdAt: String?
@@ -30,7 +30,6 @@ extension PND {
     @DefaultEmptyString var title: String
     let updatedAt: String?
   
-    
     enum CodingKeys: String, CodingKey {
       case authorId = "author_id"
       case careType = "care_type"
@@ -53,6 +52,13 @@ extension PND {
     
     case foster = "foster"
     case visiting = "visiting"
+    
+    var description: String {
+      switch self {
+      case .foster:   "위탁 돌봄"
+      case .visiting: "방문 돌봄"
+      }
+    }
     
     enum CodingKeys: String, CodingKey {
       case foster, visiting

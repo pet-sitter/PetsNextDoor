@@ -15,7 +15,7 @@ extension PND {
     let items: [BreedInfo]
   }
   
-  struct BreedInfo: Codable {
+  struct BreedInfo: Codable, Hashable {
     let id: Int
     let petType: PND.PetType
     let name: String

@@ -83,10 +83,27 @@ struct SelectEitherCatOrDogView: View {
           viewStore.send(.view(.didTapBottomButton))
         }
       }
+      .navigationDestination(
+        store: store.scope(
+          state: \.$addPetState,
+          action: SelectEitherCatOrDogFeature.Action.addPetAction)
+      ) { store in
+        
+        AddPetView(store: store)
+      }
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Button {
+            viewStore.send(.view(.onDismiss))
+          } label: {
+            Image(systemName: "xmark")
+              .resizable()
+              .frame(width: 15, height: 15)
+          }
+        }
+      }
     }
-
 	}
-
 }
 
 

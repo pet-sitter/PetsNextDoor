@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 final class HeaderTitleViewModel: HashableViewModel {
+  
   let title: String?
   let attributedTitle: NSAttributedString?
   let textAlignment: NSTextAlignment

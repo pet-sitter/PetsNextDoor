@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 import ComposableArchitecture
 import Combine
-
 
 struct LoginFeature: Reducer {
   
@@ -16,6 +16,10 @@ struct LoginFeature: Reducer {
   
   struct State: Equatable {
     var isLoading: Bool = false
+    
+    var isLoggedIn: Bool = false
+    
+    @PresentationState var setProfileState: SetProfileFeature.State? = nil
   }
   
   enum Action: Equatable {
@@ -24,13 +28,13 @@ struct LoginFeature: Reducer {
     case didTapGoogleLogin
     case didTapAppleLogin
     
-    // Internal Cases
+    case setIsLoggedIn(Bool)
+    case setProfileState(PND.UserRegistrationModel)
+    
+    
+    case setProfileAction(PresentationAction<SetProfileFeature.Action>)
     
     case _setIsLoading(Bool)
-  }
-  
-  init() {
-    
   }
   
   var body: some Reducer<State, Action> {
@@ -41,58 +45,73 @@ struct LoginFeature: Reducer {
         return .none
       
       case .didTapGoogleLogin:
-        
-//        return .send(._routeAction(.changeRootScreen(toScreen: .main(
-//					homeState: HomeFeature.State(),
-//					communityState: CommunityFeature.State(),
-//					chatState: ChatListFeature.State(),
-//					myPageState: MyPageFeature.State()
-//        ))))
-        
-        // 임시코드임
-//        return .send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init(userRegisterModel: .init(email: "String", fbProviderType: .google, fbUid: "", fullname: "kevin", profileImageId: 1))))))
-
         state.isLoading = true
         
         return .run { send in
-          let loginResult = await loginService.signInWithGoogle()
           
-          switch loginResult {
-          case let .success(isUserRegistrationNeeded, userRegisterModel):
-            PNDLogger.default.info("isUserRegistrationNeeded: \(isUserRegistrationNeeded)")
-            print("✅ userRegisterModel: \(userRegisterModel)")
-            
-            if isUserRegistrationNeeded, let userRegisterModel {
-//              await send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init(userRegisterModel: userRegisterModel)), animated: true)))
-            } else {
-//              await send(._routeAction(.changeRootScreen(toScreen: .main(
-//                homeState: HomeFeature.State(),
-//                communityState: CommunityFeature.State(),
-//                chatState: ChatListFeature.State(),
-//                myPageState: MyPageFeature.State()
-//              ))))
-            }
-            
-          case .failed(let reason):
-            // ToastMessage 비슷한거 띄우기
-            // 아래 코드는 임시
-            print("❌ signInWithGoogle failed : \(reason)")
-//            await send(._routeAction(.pushScreen(.authenticatePhoneNumber(.init()), animated: true)))
-            break
-          }
-          await send(._setIsLoading(false))
+          await send(.setProfileState(.init(email: "", fbProviderType: .google, fbUid: "123", fullname: "Kevin", profileImageId: 1)))
+          
+          
+//          let loginResult = await loginService.signInWithGoogle()
+//          
+//          switch loginResult {
+//          case let .success(isUserRegistrationNeeded, userRegisterModel):
+//            print("✅ isUserRegistrationNeeded: \(isUserRegistrationNeeded) .. userRegisterModel: \(userRegisterModel)")
+//            
+//            await send(.setProfileState(.init(email: "", fbProviderType: .google, fbUid: "123", fullname: "Kevin", profileImageId: 1)))
+//            
+////            if isUserRegistrationNeeded, let userRegisterModel {
+////              await send(.setProfileState(userRegisterModel))
+////            } else {
+////              await send(.setIsLoggedIn(true))
+////            }
+//            
+//          case .failed(let reason):
+//            // ToastMessage 비슷한거 띄우기
+//            // 아래 코드는 임시
+//            print("❌ signInWithGoogle failed : \(reason)")
+//            break
+//          }
+//          await send(._setIsLoading(false))
         }
         
       case .didTapKakaoLogin:
         return .none
         
+      case .didTapAppleLogin:
+        return .none
+        
       case ._setIsLoading(let isLoading):
         state.isLoading = isLoading
         return .none
-      
-      default:
+        
+      case .setProfileState(let userRegistrationModel):
+        
+        state.setProfileState = .init(userRegisterModel: userRegistrationModel)
+        return .none
+        
+      case let .setIsLoggedIn(isLoggedIn):
+        let window = UIApplication
+          .shared
+          .connectedScenes
+          .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+          .first { $0.isKeyWindow }
+        
+        window?.rootViewController = UIHostingController(rootView: TabBarView().environmentObject(Router()))
+        window?.makeKeyAndVisible()
+        
+        
+        state.isLoggedIn = isLoggedIn
+        return .none
+        
+      case .setProfileAction(.dismiss):
+        state.setProfileState = nil
+        return .none
+        
+      case .setProfileAction(.presented(_)):
         return .none
       }
     }
+    .ifLet(\.$setProfileState, action: /Action.setProfileAction) { SetProfileFeature() }
   }
 }

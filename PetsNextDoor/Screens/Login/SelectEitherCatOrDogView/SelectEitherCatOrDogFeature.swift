@@ -16,7 +16,7 @@ struct SelectEitherCatOrDogFeature: Reducer {
 		var isBottomButtonEnabled: Bool = false
 		var selectedPetType: PND.PetType? = nil
 
-    var addPetState: AddPetFeature.State?
+    @PresentationState var addPetState: AddPetFeature.State? = nil
 	}
 	
 	enum Action: Equatable, RestrictiveAction {
@@ -41,7 +41,7 @@ struct SelectEitherCatOrDogFeature: Reducer {
     case delegate(DelegateAction)
     case `internal`(InternalAction)
     
-    case _addPetAction(AddPetFeature.Action)
+    case addPetAction(PresentationAction<AddPetFeature.Action>)
 	}
 	
 	var body: some Reducer<State, Action> {
@@ -58,8 +58,11 @@ struct SelectEitherCatOrDogFeature: Reducer {
 				return .none
 				
       case .view(.didTapBottomButton):
+        
         guard let petType = state.selectedPetType else { return .none }
+      
         state.addPetState = AddPetFeature.State(selectedPetType: petType)
+
         return .none
         
       case .view(.onDismiss):
@@ -67,18 +70,26 @@ struct SelectEitherCatOrDogFeature: Reducer {
         
         //MARK: - AddPetFeature
         
-      case ._addPetAction(.onPetAddition):
+      case .addPetAction(.dismiss):
+        state.addPetState = nil 
+        return .none
+        
+      case .addPetAction(.presented(.onPetAddition)):
         if let addPetState = state.addPetState {
           return .send(.delegate(.onPetAddComplete(addPetState)))
         }
         return .none
         
-			default: return .none
-			}
+      case .addPetAction(.presented(_:)):
+        return .none
+    
+      case .delegate(_):
+        return .none
+      }
 		}
     .ifLet(
-      \.addPetState,
-       action: /Action._addPetAction
+      \.$addPetState,
+       action: /Action.addPetAction
     ) {
       AddPetFeature()
     }

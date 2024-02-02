@@ -34,6 +34,10 @@ extension PND.Dependency {
     static let testValue: any SOSPostServiceProvidable = MockSosPostService()
   }
 
+  enum PetServiceKey: DependencyKey {
+    static let liveValue: any PetServiceProvidable = PetService()
+    static let testValue: any PetServiceProvidable = PetServiceMock()
+  }
 }
 
 extension DependencyValues {
@@ -56,6 +60,11 @@ extension DependencyValues {
   var sosPostService: any SOSPostServiceProvidable {
     get { self[PND.Dependency.SOSPostServiceKey.self] }
     set { self[PND.Dependency.SOSPostServiceKey.self] = newValue}
+  }
+  
+  var petService: any PetServiceProvidable {
+    get { self[PND.Dependency.PetServiceKey.self] }
+    set { self[PND.Dependency.PetServiceKey.self] = newValue }
   }
 }
 

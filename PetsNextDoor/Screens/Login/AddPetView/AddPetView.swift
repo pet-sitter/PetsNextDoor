@@ -12,6 +12,8 @@ struct AddPetView: View {
   
   let store: StoreOf<AddPetFeature>
   
+  @EnvironmentObject var router: Router
+  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       ScrollView(.vertical) {
@@ -36,7 +38,7 @@ struct AddPetView: View {
           )
           .font(.system(size: 20, weight: .medium))
           .padding(8)
-          .frame(width: .infinity)
+//          .frame(width: .infinity)
           .frame(height: 54)
           .padding(.horizontal, PND.Metrics.defaultSpacing)
           .multilineTextAlignment(.leading)
@@ -84,13 +86,11 @@ struct AddPetView: View {
             leftImageName: nil,
             conditionTitle: "묘종",
             rightContentView: {
-              
-              // 누르면 묘종 선택할 수 있는 창이 나와야함
-              
-              Text("묘종 입력하기")
-                .foregroundStyle(.gray)
-                
-              
+              Text(viewStore.selectedBreedName ?? "묘종 입력하기")
+                .foregroundStyle(viewStore.selectedBreedName == nil ? .gray : .commonBlack)
+                .onTapGesture {
+                  viewStore.send(.onSelectPetSpeciesButtonTap)
+                }
             }
           )
           
@@ -107,7 +107,7 @@ struct AddPetView: View {
                 ),
                 displayedComponents: .date
               ) {}
-            } 
+            }
           )
           
           Spacer().frame(height: 20)
@@ -124,13 +124,13 @@ struct AddPetView: View {
                 ),
                 format: .number
               )
-                .keyboardType(.numberPad)
-                .font(.system(size: 20, weight: .medium))
-                .padding(8)
-                .frame(maxWidth: 70)
-                .multilineTextAlignment(.trailing)
-                .background(PND.Colors.gray20.asColor)
-                .cornerRadius(4)
+              .keyboardType(.numberPad)
+              .font(.system(size: 20, weight: .medium))
+              .padding(8)
+              .frame(maxWidth: 70)
+              .multilineTextAlignment(.trailing)
+              .background(PND.Colors.gray20.asColor)
+              .cornerRadius(4)
             }
           )
           
@@ -167,6 +167,12 @@ struct AddPetView: View {
         viewStore.send(.didTapBottomButton)
       }
     }
+    .navigationDestination(
+      store: store.scope(
+        state: \.$petSpeciesListState,
+        action: AddPetFeature.Action.petSpeciesListAction
+      )
+    ) { PetSpeciesListView(store: $0) }
   }
 }
 

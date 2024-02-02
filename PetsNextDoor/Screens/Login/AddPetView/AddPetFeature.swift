@@ -22,8 +22,12 @@ struct AddPetFeature: Reducer {
     var otherInfo: String = ""
     var isBottomButtonEnabled: Bool = false
     var petAge: Int?
-    var speciesType: String = ""
-    var birthday: String?
+   
+    var birthday: String = "2024-01-01"
+    
+    var selectedBreedName: String? = nil
+    
+    @PresentationState var petSpeciesListState: PetSpeciesListFeature.State? = nil
   }
   
   enum Action: Equatable {
@@ -32,17 +36,19 @@ struct AddPetFeature: Reducer {
     case onPetNameChange(String?)
     case onPetGenderIndexChange(Int)
     case onIsNeutralizedCheckBoxTap(Bool)
+    case onSelectPetSpeciesButtonTap
     case onPetBirthdayDateChange(Date)
     case onWeightChange(Int?)
     case onOtherInfoChange(String)
     
     case didTapBottomButton
     case onPetAddition
+    
+    case petSpeciesListAction(PresentationAction<PetSpeciesListFeature.Action>)
   }
   
   var body: some Reducer<State,Action> {
     Reduce { state, action in
-      
       switch action {
         
       case .onPetImageDataChange(let data):
@@ -71,10 +77,16 @@ struct AddPetFeature: Reducer {
         state.isNeutralized = isSelected
         return .none
         
+      case .onSelectPetSpeciesButtonTap:
+        state.petSpeciesListState = .init()
+        return .none
+        
       case .onPetBirthdayDateChange(let date):
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: date)
+        state.birthday = dateString
         state.birthdayDate = date
-        // date 포맷해서 string 으로 치환
-        state.birthday = "2023-10-10"
         return .none
         
       case .onWeightChange(let weight):
@@ -86,13 +98,32 @@ struct AddPetFeature: Reducer {
         return .none
         
       case .didTapBottomButton:
-        state.speciesType = "브리티시 숏헤어"
+        if state.selectedBreedName == nil {
+          Toast.shared.present(title: "묘종을 입력하세요", symbol: nil)
+          return .none
+        }
         state.petAge      = 2
         return .send(.onPetAddition)
         
       case .onPetAddition:
         return .none
+        
+      case let .petSpeciesListAction(.presented(.onSelectedBreedChange(breed))):
+        state.selectedBreedName = breed.name
+        state.petSpeciesListState = nil
+        return .none
+        
+      case .petSpeciesListAction(.dismiss):
+        state.petSpeciesListState = nil
+        return .none
+        
+      case .petSpeciesListAction(.presented(_:)):
+        return .none
+
       }
+    }
+    .ifLet(\.$petSpeciesListState, action: /Action.petSpeciesListAction) {
+      PetSpeciesListFeature()
     }
   }
 }

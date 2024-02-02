@@ -9,10 +9,14 @@ import Foundation
 
 struct MockDataProvider {
   
+  static var randomPetImageUrlString: String {
+    "https://placedog.net/200/200?random"
+  }
+  
   static var selectPetCellViewModels: [SelectPetViewModel] {
     [
       .init(
-        petImageUrlString: "https://placedog.net/640/480?random",
+        petImageUrlString: "https://placedog.net/200/200random",
         petName: "아롱이",
         petSpecies: "비숑 프리제",
         petAge: 1,
@@ -25,7 +29,7 @@ struct MockDataProvider {
         isDeleteButtonHidden: true
       ),
       .init(
-        petImageUrlString: "https://placedog.net/640/480?random",
+        petImageUrlString: "https://placedog.net/200/200?random",
         petName: "아롱이",
         petSpecies: "비숑 프리제",
         petAge: 1,
@@ -38,7 +42,7 @@ struct MockDataProvider {
         isDeleteButtonHidden: true
       ),
       .init(
-        petImageUrlString: "https://placedog.net/640/480?random",
+        petImageUrlString: "https://placedog.net/200/200?random",
         petName: "아롱이",
         petSpecies: "비숑 프리제",
         petAge: 1,
@@ -51,7 +55,7 @@ struct MockDataProvider {
         isDeleteButtonHidden: true
       ),
       .init(
-        petImageUrlString: "https://placedog.net/640/480?random",
+        petImageUrlString: "https://placedog.net/200/200?random",
         petName: "아롱이",
         petSpecies: "비숑 프리제",
         petAge: 1,

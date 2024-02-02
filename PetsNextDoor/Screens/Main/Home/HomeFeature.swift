@@ -46,6 +46,8 @@ struct HomeFeature: Reducer {
       switch action {
         
       case .onAppear:
+        if state.urgentPostCardCellViewModels.isEmpty == false { return .none }
+        
         return .run { send in
           
           await send(.setIsLoading(true))
@@ -56,23 +58,24 @@ struct HomeFeature: Reducer {
             size: 20,
             sortBy: "newest"
           )
+        
           
           let cellVMs = postModel
             .items
             .compactMap {
               UrgentPostCardViewModel(
-                mainImageUrlString: "",
+                mainImageUrlString: "https://placedog.net/200/200?random",
                 postTitle: $0.title,
                 date: $0.date_end_at,
                 location: "중곡동",
-                cost: "10,500"
+                cost: "10,500",
+                postId: $0.id
               )
             }
         
           await send(.setInitialUrgentPostCardCellVMs(cellVMs))
           await send(.setIsLoading(false))
         }
-        
         
       case .setInitialUrgentPostCardCellVMs(let cellVMs):
         state.urgentPostCardCellViewModels = cellVMs

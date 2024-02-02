@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct UrgentPostCardViewModel: HashableViewModel {
   let mainImageUrlString: String?
@@ -13,6 +14,7 @@ struct UrgentPostCardViewModel: HashableViewModel {
   let date: String
   let location: String
   let cost: String
+  let postId: Int
 }
 
 
@@ -26,18 +28,15 @@ struct UrgentPostCardView_SwiftUI: View {
       Spacer()
         .frame(width: PND.Metrics.defaultSpacing)
       
-      AsyncImage(url: URL(string: viewModel.mainImageUrlString ?? "")) { image in
-        image.resizable()
-      } placeholder: {
-//        ProgressView()
-        Image(uiImage: UIImage(named: "dog_test")!)
-          .resizable()
-          .frame(width: 88, height: 88)
-      }
-      .scaledToFill()
-      .frame(width: 88, height: 88)
-      .cornerRadius(4)
-      
+      KFImage(URL(string: "https://placedog.net/200/200?random"))
+        .placeholder {
+          ProgressView()
+        }
+        .resizable()
+        .frame(width: 88, height: 88)
+        .scaledToFill()
+        .cornerRadius(4)
+                
       Spacer()
         .frame(width: 8)
       
@@ -85,7 +84,7 @@ struct UrgentPostCardView_SwiftUI: View {
 }
 
 #Preview {
-  UrgentPostCardView_SwiftUI(viewModel: .init(mainImageUrlString: "https://placedog.net/640/480?random", postTitle: "돌봄급구 구해요", date: "2020-10-29", location: "중곡동", cost: "10,500"))
+  UrgentPostCardView_SwiftUI(viewModel: .init(mainImageUrlString: "https://placedog.net/640/480?random", postTitle: "돌봄급구 구해요", date: "2020-10-29", location: "중곡동", cost: "10,500", postId: 0))
 }
 
 

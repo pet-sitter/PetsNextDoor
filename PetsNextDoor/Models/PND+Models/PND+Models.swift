@@ -9,7 +9,7 @@ import Foundation
 
 extension PND {
 	
-  enum PetType: String, Codable {
+  enum PetType: String, Codable, Hashable {
 		case dog = "dog"
 		case cat = "cat"
     

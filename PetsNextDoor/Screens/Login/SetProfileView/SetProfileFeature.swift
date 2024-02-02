@@ -17,11 +17,11 @@ struct SetProfileFeature: Reducer {
     var selectedUserImage: UIImage?
     var selectedUserImageData: Data?
     var nicknameStatusPhrase: String = ""
-    var isBottomButtonEnabled: Bool   = false
+    var isBottomButtonEnabled: Bool = false
     var photoPickerIsPresented: Bool  = false
     var isLoading: Bool = false
     
-    @Pulse var myPetCellViewModels: [SelectPetViewModel] = []
+    var myPetCellViewModels: [SelectPetViewModel] = []
     
     var nicknameText: String = ""
 
@@ -36,17 +36,11 @@ struct SetProfileFeature: Reducer {
 	enum Action: Equatable {
 
     case onImageDataChange(Data?)
-    
-
     case textDidChange(String?)
-    
-    
-    case didTapBottomButton
-
-
-
     case didTapAddPetButton
     case didTapPetDeleteButton(SelectPetViewModel)
+    case didTapBottomButton
+    
     
     // Internal Actions
     case _appendSelectPetViewModel(SelectPetViewModel)
@@ -56,7 +50,6 @@ struct SetProfileFeature: Reducer {
     case _setIsBottomButtonEnabled(Bool)
     case _setIsLoading(Bool)
 
-    
     // Child Actions
     case _selectEitherCatOrDogAction(PresentationAction<SelectEitherCatOrDogFeature.Action>)
 	}
@@ -66,22 +59,27 @@ struct SetProfileFeature: Reducer {
       
       switch action {
       case ._selectEitherCatOrDogAction(.presented(.delegate(.onPetAddComplete(let addPetState)))):
-//        let selectPetViewModel = SelectPetViewModel(
-//          petImage: addPetState.petImage,
-//          petName: addPetState.petName,
-//          petSpecies: addPetState.speciesType,
-//          petAge: addPetState.petAge ?? 1,
-//          isPetNeutralized: addPetState.isNeutralized,
-//          isPetSelected: false,
-//          gender: addPetState.gender,
-//          petType: addPetState.selectedPetType,
-//          birthday: addPetState.birthday ?? "",
-//          weight: addPetState.weight ?? 0,
-//          isDeleteButtonHidden: false
-//        )
 
-//        state.selectEitherCatOrDogState = nil 
-//        state.myPetCellViewModels.append(selectPetViewModel)
+        guard let breed = addPetState.selectedBreedName
+        else { return .none }
+
+
+        let selectPetViewModel = SelectPetViewModel(
+          petImageData: addPetState.selectedPetImageData,
+          petName: addPetState.petName,
+          petSpecies: breed,
+          petAge: addPetState.petAge ?? 1,
+          isPetNeutralized: addPetState.isNeutralized,
+          isPetSelected: false,
+          gender: addPetState.gender,
+          petType: addPetState.selectedPetType,
+          birthday: addPetState.birthday,
+          weight: addPetState.weight ?? 0,
+          isDeleteButtonHidden: false
+        )
+
+        state.selectEitherCatOrDogState = nil 
+        state.myPetCellViewModels.append(selectPetViewModel)
         return .none
         
       case ._selectEitherCatOrDogAction(.presented(.delegate(.dismissComplete))):
@@ -155,10 +153,7 @@ struct SetProfileFeature: Reducer {
         return .none
         
       case .didTapPetDeleteButton(let petVM):
-        state.myPetCellViewModels = state
-          .myPetCellViewModels
-          .filter { $0 == petVM }
-        
+        state.myPetCellViewModels.removeAll(where: { $0 === petVM })
         return .none
 
       case ._appendSelectPetViewModel(let petVM):
@@ -199,13 +194,6 @@ struct SetProfileFeature: Reducer {
       }
       
     }
-    .ifLet(
-      \.$selectEitherCatOrDogState,
-       action: /Action._selectEitherCatOrDogAction
-    ) {
-      SelectEitherCatOrDogFeature()
-    }
-    
-
+    .ifLet(\.$selectEitherCatOrDogState, action: /Action._selectEitherCatOrDogAction) { SelectEitherCatOrDogFeature() }
 	}
 }

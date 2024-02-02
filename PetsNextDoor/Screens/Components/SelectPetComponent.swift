@@ -22,17 +22,12 @@ final class SelectPetComponent: Component, TouchableComponent {
   
   @MainActor
   func createContentView() -> ContentView {
-    UIHostingConfiguration { SelectPetView(viewModel: self.viewModel) }
+    UIHostingConfiguration { SelectPetView(viewModel: self.viewModel, onDeleteButtonTapped: nil) }
       .margins(.all, 0)
       .makeContentView()
   }
   
   func render(contentView: ContentView) {
-    
-    viewModel.onDeleteButtonTapped = { [weak self] in
-      guard let self else { return }
-      self.onDeleteAction?(self)
-    }
   }
   
   func contentHeight() -> CGFloat? {

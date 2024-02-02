@@ -12,9 +12,11 @@ struct SetProfileView: View {
   
   let store: StoreOf<SetProfileFeature>
   
+  @EnvironmentObject var router: Router
+  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack {
+      VStack(spacing: 0) {
         Spacer()
           .frame(height: 20)
         
@@ -37,7 +39,6 @@ struct SetProfileView: View {
         )
         .font(.system(size: 20, weight: .medium))
         .padding(8)
-        .frame(width: .infinity)
         .frame(height: 54)
         .padding(.horizontal, PND.Metrics.defaultSpacing)
         .multilineTextAlignment(.leading)
@@ -51,29 +52,36 @@ struct SetProfileView: View {
         
         Spacer().frame(height: 20)
         
-        if !viewStore.myPetCellViewModels.isEmpty {
-          ScrollView(.vertical) {
+        ScrollView(.vertical) {
+          
+          if !viewStore.myPetCellViewModels.isEmpty {
             ForEach(viewStore.myPetCellViewModels, id: \.id) { cellVM in
-              SelectPetView(viewModel: cellVM)
+              SelectPetView(
+                viewModel: cellVM,
+                onDeleteButtonTapped: {
+                  viewStore.send(.didTapPetDeleteButton(cellVM))
+                }
+              )
             }
           }
-        }
-        
-        Spacer().frame(height: 20)
-        
-        RoundedRectangle(cornerRadius: 4)
-          .frame(height: 54)
-          .padding(.horizontal, PND.Metrics.defaultSpacing)
-          .foregroundStyle(PND.Colors.gray20.asColor)
-          .overlay(
-            Button("반려동물", systemImage: "plus") {
+
+          RoundedRectangle(cornerRadius: 4)
+            .frame(height: 54)
+            .padding(.horizontal, PND.Metrics.defaultSpacing)
+            .foregroundStyle(PND.Colors.gray20.asColor)
+            .contentShape(Rectangle())
+            .overlay(
+              Button("반려동물", systemImage: "plus") {
+                viewStore.send(.didTapAddPetButton)
+              }
+                .foregroundStyle(.black)
+            )
+            .onTapGesture {
               viewStore.send(.didTapAddPetButton)
             }
-              .foregroundStyle(.black)
-          )
+        }
         
         Spacer()
-        //            .frame(height: 100)
         
         BaseBottomButton_SwiftUI(
           title: "다음으로",
@@ -87,12 +95,14 @@ struct SetProfileView: View {
         }
       }
     }
-    .sheet(
-      store: store.scope(
+    .fullScreenCover(store: store
+      .scope(
         state: \.$selectEitherCatOrDogState,
         action: { ._selectEitherCatOrDogAction($0)})
     ) { store in
-      SelectEitherCatOrDogView(store: store)
+      NavigationStack(path: $router.navigationPath) {
+        SelectEitherCatOrDogView(store: store)
+      }
     }
   }
 }
@@ -135,7 +145,9 @@ struct SelectProfileImageView: View {
             }
           }
       }
+      
     }
+    
     .onChange(of: selectedPhotoPickerItem) { _ in
       Task { await convertImageDataToUIImage() }
     }

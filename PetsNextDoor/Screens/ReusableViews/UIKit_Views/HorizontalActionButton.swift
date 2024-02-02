@@ -9,7 +9,8 @@ import UIKit
 import Combine
 import SnapKit
 
-struct HorizontalActionButtonViewModel: HashableViewModel {
+struct HorizontalActionButtonViewModel {
+
   let buttonBackgroundColor: UIColor = PND.Colors.gray20
   let buttonTitle: String
   let leftImage: UIImage?

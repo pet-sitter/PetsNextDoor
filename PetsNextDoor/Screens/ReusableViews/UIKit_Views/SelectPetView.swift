@@ -10,12 +10,10 @@ import Combine
 import SnapKit
 
 final class SelectPetViewModel: HashableViewModel, ObservableObject {
-  
-  var onDeleteButtonTapped: (() -> Void)?
 
   let id: Int
   @Published var petImageUrlString: String?
-  @Published var petImage: UIImage?
+  @Published var petImageData: Data?
   @Published var petName: String
   @Published var petSpecies: String
   @Published var petAge: Int
@@ -31,7 +29,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   init(
     id: Int = UUID().hashValue,
     petImageUrlString: String? = nil,
-    petImage: UIImage? = nil,
+    petImageData: Data? = nil,
     petName: String,
     petSpecies: String,
     petAge: Int,
@@ -45,7 +43,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   ) {
     self.id = id
     self.petImageUrlString = petImageUrlString
-    self.petImage = petImage
+    self.petImageData = petImageData
     self.petName = petName
     self.petSpecies = petSpecies
     self.petAge = petAge
@@ -61,29 +59,40 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
 
 
 import SwiftUI
+import Kingfisher
 
 struct SelectPetView: View {
   
   @StateObject var viewModel: SelectPetViewModel
   
+  var onDeleteButtonTapped: (() -> Void)?
+  
+  init(
+    viewModel: SelectPetViewModel,
+    onDeleteButtonTapped: (() -> Void)?
+  ) {
+    self._viewModel = StateObject(wrappedValue: viewModel)
+    self.onDeleteButtonTapped = onDeleteButtonTapped
+  }
+  
+  
   var body: some View {
     VStack {
       HStack(alignment: .center, spacing: 17) {
         
-        if let petImageUrl = viewModel.petImageUrlString {
-          
-          AsyncImage(url: URL(string: petImageUrl)) { image in
-            image.resizable()
-          } placeholder: {
-            ProgressView()
-          }
-          .scaledToFill()
-          .frame(width: 74, height: 74)
-          .clipShape(Circle())
+        if let petImageUrl = viewModel.petImageUrlString {          
+          KFImage(URL(string: petImageUrl))
+            .placeholder {
+              ProgressView()
+            }
+            .resizable()
+            .frame(width: 74, height: 74)
+            .clipShape(Circle())
+            .scaledToFill()
         }
         
-        if let localPetImage = viewModel.petImage {
-          Image(uiImage: localPetImage)
+        if let localPetImageData = viewModel.petImageData, let image = UIImage(data: localPetImageData) {
+          Image(uiImage: image)
             .resizable()
             .scaledToFill()
             .frame(width: 74, height: 74)
@@ -100,7 +109,7 @@ struct SelectPetView: View {
             
             if viewModel.isDeleteButtonHidden == false  {
               Button {
-                viewModel.onDeleteButtonTapped?()
+                onDeleteButtonTapped?()
               } label: {
                 Image(systemName: "xmark")
                   .foregroundColor(PND.Colors.commonGrey.asColor)
@@ -109,7 +118,7 @@ struct SelectPetView: View {
           }
           
           HStack(spacing: 4) {
-            Text("비숑 프리제")
+            Text(viewModel.petSpecies)
               .font(.system(size: 14))
             
             Text("|")
@@ -146,5 +155,4 @@ struct SelectPetView: View {
     )
     .padding()
   }
-
 }

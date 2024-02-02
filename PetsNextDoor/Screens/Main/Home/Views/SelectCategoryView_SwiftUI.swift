@@ -31,7 +31,14 @@ struct SelectCategoryView_SwiftUI: View {
       Spacer().frame(width: PND.Metrics.defaultSpacing)
       
       Menu {
-        Button("ADD", action: { })
+        Button {
+          
+        } label: {
+          HStack {
+            Text("최신순")
+          }
+        }
+
       } label: {
         Text("최신순")
           .font(.system(size: 16, weight: .bold))
