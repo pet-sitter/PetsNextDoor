@@ -51,9 +51,17 @@ final class Toast: ObservableObject {
   
   @Published fileprivate var toasts: [ToastItem] = []
   
-  func present(title: String, symbol: String?, tint: Color = .primary, isUserInteractionEnabled: Bool = true, timing: ToastTime = .medium) {
-    withAnimation(.snappy) {
-      toasts.append(.init(title: title, symbol: symbol, tint: tint, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing))
+  func present(
+    title: String,
+    symbol: String?,
+    tint: Color = .primary,
+    isUserInteractionEnabled: Bool = true,
+    timing: ToastTime = .medium
+  ) {
+    Task { @MainActor in
+      withAnimation(.snappy) {
+        toasts.append(.init(title: title, symbol: symbol, tint: tint, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing))
+      }
     }
   }
 }
@@ -131,6 +139,7 @@ fileprivate struct ToastView: View {
       }
       
       Text(item.title)
+        .font(.system(size: 12, weight: .semibold))
         .lineLimit(1)
     }
     .foregroundStyle(item.tint)

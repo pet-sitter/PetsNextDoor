@@ -10,7 +10,8 @@ import Foundation
 protocol SOSPostServiceProvidable: PNDNetworkProvidable {
   func getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String) async throws -> PND.SOSPostListModel
   func getSOSPostDetail(id: Int) async throws -> PND.SOSPostDetailModel
-  func postSosPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel
+  func postSOSPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel
+  func getSOSConditions() async throws -> [PND.Condition]
 }
 
 
@@ -33,8 +34,12 @@ struct SOSPostService: SOSPostServiceProvidable {
     try await network.requestData(.getSOSPostDetail(id: id))
   }
   
-  func postSosPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel {
+  func postSOSPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel {
     try await network.requestData(.postSOSPost(model: model))
+  }
+  
+  func getSOSConditions() async throws -> [PND.Condition] {
+    try await network.requestData(.getSOSConditons)
   }
 }
 
@@ -63,7 +68,15 @@ struct MockSosPostService: SOSPostServiceProvidable {
     try await network.requestData(.getSOSPostDetail(id: id))
   }
   
-  func postSosPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel {
+  func postSOSPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel {
     try await network.requestData(.postSOSPost(model: model))
+  }
+  
+  func getSOSConditions() async throws -> [PND.Condition] {
+    return [
+      PND.Condition(id: 0, name: "CCTV, 펫캠 촬영 동의"),
+      PND.Condition(id: 1, name: "신분증 인증"),
+      PND.Condition(id: 2, name: "사전 통화 가능 여부"),
+    ]
   }
 }

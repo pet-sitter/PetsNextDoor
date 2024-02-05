@@ -22,6 +22,7 @@ extension PND {
     case getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String)
     case getSOSPostDetail(id: Int)
     case postSOSPost(model: PND.UrgentPostModel)
+    case getSOSConditons
   
     //MARK: - Users
     
@@ -34,6 +35,7 @@ extension PND {
     
     //MARK: - Pets
     case getBreeds(pageSize: Int, petType: String)
+    
     
   }
 }
@@ -68,6 +70,9 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       
     case .postSOSPost(let model):
       return "/posts/sos"
+      
+    case .getSOSConditons:
+      return  "/posts/sos/conditions"
       
       //MARK: - Users
       
@@ -155,8 +160,6 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .set(key: "pet_ids", value: model.petIds)
           .set(key: "reward", value: model.reward)
           .set(key: "reward_amount", value: model.rewardAmount)
-          .set(key: "time_end_at", value: model.timeEndAt)
-          .set(key: "time_start_at", value: model.timeStartAt)
           .set(key: "title", value: model.title)
           .build(),
         encoding: JSONEncoding.default

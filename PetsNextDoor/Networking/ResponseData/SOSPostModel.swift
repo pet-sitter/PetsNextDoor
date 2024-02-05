@@ -62,7 +62,7 @@ extension PND {
   }
   
   struct Pet: Codable, Equatable {
-    let id: Int?
+    let id: Int
     let name: String
     let pet_type: PND.PetType
     let sex: PND.Sex

@@ -82,10 +82,7 @@ struct AddPetFeature: Reducer {
         return .none
         
       case .onPetBirthdayDateChange(let date):
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
-        state.birthday = dateString
+        state.birthday = DateConverter.convertDateToString(date: date)
         state.birthdayDate = date
         return .none
         

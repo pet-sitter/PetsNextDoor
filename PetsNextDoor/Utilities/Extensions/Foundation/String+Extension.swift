@@ -33,4 +33,7 @@ extension String {
     return label.frame
   }
   
+  static var commonError: String {
+    "네트워크 연결 상태를 확인해주세요."
+  }
 }

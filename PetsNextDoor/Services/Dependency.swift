@@ -59,7 +59,7 @@ extension DependencyValues {
   
   var sosPostService: any SOSPostServiceProvidable {
     get { self[PND.Dependency.SOSPostServiceKey.self] }
-    set { self[PND.Dependency.SOSPostServiceKey.self] = newValue}
+    set { self[PND.Dependency.SOSPostServiceKey.self] = newValue }
   }
   
   var petService: any PetServiceProvidable {

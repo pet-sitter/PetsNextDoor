@@ -10,7 +10,7 @@ import Foundation
 protocol UserServiceProvidable: PNDNetworkProvidable {
   
   func checkNicknameDuplication(_ nickname: String) async throws -> PND.CheckNicknameModel
-  func getMyPets() async throws -> [PND.Pet]
+  func getMyPets() async throws -> PND.MyPetListModel
   func registerMyPets(_ pets: [PND.Pet]) async throws
 }
 
@@ -25,7 +25,7 @@ final class UserService: UserServiceProvidable {
     try await network.requestData(.postCheckNickname(nickname: nickname))
   }
   
-  func getMyPets() async throws -> [PND.Pet] {
+  func getMyPets() async throws -> PND.MyPetListModel {
     try await network.requestData(.getMyPets)
   }
   
@@ -47,7 +47,7 @@ final class UserServiceMock: UserServiceProvidable {
     try await network.requestData(.postCheckNickname(nickname: nickname))
   }
   
-  func getMyPets() async throws -> [PND.Pet] {
+  func getMyPets() async throws -> PND.MyPetListModel {
     try await network.requestData(.getMyPets)
   }
   

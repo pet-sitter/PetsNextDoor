@@ -105,7 +105,7 @@ struct SetProfileFeature: Reducer {
             let _ = try await userService.registerMyPets(
               state.myPetCellViewModels.map { petVM -> PND.Pet in
                 PND.Pet(
-                  id: nil,
+                  id: Int(arc4random()),
                   name: petVM.petName,
                   pet_type: petVM.petType,
                   sex: petVM.gender,

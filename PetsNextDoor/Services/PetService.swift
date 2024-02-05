@@ -10,6 +10,7 @@ import Foundation
 protocol PetServiceProvidable: PNDNetworkProvidable {
   
   func getBreeds(pageSize: Int, petType: PND.PetType) async throws -> PND.BreedListResponseModel
+  func getMyPets() async throws -> PND.MyPetListModel
 }
 
 struct PetService: PetServiceProvidable {
@@ -21,6 +22,10 @@ struct PetService: PetServiceProvidable {
   func getBreeds(pageSize: Int, petType: PND.PetType) async throws -> PND.BreedListResponseModel {
     try await network.requestData(.getBreeds(pageSize: pageSize, petType: petType.rawValue))
   }
+  
+  func getMyPets() async throws -> PND.MyPetListModel {
+    try await network.requestData(.getMyPets)
+  }
 }
 
 struct PetServiceMock: PetServiceProvidable {
@@ -31,5 +36,9 @@ struct PetServiceMock: PetServiceProvidable {
   
   func getBreeds(pageSize: Int, petType: PND.PetType) async throws -> PND.BreedListResponseModel {
     try await network.requestData(.getBreeds(pageSize: pageSize, petType: petType.rawValue))
+  }
+  
+  func getMyPets() async throws -> PND.MyPetListModel {
+    try await network.requestData(.getMyPets)
   }
 }

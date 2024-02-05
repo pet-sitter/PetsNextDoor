@@ -29,6 +29,8 @@ final class MediaService: MediaServiceProvidable {
   func getImage(id: Int) async throws -> PND.UploadMediaResponseModel {
     try await network.requestData(.getMedia(id: id))
   }
+  
+  
 }
 
 
@@ -49,4 +51,6 @@ final class UploadServiceMock: MediaServiceProvidable {
   func getImage(id: Int) async throws -> PND.UploadMediaResponseModel {
     try await network.requestData(.getMedia(id: id))
   }
+  
+  
 }

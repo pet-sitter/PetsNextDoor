@@ -78,7 +78,6 @@ struct SelectCareConditionsView: View {
           leftImageName: R.image.icon_pay.name,
           conditionTitle: "페이",
           rightContentView: {
-            
             TextField(
               "원",
               value: viewStore.binding(
@@ -122,3 +121,4 @@ struct SelectCareConditionsView: View {
 //#Preview {
 //  SelectCareConditionsView(store: .init(initialState: .init(urgentPostModel: .default()), reducer: { SelectCareConditionFeature() }))
 //}
+

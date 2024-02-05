@@ -20,8 +20,6 @@ extension PND {
     var petIds: [Int]
     var reward: String
     var rewardAmount: String
-    var timeEndAt: String
-    var timeStartAt: String
     var title: String
     
     enum CodingKeys: String, CodingKey {
@@ -35,8 +33,6 @@ extension PND {
       case petIds = "pet_ids"
       case reward
       case rewardAmount = "reward_amount"
-      case timeEndAt = "time_end_at"
-      case timeStartAt = "time_start_at"
       case title
     }
     
@@ -52,9 +48,23 @@ extension PND {
         petIds: [],
         reward: "reward",
         rewardAmount: "10000",
-        timeEndAt: "19:00",
-        timeStartAt: "11:00",
         title: "돌봄급구 구합니다!"
+      )
+    }
+    
+    static func empty() -> Self {
+      return .init(
+        careType: .foster,
+        carerGender: .male,
+        conditionIds: [],
+        content: "",
+        dateEndAt: "",
+        dateStartAt: "",
+        imageIds: [],
+        petIds: [],
+        reward: "",
+        rewardAmount: "",
+        title: ""
       )
     }
   }

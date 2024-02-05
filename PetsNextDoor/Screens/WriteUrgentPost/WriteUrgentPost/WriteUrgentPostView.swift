@@ -55,12 +55,17 @@ struct WriteUrgentPostFeature: Reducer {
         return .none
         
       case .onBottomButtonTap:
-        
-        print("✅ \(dump(state.urgentPostModel))")
+    
         // 먼저 이미지를 하나하나 다 올리고, 그 다음에 urgenPostModel에 imageId 다 삽입 후 최종 POST API 호출하기
         return .run { [model = state.urgentPostModel] send in
-          let postResult = try? await postService.postSosPost(model: model)
-          print("✅ postResult: \(postResult)")
+          
+          
+          
+          
+          let postResult = try? await postService.postSOSPost(model: model)
+  
+        } catch: { error, send in
+          Toast.shared.present(title: "업로드 실패", symbol: "xmark")
         }
         
       case ._validateInput:
@@ -74,8 +79,6 @@ struct WriteUrgentPostFeature: Reducer {
         state.isBottomButtonEnabled = isEnabled
         return .none
         
-      default:
-        return .none
       }
     }
   }

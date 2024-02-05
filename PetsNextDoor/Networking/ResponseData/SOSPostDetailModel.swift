@@ -25,8 +25,6 @@ extension PND {
     let reward: String?
     let rewardAmount: String?
     let thumbnailId: Int?
-    let timeEndAt: String?
-    let timeStartAt: String?
     @DefaultEmptyString var title: String
     let updatedAt: String?
   
@@ -41,8 +39,6 @@ extension PND {
       case id, media, pets, reward
       case rewardAmount = "reward_amount"
       case thumbnailId = "thumbnail_id"
-      case timeEndAt = "time_end_at"
-      case timeStartAt = "time_start_at"
       case title
       case updatedAt = "updated_at"
     }

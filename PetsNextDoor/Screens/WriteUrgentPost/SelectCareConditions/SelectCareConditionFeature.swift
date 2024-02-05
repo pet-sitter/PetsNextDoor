@@ -13,7 +13,6 @@ struct SelectCareConditionFeature: Reducer {
   struct State: Hashable {
     // 성별
     var selectedGenderIndex: Int = 0
-    var carerGender: PND.GenderType = .female
 
     // 돌봄 형태
     var selectedCareTypeIndex: Int = 0
@@ -34,7 +33,6 @@ struct SelectCareConditionFeature: Reducer {
   
   enum Action: Equatable {
     case viewDidLoad
-    case didTapBottomButton
     
     case onGenderIndexChange(Int)
     case onCareTypeIndexChange(Int)
@@ -43,14 +41,9 @@ struct SelectCareConditionFeature: Reducer {
     
     case setBottomButtonEnabled(Bool)
     
-    
-    
-
   }
   
   var body: some Reducer<State, Action> {
-
-    
     Reduce { state, action in
       switch action {
       case .viewDidLoad:
@@ -60,11 +53,11 @@ struct SelectCareConditionFeature: Reducer {
         state.selectedGenderIndex = index 
         switch index {
         case 0:
-          state.carerGender = .male
+          state.urgentPostModel.carerGender = .male
         case 1:
-          state.carerGender = .female
+          state.urgentPostModel.carerGender = .female
         case 2:
-          state.carerGender = .female       // 상관없음이 추가되어야 함
+          state.urgentPostModel.carerGender = .female // 상관없음이 추가되어야 함
         default: ()
         }
         return .none
@@ -73,39 +66,27 @@ struct SelectCareConditionFeature: Reducer {
         state.selectedCareTypeIndex = index
         switch index {
         case 0:
-          state.careType = .visiting // 방문돌봄
+          state.urgentPostModel.careType = .visiting  // 방문 돌봄
         case 1:
-          state.careType = .foster   // 위탁돌봄
+          state.urgentPostModel.careType = .foster    // 위탁돌봄
         default: ()
         }
         return .none
         
       case .onDateChange(let date):
         state.date = date
+//        state.urgentPostModel.da
         return .none
         
       case .onPayAmountChange(let payAmount):
+        guard let payAmount else { return .none }
         state.payAmount = payAmount
+        state.urgentPostModel.reward = String(payAmount)
         return .none
         
       case .setBottomButtonEnabled(let isEnabled):
         state.isBottomButtonEnabled = isEnabled
         return .none
-        
-      case .didTapBottomButton:
-        state.urgentPostModel.carerGender = state.carerGender
-        state.urgentPostModel.careType = state.careType
-        
-        return .none
-        // 날짜, 페이 세팅해야함 (default value 대체하기)
-//        state.urgentPostModel.dateStartAt = ""
-//        state.urgentPostModel.dateEndAt = ""
-//        state.urgentPostModel.reward = ""
-        
-        
-//        return .send(._routeAction(.pushScreen(.selectOtherRequirements(state: SelectOtherRequirementsFeature.State(urgentPostModel: state.urgentPostModel)), animated: true)))
-        
-
       }
     }
   }

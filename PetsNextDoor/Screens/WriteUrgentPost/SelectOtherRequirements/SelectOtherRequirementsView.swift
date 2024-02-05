@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 struct SelectOtherRequirementsFeature: Reducer {
   
+  @Dependency(\.sosPostService) var postService
+  
   struct State: Hashable {
     
     var conditions: [PND.Condition] = []
@@ -27,6 +29,7 @@ struct SelectOtherRequirementsFeature: Reducer {
     case onConditionCheckBoxTap(index: Int)
     
     // Internal Cases
+    case _setConditions([PND.Condition])
     case _toggleCheckBoxValue(index: Int)
   }
   
@@ -36,11 +39,21 @@ struct SelectOtherRequirementsFeature: Reducer {
       switch action {
         
       case .onAppear:
-        state.conditions = [
-          .init(id: 0, name: "· CCTV, 펫캠 촬영 동의", isSelected: false),
-          .init(id: 1, name: "· 신분증 인증", isSelected: false),
-          .init(id: 2, name: "· 사전 통화 가능 여부", isSelected: false)
-        ]
+        guard state.conditions.isEmpty else { return .none }
+        
+        return .run { send in
+          
+//          let conditions = try await postService.getSOSConditions()
+          let conditions = try await MockSosPostService().getSOSConditions()
+        
+          await send(._setConditions(conditions))
+          
+        } catch: { error, send in
+          print("❌ error fetching conditions: \(error)")
+        }
+        
+      case ._setConditions(let conditions):
+        state.conditions = conditions
         return .none
         
       case .setBottomButtonEnabled(let isEnabled):
@@ -49,7 +62,7 @@ struct SelectOtherRequirementsFeature: Reducer {
         
       case .onConditionCheckBoxTap(let index):
         state.conditions[index].isSelected.toggle()
-        state.urgentPostModel.conditionIds = state.conditions.map(\.id)
+        state.urgentPostModel.conditionIds = state.conditions.filter(\.isSelected).map(\.id)
         
         if state.conditions.map(\.isSelected).contains(true) {
           return .send(.setBottomButtonEnabled(true))

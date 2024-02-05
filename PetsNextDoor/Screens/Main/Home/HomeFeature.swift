@@ -75,6 +75,8 @@ struct HomeFeature: Reducer {
         
           await send(.setInitialUrgentPostCardCellVMs(cellVMs))
           await send(.setIsLoading(false))
+        } catch: { error, send in
+          print("❌ error fetching posts: \(error)")
         }
         
       case .setInitialUrgentPostCardCellVMs(let cellVMs):
