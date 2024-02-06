@@ -11,16 +11,14 @@ import ComposableArchitecture
 struct WriteUrgentPostFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
+  @Dependency(\.mediaService) var mediaService
   
   struct State: Hashable {
-    
+    var isLoading: Bool = false
     var title: String = ""
     var content: String = ""
-    
     var isBottomButtonEnabled: Bool   = false
-    
     var selectedImageDatas: [Data] = []
-    
     var urgentPostModel: PND.UrgentPostModel
   }
   
@@ -33,6 +31,8 @@ struct WriteUrgentPostFeature: Reducer {
     case setBottomButtonEnabled(Bool)
     
     // Internal Cases
+    case _setIsLoading(Bool)
+    case _setImageIds([Int])
     case _validateInput
   }
   
@@ -55,18 +55,26 @@ struct WriteUrgentPostFeature: Reducer {
         return .none
         
       case .onBottomButtonTap:
-    
-        // 먼저 이미지를 하나하나 다 올리고, 그 다음에 urgenPostModel에 imageId 다 삽입 후 최종 POST API 호출하기
-        return .run { [model = state.urgentPostModel] send in
+        return .run { [state] send in
+        
+          await send(._setIsLoading(true))
           
+          let uploadResponse = try await mediaService.uploadImages(imageDatas: state.selectedImageDatas)
+        
+          await send(._setImageIds(uploadResponse.map(\.id)))
           
+          let postResult = try? await postService.postSOSPost(model: state.urgentPostModel)
           
-          
-          let postResult = try? await postService.postSOSPost(model: model)
+          await send(._setIsLoading(false))
   
         } catch: { error, send in
+          await send(._setIsLoading(false))
           Toast.shared.present(title: "업로드 실패", symbol: "xmark")
         }
+        
+      case ._setImageIds(let imageIds):
+        state.urgentPostModel.imageIds = imageIds
+        return .none
         
       case ._validateInput:
         if !state.title.isEmpty, !state.content.isEmpty {
@@ -75,10 +83,15 @@ struct WriteUrgentPostFeature: Reducer {
           return .send(.setBottomButtonEnabled(false ))
         }
         
+      case ._setIsLoading(let isLoading):
+        state.isLoading = isLoading
+        return .none
+        
       case .setBottomButtonEnabled(let isEnabled):
         state.isBottomButtonEnabled = isEnabled
         return .none
         
+
       }
     }
   }

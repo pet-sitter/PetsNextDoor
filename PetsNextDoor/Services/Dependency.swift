@@ -26,7 +26,7 @@ extension PND.Dependency {
   
   enum UploadServiceKey: DependencyKey {
     static let liveValue: any MediaServiceProvidable = MediaService()
-    static let testValue: any MediaServiceProvidable = UploadServiceMock()
+    static let testValue: any MediaServiceProvidable = MediaServiceMock()
   }
   
   enum SOSPostServiceKey: DependencyKey {
@@ -37,6 +37,11 @@ extension PND.Dependency {
   enum PetServiceKey: DependencyKey {
     static let liveValue: any PetServiceProvidable = PetService()
     static let testValue: any PetServiceProvidable = PetServiceMock()
+  }
+  
+  enum MediaServiceKey: DependencyKey {
+    static let liveValue: any MediaServiceProvidable = MediaService()
+    static let testValue: any MediaServiceProvidable = MediaServiceMock()
   }
 }
 
@@ -65,6 +70,11 @@ extension DependencyValues {
   var petService: any PetServiceProvidable {
     get { self[PND.Dependency.PetServiceKey.self] }
     set { self[PND.Dependency.PetServiceKey.self] = newValue }
+  }
+  
+  var mediaService: any MediaServiceProvidable {
+    get { self[PND.Dependency.MediaServiceKey.self] }
+    set { self[PND.Dependency.MediaServiceKey.self] = newValue }
   }
 }
 
