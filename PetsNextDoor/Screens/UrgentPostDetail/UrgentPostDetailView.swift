@@ -16,7 +16,7 @@ struct UrgentPostDetailFeature: Reducer {
     let postId: Int
     
     // view related
-    var selectedTabIndex: Int = 2
+    var selectedTabIndex: Int = 0
     var isLoading: Bool = false
     
     // header
@@ -27,6 +27,7 @@ struct UrgentPostDetailFeature: Reducer {
     var region: String = ""
     
     // 급구조건
+    var conditions: [PND.Condition] = [] 
     var detailInfoVM: [UrgentPostDetailInformationViewModel] = []
     
     // 상세내용
@@ -186,7 +187,7 @@ struct UrgentPostDetailView: View {
 							switch viewStore.selectedTabIndex {
 							
 							case 0:
-								AgreementView()
+                AgreementView(conditions: viewStore.conditions)
 								
 								Spacer()
 									.frame(height: 16)
@@ -417,13 +418,17 @@ struct UrgentPostDetailView: View {
     .frame(height: Constants.headerViewHeight)
   }
   
-
-  
-  func AgreementView() -> some View {
+  func AgreementView(conditions: [PND.Condition]) -> some View {
     HStack(spacing: 20) {
       
-      VStack(spacing: 16) {
-        Image("icon_cctv")
+
+      
+      let isFirstSelected = conditions.first(where: { $0.id == 1 }) != nil
+      let isSecondSelected = conditions.first(where: { $0.id == 2 }) != nil
+      let isThirdSelected = conditions.first(where: { $0.id == 3 }) != nil
+      
+      VStack(spacing: 16) {        
+        Image(isFirstSelected ? "icon_cctv_on" : "icon_cctv_off")
           .frame(width: 56, height: 56)
         
         Text("펫캠촬영")
@@ -431,7 +436,7 @@ struct UrgentPostDetailView: View {
       }
       
       VStack(spacing: 16) {
-        Image("icon_id")
+        Image(isSecondSelected ? "icon_id_on" : "icon_id_off")
           .frame(width: 56, height: 56)
         
         Text("신분증 인증")
@@ -439,7 +444,7 @@ struct UrgentPostDetailView: View {
       }
       
       VStack(spacing: 16) {
-        Image("icon_call")
+        Image(isThirdSelected ? "icon_call_on" : "icon_call_off")
           .frame(width: 56, height: 56)
         
         Text("사전 통화")
