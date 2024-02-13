@@ -13,25 +13,28 @@ struct UrgentPostDetailFeature: Reducer {
   @Dependency(\.sosPostService) var postService
   
   struct State: Equatable, Hashable {
-    
     let postId: Int
     
+    // view related
+    var selectedTabIndex: Int = 2
+    var isLoading: Bool = false
+    
+    // header
     var title: String = ""
     var headerImageUrl: URL?
     var authorProfileImageUrl: URL?
     var authorName: String = ""
     var region: String = ""
     
-    var selectedTabIndex: Int = 0
-    
-    var isLoading: Bool = false
-    
+    // 급구조건
     var detailInfoVM: [UrgentPostDetailInformationViewModel] = []
     
+    // 상세내용
     var details: String = ""
     var postImageUrls: [URL] = []
     
-
+    // 반려동물 프로필
+    var pets: [PND.Pet] = []
   }
   
   enum Action: Equatable, RestrictiveAction {
@@ -98,12 +101,15 @@ struct UrgentPostDetailFeature: Reducer {
         
         
       case .internal(.setHeaderInfo(let postDetailModel)):
-//        state.title = postDetailModel.title
-        state.title = "급해요!! 푸들 한 마리 돌봐주세요."
+        state.title = postDetailModel.title
+        
+        if let image = postDetailModel.media.first {
+          state.headerImageUrl = URL(string: image.url)
+        }
+        
         state.authorProfileImageUrl = URL(string: MockDataProvider.randomPetImageUrlString)
         state.authorName = "아롱맘"
         state.region = "화곡동"
-        
         
         return .none
 				
@@ -120,9 +126,8 @@ struct UrgentPostDetailFeature: Reducer {
 				
         // 상세 내용
 			case .internal(.setDetailInfo(let content, let mediaModel)):
-//        state.details = content
-        state.details = "저희 아롱이는 순하고 사람 좋아하는 성격의 푸들입니다. 돌봄 난이도 최하 보장합니다! 현재 체중 관리중이라 하루에 간식 2번 미만으로 주시고, 실외배변만 오전 산책으로 부탁드려요..! 자세한 내용은 메시지 주시면 말씀드리겠습니다!"
-              
+        
+        state.details = content
         state.postImageUrls = mediaModel
           .map        { $0.url }
           .compactMap { URL(string: $0) }
@@ -131,10 +136,8 @@ struct UrgentPostDetailFeature: Reducer {
         
         // 반려동물 프로필
       case .internal(.setPetProfileInfo(let pets)):
-        
+        state.pets = pets
         return .none
-				
-			
 				
 			case .internal(.setIsLoading(let isLoading)):
 				state.isLoading = isLoading
@@ -162,6 +165,7 @@ struct UrgentPostDetailView: View {
         VStack(spacing: 0) {
           
           StretchyHeaderView(
+            headerImageUrl: viewStore.authorProfileImageUrl,
             title: viewStore.title,
             authorName: viewStore.authorName,
             authorProfileImageUrl: viewStore.authorProfileImageUrl,
@@ -194,11 +198,13 @@ struct UrgentPostDetailView: View {
 								}
 								
 							case 1:
-								VStack(spacing: 25) {
+                VStack(alignment: .leading, spacing: 25) {
 									
 									Text(viewStore.details)
 										.font(.system(size: 16))
 										.lineSpacing(5)
+                    .multilineTextAlignment(.leading)
+                    
 									
 									ScrollView(.horizontal) {
 				
@@ -241,57 +247,86 @@ struct UrgentPostDetailView: View {
                 .padding(.horizontal, PND.Metrics.defaultSpacing)
                 
               case 2:
-                VStack(alignment: .leading) {
+                VStack(alignment: .center) {
                   
-                  Spacer().frame(height: 12)
                   
                   Text("돌봄이 필요한 반려동물")
                     .font(.system(size: 16, weight: .semibold))
+                    .modifier(TextLeadingModifier())
+                  
+                  
                   
                   Spacer().frame(height: 9)
                   
-                  HStack(spacing: 12) {
-
-                    Circle()
-                      .frame(width: 100, height: 100)
-                      .overlay {
-                        Image("dog_test2")
-                          .resizable()
-                          .scaledToFill()
-                          .clipped()
-                          .cornerRadius(50)
-                         
-                      }
+                  if viewStore.pets.isEmpty {
+                    Spacer().frame(height: 30)
+                    Text("반려동물 등록 정보가 없습니다.")
+                  } else {
                     
-                    VStack(spacing: 4) {
+                    HStack(spacing: 12) {
+
+                      Circle()
+                        .frame(width: 100, height: 100)
+                        .overlay {
+                          KFImage(MockDataProvider.randomePetImageUrl)
+                            .placeholder {
+                              ProgressView()
+                            }
+                            .resizable()
+                            .scaledToFill()
+                            .clipped()
+                            .cornerRadius(50)
+                        }
                       
-                      Text("아롱")
-                        .font(.system(size: 20, weight: .bold))
+                      VStack(spacing: 4) {
+                        Text(viewStore.pets.first!.name)
+                          .font(.system(size: 20, weight: .bold))
+                        
+                      }
                       
                     }
+                    .frame(
+                      maxWidth: UIScreen.fixedScreenSize.width - (PND.Metrics.defaultSpacing * 2),
+                      alignment: .leading
+                    )
+                    .padding()
+                    .background(PND.Colors.gray10.asColor)
+                    .cornerRadius(4)
+                    .frame(height: 142)
                     
+                    Spacer().frame(height: 20)
+                    
+                    Text("N/A의 반려동물")
+                      .font(.system(size: 16, weight: .semibold))
+                      .modifier(TextLeadingModifier())
+                    
+                    Spacer().frame(height: 8)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                      HStack(spacing: 0) {
+                        
+                        ForEach(viewStore.pets, id: \.id) { pet in
+                          PetProfileView(pet)
+                        }
+
+                        Spacer()
+                        
+                      }
+                      .frame(width: UIScreen.main.bounds.size.width)
+                      .frame(minHeight: 150)
+                    }
+                    .frame(maxWidth: 400)
                   }
-                  .frame(
-                    maxWidth: UIScreen.fixedScreenSize.width - (PND.Metrics.defaultSpacing * 2),
-                    alignment: .leading
-                  )
-                  .padding()
-                  .background(PND.Colors.gray10.asColor)
-                  .cornerRadius(4)
-                  .frame(height: 142)
-                  
                 }
-      
+                .padding(.top, 12)
+                .padding(.horizontal, PND.Metrics.defaultSpacing)
 							
-								
 							default:
 								SwiftUI.EmptyView()
 							}
-              
             }
           }
         }
-
       }
 			.redacted(reason: viewStore.isLoading ? .placeholder : [])
       .coordinateSpace(name: "SCROLL")
@@ -305,6 +340,7 @@ struct UrgentPostDetailView: View {
   
 
   func StretchyHeaderView(
+    headerImageUrl: URL?,
     title: String,
     authorName: String,
     authorProfileImageUrl: URL?,
@@ -316,7 +352,7 @@ struct UrgentPostDetailView: View {
       let size 		= proxy.size
       let height 	= size.height + minY
       
-      Image("dog_test3")
+      KFImage(headerImageUrl)
         .resizable()
         .aspectRatio(contentMode: .fill)
         .frame(width: size.width, height: height, alignment: .top)
@@ -358,7 +394,7 @@ struct UrgentPostDetailView: View {
                 Text("·")
                   .foregroundColor(.white)
                 
-                Text("30대 여성")
+                Text("여성")
                   .font(.system(size: 12, weight: .medium))
                   .foregroundColor(.white)
                 
@@ -416,8 +452,51 @@ struct UrgentPostDetailView: View {
     .cornerRadius(4)
   }
   
+  func PetProfileView(_ petModel: PND.Pet) -> some View {
+    VStack(spacing: 0) {
+      
+      KFImage(MockDataProvider.randomePetImageUrl)
+        .resizable()
+        .frame(width: 48, height: 48)
+        .clipShape(Circle())
+        .scaledToFill()
+      
+      Spacer().frame(height: 8)
+      
+      HStack(spacing: 0) {
+        Text(petModel.name)
+          .font(.system(size: 12, weight: .bold))
+          .multilineTextAlignment(.center)
+        
+        Image(petModel.sex == .male ? "male_icon" : "female_icon")
+          .resizable()
+          .frame(width: 15, height: 15)
+          .scaledToFit()
+      }
+      
+     
+      
+      Spacer().frame(height: 4)
+      
+      Text(petModel.breed)
+        .font(.system(size: 12, weight: .regular))
+        .minimumScaleFactor(0.75)
+        .multilineTextAlignment(.center)
+      
+    }
+    .padding()
+    .clipShape(RoundedRectangle(cornerRadius: 10, style: .circular))
+    .overlay(
+      RoundedRectangle(cornerRadius: 10)
+        .stroke(Color.gray30, lineWidth: 1)
+      
+    )
+    .frame(width: 100, height: 140)
+  }
+}
 
-  
+#Preview {
+  UrgentPostDetailView(store: .init(initialState: .init(postId: 24), reducer: { UrgentPostDetailFeature() }))
 }
 
 //MARK: - 돌봄급구글 상세 - 급구 조건 - 정보 뷰
@@ -505,7 +584,4 @@ struct HorizontalSectionSelectView: View {
       .padding(.bottom, 5)
     }
   }
-	
-
-  
 }

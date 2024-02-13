@@ -16,3 +16,23 @@ struct HeaderTitleModifier: ViewModifier {
       .padding(.leading, 20)
   }
 }
+
+struct TextLeadingModifier: ViewModifier {
+  
+  func body(content: Content) -> some View {
+    HStack(spacing: 0) {
+      content
+      Spacer()
+    }
+  }
+}
+
+struct TextTrailingModifier: ViewModifier {
+  
+  func body(content: Content) -> some View {
+    HStack(spacing: 0) {
+      Spacer()
+      content
+    }
+  }
+}

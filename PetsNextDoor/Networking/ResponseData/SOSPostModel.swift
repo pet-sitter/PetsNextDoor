@@ -61,7 +61,7 @@ extension PND {
     var isSelected: Bool = false
   }
   
-  struct Pet: Codable, Equatable {
+  struct Pet: Codable, Hashable {
     let id: Int
     let name: String
     let pet_type: PND.PetType

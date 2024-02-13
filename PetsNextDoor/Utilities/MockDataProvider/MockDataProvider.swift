@@ -13,6 +13,10 @@ struct MockDataProvider {
     "https://placedog.net/200/200?random"
   }
   
+  static var randomePetImageUrl: URL {
+    URL(string: "https://placedog.net/200/200?random")!
+  }
+  
   static var selectPetCellViewModels: [SelectPetViewModel] {
     [
       .init(
