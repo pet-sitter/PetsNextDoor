@@ -33,10 +33,10 @@ struct CommunityView: View {
             .fill(PND.Colors.gray10.asColor)
             .frame(height: 20)
           
-          SelectCategoryView_SwiftUI(selectedCategory: viewStore.binding(
-            get: \.selectedCategory,
-            send: { .onSelectedCategoryChange($0)}
-          ))
+//          SelectCategoryView_SwiftUI(selectedCategory: viewStore.binding(
+//            get: \.selectedCategory,
+//            send: { .onSelectedCategoryChange($0)}
+//          ))
           
           ScrollView(.vertical) {
             LazyVStack(spacing: 0) {

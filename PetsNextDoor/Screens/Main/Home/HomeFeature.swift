@@ -18,12 +18,13 @@ struct HomeFeature: Reducer {
     
     var tabIndex: Int = 0
     var selectedCategory: SelectCategoryView_SwiftUI.Category = .onlyDogs
-    
+    var selectedFilterOption: SelectCategoryView_SwiftUI.FilterOption = .newest
     
     var selectPetState: SelectPetFeature.State? = nil
 
     var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
     
+    fileprivate var page: Int = 1
   }
   
   enum Action: Equatable {
@@ -32,8 +33,9 @@ struct HomeFeature: Reducer {
 
     case onTabIndexChange(Int)
     case onSelectedCategoryChange(SelectCategoryView_SwiftUI.Category)
+    case onSelectedFilterOptionChange(SelectCategoryView_SwiftUI.FilterOption)
     
-    
+    case fetchSOSPosts(page: Int)
     case setInitialUrgentPostCardCellVMs([UrgentPostCardViewModel])
     
     // Internal Cases
@@ -55,15 +57,23 @@ struct HomeFeature: Reducer {
         return .run { [state] send in
           
           await send(.setIsLoadingInitialData(true))
+          await send(.fetchSOSPosts(page: 1))
+          await send(.setIsLoadingInitialData(false))
+          
         
+        } catch: { error, send in
+          print("❌ error fetching posts: \(error)")
+        }
+        
+      case .fetchSOSPosts(let page):
+        return .run { [state] send in
           
           let postModel = try await postService.getSOSPosts(
             authorId: nil,
-            page: 1,
+            page: page,
             size: 20,
-            sortBy: "newest"
+            sortBy: state.selectedFilterOption.rawValue
           )
-        
           
           let cellVMs = postModel
             .items
@@ -77,16 +87,15 @@ struct HomeFeature: Reducer {
                 postId: item.id
               )
             }
-        
-          await send(.setIsLoadingInitialData(false))
+          
           await send(.setInitialUrgentPostCardCellVMs(cellVMs))
-        
+          
         } catch: { error, send in
+          Toast.shared.presentCommonError()
           print("❌ error fetching posts: \(error)")
         }
         
       case .setInitialUrgentPostCardCellVMs(let cellVMs):
-        print("✅ existing data: \(state.urgentPostCardCellViewModels.count)")
         state.urgentPostCardCellViewModels = cellVMs
         return .none
     
@@ -97,6 +106,16 @@ struct HomeFeature: Reducer {
       case .onSelectedCategoryChange(let category):
         state.selectedCategory = category
         return .none
+        
+      case .onSelectedFilterOptionChange(let filterOption):
+        state.selectedFilterOption          = filterOption
+        state.urgentPostCardCellViewModels  = []
+        
+        return .run { send in
+          await send(.setIsLoadingInitialData(true))
+          await send(.fetchSOSPosts(page: 1))
+          await send(.setIsLoadingInitialData(false))
+        }
         
       case .setIsLoadingInitialData(let isLoading):
         state.isLoadingInitialData = isLoading

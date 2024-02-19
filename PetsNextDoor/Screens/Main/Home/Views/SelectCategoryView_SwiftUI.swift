@@ -22,8 +22,21 @@ struct SelectCategoryView_SwiftUI: View {
       }
     }
   }
+  
+  enum FilterOption: String {
+    case newest   = "newest"
+    case deadline = "deadline"
+    
+    var description: String {
+      switch self {
+      case .newest:   "최신순"
+      case .deadline: "마감순"
+      }
+    }
+  }
 
   @Binding var selectedCategory: Category
+  @Binding var filterOption: FilterOption
 
   var body: some View {
     HStack {
@@ -32,15 +45,31 @@ struct SelectCategoryView_SwiftUI: View {
       
       Menu {
         Button {
-          
+          filterOption = .newest
         } label: {
           HStack {
-            Text("최신순")
+            Text(FilterOption.newest.description)
+            Spacer()
+            if filterOption == .newest {
+              Image(systemName: "checkmark")
+            }
+          }
+        }
+        
+        Button {
+          filterOption = .deadline
+        } label: {
+          HStack {
+            Text(FilterOption.deadline.description)
+            Spacer()
+            if filterOption == .deadline {
+              Image(systemName: "checkmark")
+            }
           }
         }
 
       } label: {
-        Text("최신순")
+        Text(filterOption.description)
           .font(.system(size: 16, weight: .bold))
           .foregroundStyle(PND.Colors.commonBlack.asColor)
       }
@@ -89,5 +118,5 @@ struct SelectCategoryView_SwiftUI: View {
 }
 
 #Preview {
-  SelectCategoryView_SwiftUI(selectedCategory: .constant(.onlyCats))
+  SelectCategoryView_SwiftUI(selectedCategory: .constant(.onlyCats), filterOption: .constant(.newest))
 }

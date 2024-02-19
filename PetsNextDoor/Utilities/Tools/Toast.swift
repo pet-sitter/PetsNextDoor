@@ -47,6 +47,7 @@ fileprivate class PassthroughWindow: UIWindow {
 }
 
 final class Toast: ObservableObject {
+  
   static let shared = Toast()
   
   @Published fileprivate var toasts: [ToastItem] = []
@@ -63,6 +64,13 @@ final class Toast: ObservableObject {
         toasts.append(.init(title: title, symbol: symbol, tint: tint, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing))
       }
     }
+  }
+}
+
+extension Toast {
+  
+  func presentCommonError() {
+    present(title: .commonError, symbol: "xmark")
   }
 }
 

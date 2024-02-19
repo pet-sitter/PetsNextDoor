@@ -166,6 +166,7 @@
 		DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */; };
 		DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */; };
 		DACDA46D2B63821E00B3A837 /* AddPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACDA46C2B63821E00B3A837 /* AddPetView.swift */; };
+		DAD633122B837DB9004A962E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD633112B837DB9004A962E /* ScheduleView.swift */; };
 		DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */; };
 		DADD6DEA2B2D464C009DB81D /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */; };
 		DADEB6D02AEB8468002BED63 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6CF2AEB8468002BED63 /* Renderer.swift */; };
@@ -349,6 +350,7 @@
 		DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		DACDA46C2B63821E00B3A837 /* AddPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetView.swift; sourceTree = "<group>"; };
+		DAD633112B837DB9004A962E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFilledTextField.swift; sourceTree = "<group>"; };
 		DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		DADEB6CF2AEB8468002BED63 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
@@ -634,6 +636,7 @@
 				DA419C932A9B329800C76AB9 /* Home */,
 				DA419C942A9B329E00C76AB9 /* Community */,
 				DA419C952A9B32AF00C76AB9 /* Chat */,
+				DAD633102B837DA7004A962E /* Schedule */,
 				DA419C962A9B32B500C76AB9 /* MyPage */,
 			);
 			path = Main;
@@ -978,6 +981,14 @@
 			path = UrgentPostDetail;
 			sourceTree = "<group>";
 		};
+		DAD633102B837DA7004A962E /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				DAD633112B837DB9004A962E /* ScheduleView.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
 		DADD6DE82B2D4641009DB81D /* SwiftUI_Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1151,6 +1162,7 @@
 				DA324B212AFCCF9F002BA739 /* StackViewSpacer.swift in Sources */,
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
 				DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */,
+				DAD633122B837DB9004A962E /* ScheduleView.swift in Sources */,
 				DA38FC322AADA19800A81C93 /* MyPageFeature.swift in Sources */,
 				DA8A34FE2A765B850054FE25 /* Component.swift in Sources */,
 				7C51EF732A94EE60003132A1 /* BaseUnderlinedTextFieldView.swift in Sources */,

@@ -71,9 +71,12 @@ struct PNDRootFeature: Reducer {
 struct TabBarView: View {
   
   @EnvironmentObject var router: Router
+  @State var index: Int = 0
+  
+  private let imageSize: CGFloat = 32
   
   var body: some View {
-    TabView {
+    TabView(selection: $index) {
       NavigationStack(path: $router.navigationPath) {
         HomeView(store: .init(
           initialState: HomeFeature.State(),
@@ -82,42 +85,52 @@ struct TabBarView: View {
       }
       .environmentObject(router)
       .tabItem {
-        VStack {
-          Image("icon_home")
-        }
+        Image(index == 0 ? R.image.icon_home_selected : R.image.icon_home)
+          .resizable()
+          .frame(width: imageSize, height: imageSize)
       }
+      .tag(0)
       
       CommunityView(store: .init(
         initialState: CommunityFeature.State(),
         reducer: {CommunityFeature()}
       ))
       .tabItem {
-        VStack {
-          Image("icon_community")
-        }
+        Image(index == 1 ? R.image.icon_community_selected : R.image.icon_community)
+          .resizable()
+          .frame(width: imageSize, height: imageSize)
       }
+      .tag(1)
       
       ChatListView(store: .init(
         initialState: .init(),
         reducer: { ChatListFeature() }
       ))
       .tabItem {
-        VStack {
-          Image("icon_chat")
-        }
+        Image(index == 2 ? R.image.icon_chat_selected : R.image.icon_chat)
+          .resizable()
+          .frame(width: imageSize, height: imageSize)
       }
+      .tag(2)
+      
+      ScheduleView()
+        .tabItem {
+          Image(index == 3 ? R.image.icon_calendar_selected : R.image.icon_calendar)
+            .resizable()
+            .frame(width: imageSize, height: imageSize)
+        }
+        .tag(3)
       
       MyPageView(store: .init(
         initialState: .init(),
         reducer: { MyPageFeature()}
       ))
       .tabItem {
-        VStack {
-          Image("icon_user")
-        }
+        Image(index == 4 ? R.image.icon_user_selected : R.image.icon_user)
+          .resizable()
+          .frame(width: imageSize, height: imageSize)
       }
-      
-      
+      .tag(4)
     }
   }
 }
