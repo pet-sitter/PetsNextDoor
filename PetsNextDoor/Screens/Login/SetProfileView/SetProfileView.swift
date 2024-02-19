@@ -84,7 +84,7 @@ struct SetProfileView: View {
         Spacer()
         
         BaseBottomButton_SwiftUI(
-          title: "다음으로",
+          title: "회원가입",
           isEnabled: viewStore.binding(
             get: \.isBottomButtonEnabled,
             send: { ._setIsBottomButtonEnabled($0) }

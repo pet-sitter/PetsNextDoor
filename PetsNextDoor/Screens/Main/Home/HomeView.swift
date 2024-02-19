@@ -46,14 +46,15 @@ struct HomeView: View {
               
           } else {
             LazyVStack(spacing: 0) {
+              
               ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
-                let _ = print("✅ vm: \(vm)")
                 UrgentPostCardView_SwiftUI(viewModel: vm)
                   .onTapGesture {
                     router.pushScreen(to: UrgentPostDetailFeature.State(postId: vm.postId))
                   }
               }
             }
+            
           }
         }
       }

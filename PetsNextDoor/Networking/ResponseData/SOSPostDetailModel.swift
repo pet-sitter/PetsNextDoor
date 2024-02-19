@@ -11,7 +11,7 @@ extension PND {
   
   struct SOSPostDetailModel: Codable, Equatable {
     
-    let authorId: Int?
+    let author: Author
     let careType: CareType
     let carerGender: PND.Sex
     @DefaultEmptyArray var conditions: [PND.Condition]
@@ -29,7 +29,7 @@ extension PND {
     let updatedAt: String?
   
     enum CodingKeys: String, CodingKey {
-      case authorId = "author_id"
+      case author
       case careType = "care_type"
       case carerGender = "carer_gender"
       case conditions, content
@@ -64,6 +64,17 @@ extension PND {
       self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .foster
     }
     
+  }
+  
+  struct Author: Codable, Hashable {
+    
+    let id: Int
+    let nickname: String
+    let profileImageUrl: String?
+    
+    enum CodingKeys: String, CodingKey {
+      case id, nickname, profileImageUrl
+    }
   }
   
 }

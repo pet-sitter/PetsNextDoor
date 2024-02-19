@@ -39,8 +39,7 @@ struct UrgentPostDetailFeature: Reducer {
   }
   
   enum Action: Equatable, RestrictiveAction {
-   
-		
+  
 		enum ViewAction: Equatable {
 			case onInit
 			case onSelectedTabIndexChange(Int)
@@ -108,8 +107,12 @@ struct UrgentPostDetailFeature: Reducer {
           state.headerImageUrl = URL(string: image.url)
         }
         
-        state.authorProfileImageUrl = URL(string: MockDataProvider.randomPetImageUrlString)
-        state.authorName = "아롱맘"
+        if let authorProfileImageUrl = postDetailModel.author.profileImageUrl {
+          state.authorProfileImageUrl = URL(string: authorProfileImageUrl)
+        }
+        
+        
+        state.authorName = postDetailModel.author.nickname
         state.region = "화곡동"
         
         return .none
@@ -392,20 +395,14 @@ struct UrgentPostDetailView: View {
                   .font(.system(size: 12, weight: .medium))
                   .foregroundColor(.white)
                 
-                Text("·")
-                  .foregroundColor(.white)
-                
-                Text("여성")
-                  .font(.system(size: 12, weight: .medium))
-                  .foregroundColor(.white)
-                
-                Text("·")
-                  .foregroundColor(.white)
-                
-                Text(region)
-                  .font(.system(size: 12, weight: .medium))
-                  .foregroundColor(.white)
-                
+                if !region.isEmpty {
+                  Text("·")
+                    .foregroundColor(.white)
+                  
+                  Text(region)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.white)
+                }
               }
             }
             .padding()

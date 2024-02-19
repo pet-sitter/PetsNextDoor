@@ -48,31 +48,32 @@ struct LoginFeature: Reducer {
         state.isLoading = true
         
         return .run { send in
+      
+          let loginResult = await loginService.signInWithGoogle()
           
-          await send(.setProfileState(.init(email: "", fbProviderType: .google, fbUid: "123", fullname: "Kevin", profileImageId: 1)))
+          switch loginResult {
+            case let .success(isUserRegistrationNeeded, userRegisterModel):
+            
+            if isUserRegistrationNeeded {     // 로그인 성공 - 자체 DB 회원가입 필요
+              await send(.setProfileState(.init(
+                email: "",
+                fbProviderType: .google,
+                fbUid: "123",
+                fullname: "Kevin",
+                profileImageId: 1)))
+              
+            } else {
+              await send(.setIsLoggedIn(true))
+            }
+            
+          case .failed(let reason):
+            print("❌ signInWithGoogle failed : \(reason)")
+            await MainActor.run {
+              Toast.shared.present(title: .commonError, symbol: "xmark")
+            }
+          }
           
-          
-//          let loginResult = await loginService.signInWithGoogle()
-//          
-//          switch loginResult {
-//          case let .success(isUserRegistrationNeeded, userRegisterModel):
-//            print("✅ isUserRegistrationNeeded: \(isUserRegistrationNeeded) .. userRegisterModel: \(userRegisterModel)")
-//            
-//            await send(.setProfileState(.init(email: "", fbProviderType: .google, fbUid: "123", fullname: "Kevin", profileImageId: 1)))
-//            
-////            if isUserRegistrationNeeded, let userRegisterModel {
-////              await send(.setProfileState(userRegisterModel))
-////            } else {
-////              await send(.setIsLoggedIn(true))
-////            }
-//            
-//          case .failed(let reason):
-//            // ToastMessage 비슷한거 띄우기
-//            // 아래 코드는 임시
-//            print("❌ signInWithGoogle failed : \(reason)")
-//            break
-//          }
-//          await send(._setIsLoading(false))
+          await send(._setIsLoading(false))
         }
         
       case .didTapKakaoLogin:
@@ -99,7 +100,6 @@ struct LoginFeature: Reducer {
         
         window?.rootViewController = UIHostingController(rootView: TabBarView().environmentObject(Router()))
         window?.makeKeyAndVisible()
-        
         
         state.isLoggedIn = isLoggedIn
         return .none

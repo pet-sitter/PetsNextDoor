@@ -12,6 +12,7 @@ extension PND {
   struct SOSPostListModel: Codable {
     let page: Int
     let size: Int
+    let is_last_page: Bool
     let items: [SOSPostModel]
   }
   

@@ -28,7 +28,7 @@ struct UrgentPostCardView_SwiftUI: View {
       Spacer()
         .frame(width: PND.Metrics.defaultSpacing)
       
-      KFImage(URL(string: "https://placedog.net/200/200?random"))
+      KFImage(URL(string: viewModel.mainImageUrlString ?? ""))
         .placeholder {
           ProgressView()
         }

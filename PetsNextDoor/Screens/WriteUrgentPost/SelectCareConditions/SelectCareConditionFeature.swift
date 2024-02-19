@@ -57,7 +57,7 @@ struct SelectCareConditionFeature: Reducer {
         case 1:
           state.urgentPostModel.carerGender = .female
         case 2:
-          state.urgentPostModel.carerGender = .female // 상관없음이 추가되어야 함
+          state.urgentPostModel.carerGender = .all 
         default: ()
         }
         return .none

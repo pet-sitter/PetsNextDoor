@@ -38,7 +38,13 @@ struct HomeFeature: Reducer {
     
     // Internal Cases
     
-    case setIsLoading(Bool)
+    case setIsLoadingInitialData(Bool)
+  }
+  
+
+  init() {
+    // 지금 문제 - init 이 여러번 불림 - 다른 화면 갔다와도 불림
+    print("✅ INIT")
   }
   
   var body: some Reducer<State, Action> {
@@ -46,11 +52,10 @@ struct HomeFeature: Reducer {
       switch action {
         
       case .onAppear:
-        if state.urgentPostCardCellViewModels.isEmpty == false { return .none }
-        
-        return .run { send in
+        return .run { [state] send in
           
-          await send(.setIsLoading(true))
+          await send(.setIsLoadingInitialData(true))
+        
           
           let postModel = try await postService.getSOSPosts(
             authorId: nil,
@@ -62,24 +67,26 @@ struct HomeFeature: Reducer {
           
           let cellVMs = postModel
             .items
-            .compactMap {
-              UrgentPostCardViewModel(
-                mainImageUrlString: "https://placedog.net/200/200?random",
-                postTitle: $0.title,
-                date: $0.date_end_at,
-                location: "중곡동",
-                cost: "10,500",
-                postId: $0.id
+            .compactMap { item -> UrgentPostCardViewModel in
+              return UrgentPostCardViewModel(
+                mainImageUrlString: item.media.first?.url ?? "",
+                postTitle: item.title,
+                date: item.date_end_at,
+                location: "N/A",
+                cost: item.reward,
+                postId: item.id
               )
             }
         
+          await send(.setIsLoadingInitialData(false))
           await send(.setInitialUrgentPostCardCellVMs(cellVMs))
-          await send(.setIsLoading(false))
+        
         } catch: { error, send in
           print("❌ error fetching posts: \(error)")
         }
         
       case .setInitialUrgentPostCardCellVMs(let cellVMs):
+        print("✅ existing data: \(state.urgentPostCardCellViewModels.count)")
         state.urgentPostCardCellViewModels = cellVMs
         return .none
     
@@ -91,7 +98,7 @@ struct HomeFeature: Reducer {
         state.selectedCategory = category
         return .none
         
-      case .setIsLoading(let isLoading):
+      case .setIsLoadingInitialData(let isLoading):
         state.isLoadingInitialData = isLoading
         return .none
       }
