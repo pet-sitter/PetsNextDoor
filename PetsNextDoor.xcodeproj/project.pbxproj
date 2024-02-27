@@ -62,6 +62,7 @@
 		DA275C672A44817700D09F77 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C662A44817700D09F77 /* GoogleSignIn */; };
 		DA275C692A44817700D09F77 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C682A44817700D09F77 /* GoogleSignInSwift */; };
 		DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA275C6B2A4481A600D09F77 /* SnapKit */; };
+		DA2E7BCA2B8C63EE001B929C /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2E7BC92B8C63EE001B929C /* PageControl.swift */; };
 		DA324B212AFCCF9F002BA739 /* StackViewSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */; };
 		DA38FC252AAB02B800A81C93 /* HomeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC242AAB02B800A81C93 /* HomeFeature.swift */; };
 		DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */; };
@@ -244,6 +245,7 @@
 		DA25E8772B57AC900068D2F0 /* PND.HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PND.HostingController.swift; sourceTree = "<group>"; };
 		DA25E87B2B57CDA10068D2F0 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
 		DA275C582A44767100D09F77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DA2E7BC92B8C63EE001B929C /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewSpacer.swift; sourceTree = "<group>"; };
 		DA38FC242AAB02B800A81C93 /* HomeFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeature.swift; sourceTree = "<group>"; };
 		DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardComponent.swift; sourceTree = "<group>"; };
@@ -1000,6 +1002,7 @@
 				DA3A94712B51241000B3529C /* SegmentButtonControlView.swift */,
 				DA3A94742B51242600B3529C /* SegmentControlView_SwiftUI.swift */,
 				DA3A946E2B51238B00B3529C /* TextEditorWithPlaceholder.swift */,
+				DA2E7BC92B8C63EE001B929C /* PageControl.swift */,
 			);
 			path = SwiftUI_Views;
 			sourceTree = "<group>";
@@ -1238,6 +1241,7 @@
 				DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */,
 				DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */,
 				DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */,
+				DA2E7BCA2B8C63EE001B929C /* PageControl.swift in Sources */,
 				DA25E87C2B57CDA10068D2F0 /* CommunityView.swift in Sources */,
 				DABF954B2B3FF97F004DFC3E /* PNDLoginPlugin.swift in Sources */,
 				DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */,

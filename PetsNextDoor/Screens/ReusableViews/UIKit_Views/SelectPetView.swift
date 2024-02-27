@@ -24,7 +24,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   @Published var gender: PND.Sex
   @Published var petType: PND.PetType
   @Published var birthday: String
-  let weight: Int
+  var weight: Int? = nil
   
   init(
     id: Int = UUID().hashValue,
@@ -38,7 +38,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
     gender: PND.Sex,
     petType: PND.PetType,
     birthday: String,
-    weight: Int,
+    weight: Int? = nil,
     isDeleteButtonHidden: Bool = true
   ) {
     self.id = id

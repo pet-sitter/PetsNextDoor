@@ -14,11 +14,12 @@ struct MyPageView: View {
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      Text("MyPageView")
+
     }
   }
 }
 
 #Preview {
+
   MyPageView(store: .init(initialState: .init(), reducer: { MyPageFeature() }))
 }

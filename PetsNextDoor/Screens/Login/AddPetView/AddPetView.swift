@@ -38,7 +38,6 @@ struct AddPetView: View {
           )
           .font(.system(size: 20, weight: .medium))
           .padding(8)
-//          .frame(width: .infinity)
           .frame(height: 54)
           .padding(.horizontal, PND.Metrics.defaultSpacing)
           .multilineTextAlignment(.leading)
@@ -50,70 +49,24 @@ struct AddPetView: View {
             .frame(height: 1)
             .foregroundStyle(PND.Colors.gray50.asColor)
           
-          
           Spacer().frame(height: 20)
           
           SelectConditionView(
-            leftImageName: nil,
-            conditionTitle: "성별",
+            leftImageName: R.image.icon_paw.name,
+            conditionTitle: viewStore.selectedPetType == .cat ? "묘종" : "견종",
             rightContentView: {
-              SegmentControlView_SwiftUI(
-                selectedIndex:  viewStore.binding(
-                  get: \.selectedGenderIndex,
-                  send: { .onPetGenderIndexChange($0) }
-                ),
-                segmentTitles: ["남자", "여자"]
-              )
-            }
-          )
-          
-          Spacer().frame(height: 20)
-          
-          SelectConditionView(
-            leftImageName: nil,
-            conditionTitle: "중성화 여부",
-            rightContentView: {
-              CheckBoxView(isSelected: viewStore.binding(
-                get: \.isNeutralized,
-                send: { .onIsNeutralizedCheckBoxTap($0) }
-              ))
-            }
-          )
-          
-          Spacer().frame(height: 20)
-          
-          SelectConditionView(
-            leftImageName: nil,
-            conditionTitle: "묘종",
-            rightContentView: {
-              Text(viewStore.selectedBreedName ?? "묘종 입력하기")
+              Text(viewStore.selectedBreedName ?? (viewStore.selectedPetType == .cat ? "묘종 입력하기" : "견종 입력하기"))
                 .foregroundStyle(viewStore.selectedBreedName == nil ? .gray : .commonBlack)
                 .onTapGesture {
                   viewStore.send(.onSelectPetSpeciesButtonTap)
                 }
             }
           )
-          
-          Spacer().frame(height: 20)
 
-          SelectConditionView(
-            leftImageName: nil,
-            conditionTitle: "날짜",
-            rightContentView: {
-              DatePicker(
-                selection: viewStore.binding(
-                  get: \.birthdayDate,
-                  send: { .onPetBirthdayDateChange($0) }
-                ),
-                displayedComponents: .date
-              ) {}
-            }
-          )
-          
           Spacer().frame(height: 20)
           
           SelectConditionView(
-            leftImageName: nil,
+            leftImageName: R.image.icon_paw.name,
             conditionTitle: "몸무게",
             rightContentView: {
               TextField(
@@ -136,26 +89,70 @@ struct AddPetView: View {
           
           Spacer().frame(height: 20)
           
-          Text("기타 특이사항")
-            .font(.system(size: 20, weight: .bold))
-            .lineLimit(1)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .padding(.leading, PND.Metrics.defaultSpacing)
+          SelectConditionView(
+            leftImageName: R.image.icon_heart.name,
+            conditionTitle: "성별",
+            rightContentView: {
+              HStack(spacing: 8) {
+                SegmentControlView_SwiftUI(
+                  selectedIndex:  viewStore.binding(
+                    get: \.selectedGenderIndex,
+                    send: { .onPetGenderIndexChange($0) }
+                  ),
+                  segmentTitles: ["남자", "여자"]
+                )
+                CheckBoxView(isSelected: viewStore.binding(
+                  get: \.isNeutralized,
+                  send: { .onIsNeutralizedCheckBoxTap($0) }
+                ))
+                Text("중성화")
+                  .font(.system(size: 20, weight: .bold))
+              }
+
+            }
+          )
           
           Spacer().frame(height: 20)
-           
-          TextEditorWithPlaceholder(
-            text: viewStore.binding(
+          
+          SelectConditionView(
+            leftImageName: R.image.icon_cal.name,
+            conditionTitle: "날짜",
+            rightContentView: {
+              DatePicker(
+                selection: viewStore.binding(
+                  get: \.birthdayDate,
+                  send: { .onPetBirthdayDateChange($0) }
+                ),
+                displayedComponents: .date
+              ) {}
+            }
+          )
+
+          
+          Spacer().frame(height: 20)
+          
+          SelectConditionView(
+            leftImageName: R.image.icon_memo.name,
+            conditionTitle: "메모",
+            rightContentView: {
+              
+            }
+          )
+
+          Spacer().frame(height: 20)
+            
+          TextEditorWithBackground(
+            text: viewStore.binding( 
               get: \.otherInfo,
               send: { .onOtherInfoChange($0) }
             ),
-            placeholder: "돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명"
+            placeholder: "반려동물에 대해 주의할 점이 있다면 메모해주세요.\nex) 닭고기 알레르기가 있어요."
           )
           .padding(.horizontal, PND.Metrics.defaultSpacing)
-          
+          .frame(height: 200)
         }
       }
-      
+        
       BaseBottomButton_SwiftUI(
         title: "추가하기",
         isEnabled: viewStore.binding(
@@ -174,6 +171,7 @@ struct AddPetView: View {
       )
     ) { PetSpeciesListView(store: $0) }
   }
+
 }
 
 #Preview {

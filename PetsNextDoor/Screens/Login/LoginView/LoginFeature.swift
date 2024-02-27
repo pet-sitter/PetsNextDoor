@@ -53,7 +53,12 @@ struct LoginFeature: Reducer {
           
           switch loginResult {
             case let .success(isUserRegistrationNeeded, userRegisterModel):
-            
+//            await send(.setProfileState(.init(
+//              email: "",
+//              fbProviderType: .google,
+//              fbUid: "123",
+//              fullname: "Kevin",
+//              profileImageId: 1)))
             if isUserRegistrationNeeded {     // 로그인 성공 - 자체 DB 회원가입 필요
               await send(.setProfileState(.init(
                 email: "",

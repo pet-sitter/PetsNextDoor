@@ -112,7 +112,7 @@ struct SetProfileFeature: Reducer {
                   neutered: petVM.isPetNeutralized,
                   breed: petVM.petSpecies,
                   birth_date: petVM.birthday,
-                  weight_in_kg: petVM.weight
+                  weight_in_kg: petVM.weight ?? 0
                 )
               }
             )

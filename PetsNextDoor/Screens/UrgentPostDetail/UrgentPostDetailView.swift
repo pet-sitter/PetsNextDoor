@@ -16,7 +16,7 @@ struct UrgentPostDetailFeature: Reducer {
     let postId: Int
     
     // view related
-    var selectedTabIndex: Int = 0
+    var selectedTabIndex: Int = 2
     var isLoading: Bool = false
     
     // header
@@ -36,6 +36,7 @@ struct UrgentPostDetailFeature: Reducer {
     
     // 반려동물 프로필
     var pets: [PND.Pet] = []
+    var careNeededPetViewModels: [SelectPetViewModel] = []
   }
   
   enum Action: Equatable, RestrictiveAction {
@@ -80,8 +81,8 @@ struct UrgentPostDetailFeature: Reducer {
           await send(.internal(.setHeaderInfo(postDetail)))
           await send(.internal(.setConditionInfo(postDetail)))
           await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
-          await send(.internal(.setPetProfileInfo(postDetail.pets)))
-					
+//          await send(.internal(.setPetProfileInfo(postDetail.pets)))
+          await send(.internal(.setPetProfileInfo([PND.Pet(id: 1, name: "다롱이", pet_type: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weight_in_kg: 2), PND.Pet(id: 1, name: "다롱이", pet_type: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weight_in_kg: 2), PND.Pet(id: 1, name: "다롱이", pet_type: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weight_in_kg: 2)])))
           
 			
           
@@ -141,6 +142,20 @@ struct UrgentPostDetailFeature: Reducer {
         // 반려동물 프로필
       case .internal(.setPetProfileInfo(let pets)):
         state.pets = pets
+        state.careNeededPetViewModels = pets.map { pet -> SelectPetViewModel in
+          SelectPetViewModel(
+            petImageUrlString: MockDataProvider.randomPetImageUrlString,
+            petName: pet.name,
+            petSpecies: pet.breed,
+            petAge: 1,
+            isPetNeutralized: pet.neutered,
+            isPetSelected: false,
+            gender: pet.sex,
+            petType: pet.pet_type,
+            birthday: pet.birth_date,
+            isDeleteButtonHidden: true
+          )
+        }
         return .none
 				
 			case .internal(.setIsLoading(let isLoading)):
@@ -158,6 +173,8 @@ import Kingfisher
 struct UrgentPostDetailView: View {
   
   let store: StoreOf<UrgentPostDetailFeature>
+  
+  @State var pageIndex: Int = 0
   
   struct Constants {
     static let headerViewHeight: CGFloat = 270
@@ -253,12 +270,10 @@ struct UrgentPostDetailView: View {
               case 2:
                 VStack(alignment: .center) {
                   
-                  
                   Text("돌봄이 필요한 반려동물")
                     .font(.system(size: 16, weight: .semibold))
                     .modifier(TextLeadingModifier())
-                  
-                  
+                    .padding(.leading, 16)
                   
                   Spacer().frame(height: 9)
                   
@@ -267,42 +282,35 @@ struct UrgentPostDetailView: View {
                     Text("반려동물 등록 정보가 없습니다.")
                   } else {
                     
-                    HStack(spacing: 12) {
-
-                      Circle()
-                        .frame(width: 100, height: 100)
-                        .overlay {
-                          KFImage(MockDataProvider.randomePetImageUrl)
-                            .placeholder {
-                              ProgressView()
-                            }
-                            .resizable()
-                            .scaledToFill()
-                            .clipped()
-                            .cornerRadius(50)
-                        }
-                      
-                      VStack(spacing: 4) {
-                        Text(viewStore.pets.first!.name)
-                          .font(.system(size: 20, weight: .bold))
-                        
+                    TabView(selection: $pageIndex.animation()) {
+                      ForEach(0..<viewStore.pets.count, id: \.self) { index in
+                        SelectPetView(
+                          viewModel: viewStore.careNeededPetViewModels.first!,
+                          onDeleteButtonTapped: nil
+                        )
+                        .tag(index)
                       }
-                      
+                      .frame(height: 100)
                     }
-                    .frame(
-                      maxWidth: UIScreen.fixedScreenSize.width - (PND.Metrics.defaultSpacing * 2),
-                      alignment: .leading
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .frame(height: 120)
+                    .overlay(
+                      alignment: .bottom,
+                      content: {
+                        PageControl(
+                          numberOfPages: viewStore.pets.count,
+                          currentIndex: $pageIndex
+                        )
+                        .offset(y: 10)
+                      }
                     )
-                    .padding()
-                    .background(PND.Colors.gray10.asColor)
-                    .cornerRadius(4)
-                    .frame(height: 142)
                     
                     Spacer().frame(height: 20)
                     
-                    Text("N/A의 반려동물")
+                    Text("\(viewStore.authorName)의 반려동물")
                       .font(.system(size: 16, weight: .semibold))
                       .modifier(TextLeadingModifier())
+                      .padding(.leading, 16)
                     
                     Spacer().frame(height: 8)
 
@@ -314,8 +322,8 @@ struct UrgentPostDetailView: View {
                         }
 
                         Spacer()
-                        
                       }
+                      .padding(.leading, 12)
                       .frame(width: UIScreen.main.bounds.size.width)
                       .frame(minHeight: 150)
                     }
@@ -323,7 +331,6 @@ struct UrgentPostDetailView: View {
                   }
                 }
                 .padding(.top, 12)
-                .padding(.horizontal, PND.Metrics.defaultSpacing)
 							
 							default:
 								SwiftUI.EmptyView()
@@ -362,7 +369,6 @@ struct UrgentPostDetailView: View {
         .frame(width: size.width, height: height, alignment: .top)
         .overlay {
           ZStack(alignment: .bottom) {
-            // For dimming out the text content
             LinearGradient(
               colors: [.clear, .black.opacity(0.5)],
               startPoint: .top,

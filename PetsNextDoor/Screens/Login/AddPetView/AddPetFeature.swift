@@ -17,6 +17,7 @@ struct AddPetFeature: Reducer {
     var gender: PND.Sex = .male
     var isNeutralized: Bool = false
     let selectedPetType: PND.PetType
+    
     var birthdayDate: Date = .init()
     var weight: Int?
     var otherInfo: String = ""

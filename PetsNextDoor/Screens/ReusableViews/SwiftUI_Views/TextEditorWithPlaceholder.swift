@@ -29,9 +29,38 @@ struct TextEditorWithPlaceholder: View {
           .font(.system(size: 16, weight: .regular))
           .opacity(text.isEmpty ? 0.7 : 1)
           .tint(.primary)
+          
         Spacer()
       }
+      .background(Color.gray20)
+      .cornerRadius(8)
     }
+  }
+}
+
+struct TextEditorWithBackground: View {
+  
+  @Binding var text: String
+  let placeholder: String
+  
+  var body: some View {
+    ZStack {
+      if text.isEmpty {
+        TextEditor(text: .constant(placeholder))
+          .font(.body)
+          .foregroundColor(.gray)
+          .disabled(true)
+          .padding()
+          .scrollContentBackground(.hidden)
+      }
+      TextEditor(text: $text)
+        .font(.body)
+        .opacity(self.text.isEmpty ? 0.25 : 1)
+        .padding()
+        .scrollContentBackground(.hidden)
+    }
+    .background(Color.gray20)
+    .cornerRadius(8)
   }
 }
 

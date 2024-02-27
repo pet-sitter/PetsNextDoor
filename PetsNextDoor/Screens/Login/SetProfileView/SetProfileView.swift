@@ -128,7 +128,7 @@ struct SelectProfileImageView: View {
         maxSelectionCount: 1,
         matching: .images
       ) {
-        Rectangle()
+        Circle()
           .fill(PND.Colors.gray20.asColor)
           .frame(width: 100, height: 100)
           .cornerRadius(4)
@@ -137,7 +137,19 @@ struct SelectProfileImageView: View {
               Image(uiImage: selectedImage)
                 .resizable()
                 .frame(width: 100, height: 100)
-                .cornerRadius(4)
+                .clipShape(Circle())
+                .overlay(alignment: .bottomTrailing) {
+                  Circle()
+                    .fill(Color.black)
+                    .frame(width: 28, height: 28)
+                    .overlay(
+                      Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 14, height: 14)
+                        .tint(PND.Colors.primary.asColor)
+                    )
+                }
             } else {
               Image(systemName: "photo")
                 .frame(width: 24, height: 24)
