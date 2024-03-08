@@ -24,8 +24,8 @@ extension Dictionary {
       return dictionary
     }
     
-    func setOptional(key: String?, value: Any) -> Self {
-      if let key {
+    func setOptional(key: String, value: Any?) -> Self {
+      if let value {
         dictionary[key] = value
       }
       return self

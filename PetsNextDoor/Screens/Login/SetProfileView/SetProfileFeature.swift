@@ -107,7 +107,7 @@ struct SetProfileFeature: Reducer {
                 PND.Pet(
                   id: Int(arc4random()),
                   name: petVM.petName,
-                  pet_type: petVM.petType,
+                  petType: petVM.petType,
                   sex: petVM.gender,
                   neutered: petVM.isPetNeutralized,
                   breed: petVM.petSpecies,

@@ -36,3 +36,13 @@ struct TextTrailingModifier: ViewModifier {
     }
   }
 }
+
+struct BackgroundDebugModifier: ViewModifier {
+  
+  var color: Color = Color.blue.opacity(0.23)
+  
+  func body(content: Content) -> some View {
+    content
+      .background(color)
+  }
+}

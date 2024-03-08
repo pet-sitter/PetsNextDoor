@@ -58,7 +58,7 @@ struct SelectPetFeature: Reducer {
             petSpecies: $0.breed,
             petAge: DateConverter.calculateAge($0.birth_date),
             gender: $0.sex,
-            petType: $0.pet_type,
+            petType: $0.petType,
             birthday: $0.birth_date,
             weight: $0.weight_in_kg
           )

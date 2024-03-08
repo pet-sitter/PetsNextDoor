@@ -62,7 +62,7 @@ struct AddPetView: View {
                 }
             }
           )
-
+          
           Spacer().frame(height: 20)
           
           SelectConditionView(
@@ -127,34 +127,29 @@ struct AddPetView: View {
               ) {}
             }
           )
-
-          
-          Spacer().frame(height: 20)
-          
-          SelectConditionView(
-            leftImageName: R.image.icon_memo.name,
-            conditionTitle: "메모",
-            rightContentView: {
-              
-            }
-          )
-
-          Spacer().frame(height: 20)
-            
-          TextEditorWithBackground(
-            text: viewStore.binding( 
-              get: \.otherInfo,
-              send: { .onOtherInfoChange($0) }
-            ),
-            placeholder: "반려동물에 대해 주의할 점이 있다면 메모해주세요.\nex) 닭고기 알레르기가 있어요."
-          )
-          .padding(.horizontal, PND.Metrics.defaultSpacing)
-          .frame(height: 200)
         }
       }
-        
+      .sheet(
+        store: self.store.scope(
+          state: \.$petSpeciesListState,
+          action: AddPetFeature.Action.petSpeciesListAction
+        )
+      ) { store in
+        PetSpeciesListView(store: store)
+          .presentationDetents([.medium])
+          .presentationDragIndicator(.visible)
+          .presentationCornerRadius(20)
+      }
+      .navigationDestination(
+        store: store.scope(
+          state: \.$addCautionsState,
+          action: AddPetFeature.Action.addCautionsAction)
+      ) { store in
+        AddCautionsView(store: store)
+      }
+          
       BaseBottomButton_SwiftUI(
-        title: "추가하기",
+        title: "다음으로",
         isEnabled: viewStore.binding(
           get: \.isBottomButtonEnabled,
           send: { .didTapBottomButton }()
@@ -164,12 +159,6 @@ struct AddPetView: View {
         viewStore.send(.didTapBottomButton)
       }
     }
-    .navigationDestination(
-      store: store.scope(
-        state: \.$petSpeciesListState,
-        action: AddPetFeature.Action.petSpeciesListAction
-      )
-    ) { PetSpeciesListView(store: $0) }
   }
 
 }

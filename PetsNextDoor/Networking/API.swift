@@ -139,7 +139,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case let .getSOSPosts(authorId, page, size, sortBy):
       return .requestParameters(
         parameters: .builder
-          .setOptional(key: "authorId", value: authorId)
+          .setOptional(key: "author_id", value: authorId)
           .setOptional(key: "page", value: page)
           .setOptional(key: "size", value: size)
           .setOptional(key: "sort_by", value: sortBy)
@@ -150,16 +150,16 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case .postSOSPost(let model):
       return .requestParameters(
         parameters: .builder
-          .set(key: "care_type", value: model.careType.rawValue)
-          .set(key: "carer_gender", value: model.carerGender.rawValue)
-          .set(key: "condition_ids", value: model.conditionIds)
+          .set(key: "careType", value: model.careType.rawValue)
+          .set(key: "carerGender", value: model.carerGender.rawValue)
+          .set(key: "conditionIds", value: model.conditionIds)
           .set(key: "content", value: model.content)
-          .set(key: "date_end_at", value: model.dateEndAt)
-          .set(key: "date_start_at", value: model.dateStartAt)
-          .set(key: "image_ids", value: model.imageIds)
-          .set(key: "pet_ids", value: model.petIds)
+          .set(key: "dateEndAt", value: model.dateEndAt)
+          .set(key: "dateStartAt", value: model.dateStartAt)
+          .set(key: "imageIds", value: model.imageIds)
+          .set(key: "petIds", value: model.petIds)
           .set(key: "reward", value: model.reward)
-          .set(key: "reward_amount", value: model.rewardAmount)
+          .set(key: "rewardAmount", value: model.rewardAmount)
           .set(key: "title", value: model.title)
           .build(),
         encoding: JSONEncoding.default
@@ -200,13 +200,13 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       var parameters: [[String : Any]] = [[:]]
       for model in models {
         parameters.append([
-          "birth_date" : model.birth_date,
+          "birthDate" : model.birth_date,
           "breed" : model.breed,
           "name" : model.name,
           "neutered" : model.neutered,
-          "pet_type" : model.pet_type.rawValue,
+          "petType" : model.petType.rawValue,
           "sex" : model.sex.rawValue,
-          "weight_in_kg" : model.weight_in_kg
+          "weightInKg" : model.weight_in_kg
         ])
       }
       
@@ -251,9 +251,10 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     
       
     default:
-      params["Content-Type"] = "application/json"
-      params["accept"] = "application/json;charset=UTF-8"
-      params["Authorization"] = "Bearer \(PNDTokenStore.shared.accessToken)"
+      ()
+//      params["Content-Type"] = "application/json"
+//      params["accept"] = "application/json;charset=UTF-8"
+//      params["Authorization"] = "Bearer \(PNDTokenStore.shared.accessToken)"
     
     }
     return params

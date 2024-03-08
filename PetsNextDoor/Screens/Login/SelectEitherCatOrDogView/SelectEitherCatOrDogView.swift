@@ -25,16 +25,15 @@ struct SelectEitherCatOrDogView: View {
           .padding(.leading, PND.Metrics.defaultSpacing)
         
         HStack(alignment: .center) {
-          
           Rectangle()
             .foregroundColor(viewStore.selectedPetType == .cat ? PND.Colors.primary.asColor : .clear)
           .background(Color(red: 0.95, green: 0.95, blue: 0.95))
           .cornerRadius(4)
-          .overlay {
+          .overlay(alignment: .trailing, content: {
             Image("selectCat")
               .resizable()
               .scaledToFit()
-          }
+          })
           .overlay {
             Text("고양이")
               .fontWeight(.bold)
@@ -44,6 +43,8 @@ struct SelectEitherCatOrDogView: View {
           .onTapGesture {
             viewStore.send(.view(.onPetSelection(.cat)))
           }
+          .clipped()
+      
           
           Spacer()
           
@@ -51,11 +52,12 @@ struct SelectEitherCatOrDogView: View {
             .foregroundColor(viewStore.selectedPetType == .dog ? PND.Colors.primary.asColor : .clear)
           .background(Color(red: 0.95, green: 0.95, blue: 0.95))
           .cornerRadius(4)
-          .overlay {
+          .overlay(alignment: .trailing, content: {
             Image("selectDog")
             .resizable()
             .scaledToFit()
-          }
+            .offset(x: 20, y: 30)
+          })
           .overlay {
             Text("강아지")
               .fontWeight(.bold)
@@ -66,6 +68,7 @@ struct SelectEitherCatOrDogView: View {
           .onTapGesture {
             viewStore.send(.view(.onPetSelection(.dog)))
           }
+          .clipped()
         }
         .frame(height: 160)
         .padding()
@@ -88,7 +91,6 @@ struct SelectEitherCatOrDogView: View {
           state: \.$addPetState,
           action: SelectEitherCatOrDogFeature.Action.addPetAction)
       ) { store in
-        
         AddPetView(store: store)
       }
       .toolbar {
@@ -108,9 +110,6 @@ struct SelectEitherCatOrDogView: View {
 
 
 #Preview {
-  RootView {
-    SelectEitherCatOrDogView(store: .init(initialState: .init(), reducer: { SelectEitherCatOrDogFeature() }))
-    //     Toast.shared.present(title: "로그인 실패", symbol: "info.circle.fill")
-  }
-	
+
+  SelectEitherCatOrDogView(store: .init(initialState: .init(), reducer: { SelectEitherCatOrDogFeature() }))
 }

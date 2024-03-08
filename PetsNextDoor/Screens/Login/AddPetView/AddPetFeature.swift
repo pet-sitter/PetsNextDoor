@@ -20,7 +20,6 @@ struct AddPetFeature: Reducer {
     
     var birthdayDate: Date = .init()
     var weight: Int?
-    var otherInfo: String = ""
     var isBottomButtonEnabled: Bool = false
     var petAge: Int?
    
@@ -28,7 +27,10 @@ struct AddPetFeature: Reducer {
     
     var selectedBreedName: String? = nil
     
+    var cautionText: String = ""
+    
     @PresentationState var petSpeciesListState: PetSpeciesListFeature.State? = nil
+    @PresentationState var addCautionsState: AddCautionsFeature.State? = nil
   }
   
   enum Action: Equatable {
@@ -40,12 +42,12 @@ struct AddPetFeature: Reducer {
     case onSelectPetSpeciesButtonTap
     case onPetBirthdayDateChange(Date)
     case onWeightChange(Int?)
-    case onOtherInfoChange(String)
     
     case didTapBottomButton
-    case onPetAddition
+    case onPetAddComplete
     
     case petSpeciesListAction(PresentationAction<PetSpeciesListFeature.Action>)
+    case addCautionsAction(PresentationAction<AddCautionsFeature.Action>)
   }
   
   var body: some Reducer<State,Action> {
@@ -79,49 +81,73 @@ struct AddPetFeature: Reducer {
         return .none
         
       case .onSelectPetSpeciesButtonTap:
-        state.petSpeciesListState = .init()
+        state.petSpeciesListState = PetSpeciesListFeature.State(selectedPet: state.selectedPetType)
         return .none
         
       case .onPetBirthdayDateChange(let date):
-        state.birthday = DateConverter.convertDateToString(date: date)
-        state.birthdayDate = date
+        state.birthday      = DateConverter.convertDateToString(date: date)
+        state.birthdayDate  = date
         return .none
         
       case .onWeightChange(let weight):
         state.weight = weight
         return .none
         
-      case .onOtherInfoChange(let otherInfoString):
-        state.otherInfo = otherInfoString
-        return .none
-        
       case .didTapBottomButton:
-        if state.selectedBreedName == nil {
-          Toast.shared.present(title: "묘종을 입력하세요", symbol: nil)
+        if state.cautionText.isEmpty  {
+          state.addCautionsState = AddCautionsFeature.State()
+          return .none
+        } else if state.selectedBreedName == nil {
+          let title = state.selectedPetType == .cat ? "묘종을 선택해주세요" : "견종을 선택해주세요"
+          
+          Toast.shared.present(
+            title: title,
+            symbol: nil
+          )
+          
           return .none
         }
-        state.petAge      = 2
-        return .send(.onPetAddition)
         
-      case .onPetAddition:
+        else {
+          state.petAge      = DateConverter.calculateAge(state.birthday)
+          return .send(.onPetAddComplete)
+        }
+        
+      case .onPetAddComplete:
         return .none
         
-      case let .petSpeciesListAction(.presented(.onSelectedBreedChange(breed))):
-        state.selectedBreedName = breed.name
-        state.petSpeciesListState = nil
-        return .none
-        
-      case .petSpeciesListAction(.dismiss):
+      case let .petSpeciesListAction(.presented(.onBreedSelection(breedName))):
+        state.selectedBreedName = breedName
         state.petSpeciesListState = nil
         return .none
         
       case .petSpeciesListAction(.presented(_:)):
         return .none
 
+      case .petSpeciesListAction(.dismiss):
+        state.petSpeciesListState = nil
+        return .none
+        
+        // AddCautions.Action
+        
+      case .addCautionsAction(.presented(.onBottomButtonTap)):
+        state.addCautionsState = nil
+        return .none
+        
+      case .addCautionsAction(.presented(.onCautionTextChange(let text))):
+        state.cautionText = text
+        return .none
+        
+      case .addCautionsAction(.dismiss):
+        state.addCautionsState = nil
+        return .none
       }
     }
     .ifLet(\.$petSpeciesListState, action: /Action.petSpeciesListAction) {
       PetSpeciesListFeature()
+    }
+    .ifLet(\.$addCautionsState, action: /Action.addCautionsAction) {
+      AddCautionsFeature()
     }
   }
 }

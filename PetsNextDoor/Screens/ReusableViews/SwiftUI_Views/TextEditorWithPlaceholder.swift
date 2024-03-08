@@ -50,13 +50,13 @@ struct TextEditorWithBackground: View {
           .font(.body)
           .foregroundColor(.gray)
           .disabled(true)
-          .padding()
+          .padding(20)
           .scrollContentBackground(.hidden)
       }
       TextEditor(text: $text)
         .font(.body)
         .opacity(self.text.isEmpty ? 0.25 : 1)
-        .padding()
+        .padding(20)
         .scrollContentBackground(.hidden)
     }
     .background(Color.gray20)

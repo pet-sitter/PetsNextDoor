@@ -22,7 +22,7 @@ extension PND {
     
     enum CodingKeys: String, CodingKey {
       case id
-      case petType = "pet_type"
+      case petType = "petType"
       case name
     }
   }

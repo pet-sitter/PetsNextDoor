@@ -74,7 +74,7 @@ struct SelectEitherCatOrDogFeature: Reducer {
         state.addPetState = nil 
         return .none
         
-      case .addPetAction(.presented(.onPetAddition)):
+      case .addPetAction(.presented(.onPetAddComplete)):
         if let addPetState = state.addPetState {
           return .send(.delegate(.onPetAddComplete(addPetState)))
         }

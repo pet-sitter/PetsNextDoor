@@ -12,7 +12,7 @@ extension PND {
   struct SOSPostListModel: Codable {
     let page: Int
     let size: Int
-    let is_last_page: Bool
+    let isLastPage: Bool
     let items: [SOSPostModel]
   }
   
@@ -26,12 +26,10 @@ extension PND {
     @DefaultEmptyArray var conditions: [Condition]
     @DefaultEmptyArray var pets: [Pet]
     @DefaultEmptyString var reward: String
-    @DefaultEmptyString var date_start_at: String
-    @DefaultEmptyString var date_end_at: String
-    var care_type: PND.CareType
-    let carer_gender: PND.Sex?
-    @DefaultEmptyString var reward_amount: String
-    let thumbnail_id: Int?
+    var careType: PND.CareType
+    let carerGender: PND.Sex?
+    @DefaultEmptyString var rewardAmount: String
+    let thumbnailId: Int?
   }
   
   struct MediaModel: Codable, Equatable {
@@ -65,7 +63,7 @@ extension PND {
   struct Pet: Codable, Hashable {
     let id: Int
     let name: String
-    let pet_type: PND.PetType
+    let petType: PND.PetType
     let sex: PND.Sex
     let neutered: Bool
     let breed: String

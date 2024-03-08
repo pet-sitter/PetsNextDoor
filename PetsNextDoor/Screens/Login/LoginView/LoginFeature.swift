@@ -48,35 +48,37 @@ struct LoginFeature: Reducer {
         state.isLoading = true
         
         return .run { send in
-      
-          let loginResult = await loginService.signInWithGoogle()
           
-          switch loginResult {
-            case let .success(isUserRegistrationNeeded, userRegisterModel):
-//            await send(.setProfileState(.init(
-//              email: "",
-//              fbProviderType: .google,
-//              fbUid: "123",
-//              fullname: "Kevin",
-//              profileImageId: 1)))
-            if isUserRegistrationNeeded {     // 로그인 성공 - 자체 DB 회원가입 필요
-              await send(.setProfileState(.init(
-                email: "",
-                fbProviderType: .google,
-                fbUid: "123",
-                fullname: "Kevin",
-                profileImageId: 1)))
-              
-            } else {
-              await send(.setIsLoggedIn(true))
-            }
-            
-          case .failed(let reason):
-            print("❌ signInWithGoogle failed : \(reason)")
-            await MainActor.run {
-              Toast.shared.present(title: .commonError, symbol: "xmark")
-            }
-          }
+          await send(.setProfileState(.init(
+            email: "",
+            fbProviderType: .google,
+            fbUid: "123",
+            fullname: "Kevin",
+            profileImageId: 1)))
+      
+//          let loginResult = await loginService.signInWithGoogle()
+//          
+//          switch loginResult {
+//            case let .success(isUserRegistrationNeeded, userRegisterModel):
+//
+//            if isUserRegistrationNeeded {     // 로그인 성공 - 자체 DB 회원가입 필요
+//              await send(.setProfileState(.init(
+//                email: "",
+//                fbProviderType: .google,
+//                fbUid: "123",
+//                fullname: "Kevin",
+//                profileImageId: 1)))
+//              
+//            } else {
+//              await send(.setIsLoggedIn(true))
+//            }
+//            
+//          case .failed(let reason):
+//            print("❌ signInWithGoogle failed : \(reason)")
+//            await MainActor.run {
+//              Toast.shared.present(title: .commonError, symbol: "xmark")
+//            }
+//          }
           
           await send(._setIsLoading(false))
         }

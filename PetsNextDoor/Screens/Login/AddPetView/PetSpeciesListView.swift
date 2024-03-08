@@ -13,18 +13,20 @@ struct PetSpeciesListFeature: Reducer {
   @Dependency(\.petService) var petService
   
   struct State: Hashable {
+    var searchText: String = ""
+    var breedList: [String] = []
     var breedInfo: [PND.BreedInfo] = []
     var petOptions: [PND.PetType] = [.cat, .dog]
-    var selectedPet: PND.PetType = .cat
     var selectedBreed: PND.BreedInfo?
+    let selectedPet: PND.PetType
   }
   
   enum Action: Equatable {
     case onAppear
+    case onSearchTextChange(String)
     case fetchBreeds
     case setBreedInfo([PND.BreedInfo])
-    case onSelectedPetChange(PND.PetType)
-    case onSelectedBreedChange(PND.BreedInfo)
+    case onBreedSelection(String)
   }
   
   var body: some Reducer<State,Action> {
@@ -32,6 +34,13 @@ struct PetSpeciesListFeature: Reducer {
       switch action {
       case .onAppear:
         return .send(.fetchBreeds)
+        
+      case .onSearchTextChange(let text):
+        state.searchText = text
+        state.breedList = state.breedInfo
+          .map(\.name)
+          .filter { $0.hasPrefix(text) }
+        return .none
         
       case .fetchBreeds:
         return .run { [petType = state.selectedPet] send in
@@ -41,16 +50,13 @@ struct PetSpeciesListFeature: Reducer {
         
       case let .setBreedInfo(breedInfo):
         state.breedInfo = breedInfo
+        state.breedList = breedInfo.map(\.name)
         return .none
         
-      case let .onSelectedPetChange(petType):
-        state.selectedPet = petType
-        return .run { send in
-          await send(.fetchBreeds)
+      case .onBreedSelection(let breedName):
+        if let selectedBreed = state.breedInfo.first(where: { $0.name == breedName }) {
+          state.selectedBreed = selectedBreed
         }
-        
-      case .onSelectedBreedChange(let breed):
-        state.selectedBreed = breed
         return .none
       }
     }
@@ -61,49 +67,41 @@ struct PetSpeciesListView: View {
   
   let store: StoreOf<PetSpeciesListFeature>
   
+  @State var text: String = ""
+  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack(spacing: 0) {
-        Picker(
-          selection: viewStore.binding(
-            get: \.selectedPet,
-            send: { .onSelectedPetChange($0) }
-          ),
-          label: Text(""),
-          content: {
-            ForEach(viewStore.petOptions, id: \.self) { petType in
-              switch petType {
-              case .cat:
-                Text("고양이")
-              case .dog:
-                Text("강아지")
+      NavigationStack {
+        if viewStore.breedList.isEmpty {
+          Text("검색 결과가 없습니다.")
+        } else {
+          SwiftUI.List {
+            ForEach(viewStore.breedList, id: \.self) { breed in
+              HStack {
+                Text(breed)
+                Spacer()
+              }
+              .contentShape(Rectangle())
+              .onTapGesture {
+                viewStore.send(.onBreedSelection(breed))
               }
             }
+            .listRowSeparator(.hidden)
           }
-        )
-        .pickerStyle(.segmented)
-        .padding()
-
-
-        SwiftUI.List {
-          ForEach(viewStore.breedInfo, id: \.id) { breedInfo in
-            HStack {
-              Text(breedInfo.name)
-              Spacer()
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-              viewStore.send(.onSelectedBreedChange(breedInfo))
-            }
-          }
+          .listStyle(.plain)
         }
       }
+      .searchable(text: viewStore.binding(
+        get: \.searchText,
+        send: { .onSearchTextChange($0) }
+      ))
+      .padding(.top, 5)
       .onAppear { viewStore.send(.onAppear) }
     }
   }
-
+  
 }
 
 #Preview {
-  PetSpeciesListView(store: .init(initialState: .init(), reducer: { PetSpeciesListFeature() }))
+  PetSpeciesListView(store: .init(initialState: .init(selectedPet: .cat), reducer: { PetSpeciesListFeature() }))
 }

@@ -81,7 +81,7 @@ struct HomeFeature: Reducer {
               return UrgentPostCardViewModel(
                 mainImageUrlString: item.media.first?.url ?? "",
                 postTitle: item.title,
-                date: item.date_end_at,
+                date: "N/A",
                 location: "N/A",
                 cost: item.reward,
                 postId: item.id
