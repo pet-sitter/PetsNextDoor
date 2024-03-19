@@ -22,13 +22,15 @@ struct SelectCareConditionFeature: Reducer {
     var date: Date = .init()
     
     // 페이
-    var payAmount: Int? = nil 
-    
+    var payOption: PayOption = .pay
+    var payAmount: String = ""
+    var payOptionPrompt: String = PayOption.pay.prompt
     // 그 외
 
     var urgentPostModel: PND.UrgentPostModel
     var isBottomButtonEnabled: Bool = true
-    
+    var isPayTextFieldDisabled: Bool = false
+    var onlyAllowNumberInput: Bool = true
   }
   
   enum Action: Equatable {
@@ -37,10 +39,25 @@ struct SelectCareConditionFeature: Reducer {
     case onGenderIndexChange(Int)
     case onCareTypeIndexChange(Int)
     case onDateChange(Date)
-    case onPayAmountChange(Int?)
+    case onPayOptionChange(PayOption)
+    case onPayAmountChange(String)
     
     case setBottomButtonEnabled(Bool)
     
+  }
+  
+  enum PayOption: String, CaseIterable {
+    case pay        = "사례비"
+    case gifticon   = "기프티콘"
+    case negotiable = "협의가능"
+    
+    var prompt: String {
+      switch self {
+      case .pay:        "원"
+      case .gifticon:   "기프티콘 종류"
+      case .negotiable: "협의가능"
+      }
+    }
   }
   
   var body: some Reducer<State, Action> {
@@ -78,10 +95,27 @@ struct SelectCareConditionFeature: Reducer {
 //        state.urgentPostModel.da
         return .none
         
+      case .onPayOptionChange(let payOption):
+        state.payAmount       = ""
+        state.payOption       = payOption
+        state.payOptionPrompt = payOption.prompt
+        
+        state.isPayTextFieldDisabled = false
+        if payOption == .negotiable {
+          state.isPayTextFieldDisabled = true
+        }
+        
+        if payOption == .pay {
+          state.onlyAllowNumberInput = true
+        } else {
+          state.onlyAllowNumberInput = false
+        }
+        
+        return .none
+        
       case .onPayAmountChange(let payAmount):
-        guard let payAmount else { return .none }
         state.payAmount = payAmount
-        state.urgentPostModel.reward = String(payAmount)
+//        state.urgentPostModel.reward = String(payAmount)
         return .none
         
       case .setBottomButtonEnabled(let isEnabled):

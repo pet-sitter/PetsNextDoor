@@ -82,7 +82,7 @@ struct UrgentPostDetailFeature: Reducer {
           await send(.internal(.setConditionInfo(postDetail)))
           await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
 //          await send(.internal(.setPetProfileInfo(postDetail.pets)))
-          await send(.internal(.setPetProfileInfo([PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weight_in_kg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weight_in_kg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weight_in_kg: 2)])))
+          await send(.internal(.setPetProfileInfo([PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2)])))
           
 			
           

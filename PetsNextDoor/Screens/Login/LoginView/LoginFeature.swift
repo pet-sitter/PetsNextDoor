@@ -48,13 +48,13 @@ struct LoginFeature: Reducer {
         state.isLoading = true
         
         return .run { send in
-          
-          await send(.setProfileState(.init(
-            email: "",
-            fbProviderType: .google,
-            fbUid: "123",
-            fullname: "Kevin",
-            profileImageId: 1)))
+          await send(.setIsLoggedIn(true))
+//          await send(.setProfileState(.init(
+//            email: "",
+//            fbProviderType: .google,
+//            fbUid: "123",
+//            fullname: "Kevin",
+//            profileImageId: 1)))
       
 //          let loginResult = await loginService.signInWithGoogle()
 //          

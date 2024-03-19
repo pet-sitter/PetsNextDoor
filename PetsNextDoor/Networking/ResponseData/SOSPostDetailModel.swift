@@ -30,17 +30,17 @@ extension PND {
   
     enum CodingKeys: String, CodingKey {
       case author
-      case careType = "care_type"
-      case carerGender = "carer_gender"
+      case careType = "careType"
+      case carerGender = "carerGender"
       case conditions, content
-      case createdAt = "created_at"
-      case dateEndAt = "date_end__at"
-      case dateStartAt = "date_start_at"
+      case createdAt = "createdAt"
+      case dateEndAt = "dateEndAt"
+      case dateStartAt = "dateStartAt"
       case id, media, pets, reward
-      case rewardAmount = "reward_amount"
-      case thumbnailId = "thumbnail_id"
+      case rewardAmount = "rewardAmount"
+      case thumbnailId = "thumbnailId"
       case title
-      case updatedAt = "updated_at"
+      case updatedAt = "updateAt"
     }
   }
   

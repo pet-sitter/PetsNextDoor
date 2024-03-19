@@ -92,7 +92,7 @@ struct SelectImagesHorizontalView: View {
             ZStack {
               RoundedRectangle(cornerRadius: 0)
                 .cornerRadius(4, corners: [.bottomLeft, .topRight])
-                .frame(width: 16, height: 16)
+                .frame(width: 20, height: 20)
                 .padding()
               
               Image(systemName: "xmark")
@@ -100,7 +100,7 @@ struct SelectImagesHorizontalView: View {
                 .frame(width: 7, height: 7)
                 .cornerRadius(4)
             }
-            .frame(width: 16, height: 16)
+            .frame(width: 20, height: 20)
           }
           Spacer()
         }

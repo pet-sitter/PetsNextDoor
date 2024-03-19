@@ -206,7 +206,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           "neutered" : model.neutered,
           "petType" : model.petType.rawValue,
           "sex" : model.sex.rawValue,
-          "weightInKg" : model.weight_in_kg
+          "weightInKg" : model.weightInKg
         ])
       }
       

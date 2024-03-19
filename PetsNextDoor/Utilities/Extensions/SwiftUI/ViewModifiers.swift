@@ -10,10 +10,13 @@ import SwiftUI
 struct HeaderTitleModifier: ViewModifier {
   
   func body(content: Content) -> some View {
-    content
-      .font(.system(size: 20, weight: .bold))
-      .multilineTextAlignment(.leading)
-      .padding(.leading, 20)
+    HStack(spacing: 0) {
+      content
+        .font(.system(size: 20, weight: .bold))
+        .multilineTextAlignment(.leading)
+        .padding(.leading, 20)
+      Spacer()
+    }
   }
 }
 

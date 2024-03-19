@@ -68,7 +68,7 @@ extension PND {
     let neutered: Bool
     let breed: String
     let birth_date: String
-    let weight_in_kg: Int
+    let weightInKg: Int
   }
   
   enum Sex: String, Codable {

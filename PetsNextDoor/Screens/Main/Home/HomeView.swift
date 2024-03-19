@@ -52,7 +52,6 @@ struct HomeView: View {
               
           } else {
             LazyVStack(spacing: 0) {
-              
               ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
                 UrgentPostCardView_SwiftUI(viewModel: vm)
                   .onTapGesture {
@@ -60,7 +59,6 @@ struct HomeView: View {
                   }
               }
             }
-            
           }
         }
       }

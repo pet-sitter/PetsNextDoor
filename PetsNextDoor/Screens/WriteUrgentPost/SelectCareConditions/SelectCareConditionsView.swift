@@ -78,21 +78,60 @@ struct SelectCareConditionsView: View {
           leftImageName: R.image.icon_pay.name,
           conditionTitle: "페이",
           rightContentView: {
-            TextField(
-              "원",
-              value: viewStore.binding(
-                get: \.payAmount,
-                send: { .onPayAmountChange($0) }
-              ),
-              format: .number
-            )
-            .keyboardType(.numberPad)
-            .font(.system(size: 20, weight: .medium))
-            .padding(8)
-            .frame(width: 126)
-            .multilineTextAlignment(.trailing)
-            .background(PND.Colors.gray20.asColor)
-            .cornerRadius(4)
+            HStack(spacing: 8) {
+              Menu {
+                ForEach(SelectCareConditionFeature.PayOption.allCases, id: \.self) { payOption in
+                  Button {
+                    Keyboard.dismiss()
+                    viewStore.send(.onPayOptionChange(payOption))
+                  } label: {
+                    HStack {
+                      Text(payOption.rawValue)
+                      Spacer()
+                      if viewStore.payOption == payOption {
+                        Image(systemName: "checkmark")
+                      }
+                    }
+                  }
+                  
+                }
+              } label: {
+                HStack(spacing: 4) {
+                  Text(viewStore.payOption.rawValue)
+                    .font(.system(size: 16))
+                    .minimumScaleFactor(0.8)
+                  
+                  Image(systemName: "chevron.down")
+                    .resizable()
+                    .frame(width: 12, height: 5)
+                }
+                .padding()
+                .background(Color.gray10)
+                .frame(width: 100, height: 32)
+                .cornerRadius(4)
+                .foregroundStyle(Color.black)
+              
+              }
+              
+              TextField(
+                "",
+                text: viewStore.binding(
+                  get: \.payAmount,
+                  send: { .onPayAmountChange($0) }
+                ),
+                prompt: Text(viewStore.payOptionPrompt)
+              )
+              .keyboardType(viewStore.onlyAllowNumberInput ? .numberPad : .alphabet)
+              .font(.system(size: 16, weight: .medium))
+              .padding(8)
+              .frame(width: 118)
+              .frame(height: 32)
+              .multilineTextAlignment(.trailing)
+              .background(Color.gray10)
+              .cornerRadius(4)
+              .disabled(viewStore.isPayTextFieldDisabled)
+            
+            }
           }
         )
         
@@ -112,7 +151,6 @@ struct SelectCareConditionsView: View {
       .navigationDestination(for: SelectOtherRequirementsFeature.State.self) { state in
         SelectOtherRequirementsView(store: .init(initialState: state, reducer: { SelectOtherRequirementsFeature() }))
       }
-      
     }
   }
 }

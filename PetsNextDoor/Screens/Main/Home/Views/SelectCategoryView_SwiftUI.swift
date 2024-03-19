@@ -94,7 +94,6 @@ struct SelectCategoryView_SwiftUI: View {
   }
   
   func checkableButton(category: Category) -> some View {
-
     return Button(action: {
       selectedCategory = category
     }, label: {

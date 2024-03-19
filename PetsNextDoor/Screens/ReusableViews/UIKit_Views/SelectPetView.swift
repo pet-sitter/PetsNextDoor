@@ -154,5 +154,7 @@ struct SelectPetView: View {
         .clipped()
     )
     .padding()
+    .frame(height: 100)
   }
 }
+// 100 / 16

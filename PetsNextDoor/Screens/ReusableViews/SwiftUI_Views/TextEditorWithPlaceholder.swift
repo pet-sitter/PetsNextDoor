@@ -32,7 +32,6 @@ struct TextEditorWithPlaceholder: View {
           
         Spacer()
       }
-      .background(Color.gray20)
       .cornerRadius(8)
     }
   }

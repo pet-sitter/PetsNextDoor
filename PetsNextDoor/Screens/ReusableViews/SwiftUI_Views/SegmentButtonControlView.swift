@@ -25,7 +25,7 @@ struct SegmentButtonControlView: View {
       selectedIndex = index
     }, label: {
       Text(title)
-        .font(.system(size: 20, weight: .medium))
+        .font(.system(size: 16, weight: .semibold))
         .foregroundStyle(
           index == selectedIndex
           ? PND.Colors.commonWhite.asColor
@@ -45,6 +45,7 @@ struct SegmentButtonControlView: View {
             .opacity(index == selectedIndex ? 0 : 1)
         )
         .cornerRadius(4)
+        .frame(minWidth: 80, minHeight: 30)
     })
   }
 }

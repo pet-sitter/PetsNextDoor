@@ -105,7 +105,7 @@ struct HomeFeature: Reducer {
         
       case .onSelectedCategoryChange(let category):
         state.selectedCategory = category
-        return .none
+        return .send(.fetchSOSPosts(page: 1))
         
       case .onSelectedFilterOptionChange(let filterOption):
         state.selectedFilterOption          = filterOption

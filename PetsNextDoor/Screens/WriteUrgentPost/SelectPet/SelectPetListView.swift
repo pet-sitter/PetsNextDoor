@@ -16,23 +16,25 @@ struct SelectPetListView: View {
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack(spacing: 0) {
+      VStack(alignment: .leading, spacing: 0) {
         
         Spacer().frame(height: 24)
         
         ScrollView(.vertical) {
-          VStack(alignment: .leading, spacing: 0) {
-            
             Text("반려동물 선택")
               .modifier(HeaderTitleModifier())
+            
+            Spacer().frame(height: 16)
             
             ForEach(viewStore.selectPetCellViewModels, id: \.self) { vm in
               SelectPetView(viewModel: vm, onDeleteButtonTapped: nil)
                 .onTapGesture {
                   viewStore.send(.didSelectPet(vm))
                 }
+              
+              Spacer().frame(height: 16)
+              
             }
-          }
         }
         
         Spacer()
