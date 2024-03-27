@@ -26,6 +26,8 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   @Published var birthday: String
   var weight: Int? = nil
   
+  var profileImageId: Int? = nil
+  
   init(
     id: Int = UUID().hashValue,
     petImageUrlString: String? = nil,
@@ -157,4 +159,3 @@ struct SelectPetView: View {
     .frame(height: 100)
   }
 }
-// 100 / 16

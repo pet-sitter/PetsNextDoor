@@ -58,7 +58,7 @@ struct TextEditorWithBackground: View {
         .padding(20)
         .scrollContentBackground(.hidden)
     }
-    .background(Color.gray20)
+    .background(PND.DS.gray20)
     .cornerRadius(8)
   }
 }

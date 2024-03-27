@@ -106,7 +106,7 @@ struct SelectCareConditionsView: View {
                     .frame(width: 12, height: 5)
                 }
                 .padding()
-                .background(Color.gray10)
+                .background(PND.DS.gray10)
                 .frame(width: 100, height: 32)
                 .cornerRadius(4)
                 .foregroundStyle(Color.black)
@@ -127,7 +127,7 @@ struct SelectCareConditionsView: View {
               .frame(width: 118)
               .frame(height: 32)
               .multilineTextAlignment(.trailing)
-              .background(Color.gray10)
+              .background(PND.DS.gray10)
               .cornerRadius(4)
               .disabled(viewStore.isPayTextFieldDisabled)
             

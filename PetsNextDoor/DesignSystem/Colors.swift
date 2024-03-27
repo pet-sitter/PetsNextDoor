@@ -43,6 +43,74 @@ extension UIColor {
   }
 }
 
+extension PND {
+  
+  // Namespace for Design System
+   
+  struct DS {
+    
+    static func hex(_ hexString: String) -> Color {
+      let uiColor = UIColor(hex: hexString)
+      return Color(uiColor: uiColor)
+    }
+    
+    static var commonOrange: Color {
+      PND.Colors.commonOrange.asColor
+    }
+    
+    static var commonGrey: Color {
+      PND.Colors.commonGrey.asColor
+    }
+    
+    static var primary: Color {
+      PND.Colors.primary.asColor
+    }
+    
+    static var yellowGreen: Color {
+      PND.Colors.yellowGreen.asColor
+    }
+    
+    static var lightGreen: Color {
+      PND.Colors.lightGreen.asColor
+    }
+    
+    static var gray90: Color {
+      PND.Colors.gray90.asColor
+    }
+    
+    static var gray50: Color {
+      PND.Colors.gray50.asColor
+    }
+    
+    static var gray30: Color {
+      PND.Colors.gray30.asColor
+    }
+    
+    static var gray20: Color {
+      PND.Colors.gray20.asColor
+    }
+    
+    static var gray10: Color {
+      PND.Colors.gray10.asColor
+    }
+    
+    static var commonBlue: Color {
+      PND.Colors.commonBlue.asColor
+    }
+    
+    static var commonRed: Color {
+      PND.Colors.commonRed.asColor
+    }
+    
+    static var commonBlack: Color {
+      PND.Colors.commonBlack.asColor
+    }
+    
+    static var commonWhite: Color {
+      PND.Colors.commonWhite.asColor
+    }
+  }
+}
 
 extension Color {
   
@@ -50,61 +118,5 @@ extension Color {
 		let uiColor = UIColor(hex: hex)
 		self.init(uiColor)
 	}
-  
-  static var commonOrange: Self {
-    PND.Colors.commonOrange.asColor
-  }
-  
-  static var commonGrey: Self {
-    PND.Colors.commonGrey.asColor
-  }
-  
-  static var primary: Self {
-    PND.Colors.primary.asColor
-  }
-  
-  static var yellowGreen: Self {
-    PND.Colors.yellowGreen.asColor
-  }
-  
-  static var lightGreen: Self {
-    PND.Colors.lightGreen.asColor
-  }
-  
-  static var gray90: Self {
-    PND.Colors.gray90.asColor
-  }
-  
-  static var gray50: Self {
-    PND.Colors.gray50.asColor
-  }
-  
-  static var gray30: Self {
-    PND.Colors.gray30.asColor
-  }
-  
-  static var gray20: Self {
-    PND.Colors.gray20.asColor
-  }
-  
-  static var gray10: Self {
-    PND.Colors.gray10.asColor
-  }
-  
-  static var commonBlue: Self {
-    PND.Colors.commonBlue.asColor
-  }
-  
-  static var commonRed: Self {
-    PND.Colors.commonRed.asColor
-  }
-  
-  static var commonBlack: Self {
-    PND.Colors.commonBlack.asColor
-  }
-  
-  static var commonWhite: Self {
-    PND.Colors.commonWhite.asColor
-  }
 }
 

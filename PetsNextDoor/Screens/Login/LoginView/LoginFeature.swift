@@ -48,37 +48,32 @@ struct LoginFeature: Reducer {
         state.isLoading = true
         
         return .run { send in
-          await send(.setIsLoggedIn(true))
+//          await send(.setIsLoggedIn(true))
 //          await send(.setProfileState(.init(
 //            email: "",
 //            fbProviderType: .google,
 //            fbUid: "123",
 //            fullname: "Kevin",
 //            profileImageId: 1)))
-      
-//          let loginResult = await loginService.signInWithGoogle()
+//      
+          let loginResult = await loginService.signInWithGoogle()
 //          
-//          switch loginResult {
-//            case let .success(isUserRegistrationNeeded, userRegisterModel):
-//
-//            if isUserRegistrationNeeded {     // 로그인 성공 - 자체 DB 회원가입 필요
-//              await send(.setProfileState(.init(
-//                email: "",
-//                fbProviderType: .google,
-//                fbUid: "123",
-//                fullname: "Kevin",
-//                profileImageId: 1)))
-//              
-//            } else {
-//              await send(.setIsLoggedIn(true))
-//            }
-//            
-//          case .failed(let reason):
-//            print("❌ signInWithGoogle failed : \(reason)")
-//            await MainActor.run {
-//              Toast.shared.present(title: .commonError, symbol: "xmark")
-//            }
-//          }
+          switch loginResult {
+            case let .success(isUserRegistrationNeeded, userRegisterModel):
+
+            if isUserRegistrationNeeded, let userRegisterModel {     // 구글 로그인 성공, but 자체 PND 서버 회원가입 필요
+              await send(.setProfileState(userRegisterModel))
+              
+            } else {
+              await send(.setIsLoggedIn(true))
+            }
+            
+          case .failed(let reason):
+            print("❌ signInWithGoogle failed : \(reason)")
+            await MainActor.run {
+              Toast.shared.present(title: .commonError, symbol: "xmark")
+            }
+          }
           
           await send(._setIsLoading(false))
         }
@@ -99,15 +94,7 @@ struct LoginFeature: Reducer {
         return .none
         
       case let .setIsLoggedIn(isLoggedIn):
-        let window = UIApplication
-          .shared
-          .connectedScenes
-          .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-          .first { $0.isKeyWindow }
-        
-        window?.rootViewController = UIHostingController(rootView: TabBarView().environmentObject(Router()))
-        window?.makeKeyAndVisible()
-        
+        Router.changeRootViewToHomeView()
         state.isLoggedIn = isLoggedIn
         return .none
         

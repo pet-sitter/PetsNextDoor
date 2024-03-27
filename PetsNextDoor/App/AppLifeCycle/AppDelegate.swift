@@ -37,7 +37,7 @@ struct PNDRootApp: App {
         reducer: { LoginFeature() }
       ))
     }
-    .tint(.commonBlack)
+    .tint(PND.DS.commonBlack)
     .environmentObject(router)
   }
 }

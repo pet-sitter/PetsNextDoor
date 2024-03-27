@@ -6,20 +6,19 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CircularProfileImageView: View {
   
   let imageUrlString: String
   
   var body: some View {
-    AsyncImage(url: URL(string: imageUrlString)) { image in
-      image.resizable()
-    } placeholder: {
-      ProgressView()
-    }
-    .scaledToFill()
-    .frame(width: 74, height: 74)
-    .clipShape(Circle())
+    KFImage(URL(string: imageUrlString))
+      .placeholder { ProgressView() }
+      .resizable()
+      .scaledToFill()
+      .frame(width: 74, height: 74)
+      .clipShape(Circle())
   }
 }
 

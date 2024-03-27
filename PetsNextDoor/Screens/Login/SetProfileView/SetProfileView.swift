@@ -23,18 +23,18 @@ struct SetProfileView: View {
         SelectProfileImageView(
           selectedImageData: viewStore.binding(
             get: \.selectedUserImageData,
-            send: { .onImageDataChange($0)}
+            send: { .onUserProfileImageDataChange($0)}
           )
         )
         
         Spacer()
           .frame(height: 30)
-        
+         
         TextField(
           "이름",
           text: viewStore.binding(
             get: \.nicknameText,
-            send: { .textDidChange($0) }
+            send: { .onNicknameTextChange($0) }
           )
         )
         .font(.system(size: 20, weight: .medium))
@@ -44,6 +44,12 @@ struct SetProfileView: View {
         .multilineTextAlignment(.leading)
         .background(.clear)
         .tint(PND.Colors.primary.asColor)
+        .overlay(alignment: .trailing) {
+          Text(viewStore.nicknameStatusPhrase)
+            .font(.system(size: 12))
+            .foregroundStyle(PND.DS.commonBlue)
+            .padding(.trailing, PND.Metrics.defaultSpacing)
+        }
         
         Rectangle()
           .padding(.horizontal, PND.Metrics.defaultSpacing)
@@ -54,17 +60,19 @@ struct SetProfileView: View {
         
         ScrollView(.vertical) {
           
-          if !viewStore.myPetCellViewModels.isEmpty {
-            ForEach(viewStore.myPetCellViewModels, id: \.id) { cellVM in
+          if !viewStore.petViewModels.isEmpty {
+            ForEach(viewStore.petViewModels, id: \.id) { cellVM in
               SelectPetView(
                 viewModel: cellVM,
                 onDeleteButtonTapped: {
-                  viewStore.send(.didTapPetDeleteButton(cellVM))
+                  viewStore.send(.onTapPetDeleteButton(cellVM))
                 }
               )
             }
           }
 
+          Spacer().frame(height: 20)
+          
           RoundedRectangle(cornerRadius: 4)
             .frame(height: 54)
             .padding(.horizontal, PND.Metrics.defaultSpacing)
@@ -72,13 +80,21 @@ struct SetProfileView: View {
             .contentShape(Rectangle())
             .overlay(
               Button("반려동물", systemImage: "plus") {
-                viewStore.send(.didTapAddPetButton)
+                viewStore.send(.onTapAddPetButton)
               }
                 .foregroundStyle(.black)
             )
             .onTapGesture {
-              viewStore.send(.didTapAddPetButton)
+              viewStore.send(.onTapAddPetButton)
             }
+          
+          Spacer().frame(height: 12)
+          
+          Text("*반려동물을 추가하지 않으면 돌봄 관련 서비스를 이용하실 수 없습니다.")
+            .multilineTextAlignment(.leading)
+            .lineLimit(2)
+            .foregroundStyle(UIColor(hex: "#9E9E9E").asColor)
+            .font(.system(size: 12))
         }
         
         Spacer()
@@ -91,7 +107,7 @@ struct SetProfileView: View {
           )
         )
         .onTapGesture {
-          viewStore.send(.didTapBottomButton)
+          viewStore.send(.onTapBottomButton)
         }
       }
     }
@@ -108,7 +124,7 @@ struct SetProfileView: View {
 }
 
 #Preview {
-  SetProfileView(store: .init(initialState: .init(userRegisterModel: PND.UserRegistrationModel(email: "kevinkim@gmail.com", fbProviderType: .google, fbUid: "asdad1243", fullname: "Kevin", profileImageId: 1)), reducer: { SetProfileFeature() }))
+  SetProfileView(store: .init(initialState: .init(userRegisterModel: PND.UserRegistrationModel(email: "kevinkim@gmail.com", fbProviderType: .google, fbUid: "asdad1243", fullname: "Kevin")), reducer: { SetProfileFeature() }))
 }
 
 
@@ -153,13 +169,11 @@ struct SelectProfileImageView: View {
             } else {
               Image(systemName: "photo")
                 .frame(width: 24, height: 24)
-                .tint(.commonBlack)
+                .tint(PND.DS.commonBlack)
             }
           }
       }
-      
     }
-    
     .onChange(of: selectedPhotoPickerItem) { _ in
       Task { await convertImageDataToUIImage() }
     }

@@ -10,23 +10,21 @@ import ComposableArchitecture
 struct SetProfileFeature: Reducer {
   
   @Dependency(\.loginService) private var loginService
-  @Dependency(\.userService) private var userService
+  @Dependency(\.mediaService) private var mediaService
+  @Dependency(\.userService)  private var userService
 	
 	struct State: Equatable {
     var userRegisterModel: PND.UserRegistrationModel
-    var selectedUserImage: UIImage?
     var selectedUserImageData: Data?
-    var nicknameStatusPhrase: String = ""
-    var isBottomButtonEnabled: Bool = false
+    var nicknameText: String          = ""
+    var nicknameStatusPhrase: String  = ""
+    var isBottomButtonEnabled: Bool   = false
     var photoPickerIsPresented: Bool  = false
-    var isLoading: Bool = false
+    var isLoading: Bool               = false
     
-    var myPetCellViewModels: [SelectPetViewModel] = []
+    var petViewModels: [SelectPetViewModel] = []
     
-    var nicknameText: String = ""
-
     @PresentationState var selectEitherCatOrDogState: SelectEitherCatOrDogFeature.State?
-  
 
     init(userRegisterModel: PND.UserRegistrationModel) {
       self.userRegisterModel = userRegisterModel
@@ -35,12 +33,12 @@ struct SetProfileFeature: Reducer {
 	
 	enum Action: Equatable {
 
-    case onImageDataChange(Data?)
-    case textDidChange(String?)
-    case didTapAddPetButton
-    case didTapPetDeleteButton(SelectPetViewModel)
-    case didTapBottomButton
-    
+    // View Actions
+    case onUserProfileImageDataChange(Data?)
+    case onNicknameTextChange(String?)
+    case onTapAddPetButton
+    case onTapPetDeleteButton(SelectPetViewModel)
+    case onTapBottomButton
     
     // Internal Actions
     case _appendSelectPetViewModel(SelectPetViewModel)
@@ -63,7 +61,6 @@ struct SetProfileFeature: Reducer {
         guard let breed = addPetState.selectedBreedName
         else { return .none }
 
-
         let selectPetViewModel = SelectPetViewModel(
           petImageData: addPetState.selectedPetImageData,
           petName: addPetState.petName,
@@ -79,51 +76,74 @@ struct SetProfileFeature: Reducer {
         )
 
         state.selectEitherCatOrDogState = nil 
-        state.myPetCellViewModels.append(selectPetViewModel)
+        state.petViewModels.append(selectPetViewModel)
         return .none
         
       case ._selectEitherCatOrDogAction(.presented(.delegate(.dismissComplete))):
         state.selectEitherCatOrDogState = nil
         return .none
         
-      case .onImageDataChange(let imageDatas):
-        state.selectedUserImageData = imageDatas
+      case .onUserProfileImageDataChange(let imageData):
+        state.selectedUserImageData = imageData
         return .none
         
-      case .didTapBottomButton:
+      case .onTapBottomButton:
         return .run { [state] send in
+          
           await send(._setIsLoading(true))
+          
           do {
             
-            let _ = try await loginService.registerUser(
-              model: state.userRegisterModel,
-              profileImageData: state.selectedUserImageData
-            )
+            var userRegistrationModel = state.userRegisterModel
             
-            // 회원가입 성공하면 이후 즉시 내 반려동물 등록
+            if let userProfileImageData = state.selectedUserImageData {
+              
+              let uploadResponse = try await mediaService.uploadImage(
+                imageData: userProfileImageData,
+                imageName: "profileImage"
+              )
+              
+              userRegistrationModel.profileImageId = uploadResponse.id
+              
+              let _ = try await loginService.registerUser(model: userRegistrationModel)
+              
+            } else {
+              let _ = try await loginService.registerUser(model: userRegistrationModel)
+            }
             
-            let _ = try await userService.registerMyPets(
-              state.myPetCellViewModels.map { petVM -> PND.Pet in
-                PND.Pet(
-                  id: Int(arc4random()),
-                  name: petVM.petName,
-                  petType: petVM.petType,
-                  sex: petVM.gender,
-                  neutered: petVM.isPetNeutralized,
-                  breed: petVM.petSpecies,
-                  birth_date: petVM.birthday,
-                  weightInKg: petVM.weight ?? 0
-                )
+
+            /*
+             회원 가입 성공하면
+             1. 반려동물 프로필 사진 모두 업로드
+             2. 반려동물 등록 API 찌르기
+             - 이때 accessToken 정상 등록되어야 함
+             */
+            
+            for petVM in state.petViewModels {
+              if let imageData = petVM.petImageData {
+                let uploadResponse = try await mediaService.uploadImage(imageData: imageData, imageName: "myPet-\(Int(arc4random()))")
+                petVM.profileImageId = uploadResponse.id
               }
-            )
-  
+            }
+      
+            let petArray: [PND.Pet] = state.petViewModels.map { petVM -> PND.Pet in
+              PND.Pet(
+                id: Int(arc4random()),
+                name: petVM.petName,
+                petType: petVM.petType,
+                sex: petVM.gender,
+                neutered: petVM.isPetNeutralized,
+                breed: petVM.petSpecies,
+                birth_date: petVM.birthday,
+                weightInKg: petVM.weight ?? 0,
+                remarks: "",
+                profileImageId: petVM.profileImageId
+              )
+            }
             
-//            await send(._routeAction(.changeRootScreen(toScreen: .main(
-//              homeState: HomeFeature.State(),
-//              communityState: CommunityFeature.State(),
-//              chatState: ChatListFeature.State(),
-//              myPageState: MyPageFeature.State()
-//            ))))
+            let _ = try await userService.registerMyPets(petArray)
+  
+            Router.changeRootViewToHomeView()
             
           } catch {
             print("❌ registerUser failed: \(error)")
@@ -131,7 +151,7 @@ struct SetProfileFeature: Reducer {
           await send(._setIsLoading(false))
         }
         
-      case .textDidChange(let text):
+      case .onNicknameTextChange(let text):
         guard let text else { return .none }
         if text.count >= 2 && text.count <= 10 {
           return .merge([
@@ -146,18 +166,16 @@ struct SetProfileFeature: Reducer {
           ])
         }
 
-        
-        
-      case .didTapAddPetButton:
+      case .onTapAddPetButton:
         state.selectEitherCatOrDogState = .init()
         return .none
         
-      case .didTapPetDeleteButton(let petVM):
-        state.myPetCellViewModels.removeAll(where: { $0 === petVM })
+      case .onTapPetDeleteButton(let petVM):
+        state.petViewModels.removeAll(where: { $0 === petVM })
         return .none
 
       case ._appendSelectPetViewModel(let petVM):
-        state.myPetCellViewModels.append(petVM)
+        state.petViewModels.append(petVM)
         return .none
 
       case ._setNicknameStatusPhrase(let phrase):
@@ -165,6 +183,13 @@ struct SetProfileFeature: Reducer {
         return .none
         
       case ._setNicknameText(let text):
+        
+        if text.count > 10 {
+          let previousNickname = state.nicknameText
+          state.nicknameText = previousNickname
+          return .none
+        }
+        
         state.nicknameText = text
         state.userRegisterModel.nickname = text
         return .none
@@ -192,7 +217,6 @@ struct SetProfileFeature: Reducer {
       default:
         return .none
       }
-      
     }
     .ifLet(\.$selectEitherCatOrDogState, action: /Action._selectEitherCatOrDogAction) { SelectEitherCatOrDogFeature() }
 	}

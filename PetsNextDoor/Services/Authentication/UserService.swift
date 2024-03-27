@@ -32,7 +32,6 @@ final class UserService: UserServiceProvidable {
   func registerMyPets(_ pets: [PND.Pet]) async throws {
     try await network.plainRequest(.putMyPets(model: pets))
   }
-  
 }
 
 

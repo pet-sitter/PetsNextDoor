@@ -82,7 +82,7 @@ struct UrgentPostDetailFeature: Reducer {
           await send(.internal(.setConditionInfo(postDetail)))
           await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
 //          await send(.internal(.setPetProfileInfo(postDetail.pets)))
-          await send(.internal(.setPetProfileInfo([PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2)])))
+//          await send(.internal(.setPetProfileInfo([PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2)])))
           
 			
           
@@ -387,14 +387,11 @@ struct UrgentPostDetailView: View {
                 Circle()
                   .frame(width: 20, height: 20)
                   .overlay {
-                    AsyncImage(url: authorProfileImageUrl) { image in
-                      image.resizable()
-                    } placeholder: {
-                      ProgressView()
-                    }
-                    .scaledToFill()
-                    .clipped()
-                    .cornerRadius(10)
+                    KFImage(authorProfileImageUrl)
+                      .placeholder { ProgressView() }
+                      .scaledToFill()
+                      .clipped()
+                      .cornerRadius(10)
                   }
                 
                 Text(authorName)
@@ -496,7 +493,7 @@ struct UrgentPostDetailView: View {
     .clipShape(RoundedRectangle(cornerRadius: 10, style: .circular))
     .overlay(
       RoundedRectangle(cornerRadius: 10)
-        .stroke(Color.gray30, lineWidth: 1)
+        .stroke(PND.DS.gray30, lineWidth: 1)
       
     )
     .frame(width: 100, height: 140)

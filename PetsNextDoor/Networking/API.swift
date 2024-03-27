@@ -198,6 +198,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       
     case .putMyPets(let models):
       var parameters: [[String : Any]] = [[:]]
+      
       for model in models {
         parameters.append([
           "birthDate" : model.birth_date,
@@ -206,8 +207,15 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           "neutered" : model.neutered,
           "petType" : model.petType.rawValue,
           "sex" : model.sex.rawValue,
-          "weightInKg" : model.weightInKg
+          "weightInKg" : model.weightInKg,
         ])
+        
+        if let profileImageId = model.profileImageId {
+          parameters.append(["profileImageId" : profileImageId])
+        }
+        if let remarks = model.remarks {
+          parameters.append(["remarks" : remarks])
+        }
       }
       
       return .requestParameters(

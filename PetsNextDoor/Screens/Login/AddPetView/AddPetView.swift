@@ -56,7 +56,7 @@ struct AddPetView: View {
             conditionTitle: viewStore.selectedPetType == .cat ? "묘종" : "견종",
             rightContentView: {
               Text(viewStore.selectedBreedName ?? (viewStore.selectedPetType == .cat ? "묘종 입력하기" : "견종 입력하기"))
-                .foregroundStyle(viewStore.selectedBreedName == nil ? .gray : .commonBlack)
+                .foregroundStyle(viewStore.selectedBreedName == nil ? PND.DS.commonGrey : PND.DS.commonBlack)
                 .onTapGesture {
                   viewStore.send(.onSelectPetSpeciesButtonTap)
                 }

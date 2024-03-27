@@ -69,6 +69,8 @@ extension PND {
     let breed: String
     let birth_date: String
     let weightInKg: Int
+    let remarks: String?
+    var profileImageId: Int? = nil
   }
   
   enum Sex: String, Codable {

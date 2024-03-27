@@ -14,17 +14,25 @@ extension PND {
     var email: String
     var fbProviderType: FBProviderType
     var fbUid: String
-    var fullname: String
-    var nickname: String
-    var profileImageId: Int
+    var fullname: String    // Social 계정 이름 (ex. 김영채/Young Chae KIM)
+    var nickname: String    // 사용자가 직접 설정하는 이름 (SetProfileView에서)
+    var profileImageId: Int?
     
-    init(email: String, fbProviderType: FBProviderType,  fbUid: String, fullname: String, profileImageId: Int) {
+    /**
+      Init 단계에서는 nickname과 profileImageId를 받지 않는다 - 이후 SetProfileView에서 별도로 입력 받는다.
+     */
+    init(
+      email: String,
+      fbProviderType: FBProviderType,
+      fbUid: String,
+      fullname: String
+    ) {
       self.email = email
       self.fbProviderType = fbProviderType
       self.fbUid = fbUid
       self.fullname = fullname
-      self.nickname = ""         /// 회원가입 단계에서 유저한테 이후에 입력 받으므로 초반에는 empty String
-      self.profileImageId = profileImageId
+      self.nickname = ""
+      self.profileImageId = nil
     }
   }
 }

@@ -29,5 +29,17 @@ final class Router: ObservableObject {
 
 extension Router {
   
+  static func changeRootViewToHomeView() {
+    let window = UIApplication
+      .shared
+      .connectedScenes
+      .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+      .first { $0.isKeyWindow }
+    
+    window?.rootViewController = UIHostingController(rootView: TabBarView().environmentObject(Router()))
+    window?.makeKeyAndVisible()
+    
+    
+  }
   
 }
