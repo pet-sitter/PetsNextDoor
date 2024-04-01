@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct SelectPetListView: View {
   
-  let store: StoreOf<SelectPetFeature>
+  let store: StoreOf<SelectPetListFeature>
   
   @EnvironmentObject var router: Router
   
@@ -64,5 +64,5 @@ struct SelectPetListView: View {
 }
 
 #Preview {
-  SelectPetListView(store: .init(initialState: .init(), reducer: { SelectPetFeature() }))
+  SelectPetListView(store: .init(initialState: .init(), reducer: { SelectPetListFeature() }))
 }

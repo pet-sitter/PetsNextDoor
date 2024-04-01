@@ -23,8 +23,13 @@ struct PNDRootApp: App {
   
   var body: some Scene {
     WindowGroup {
-      RootView { loginView }
-        .environmentObject(router)
+      if let isLoggedIn = UserDefaultsManager.shared.get(.isLoggedIn) as? Bool, isLoggedIn == true {
+        TabBarView()
+          .environmentObject(router)
+      } else {
+        RootView { loginView }
+          .environmentObject(router)
+      }
     }
   }
   
@@ -135,9 +140,6 @@ struct TabBarView: View {
   }
 }
 
-
-
-//@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(

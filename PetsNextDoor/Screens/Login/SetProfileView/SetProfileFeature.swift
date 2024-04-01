@@ -111,38 +111,40 @@ struct SetProfileFeature: Reducer {
               let _ = try await loginService.registerUser(model: userRegistrationModel)
             }
             
-
-            /*
-             회원 가입 성공하면
-             1. 반려동물 프로필 사진 모두 업로드
-             2. 반려동물 등록 API 찌르기
-             - 이때 accessToken 정상 등록되어야 함
-             */
-            
-            for petVM in state.petViewModels {
-              if let imageData = petVM.petImageData {
-                let uploadResponse = try await mediaService.uploadImage(imageData: imageData, imageName: "myPet-\(Int(arc4random()))")
-                petVM.profileImageId = uploadResponse.id
+            if state.petViewModels.isEmpty == false {
+              /*
+               회원 가입 성공하면
+               1. 반려동물 프로필 사진 모두 업로드
+               2. 반려동물 등록 API 찌르기
+               - 이때 accessToken 정상 등록되어야 함
+               */
+              
+              for petVM in state.petViewModels {
+                if let imageData = petVM.petImageData {
+                  let uploadResponse = try await mediaService.uploadImage(imageData: imageData, imageName: "myPet-\(Int(arc4random()))")
+                  petVM.profileImageId = uploadResponse.id
+                }
               }
-            }
-      
-            let petArray: [PND.Pet] = state.petViewModels.map { petVM -> PND.Pet in
-              PND.Pet(
-                id: Int(arc4random()),
-                name: petVM.petName,
-                petType: petVM.petType,
-                sex: petVM.gender,
-                neutered: petVM.isPetNeutralized,
-                breed: petVM.petSpecies,
-                birth_date: petVM.birthday,
-                weightInKg: petVM.weight ?? 0,
-                remarks: "",
-                profileImageId: petVM.profileImageId
-              )
+        
+              let petArray: [PND.Pet] = state.petViewModels.map { petVM -> PND.Pet in
+                PND.Pet(
+                  id: Int(arc4random()),
+                  name: petVM.petName,
+                  petType: petVM.petType,
+                  sex: petVM.gender,
+                  neutered: petVM.isPetNeutralized,
+                  breed: petVM.petSpecies,
+                  birth_date: petVM.birthday,
+                  weightInKg: petVM.weight ?? 0,
+                  remarks: "",
+                  profileImageId: petVM.profileImageId
+                )
+              }
+              
+              let _ = try await userService.registerMyPets(petArray)
             }
             
-            let _ = try await userService.registerMyPets(petArray)
-  
+            UserDefaultsManager.shared.set(.isLoggedIn, to: true)
             Router.changeRootViewToHomeView()
             
           } catch {

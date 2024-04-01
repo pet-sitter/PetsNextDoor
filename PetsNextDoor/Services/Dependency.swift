@@ -43,6 +43,10 @@ extension PND.Dependency {
     static let liveValue: any MediaServiceProvidable = MediaService()
     static let testValue: any MediaServiceProvidable = MediaServiceMock()
   }
+  
+  enum KeyChainKey: DependencyKey {
+    static let liveValue: any KeyChainProvidable = KeychainService()
+  }
 }
 
 extension DependencyValues {
@@ -76,5 +80,11 @@ extension DependencyValues {
     get { self[PND.Dependency.MediaServiceKey.self] }
     set { self[PND.Dependency.MediaServiceKey.self] = newValue }
   }
+  
+  var keychain: any KeyChainProvidable {
+    get { self[PND.Dependency.KeyChainKey.self] }
+    set { self[PND.Dependency.KeyChainKey.self] = newValue }
+  }
 }
+
 

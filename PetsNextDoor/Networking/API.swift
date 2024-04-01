@@ -68,7 +68,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case .getSOSPostDetail(let id):
       return "/posts/sos/\(id)"
       
-    case .postSOSPost(let model):
+    case .postSOSPost:
       return "/posts/sos"
       
     case .getSOSConditons:

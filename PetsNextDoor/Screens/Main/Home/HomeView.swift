@@ -82,7 +82,7 @@ struct HomeView: View {
         
         ToolbarItem(placement: .topBarTrailing) {
           Button(action: {
-            router.pushScreen(to: SelectPetFeature.State())
+            router.pushScreen(to: SelectPetListFeature.State())
           }, label: {
             Image(R.image.icon_pen)
               .resizable()
@@ -100,11 +100,11 @@ struct HomeView: View {
         )
         .toolbar(.hidden, for: .tabBar)
       }
-      .navigationDestination(for: SelectPetFeature.State.self) { selectPetState in
+      .navigationDestination(for: SelectPetListFeature.State.self) { selectPetState in
         SelectPetListView(
           store: .init(
             initialState: selectPetState,
-            reducer: { SelectPetFeature() }
+            reducer: { SelectPetListFeature() }
           )
         )
         .toolbar(.hidden, for: .tabBar)

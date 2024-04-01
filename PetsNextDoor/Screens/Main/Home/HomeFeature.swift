@@ -20,7 +20,7 @@ struct HomeFeature: Reducer {
     var selectedCategory: SelectCategoryView_SwiftUI.Category = .onlyDogs
     var selectedFilterOption: SelectCategoryView_SwiftUI.FilterOption = .newest
     
-    var selectPetState: SelectPetFeature.State? = nil
+    var selectPetState: SelectPetListFeature.State? = nil
 
     var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
     

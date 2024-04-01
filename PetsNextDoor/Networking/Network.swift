@@ -17,11 +17,12 @@ extension PND {
     var provider: Moya.MoyaProvider<PND.API>
     
     init() {
-      let session = MoyaProvider<APITarget>.defaultAlamofireSession()
-      session.sessionConfiguration.timeoutIntervalForRequest  = 20
-      session.sessionConfiguration.timeoutIntervalForResource = 20
+
+      let configuration = URLSessionConfiguration.default
+      configuration.headers = .default
+
       self.provider = MoyaProvider<APITarget>(
-        session: session,
+        session: Session(configuration: configuration, interceptor: TokenInterceptor()),
         plugins: [
           PNDLoginPlugin()
         ]

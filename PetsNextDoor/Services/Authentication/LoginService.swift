@@ -35,8 +35,10 @@ final class LoginService: LoginServiceProvidable {
 
   typealias Network = PND.Network<PND.API>
   
-  private(set) var network: Network = .init()
-  private let uploadService = MediaService()
+  private(set) var network        = Network()
+  private let uploadService       = MediaService()
+  private let userDefaultsManager = UserDefaultsManager()
+  private let keyChainService     = KeychainService()
   
   @MainActor
   func signInWithGoogle() async -> LoginResult {
@@ -60,20 +62,22 @@ final class LoginService: LoginServiceProvidable {
       let isUserRegistrationNeeded: Bool = userRegistrationStatus.status == .notRegistered ? true : false
       
       guard let idToken = signInResult.user.idToken?.tokenString else { return .failed(reason: .undefined) }
+      let accessToken   = signInResult.user.accessToken.tokenString
       
       let credential = GoogleAuthProvider.credential(
         withIDToken: idToken,
-        accessToken: signInResult.user.accessToken.tokenString
+        accessToken: accessToken
       )
       
       let authSignInResult = try? await Auth.auth().signIn(with: credential)
+      
       let signedInUser = authSignInResult?.user
       
       guard let token = try await Auth.auth().currentUser?.getIDToken() else { return .failed(reason: .undefined) }
 
-      PNDTokenStore.shared.setAccessTokenValue(to: token)
+      PNDTokenStore.shared.setTokenInfo(to: .init(accessToken: token, refreshToken: "")) //
 
-      if isUserRegistrationNeeded {     // 가입된 계정이 없다면 FireBase 계정 생성 및 Firebase 로그인 진행
+      if isUserRegistrationNeeded {     // 가입된 계정이 없다면 FireBase 계정 생성 및 자체 PND 서버 로그인 진행
         return .success(
           isUserRegistrationNeeded: true,
           userRegisterModel: .init(
@@ -83,7 +87,8 @@ final class LoginService: LoginServiceProvidable {
             fullname: signedInUser?.displayName ?? ""
           )
         )
-      } else {                          //가입된 계정이 있다면 그대로 로그인 진행
+      } else {                          // 가입된 계정이 있다면 그대로 로그인 진행
+        userDefaultsManager.set(.isLoggedIn, to: true)
         return .success(
           isUserRegistrationNeeded: false,
           userRegisterModel: nil

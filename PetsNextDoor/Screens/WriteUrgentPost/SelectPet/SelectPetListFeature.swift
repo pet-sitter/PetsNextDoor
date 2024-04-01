@@ -1,5 +1,5 @@
 //
-//  SelectPetFeature.swift
+//  SelectPetListFeature.swift
 //  PetsNextDoor
 //
 //  Created by kevinkim2586 on 2023/10/30.
@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct SelectPetFeature: Reducer {
+struct SelectPetListFeature: Reducer {
   
   @Dependency(\.petService) var petService
   
@@ -45,7 +45,8 @@ struct SelectPetFeature: Reducer {
         }
         
       case .setMyPets(let petModel):
-        if petModel.isEmpty {
+        
+        if petModel.isEmpty { // 테스트용 코드
           state.selectPetCellViewModels = MockDataProvider.selectPetCellViewModels
           return .none
         }
