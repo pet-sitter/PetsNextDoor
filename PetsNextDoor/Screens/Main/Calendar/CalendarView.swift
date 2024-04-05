@@ -1,14 +1,14 @@
 //
-//  MyPageView.swift
+//  CalendarView.swift
 //  PetsNextDoor
 //
-//  Created by kevinkim2586 on 2024/01/22.
+//  Created by kevinkim2586 on 2024/02/19.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
-struct MyPageFeature: Reducer {
+struct CalendarFeature: Reducer {
   
   struct State: Equatable {
     
@@ -18,25 +18,24 @@ struct MyPageFeature: Reducer {
     
   }
   
-  var body: some Reducer<State, Action> {
+  var body: some Reducer<State,Action> {
     Reduce { state, action in
       return .none
     }
   }
 }
 
-
-struct MyPageView: View {
+struct CalendarView: View {
   
-  let store: StoreOf<MyPageFeature>
+  let store: StoreOf<CalendarFeature>
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      Text("MyPageView")
+      Text("Calendar")
     }
   }
 }
 
 #Preview {
-  MyPageView(store: .init(initialState: .init(), reducer: { MyPageFeature() }))
+  CalendarView(store: .init(initialState: .init(), reducer: { CalendarFeature() }))
 }

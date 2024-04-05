@@ -14,7 +14,7 @@ final class PNDTokenStore {
   private let keyChainService = KeychainService()
     
   var accessToken: String {
-    return (UserDefaultsManager.shared.get(.accessToken) as? String) ?? "Invalid Access Token"
+    keyChainService.read(.accessToken) ?? "Invalid Access Token"
   }
   
   private init() {}
@@ -23,12 +23,10 @@ final class PNDTokenStore {
     PNDLogger.default.info("access token set to: \(tokenInfo.accessToken)")
     
     keyChainService.save(.accessToken, tokenInfo.accessToken)
-    keyChainService.save(.refreshToken, tokenInfo.refreshToken)
   }
   
   func removeAllTokenInfo() {
     keyChainService.delete(.accessToken)
-    keyChainService.delete(.refreshToken)
   }
 }
 
@@ -36,6 +34,5 @@ extension PNDTokenStore {
   
   struct TokenInfo {
     let accessToken: String
-    let refreshToken: String
   }
 }

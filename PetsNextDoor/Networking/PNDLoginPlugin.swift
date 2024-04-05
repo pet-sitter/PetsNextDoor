@@ -11,7 +11,7 @@ import Moya
 final class PNDLoginPlugin: PluginType {
   
   func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
-    
+     
     var newRequest = request
     newRequest.setValue(
       "Bearer \(PNDTokenStore.shared.accessToken)",

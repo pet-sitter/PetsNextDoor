@@ -59,22 +59,6 @@ struct SelectCareConditionsView: View {
         Spacer().frame(height: 20)
         
         SelectConditionView(
-          leftImageName: R.image.icon_cal.name,
-          conditionTitle: "날짜",
-          rightContentView: {
-            DatePicker(
-              selection: viewStore.binding(
-                get: \.date,
-                send: { .onDateChange($0) }
-              ),
-              displayedComponents: .date
-            ) {}
-          }
-        )
-        
-        Spacer().frame(height: 20)
-        
-        SelectConditionView(
           leftImageName: R.image.icon_pay.name,
           conditionTitle: "페이",
           rightContentView: {
@@ -134,6 +118,37 @@ struct SelectCareConditionsView: View {
             }
           }
         )
+        
+        Spacer().frame(height: 20)
+        
+        SelectConditionView(
+          leftImageName: R.image.icon_cal.name,
+          conditionTitle: "날짜",
+          rightContentView: {
+            DatePicker(
+              selection: viewStore.binding(
+                get: \.date,
+                send: { .onDateChange($0) }
+              ),
+              displayedComponents: .date
+            ) {}
+              .tint(PND.DS.primary)
+          }
+        )
+        
+        Spacer().frame(height: 20)
+        
+        MultiDatePicker(
+          "Select a Date",
+          selection: viewStore.binding(
+            get: \.selectedDates,
+            send: { .onSelectedDatesChanged($0) }
+          ),
+          in: Date.now...
+        )
+        .tint(PND.DS.primary)
+        .padding(.horizontal, PND.Metrics.defaultSpacing)
+        .padding(.bottom, 20)
         
         Spacer()
         

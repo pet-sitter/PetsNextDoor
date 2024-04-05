@@ -12,8 +12,6 @@ struct UserDefaultsManager {
   static let shared: UserDefaultsManager = .init()
   
   enum Key: String, CaseIterable, CodingKey {
-    case accessToken
-    case refreshToken
     case isLoggedIn
   }
   

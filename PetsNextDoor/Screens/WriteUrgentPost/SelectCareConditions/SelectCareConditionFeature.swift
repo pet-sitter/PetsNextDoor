@@ -17,14 +17,17 @@ struct SelectCareConditionFeature: Reducer {
     // 돌봄 형태
     var selectedCareTypeIndex: Int = 0
     var careType: PND.CareType      = .visiting
-    
-    // 날짜
-    var date: Date = .init()
-    
+ 
     // 페이
     var payOption: PayOption = .pay
     var payAmount: String = ""
     var payOptionPrompt: String = PayOption.pay.prompt
+    
+    // 날짜
+    var date: Date = .init()
+    var selectedDates: Set<DateComponents> = []
+    
+    
     // 그 외
 
     var urgentPostModel: PND.UrgentPostModel
@@ -38,9 +41,12 @@ struct SelectCareConditionFeature: Reducer {
     
     case onGenderIndexChange(Int)
     case onCareTypeIndexChange(Int)
-    case onDateChange(Date)
+
     case onPayOptionChange(PayOption)
     case onPayAmountChange(String)
+
+    case onDateChange(Date)
+    case onSelectedDatesChanged(Set<DateComponents>)
     
     case setBottomButtonEnabled(Bool)
     
@@ -93,6 +99,11 @@ struct SelectCareConditionFeature: Reducer {
       case .onDateChange(let date):
         state.date = date
 //        state.urgentPostModel.da
+        return .none
+        
+      case .onSelectedDatesChanged(let dateComponents):
+        print("✅ date: \(dateComponents)")
+        state.selectedDates = dateComponents
         return .none
         
       case .onPayOptionChange(let payOption):

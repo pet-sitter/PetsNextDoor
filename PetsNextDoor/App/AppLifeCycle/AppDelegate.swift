@@ -82,6 +82,7 @@ struct TabBarView: View {
   
   var body: some View {
     TabView(selection: $index) {
+      
       NavigationStack(path: $router.navigationPath) {
         HomeView(store: .init(
           initialState: HomeFeature.State(),
@@ -98,7 +99,7 @@ struct TabBarView: View {
       
       CommunityView(store: .init(
         initialState: CommunityFeature.State(),
-        reducer: {CommunityFeature()}
+        reducer: { CommunityFeature() }
       ))
       .tabItem {
         Image(index == 1 ? R.image.icon_community_selected : R.image.icon_community)
@@ -118,16 +119,21 @@ struct TabBarView: View {
       }
       .tag(2)
       
-      ScheduleView()
-        .tabItem {
-          Image(index == 3 ? R.image.icon_calendar_selected : R.image.icon_calendar)
-            .resizable()
-            .frame(width: imageSize, height: imageSize)
-        }
-        .tag(3)
+      
+      
+      CalendarView(store: .init(
+        initialState: CalendarFeature.State(),
+        reducer: { CalendarFeature()}
+      ))
+      .tabItem {
+        Image(index == 3 ? R.image.icon_calendar_selected : R.image.icon_calendar)
+          .resizable()
+          .frame(width: imageSize, height: imageSize)
+      }
+      .tag(3)
       
       MyPageView(store: .init(
-        initialState: .init(),
+        initialState: MyPageFeature.State(),
         reducer: { MyPageFeature()}
       ))
       .tabItem {

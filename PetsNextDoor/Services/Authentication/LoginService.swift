@@ -15,6 +15,7 @@ enum AuthError: Error {
   case undefined
   case userEmailUnavailable
   case failedCheckingUserRegistrationStatus
+  case onRefreshTokenFailure
 }
 
 enum LoginResult {
@@ -28,10 +29,16 @@ protocol LoginServiceProvidable: PNDNetworkProvidable {
   @MainActor
   func signInWithGoogle() async -> LoginResult
   func registerUser(model: PND.UserRegistrationModel) async throws
+  func logout()
+}
+
+protocol TokenRefreshable {
+  func refreshToken() async throws
+  func refreshToken(completion: @escaping (AuthError?) -> Void)
 }
 
 
-final class LoginService: LoginServiceProvidable {
+final class LoginService: LoginServiceProvidable, TokenRefreshable {
 
   typealias Network = PND.Network<PND.API>
   
@@ -39,6 +46,8 @@ final class LoginService: LoginServiceProvidable {
   private let uploadService       = MediaService()
   private let userDefaultsManager = UserDefaultsManager()
   private let keyChainService     = KeychainService()
+  
+  static let shared = LoginService()
   
   @MainActor
   func signInWithGoogle() async -> LoginResult {
@@ -72,10 +81,9 @@ final class LoginService: LoginServiceProvidable {
       let authSignInResult = try? await Auth.auth().signIn(with: credential)
       
       let signedInUser = authSignInResult?.user
-      
       guard let token = try await Auth.auth().currentUser?.getIDToken() else { return .failed(reason: .undefined) }
-
-      PNDTokenStore.shared.setTokenInfo(to: .init(accessToken: token, refreshToken: "")) //
+  
+      PNDTokenStore.shared.setTokenInfo(to: .init(accessToken: token)) //
 
       if isUserRegistrationNeeded {     // 가입된 계정이 없다면 FireBase 계정 생성 및 자체 PND 서버 로그인 진행
         return .success(
@@ -103,6 +111,33 @@ final class LoginService: LoginServiceProvidable {
   func registerUser(model: PND.UserRegistrationModel) async throws {
     try await network.plainRequest(.registerUser(model: model))
   }
+  
+  func refreshToken() async throws {
+    guard let token = try await Auth.auth().currentUser?.getIDToken()
+    else { throw AuthError.onRefreshTokenFailure }
+    
+    PNDTokenStore.shared.setTokenInfo(to: .init(accessToken: token))
+  }
+  
+  func refreshToken(completion: @escaping (AuthError?) -> Void) {
+    Task {
+      guard let token = try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
+      else {
+        completion(AuthError.onRefreshTokenFailure)
+        return
+      }
+
+      PNDTokenStore.shared.setTokenInfo(to: .init(accessToken: token.token))
+      completion(nil)
+    }
+  }
+  
+  func logout() {
+    keyChainService.delete(.accessToken)
+    keyChainService.delete(.refreshToken)
+    
+    // change root view controller to LoginView
+  }
 }
 
 //MARK: - Private Methods
@@ -119,7 +154,7 @@ extension LoginService {
 
 
 final class LoginServiceMock: LoginServiceProvidable {
-  
+
   typealias Network = PND.MockNetwork<PND.API>
   
   private(set) var network: Network = .init()
@@ -131,5 +166,9 @@ final class LoginServiceMock: LoginServiceProvidable {
   func registerUser(model: PND.UserRegistrationModel) async throws {
     ()
   }
-
+  
+  func logout() {
+    ()
+  }
+  
 }

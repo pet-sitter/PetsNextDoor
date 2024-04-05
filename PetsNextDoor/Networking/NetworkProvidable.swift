@@ -31,9 +31,42 @@ extension NetworkProvidable {
               let networkResponse = try response.filterSuccessfulStatusCodes()
               print("🛜 Network Success: \(networkResponse) for target: \(target)")
               continuation.resume(returning: networkResponse)
-            } catch {
-              print("❌ Network Error: \(error) for target: \(target)")
-              continuation.resume(throwing: error)
+            } catch(let error) {
+              if error.isUnauthorizedError {
+                print("❌ Unauthorized error: \(error) - token refresh needed")
+                
+                LoginService.shared.refreshToken { error in
+                  
+                  if let error {
+                    if error == .onRefreshTokenFailure {
+                      LoginService.shared.logout()
+                    }
+                    continuation.resume(throwing: error)
+                  }
+                  
+                  print("✅ Refresh Token success to: \(PNDTokenStore.shared.accessToken)")
+                  
+                  provider.request(target, callbackQueue: DispatchQueue.global()) { result in
+                    switch result {
+                    case let .success(response):
+                      
+                      do {
+                        let networkResponse = try response.filterSuccessfulStatusCodes()
+                        continuation.resume(returning: networkResponse)
+                      } catch {
+                        continuation.resume(throwing: error)
+                      }
+
+                    case let .failure(moyaError):
+                      continuation.resume(throwing: moyaError)
+                    }
+                  }
+                }
+              } else {
+                print("❌ Network Error: \(error) for target: \(target)")
+                continuation.resume(throwing: error)
+              }
+              
             }
           case let .failure(moyaError):
             continuation.resume(throwing: moyaError)
@@ -51,20 +84,57 @@ extension NetworkProvidable {
           switch result {
           case let .success(response):
             do {
-              if let json = try? JSONSerialization.jsonObject(
-                with: response.data,
-                options: .mutableContainers
-              ) {
-                print("✅ json: \(json)")
-              }
+
+              printJSONObjectIfPossible(using: response.data)
               
               let _ = try response.filterSuccessfulStatusCodes()
               let responseData = try response.map(ResponseData.self)
               print("🛜 Network Success: \(response) for target: \(target)")
               continuation.resume(returning: responseData)
             } catch {
-              print("❌ Network Error: \(error) for target: \(target)")
-              continuation.resume(throwing: error)
+
+              if error.isUnauthorizedError {
+                print("❌ Unauthorized error: \(error) - token refresh needed")
+                
+                LoginService.shared.refreshToken { error in
+                  
+                  if let error {
+                    if error == .onRefreshTokenFailure {
+                      LoginService.shared.logout()
+                    }
+                    continuation.resume(throwing: error)
+                  }
+                  
+                  print("✅ Refresh Token success to: \(PNDTokenStore.shared.accessToken)")
+                  
+                  provider.request(target, callbackQueue: DispatchQueue.global()) { result in
+                    switch result {
+                    case let .success(response):
+                      
+                      do {
+                        
+                        printJSONObjectIfPossible(using: response.data)
+                        
+                        let _ = try response.filterSuccessfulStatusCodes()
+                        let responseData = try response.map(ResponseData.self)
+                        print("🛜 Network Success: \(response) for target: \(target)")
+                        continuation.resume(returning: responseData)
+                        
+                        
+                      } catch {
+                        continuation.resume(throwing: error)
+                      }
+
+                    case let .failure(moyaError):
+                      continuation.resume(throwing: moyaError)
+                    }
+                  }
+                }
+              } else {
+                print("❌ Network Error: \(error) for target: \(target)")
+                continuation.resume(throwing: error)
+              }
+        
             }
           case let .failure(moyaError):
             print("❌ Moya Error: \(moyaError)")
@@ -72,6 +142,27 @@ extension NetworkProvidable {
           }
         }
       }
+    }
+  }
+  
+  
+  
+  
+  private func mapResponseData<ResponseData: Decodable>(response: Response) throws -> ResponseData {
+    
+    printJSONObjectIfPossible(using: response.data)
+    
+    let _ = try response.filterSuccessfulStatusCodes()
+    let responseData = try response.map(ResponseData.self)
+    return responseData
+  }
+  
+  private func printJSONObjectIfPossible(using data: Data) {
+    if let json = try? JSONSerialization.jsonObject(
+      with: data,
+      options: .mutableContainers
+    ) {
+      print("✅ JSON: \(json)")
     }
   }
 }
