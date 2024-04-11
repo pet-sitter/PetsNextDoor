@@ -32,7 +32,6 @@ struct WriteUrgentPostFeature: Reducer {
     
     // Internal Cases
     case _setIsLoading(Bool)
-    case _setImageIds([Int])
     case _validateInput
   }
   
@@ -57,12 +56,16 @@ struct WriteUrgentPostFeature: Reducer {
       case .onBottomButtonTap:
         return .run { [state] send in
         
+          var urgentPostModel = state.urgentPostModel
+        
           await send(._setIsLoading(true))
           
           let uploadResponse = try await mediaService.uploadImages(imageDatas: state.selectedImageDatas)
-        
-          await send(._setImageIds(uploadResponse.map(\.id)))
           
+          if uploadResponse.isEmpty == false {
+            urgentPostModel.imageIds = uploadResponse.map(\.id)
+          }
+
           let postResult = try? await postService.postSOSPost(model: state.urgentPostModel)
           
           await send(._setIsLoading(false))
@@ -72,9 +75,7 @@ struct WriteUrgentPostFeature: Reducer {
           Toast.shared.present(title: "업로드 실패", symbol: "xmark")
         }
         
-      case ._setImageIds(let imageIds):
-        state.urgentPostModel.imageIds = imageIds
-        return .none
+
         
       case ._validateInput:
         if !state.title.isEmpty, !state.content.isEmpty {

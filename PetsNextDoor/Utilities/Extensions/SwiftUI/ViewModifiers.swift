@@ -49,3 +49,25 @@ struct BackgroundDebugModifier: ViewModifier {
       .background(color)
   }
 }
+
+struct ViewDidLoadModifier: ViewModifier {
+  
+  @State private var didLoadView: Bool = false
+  let task: () async -> Void
+  
+  func body(content: Content) -> some View {
+    content
+      .task {
+        guard didLoadView == false else { return }
+        didLoadView = true
+        await task()
+      }
+  }
+}
+
+extension View {
+  
+  func onViewDidLoad(_ task: @escaping () async -> Void) -> some View {
+    modifier(ViewDidLoadModifier(task: task))
+  }
+}

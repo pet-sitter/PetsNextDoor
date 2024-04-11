@@ -14,6 +14,8 @@ struct HomeView: View {
   
   @EnvironmentObject var router: Router
   
+  @State private var tabBarIsHidden: Bool = false
+  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(alignment: .leading) {
@@ -21,9 +23,10 @@ struct HomeView: View {
         Spacer().frame(height: 12)
         
         SegmentControlView_SwiftUI(
+          
           selectedIndex: viewStore.binding(
             get: \.tabIndex,
-            send: { .onTabIndexChange($0)}
+            send: { .view(.onTabIndexChange($0)) }
           ),
           segmentTitles: ["돌봄급구", "돌봄메이트"]
         )
@@ -38,11 +41,11 @@ struct HomeView: View {
           SelectCategoryView_SwiftUI(
             selectedCategory: viewStore.binding(
               get: \.selectedCategory,
-              send: { .onSelectedCategoryChange($0) }
+              send: { .view(.onSelectedCategoryChange($0)) }
             ),
             filterOption: viewStore.binding(
               get: \.selectedFilterOption,
-              send: { .onSelectedFilterOptionChange($0) }
+              send: { .view(.onSelectedFilterOptionChange($0)) }
             )
           )
           
@@ -55,7 +58,8 @@ struct HomeView: View {
               ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
                 UrgentPostCardView_SwiftUI(viewModel: vm)
                   .onTapGesture {
-                    router.pushScreen(to: UrgentPostDetailFeature.State(postId: vm.postId))
+                    viewStore.send(.view(.onUrgentPostTap(postId: vm.postId)))
+                    setTabBarIsHidden(to: true)
                   }
               }
             }
@@ -82,7 +86,8 @@ struct HomeView: View {
         
         ToolbarItem(placement: .topBarTrailing) {
           Button(action: {
-            router.pushScreen(to: SelectPetListFeature.State())
+            viewStore.send(.view(.onSelectWritePostIcon))
+            setTabBarIsHidden(to: true)
           }, label: {
             Image(R.image.icon_pen)
               .resizable()
@@ -91,27 +96,17 @@ struct HomeView: View {
           })
         }
       }
-      .navigationDestination(for: UrgentPostDetailFeature.State.self) { state in
-        UrgentPostDetailView(
-          store: .init(
-            initialState: state,
-            reducer: { UrgentPostDetailFeature() }
-          )
-        )
-        .toolbar(.hidden, for: .tabBar)
-      }
-      .navigationDestination(for: SelectPetListFeature.State.self) { selectPetState in
-        SelectPetListView(
-          store: .init(
-            initialState: selectPetState,
-            reducer: { SelectPetListFeature() }
-          )
-        )
-        .toolbar(.hidden, for: .tabBar)
-      }
       .onAppear {
-        viewStore.send(.onAppear)
+        viewStore.send(.view(.onAppear))
+        setTabBarIsHidden(to: false)
       }
+//      .toolbar(tabBarIsHidden ? .hidden : .visible, for: .tabBar)
+    }
+  }
+  
+  private func setTabBarIsHidden(to isHidden: Bool) {
+    withAnimation(.snappy) {
+      tabBarIsHidden = isHidden
     }
   }
 }

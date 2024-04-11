@@ -47,6 +47,10 @@ extension PND.Dependency {
   enum KeyChainKey: DependencyKey {
     static let liveValue: any KeyChainProvidable = KeychainService()
   }
+  
+  enum UserDefaultsManagerKey: DependencyKey {
+    static let liveValue: any UserDefaultsManageable = UserDefaultsManager()
+  }
 }
 
 extension DependencyValues {
@@ -84,6 +88,11 @@ extension DependencyValues {
   var keychain: any KeyChainProvidable {
     get { self[PND.Dependency.KeyChainKey.self] }
     set { self[PND.Dependency.KeyChainKey.self] = newValue }
+  }
+  
+  var userDefaultsManager: any UserDefaultsManageable {
+    get { self[PND.Dependency.UserDefaultsManagerKey.self] }
+    set { self[PND.Dependency.UserDefaultsManagerKey.self] = newValue }
   }
 }
 

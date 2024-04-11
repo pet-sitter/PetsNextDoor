@@ -11,11 +11,11 @@ import ComposableArchitecture
 struct ChatListFeature: Reducer {
   
   struct State: Equatable {
-    
+    var tabIndex: Int = 0
   }
   
   enum Action: Equatable {
-    
+    case onTabIndexChange(Int)
   }
   
   var body: some Reducer<State, Action> {

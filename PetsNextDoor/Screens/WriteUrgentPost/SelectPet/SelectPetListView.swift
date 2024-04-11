@@ -12,8 +12,6 @@ struct SelectPetListView: View {
   
   let store: StoreOf<SelectPetListFeature>
   
-  @EnvironmentObject var router: Router
-  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(alignment: .leading, spacing: 0) {
@@ -46,19 +44,20 @@ struct SelectPetListView: View {
             send: { .setBottomButtonEnabled($0) })
         )
         .onTapGesture {
-          router.pushScreen(to: SelectCareConditionFeature.State(urgentPostModel: viewStore.urgentPostModel))
+          viewStore.send(.onBottomButtonTap)
         }
       }
       .onAppear {
         viewStore.send(.viewDidLoad)
       }
-      .navigationDestination(for: SelectCareConditionFeature.State.self) { state in
-        SelectCareConditionsView(
-          store: .init(
-            initialState: state,
-            reducer: { SelectCareConditionFeature() })
-        )
-      }
+      .navigationDestination(
+        store: store.scope(
+          state: \.$selectCareConditionsState,
+          action: { .selectCareConditionsAction($0) }),
+        destination: { store in
+          SelectCareConditionsView(store: store)
+        }
+      )
     }
   }
 }

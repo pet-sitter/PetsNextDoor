@@ -25,47 +25,76 @@ struct HomeFeature: Reducer {
     var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
     
     fileprivate var page: Int = 1
+    
+
   }
   
-  enum Action: Equatable {
+  enum Action: RestrictiveAction {
     
-    case onAppear
-
-    case onTabIndexChange(Int)
-    case onSelectedCategoryChange(SelectCategoryView_SwiftUI.Category)
-    case onSelectedFilterOptionChange(SelectCategoryView_SwiftUI.FilterOption)
-    
-    case fetchSOSPosts(page: Int)
-    case setInitialUrgentPostCardCellVMs([UrgentPostCardViewModel])
-    
-    // Internal Cases
-    
-    case setIsLoadingInitialData(Bool)
-  }
+    enum ViewAction: Equatable {
+      case onAppear
+      case onTabIndexChange(Int)
+      case onSelectWritePostIcon
+      case onSelectedCategoryChange(SelectCategoryView_SwiftUI.Category)
+      case onSelectedFilterOptionChange(SelectCategoryView_SwiftUI.FilterOption)
+      case onUrgentPostTap(postId: Int)
+    }
   
-
-  init() {
-    // 지금 문제 - init 이 여러번 불림 - 다른 화면 갔다와도 불림
-    print("✅ INIT")
+    enum InternalAction: Equatable {
+      case fetchSOSPosts(page: Int)
+      case setInitialUrgentPostCardCellVMs([UrgentPostCardViewModel])
+      case setIsLoadingInitialData(Bool)
+    }
+    
+    enum DelegateAction: Equatable {
+      case pushToSelectPetListView
+      case pushToUrgentPostDetailView(postId: Int)
+    }
+    
+    case view(ViewAction)
+    case delegate(DelegateAction)
+    case `internal`(InternalAction)
   }
   
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-        
-      case .onAppear:
+
+      case .view(.onAppear):
         return .run { [state] send in
+          await send(.internal(.setIsLoadingInitialData(true)))
+          await send(.internal(.fetchSOSPosts(page: 1)))
+          await send(.internal(.setIsLoadingInitialData(false)))
           
-          await send(.setIsLoadingInitialData(true))
-          await send(.fetchSOSPosts(page: 1))
-          await send(.setIsLoadingInitialData(false))
-          
-        
         } catch: { error, send in
           print("❌ error fetching posts: \(error)")
         }
         
-      case .fetchSOSPosts(let page):
+      case .view(.onSelectWritePostIcon):
+        return .send(.delegate(.pushToSelectPetListView))
+    
+      case .view(.onTabIndexChange(let index)):
+        state.tabIndex = index
+        return .none
+        
+      case .view(.onSelectedCategoryChange(let category)):
+        state.selectedCategory = category
+        return .send(.internal(.fetchSOSPosts(page: 1)))
+        
+      case .view(.onSelectedFilterOptionChange(let filterOption)):
+        state.selectedFilterOption          = filterOption
+        state.urgentPostCardCellViewModels  = []
+        
+        return .run { send in
+          await send(.internal(.setIsLoadingInitialData(true)))
+          await send(.internal(.fetchSOSPosts(page: 1)))
+          await send(.internal(.setIsLoadingInitialData(false)))
+        }
+        
+      case .view(.onUrgentPostTap(let postId)):
+        return .send(.delegate(.pushToUrgentPostDetailView(postId: postId)))
+        
+      case .internal(.fetchSOSPosts(let page)):
         return .run { [state] send in
           
           let postModel = try await postService.getSOSPosts(
@@ -88,39 +117,36 @@ struct HomeFeature: Reducer {
               )
             }
           
-          await send(.setInitialUrgentPostCardCellVMs(cellVMs))
+          await send(.internal(.setInitialUrgentPostCardCellVMs(cellVMs)))
           
         } catch: { error, send in
           Toast.shared.presentCommonError()
           print("❌ error fetching posts: \(error)")
         }
         
-      case .setInitialUrgentPostCardCellVMs(let cellVMs):
+      case .internal(.setInitialUrgentPostCardCellVMs(let cellVMs)):
         state.urgentPostCardCellViewModels = cellVMs
         return .none
     
-      case .onTabIndexChange(let index):
-        state.tabIndex = index 
+      case .internal(.setIsLoadingInitialData(let isLoading)):
+        state.isLoadingInitialData = isLoading
         return .none
         
-      case .onSelectedCategoryChange(let category):
-        state.selectedCategory = category
-        return .send(.fetchSOSPosts(page: 1))
-        
-      case .onSelectedFilterOptionChange(let filterOption):
-        state.selectedFilterOption          = filterOption
-        state.urgentPostCardCellViewModels  = []
-        
-        return .run { send in
-          await send(.setIsLoadingInitialData(true))
-          await send(.fetchSOSPosts(page: 1))
-          await send(.setIsLoadingInitialData(false))
-        }
-        
-      case .setIsLoadingInitialData(let isLoading):
-        state.isLoadingInitialData = isLoading
+      case .delegate(_):
         return .none
       }
     }
+//    .ifLet(
+//      \.$urgentPostDetailState,
+//       action: /Action.urgentPostDetailAction
+//    ) {
+//      UrgentPostDetailFeature()
+//    }
+//    .ifLet(
+//      \.$selectPetListState,
+//       action: /Action.selectPetListAction
+//    ) {
+//      SelectPetListFeature()
+//    }
   }
 }

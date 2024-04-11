@@ -27,7 +27,7 @@ struct LoginView: View {
         HStack(spacing: 15) {
           
           Button(action: {
-            viewStore.send(.didTapGoogleLogin)
+            viewStore.send(.view(.didTapGoogleLogin))
           }, label: {
             Image(R.image.googleLogin)
               .frame(width: 67, height: 67)

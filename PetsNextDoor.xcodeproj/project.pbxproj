@@ -100,6 +100,9 @@
 		DA4F052E2A68F6B000D7E7A7 /* AppNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F052D2A68F6B000D7E7A7 /* AppNameSpace.swift */; };
 		DA517D812AFE094300343424 /* BaseCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D802AFE094300343424 /* BaseCheckBoxButton.swift */; };
 		DA517D952AFE176500343424 /* NSAttributedStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */; };
+		DA565D572BC784C000E6A9FD /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA565D562BC784C000E6A9FD /* ChatRoomView.swift */; };
+		DA565D5A2BC7A3AF00E6A9FD /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA565D592BC7A3AF00E6A9FD /* ComposableArchitecture */; };
+		DA565D5D2BC7A3E900E6A9FD /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DA565D5C2BC7A3E900E6A9FD /* ComposableArchitecture */; };
 		DA5926E52B27FDCE00E00E74 /* ErrorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926E42B27FDCE00E00E74 /* ErrorTracker.swift */; };
 		DA5926E72B2812A400E00E74 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926E62B2812A400E00E74 /* UserDefaults+Extension.swift */; };
 		DA5926E92B28130900E00E74 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5926E82B28130900E00E74 /* UINavigationController+Extension.swift */; };
@@ -110,6 +113,7 @@
 		DA604D9D2B690C71001FE27F /* PetSpeciesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA604D9C2B690C71001FE27F /* PetSpeciesListView.swift */; };
 		DA6A91932BBBFAB700898737 /* Error+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6A91922BBBFAB700898737 /* Error+Extension.swift */; };
 		DA73510F2B39B5DD00306067 /* SOSPostDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */; };
+		DA755EB12BC7BC3400209389 /* MainTabNavigationPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA755EB02BC7BC3400209389 /* MainTabNavigationPath.swift */; };
 		DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardView.swift */; };
 		DA86A0ED2A62711800525711 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0EC2A62711800525711 /* Kingfisher */; };
 		DA86A0F22A6271A400525711 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */; };
@@ -291,6 +295,7 @@
 		DA4F054A2A6955F700D7E7A7 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		DA517D802AFE094300343424 /* BaseCheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCheckBoxButton.swift; sourceTree = "<group>"; };
 		DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringBuilder.swift; sourceTree = "<group>"; };
+		DA565D562BC784C000E6A9FD /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
 		DA5926E42B27FDCE00E00E74 /* ErrorTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTracker.swift; sourceTree = "<group>"; };
 		DA5926E62B2812A400E00E74 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		DA5926E82B28130900E00E74 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
@@ -300,6 +305,7 @@
 		DA604D9C2B690C71001FE27F /* PetSpeciesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSpeciesListView.swift; sourceTree = "<group>"; };
 		DA6A91922BBBFAB700898737 /* Error+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Extension.swift"; sourceTree = "<group>"; };
 		DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostDetailModel.swift; sourceTree = "<group>"; };
+		DA755EB02BC7BC3400209389 /* MainTabNavigationPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabNavigationPath.swift; sourceTree = "<group>"; };
 		DA7D67502B0C76A900497F51 /* MeetingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardView.swift; sourceTree = "<group>"; };
 		DA86A0F12A6271A400525711 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		DA86A0F42A62738200525711 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -397,7 +403,9 @@
 			files = (
 				DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */,
 				DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */,
+				DA565D5D2BC7A3E900E6A9FD /* ComposableArchitecture in Frameworks */,
 				DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */,
+				DA565D5A2BC7A3AF00E6A9FD /* ComposableArchitecture in Frameworks */,
 				DA275C6C2A4481A600D09F77 /* SnapKit in Frameworks */,
 				DA604D802B68AEC5001FE27F /* Kingfisher in Frameworks */,
 				DA275C602A44777500D09F77 /* FirebaseAuth in Frameworks */,
@@ -695,6 +703,7 @@
 			children = (
 				DA8BF0862B5E543500370C84 /* ChatListView.swift */,
 				DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */,
+				DA565D562BC784C000E6A9FD /* ChatRoomView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -761,6 +770,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */,
+				DA755EB02BC7BC3400209389 /* MainTabNavigationPath.swift */,
 				DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */,
 			);
 			path = AppLifeCycle;
@@ -1105,6 +1115,8 @@
 				DAE6FC652A96013C008BF1F1 /* Moya */,
 				DAE121242B030558008EF9AC /* IQKeyboardManagerSwift */,
 				DA604D7F2B68AEC5001FE27F /* Kingfisher */,
+				DA565D592BC7A3AF00E6A9FD /* ComposableArchitecture */,
+				DA565D5C2BC7A3E900E6A9FD /* ComposableArchitecture */,
 			);
 			productName = PetsNextDoor;
 			productReference = DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */;
@@ -1184,6 +1196,7 @@
 				DA25E8782B57AC900068D2F0 /* PND.HostingController.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				DAB571822B087CE900687979 /* MeetingCardComponent.swift in Sources */,
+				DA755EB12BC7BC3400209389 /* MainTabNavigationPath.swift in Sources */,
 				DA8A34F12A7654900054FE25 /* Colors.swift in Sources */,
 				DA4B2A8D2AFB5C400053217A /* SelectConditionHorizontalComponent.swift in Sources */,
 				DA95347B2AEF8BE100ED21F9 /* HeaderTitleView.swift in Sources */,
@@ -1257,6 +1270,7 @@
 				DA8A35042A765F140054FE25 /* TextFieldComponent.swift in Sources */,
 				DA10461D2B9AFAA400ACD453 /* AddCautionsView.swift in Sources */,
 				DAAD52F32A7CC90E00227BB5 /* UITableView+Extension.swift in Sources */,
+				DA565D572BC784C000E6A9FD /* ChatRoomView.swift in Sources */,
 				DA86DEE22B31829900580D3C /* SOSPostModel.swift in Sources */,
 				DA449E012ACC488F0025A397 /* SelectCategoryView.swift in Sources */,
 				DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */,
@@ -1602,7 +1616,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.56.0;
+				minimumVersion = 1.7.3;
 			};
 		};
 		DA86A0EB2A62711800525711 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
@@ -1686,6 +1700,16 @@
 			productName = SnapKit;
 		};
 		DA4F05212A68021800D7E7A7 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA4F05202A68021800D7E7A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		DA565D592BC7A3AF00E6A9FD /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA4F05202A68021800D7E7A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		DA565D5C2BC7A3E900E6A9FD /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DA4F05202A68021800D7E7A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;

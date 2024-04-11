@@ -32,6 +32,8 @@ final class MediaService: MediaServiceProvidable {
   }
   
   func uploadImages(imageDatas: [Data]) async throws -> [PND.UploadMediaResponseModel] {
+    guard imageDatas.isEmpty == false else { return [] }
+    
     var uploadResponse: [PND.UploadMediaResponseModel] = []
     
     for imageData in imageDatas {

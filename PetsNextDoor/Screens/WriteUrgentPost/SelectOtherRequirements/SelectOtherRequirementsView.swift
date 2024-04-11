@@ -20,6 +20,9 @@ struct SelectOtherRequirementsFeature: Reducer {
     
     var urgentPostModel: PND.UrgentPostModel
     
+    // Child State
+    @PresentationState var writeUrgentPostState: WriteUrgentPostFeature.State?
+    
   }
   
   enum Action: Equatable {
@@ -27,14 +30,18 @@ struct SelectOtherRequirementsFeature: Reducer {
     case onAppear
     case setBottomButtonEnabled(Bool)
     case onConditionCheckBoxTap(index: Int)
+    case onBottomButtonTap
     
     // Internal Cases
     case _setConditions([PND.Condition])
     case _toggleCheckBoxValue(index: Int)
+    
+    // Child Action
+    case writeUrgentPostAction(PresentationAction<WriteUrgentPostFeature.Action>)
+    
   }
   
   var body: some Reducer<State,Action> {
-
     Reduce { state, action in
       switch action {
         
@@ -70,12 +77,25 @@ struct SelectOtherRequirementsFeature: Reducer {
           return .send(.setBottomButtonEnabled(false ))
         }
         
+      case .onBottomButtonTap:
+        state.writeUrgentPostState = WriteUrgentPostFeature.State(urgentPostModel: state.urgentPostModel)
+        return .none
+        
       case ._toggleCheckBoxValue(let index):
         state.conditions[index].isSelected.toggle()
         
         return .none
+        
+      case .writeUrgentPostAction:
+        return .none
 
       }
+    }
+    .ifLet(
+      \.$writeUrgentPostState,
+       action: /Action.writeUrgentPostAction
+    ) {
+      WriteUrgentPostFeature()
     }
   }
 }
@@ -83,8 +103,6 @@ struct SelectOtherRequirementsFeature: Reducer {
 struct SelectOtherRequirementsView: View {
   
   let store: StoreOf<SelectOtherRequirementsFeature>
-  
-  @EnvironmentObject var router: Router
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
@@ -122,13 +140,18 @@ struct SelectOtherRequirementsView: View {
           )
         )
         .onTapGesture {
-          router.pushScreen(to: WriteUrgentPostFeature.State(urgentPostModel: viewStore.urgentPostModel))
+          viewStore.send(.onBottomButtonTap)
         }
         
       }
-      .navigationDestination(for: WriteUrgentPostFeature.State.self, destination: { state in
-        WriteUrgentPostView(store: .init(initialState: state, reducer: { WriteUrgentPostFeature() }))
-      })
+      .navigationDestination(
+        store: store.scope(
+          state: \.$writeUrgentPostState,
+          action: { .writeUrgentPostAction($0) }),
+        destination: { store in
+          WriteUrgentPostView(store: store)
+        }
+      )
       .onAppear {
         viewStore.send(.onAppear)
       }

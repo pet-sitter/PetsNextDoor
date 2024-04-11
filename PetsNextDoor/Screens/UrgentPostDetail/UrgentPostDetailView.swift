@@ -39,7 +39,7 @@ struct UrgentPostDetailFeature: Reducer {
     var careNeededPetViewModels: [SelectPetViewModel] = []
   }
   
-  enum Action: Equatable, RestrictiveAction {
+  enum Action: RestrictiveAction {
   
 		enum ViewAction: Equatable {
 			case onInit
@@ -89,7 +89,8 @@ struct UrgentPostDetailFeature: Reducer {
 					await send(.internal(.setIsLoading(false)))
           
         } catch: { error, send in
-          print("❌ error")
+          print("❌ error: \(error)")
+          Toast.shared.presentCommonError()
         }
 				
 			case .view(.onSelectedTabIndexChange(let index)):
@@ -195,41 +196,41 @@ struct UrgentPostDetailView: View {
           
           VStack {
             SwiftUI.Section {
-							
-							HorizontalSectionSelectView(
-								titles: ["급구조건", "상세내용", "반려동물 프로필"],
-								currentIndex: viewStore.binding(
-									get: \.selectedTabIndex,
-									send: { .view(.onSelectedTabIndexChange($0)) }
-								)
-							)
-
-							switch viewStore.selectedTabIndex {
-							
-							case 0:
+              
+              HorizontalSectionSelectView(
+                titles: ["급구조건", "상세내용", "반려동물 프로필"],
+                currentIndex: viewStore.binding(
+                  get: \.selectedTabIndex,
+                  send: { .view(.onSelectedTabIndexChange($0)) }
+                )
+              )
+              
+              switch viewStore.selectedTabIndex {
+                
+              case 0:
                 AgreementView(conditions: viewStore.conditions)
-								
-								Spacer()
-									.frame(height: 16)
-								
-								ForEach(viewStore.detailInfoVM) { vm in
-									UrgentPostDetailInformationView(viewModel: vm)
-									Spacer()
-										.frame(height: 15)
-								}
-								
-							case 1:
+                
+                Spacer()
+                  .frame(height: 16)
+                
+                ForEach(viewStore.detailInfoVM) { vm in
+                  UrgentPostDetailInformationView(viewModel: vm)
+                  Spacer()
+                    .frame(height: 15)
+                }
+                
+              case 1:
                 VStack(alignment: .leading, spacing: 25) {
-									
-									Text(viewStore.details)
-										.font(.system(size: 16))
-										.lineSpacing(5)
+                  
+                  Text(viewStore.details)
+                    .font(.system(size: 16))
+                    .lineSpacing(5)
                     .multilineTextAlignment(.leading)
+                  
+                  
+                  ScrollView(.horizontal) {
                     
-									
-									ScrollView(.horizontal) {
-				
-										HStack(spacing: 3) {
+                    HStack(spacing: 3) {
                       ForEach(
                         0..<(min(viewStore.postImageUrls.count, 3)),
                         id: \.self

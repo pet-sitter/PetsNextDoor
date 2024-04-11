@@ -6,33 +6,56 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
-struct RootView<Content: View>: View {
-  
-  @ViewBuilder var content: Content
+struct RootView: View {
   
   @State private var overlayWindow: UIWindow?
   
+  let store: StoreOf<PNDRootFeature>
+  
   var body: some View {
-    content
-      .onAppear {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, overlayWindow == nil {
-          let window = PassthroughWindow(windowScene: windowScene)
-          window.backgroundColor = .clear
-          
-          let rootController = UIHostingController(rootView: ToastGroup())
-          rootController.view.frame = windowScene.keyWindow?.frame ?? .zero
-          rootController.view.backgroundColor = .clear
-          
-          
-          window.rootViewController = rootController
-          window.isHidden = false
-          window.isUserInteractionEnabled = true
-          window.tag = 1009
-          
-          overlayWindow = window
+    Group {
+      switch store.state {
+      case .splash:
+        ProgressView()
+        
+      case .login(let loginState):
+        if let store = store.scope(state: \.login, action: \.loginAction) {
+          LoginView(store: store)
+        }
+        
+      case .mainTab(let mainTabBarState):
+        if let store = store.scope(state: \.mainTab, action: \.mainTabBarAction) {
+          MainTabBarView(store: store)
         }
       }
+    }
+    .animation(.spring, value: store.state)
+    .onAppear {
+      store.send(.onAppear)
+      setOverlayWindow()
+    }
+  }
+  
+  
+  private func setOverlayWindow() {
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, overlayWindow == nil {
+      let window = PassthroughWindow(windowScene: windowScene)
+      window.backgroundColor = .clear
+      
+      let rootController = UIHostingController(rootView: ToastGroup())
+      rootController.view.frame = windowScene.keyWindow?.frame ?? .zero
+      rootController.view.backgroundColor = .clear
+      
+      
+      window.rootViewController = rootController
+      window.isHidden = false
+      window.isUserInteractionEnabled = true
+      window.tag = 1009
+      
+      overlayWindow = window
+    }
   }
 }
 

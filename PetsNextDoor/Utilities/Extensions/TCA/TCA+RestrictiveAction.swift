@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-protocol RestrictiveAction {
+protocol RestrictiveAction: Equatable {
   
   associatedtype ViewAction
   associatedtype DelegateAction

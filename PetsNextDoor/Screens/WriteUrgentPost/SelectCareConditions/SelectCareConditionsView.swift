@@ -12,8 +12,6 @@ struct SelectCareConditionsView: View {
   
   let store: StoreOf<SelectCareConditionFeature>
   
-  @EnvironmentObject var router: Router
-  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(alignment: .leading) {
@@ -70,7 +68,7 @@ struct SelectCareConditionsView: View {
                     viewStore.send(.onPayOptionChange(payOption))
                   } label: {
                     HStack {
-                      Text(payOption.rawValue)
+                      Text(payOption.text)
                       Spacer()
                       if viewStore.payOption == payOption {
                         Image(systemName: "checkmark")
@@ -81,7 +79,7 @@ struct SelectCareConditionsView: View {
                 }
               } label: {
                 HStack(spacing: 4) {
-                  Text(viewStore.payOption.rawValue)
+                  Text(viewStore.payOption.text)
                     .font(.system(size: 16))
                     .minimumScaleFactor(0.8)
                   
@@ -125,14 +123,12 @@ struct SelectCareConditionsView: View {
           leftImageName: R.image.icon_cal.name,
           conditionTitle: "날짜",
           rightContentView: {
-            DatePicker(
-              selection: viewStore.binding(
-                get: \.date,
-                send: { .onDateChange($0) }
-              ),
-              displayedComponents: .date
-            ) {}
-              .tint(PND.DS.primary)
+            Text(viewStore.selectedDatesText)
+              .font(.system(size: 16, weight: .medium))
+              .padding(8)
+              .frame(height: 32)
+              .background(PND.DS.gray10)
+              .cornerRadius(4)
           }
         )
         
@@ -144,7 +140,7 @@ struct SelectCareConditionsView: View {
             get: \.selectedDates,
             send: { .onSelectedDatesChanged($0) }
           ),
-          in: Date.now...
+          in: selectableDateBounds
         )
         .tint(PND.DS.primary)
         .padding(.horizontal, PND.Metrics.defaultSpacing)
@@ -160,13 +156,25 @@ struct SelectCareConditionsView: View {
           )
         )
         .onTapGesture {
-          router.pushScreen(to: SelectOtherRequirementsFeature.State(urgentPostModel: viewStore.urgentPostModel))
+          viewStore.send(.onBottomButtonTap)
         }
       }
-      .navigationDestination(for: SelectOtherRequirementsFeature.State.self) { state in
-        SelectOtherRequirementsView(store: .init(initialState: state, reducer: { SelectOtherRequirementsFeature() }))
-      }
+      .navigationDestination(
+        store: store.scope(
+          state: \.$selectOtherRequirementsState,
+          action: { .selectOtherRequirementsAction($0) }),
+        destination: { store in
+          SelectOtherRequirementsView(store: store)
+        }
+      )
     }
+  }
+  
+  private var selectableDateBounds: Range<Date> {
+    let startDate = Date.now
+    let endDate   = Calendar.current.date(byAdding: .day, value: 7, to: Date.now)!
+    
+    return startDate..<endDate
   }
 }
 

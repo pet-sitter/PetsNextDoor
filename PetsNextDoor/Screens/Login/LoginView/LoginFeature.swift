@@ -22,69 +22,79 @@ struct LoginFeature: Reducer {
     @PresentationState var setProfileState: SetProfileFeature.State? = nil
   }
   
-  enum Action: Equatable {
-    case viewWillAppear
-    case didTapKakaoLogin
-    case didTapGoogleLogin
-    case didTapAppleLogin
+  enum Action: RestrictiveAction {
     
-    case setIsLoggedIn(Bool)
+    enum ViewAction: Equatable {
+      case viewWillAppear
+      case didTapKakaoLogin
+      case didTapGoogleLogin
+      case didTapAppleLogin
+    }
+    
+    enum InternalAction: Equatable {
+      case setIsLoggedIn(Bool)
+      case setIsLoading(Bool)
+    }
+    
+    enum DelegateAction: Equatable {
+      case moveToMainTabBarView
+    }
+  
+    case view(ViewAction)
+    case delegate(DelegateAction)
+    case `internal`(InternalAction)
+  
     case setProfileState(PND.UserRegistrationModel)
-    
-    
     case setProfileAction(PresentationAction<SetProfileFeature.Action>)
-    
-    case _setIsLoading(Bool)
   }
   
   var body: some Reducer<State, Action> {
     Reduce { state, action in
 
       switch action {
-      case .viewWillAppear:
+      case .view(.viewWillAppear):
         return .none
       
-      case .didTapGoogleLogin:
+      case .view(.didTapGoogleLogin):
         state.isLoading = true
         
         return .run { send in
 //          await send(.setIsLoggedIn(true))
-//          await send(.setProfileState(.init(
-//            email: "",
-//            fbProviderType: .google,
-//            fbUid: "123",
-//            fullname: "Kevin",
-//            profileImageId: 1)))
-//      
-          let loginResult = await loginService.signInWithGoogle()
-//          
-          switch loginResult {
-            case let .success(isUserRegistrationNeeded, userRegisterModel):
-
-            if isUserRegistrationNeeded, let userRegisterModel {     // 구글 로그인 성공, but 자체 PND 서버 회원가입 필요
-              await send(.setProfileState(userRegisterModel))
-              
-            } else {
-              await send(.setIsLoggedIn(true))
-            }
-            
-          case .failed(let reason):
-            print("❌ signInWithGoogle failed : \(reason)")
-            await MainActor.run {
-              Toast.shared.present(title: .commonError, symbol: "xmark")
-            }
-          }
+          await send(.setProfileState(.init(
+            email: "",
+            fbProviderType: .google,
+            fbUid: "123",
+            fullname: "Kevin")))
           
-          await send(._setIsLoading(false))
+//          let loginResult = await loginService.signInWithGoogle()
+//
+//          switch loginResult {
+//            case let .success(isUserRegistrationNeeded, userRegisterModel):
+//
+//            if isUserRegistrationNeeded, let userRegisterModel {     // 구글 로그인 성공, but 자체 PND 서버 회원가입 필요
+//              await send(.setProfileState(userRegisterModel))
+//              
+//            } else {
+//              await send(.setIsLoggedIn(true))
+//            }
+//            
+//          case .failed(let reason):
+//            print("❌ signInWithGoogle failed : \(reason)")
+//            await MainActor.run {
+//              Toast.shared.present(title: .commonError, symbol: "xmark")
+//            }
+//          }
+          
+          await send(.internal(.setIsLoading(false)))
         }
         
-      case .didTapKakaoLogin:
+      case .view(.didTapKakaoLogin):
         return .none
         
-      case .didTapAppleLogin:
+      case .view(.didTapAppleLogin):
         return .none
         
-      case ._setIsLoading(let isLoading):
+      case .internal(.setIsLoading(let isLoading)):
         state.isLoading = isLoading
         return .none
         
@@ -93,9 +103,11 @@ struct LoginFeature: Reducer {
         state.setProfileState = .init(userRegisterModel: userRegistrationModel)
         return .none
         
-      case let .setIsLoggedIn(isLoggedIn):
-        Router.changeRootViewToHomeView()
+      case let .internal(.setIsLoggedIn(isLoggedIn)):
         state.isLoggedIn = isLoggedIn
+        return .send(.delegate(.moveToMainTabBarView))
+        
+      case .delegate:
         return .none
         
       case .setProfileAction(.dismiss):

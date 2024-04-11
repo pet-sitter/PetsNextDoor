@@ -12,6 +12,7 @@ struct SetProfileFeature: Reducer {
   @Dependency(\.loginService) private var loginService
   @Dependency(\.mediaService) private var mediaService
   @Dependency(\.userService)  private var userService
+  @Dependency(\.userDefaultsManager) private var userDefaultsManager
 	
 	struct State: Equatable {
     var userRegisterModel: PND.UserRegistrationModel
@@ -51,6 +52,10 @@ struct SetProfileFeature: Reducer {
     // Child Actions
     case _selectEitherCatOrDogAction(PresentationAction<SelectEitherCatOrDogFeature.Action>)
 	}
+  
+  init() {
+    print("✅ SET PROFILE FEATURE INIT")
+  }
 	
 	var body: some Reducer<State, Action> {
 		Reduce { state, action in
@@ -144,7 +149,7 @@ struct SetProfileFeature: Reducer {
               let _ = try await userService.registerMyPets(petArray)
             }
             
-            UserDefaultsManager.shared.set(.isLoggedIn, to: true)
+            userDefaultsManager.set(.isLoggedIn, to: true)
             Router.changeRootViewToHomeView()
             
           } catch {

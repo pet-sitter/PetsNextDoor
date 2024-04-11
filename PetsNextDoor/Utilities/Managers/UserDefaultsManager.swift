@@ -7,27 +7,39 @@
 
 import Foundation
 
-struct UserDefaultsManager {
+protocol UserDefaultsManageable {
+  func resetAllKeys()
+  func set(_ key: UserDefaultsKey, to value: Any)
+  func get(_ key: UserDefaultsKey) -> Any?
+  func remove(_ key: UserDefaultsKey)
+  func setBoolean(_ key: UserDefaultsKey, to value: Bool)
+}
+
+enum UserDefaultsKey: String, CaseIterable, CodingKey {
+  case isLoggedIn
+}
+
+struct UserDefaultsManager: UserDefaultsManageable {
   
   static let shared: UserDefaultsManager = .init()
   
-  enum Key: String, CaseIterable, CodingKey {
-    case isLoggedIn
-  }
-  
   func resetAllKeys() {
-    Key.allCases.forEach { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
+    UserDefaultsKey.allCases.forEach { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
   }
 
-  func set(_ key: Key, to value: Any) {
+  func set(_ key: UserDefaultsKey, to value: Any) {
     UserDefaults.standard.set(value, forKey: key.rawValue)
   }
   
-  func get(_ key: Key) -> Any? {
+  func get(_ key: UserDefaultsKey) -> Any? {
     UserDefaults.standard.value(forKey: key.rawValue)
   }
   
-  func remove(_ key: Key) {
+  func remove(_ key: UserDefaultsKey) {
     UserDefaults.standard.removeObject(forKey: key.rawValue)
+  }
+   
+  func setBoolean(_ key: UserDefaultsKey, to value: Bool) {
+    UserDefaults.standard.set(value, forKey: key.rawValue)
   }
 }

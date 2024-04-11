@@ -24,8 +24,8 @@ struct SelectCareConditionFeature: Reducer {
     var payOptionPrompt: String = PayOption.pay.prompt
     
     // 날짜
-    var date: Date = .init()
     var selectedDates: Set<DateComponents> = []
+    var selectedDatesText: String = "아래에서 날짜를 선택하세요."
     
     
     // 그 외
@@ -34,6 +34,9 @@ struct SelectCareConditionFeature: Reducer {
     var isBottomButtonEnabled: Bool = true
     var isPayTextFieldDisabled: Bool = false
     var onlyAllowNumberInput: Bool = true
+    
+    // Child State
+    @PresentationState var selectOtherRequirementsState: SelectOtherRequirementsFeature.State?
   }
   
   enum Action: Equatable {
@@ -45,17 +48,28 @@ struct SelectCareConditionFeature: Reducer {
     case onPayOptionChange(PayOption)
     case onPayAmountChange(String)
 
-    case onDateChange(Date)
     case onSelectedDatesChanged(Set<DateComponents>)
     
     case setBottomButtonEnabled(Bool)
+    case onBottomButtonTap
+    
+    // Child State
+    case selectOtherRequirementsAction(PresentationAction<SelectOtherRequirementsFeature.Action>)
     
   }
   
   enum PayOption: String, CaseIterable {
-    case pay        = "사례비"
-    case gifticon   = "기프티콘"
-    case negotiable = "협의가능"
+    case pay        = "pay"
+    case gifticon   = "gifticon"
+    case negotiable = "negotiable"
+    
+    var text: String {
+      switch self {
+      case .pay:        "사례비"
+      case .gifticon:   "기프티콘"
+      case .negotiable: "협의가능"
+      }
+    }
     
     var prompt: String {
       switch self {
@@ -64,6 +78,7 @@ struct SelectCareConditionFeature: Reducer {
       case .negotiable: "협의가능"
       }
     }
+
   }
   
   var body: some Reducer<State, Action> {
@@ -71,16 +86,16 @@ struct SelectCareConditionFeature: Reducer {
       switch action {
       case .viewDidLoad:
         return .none
-      
+   
       case .onGenderIndexChange(let index):
-        state.selectedGenderIndex = index 
+        state.selectedGenderIndex = index
         switch index {
         case 0:
           state.urgentPostModel.carerGender = .male
         case 1:
           state.urgentPostModel.carerGender = .female
         case 2:
-          state.urgentPostModel.carerGender = .all 
+          state.urgentPostModel.carerGender = .all
         default: ()
         }
         return .none
@@ -96,14 +111,22 @@ struct SelectCareConditionFeature: Reducer {
         }
         return .none
         
-      case .onDateChange(let date):
-        state.date = date
-//        state.urgentPostModel.da
-        return .none
-        
       case .onSelectedDatesChanged(let dateComponents):
-        print("✅ date: \(dateComponents)")
-        state.selectedDates = dateComponents
+        guard dateComponents.isEmpty == false else {
+          state.selectedDatesText = "아래에서 날짜를 선택하세요."
+          return .none
+        }
+        
+        state.selectedDates     = dateComponents
+        
+        let selectedDateText = dateComponents
+          .compactMap(\.day)
+          .sorted()
+          .map { String($0) }
+          .joined(separator: ",")
+        
+        state.selectedDatesText  = "\(selectedDateText)일"
+        
         return .none
         
       case .onPayOptionChange(let payOption):
@@ -132,7 +155,20 @@ struct SelectCareConditionFeature: Reducer {
       case .setBottomButtonEnabled(let isEnabled):
         state.isBottomButtonEnabled = isEnabled
         return .none
+        
+      case .onBottomButtonTap:
+        state.selectOtherRequirementsState = SelectOtherRequirementsFeature.State(urgentPostModel: state.urgentPostModel)
+        return .none
+        
+      case .selectOtherRequirementsAction:
+        return .none
       }
+    }
+    .ifLet(
+      \.$selectOtherRequirementsState,
+       action: /Action.selectOtherRequirementsAction
+    ) {
+      SelectOtherRequirementsFeature()
     }
   }
 }

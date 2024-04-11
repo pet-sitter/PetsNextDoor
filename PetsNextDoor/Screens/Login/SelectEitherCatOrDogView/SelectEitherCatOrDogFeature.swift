@@ -19,7 +19,7 @@ struct SelectEitherCatOrDogFeature: Reducer {
     @PresentationState var addPetState: AddPetFeature.State? = nil
 	}
 	
-	enum Action: Equatable, RestrictiveAction {
+	enum Action: RestrictiveAction {
     
     enum ViewAction: Equatable {
       case viewDidAppear
