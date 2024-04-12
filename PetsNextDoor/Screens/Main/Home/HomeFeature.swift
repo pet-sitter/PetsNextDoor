@@ -8,10 +8,12 @@
 import Foundation
 import ComposableArchitecture
 
+@Reducer
 struct HomeFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
   
+  @ObservableState
   struct State: Equatable {
     
     var isLoadingInitialData: Bool = false
@@ -29,7 +31,7 @@ struct HomeFeature: Reducer {
 
   }
   
-  enum Action: RestrictiveAction {
+  enum Action: RestrictiveAction, BindableAction {
     
     enum ViewAction: Equatable {
       case onAppear
@@ -54,9 +56,12 @@ struct HomeFeature: Reducer {
     case view(ViewAction)
     case delegate(DelegateAction)
     case `internal`(InternalAction)
+    case binding(BindingAction<State>)
   }
   
   var body: some Reducer<State, Action> {
+    BindingReducer()
+
     Reduce { state, action in
       switch action {
 
@@ -133,6 +138,9 @@ struct HomeFeature: Reducer {
         return .none
         
       case .delegate(_):
+        return .none
+      
+      case .binding(_):
         return .none
       }
     }

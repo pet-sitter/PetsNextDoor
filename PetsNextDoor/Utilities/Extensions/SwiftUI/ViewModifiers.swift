@@ -70,4 +70,9 @@ extension View {
   func onViewDidLoad(_ task: @escaping () async -> Void) -> some View {
     modifier(ViewDidLoadModifier(task: task))
   }
+  
+  func size(_ value: CGFloat) -> some View {
+    frame(width: value, height: value)
+  }
+  
 }

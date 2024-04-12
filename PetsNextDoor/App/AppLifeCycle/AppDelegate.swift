@@ -186,15 +186,18 @@ struct MainTabBarView: View {
           SelectPetListView(store: store)
         }
         
-      
+        
       @unknown default:
         Text("UNDEFINED VIEW")
       }
     }
+    
   }
   
   private var contentView: some View {
     TabView(selection: $store.selectedTab) {
+      
+      
       HomeView(store: store.scope(state: \.homeState, action: \.homeAction))
         .tabItem {
           MainTab
@@ -203,6 +206,7 @@ struct MainTabBarView: View {
             .frame(width: imageSize, height: imageSize)
         }
         .tag(MainTab.home)
+  
       
       CommunityView(store: store.scope(state: \.communityState, action: \.communityAction))
         .tabItem {
