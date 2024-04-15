@@ -137,6 +137,7 @@ final class LoginService: LoginServiceProvidable, TokenRefreshable {
     keyChainService.delete(.refreshToken)
     
     // change root view controller to LoginView
+    Router.changeRootViewToHomeView()
   }
 }
 

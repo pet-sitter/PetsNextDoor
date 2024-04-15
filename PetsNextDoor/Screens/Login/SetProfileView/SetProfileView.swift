@@ -10,9 +10,7 @@ import ComposableArchitecture
 
 struct SetProfileView: View {
   
-  let store: StoreOf<SetProfileFeature>
-  
-  @EnvironmentObject var router: Router
+  @State var store: StoreOf<SetProfileFeature>
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
@@ -116,9 +114,7 @@ struct SetProfileView: View {
         state: \.$selectEitherCatOrDogState,
         action: { ._selectEitherCatOrDogAction($0)})
     ) { store in
-      NavigationStack(path: $router.navigationPath) {
-        SelectEitherCatOrDogView(store: store)
-      }
+      SelectEitherCatOrDogView(store: store)
     }
   }
 }

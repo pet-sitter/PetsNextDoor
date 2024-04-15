@@ -67,10 +67,11 @@ extension PND {
     let sex: PND.Sex
     let neutered: Bool
     let breed: String
-    let birth_date: String
+    let birthDate: String
     let weightInKg: Int
     let remarks: String?
     var profileImageId: Int? = nil
+    var profileImageUrl: String? = nil
   }
   
   enum Sex: String, Codable {

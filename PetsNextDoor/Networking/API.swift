@@ -139,27 +139,34 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case let .getSOSPosts(authorId, page, size, sortBy):
       return .requestParameters(
         parameters: .builder
-          .setOptional(key: "author_id", value: authorId)
+          .setOptional(key: "authorId", value: authorId)
           .setOptional(key: "page", value: page)
           .setOptional(key: "size", value: size)
-          .setOptional(key: "sort_by", value: sortBy)
+          .setOptional(key: "sortBy", value: sortBy)
           .build(),
         encoding: URLEncoding.queryString
       )
       
     case .postSOSPost(let model):
+      
+      var dateParameters: [[String : String]] = []
+      for date in model.dates {
+        dateParameters.append([
+          "dateStartAt" : date.dateStartAt,
+          "dateEndAt"   : date.dateEndAt
+        ])
+      }
       return .requestParameters(
         parameters: .builder
           .set(key: "careType", value: model.careType.rawValue)
           .set(key: "carerGender", value: model.carerGender.rawValue)
           .set(key: "conditionIds", value: model.conditionIds)
           .set(key: "content", value: model.content)
-          .set(key: "dateEndAt", value: model.dateEndAt)
-          .set(key: "dateStartAt", value: model.dateStartAt)
+          .set(key: "dates", value: dateParameters)
           .set(key: "imageIds", value: model.imageIds)
           .set(key: "petIds", value: model.petIds)
           .set(key: "reward", value: model.reward)
-          .set(key: "rewardAmount", value: model.rewardAmount)
+          .set(key: "rewardType", value: model.rewardType.rawValue)
           .set(key: "title", value: model.title)
           .build(),
         encoding: JSONEncoding.default
@@ -179,6 +186,8 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .build(),
         encoding: JSONEncoding.default
       )
+      // 돌봄 급구 구해요!!
+      // 3일만 돌봐주실분!!
       
     case .postCheckNickname(let nickname):
       return .requestParameters(
@@ -197,11 +206,11 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       )
       
     case .putMyPets(let models):
-      var parameters: [[String : Any]] = [[:]]
+      var parameters: [[String : Any]] = []
       
       for model in models {
         parameters.append([
-          "birthDate" : model.birth_date,
+          "birthDate" : model.birthDate,
           "breed" : model.breed,
           "name" : model.name,
           "neutered" : model.neutered,
@@ -210,7 +219,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           "weightInKg" : model.weightInKg,
         ])
         
-        if let profileImageId = model.profileImageId {
+        if let profileImageId = model.profileImageUrl {
           parameters.append(["profileImageId" : profileImageId])
         }
         if let remarks = model.remarks {

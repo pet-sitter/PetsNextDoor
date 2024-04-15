@@ -20,12 +20,12 @@ struct RootView: View {
       case .splash:
         ProgressView()
         
-      case .login(let loginState):
+      case .login:
         if let store = store.scope(state: \.login, action: \.loginAction) {
           LoginView(store: store)
         }
         
-      case .mainTab(let mainTabBarState):
+      case .mainTab:
         if let store = store.scope(state: \.mainTab, action: \.mainTabBarAction) {
           MainTabBarView(store: store)
         }

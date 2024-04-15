@@ -36,8 +36,9 @@ extension Router {
       .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
       .first { $0.isKeyWindow }
     
-//    window?.rootViewController = UIHostingController(rootView: MainTabBarView(store: <#T##StoreOf<MainTabBarFeature>#>, router: <#T##Router#>, index: <#T##Int#>).environmentObject(Router()))
-//    window?.makeKeyAndVisible()
+//    window?.rootViewController = UIHostingController(rootView: MainTabBarView(store: .init(initialState: .init(), reducer: { MainTabBarFeature()})).environmentObject(Router()))
+    window?.rootViewController = UIHostingController(rootView: LoginView(store: .init(initialState: .init(), reducer: { LoginFeature() })))
+    window?.makeKeyAndVisible()
     
     
   }

@@ -33,4 +33,12 @@ struct DateConverter {
     let dateString = dateFormatter.string(from: date)
     return dateString
   }
+  
+  static func convertDateComponentsToPNDDateModel(_ dateComponents: Set<DateComponents>) -> [PND.Date] {
+    return dateComponents
+      .compactMap(\.date)
+      .map { convertDateToString(date: $0) }
+      .map { PND.Date(dateStartAt: $0, dateEndAt: $0) }
+  }
+  
 }

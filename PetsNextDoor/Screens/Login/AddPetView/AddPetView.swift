@@ -12,8 +12,6 @@ struct AddPetView: View {
   
   let store: StoreOf<AddPetFeature>
   
-  @EnvironmentObject var router: Router
-  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       ScrollView(.vertical) {

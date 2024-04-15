@@ -10,50 +10,66 @@ import ComposableArchitecture
 
 struct LoginView: View {
   
-  let store: StoreOf<LoginFeature>
-  
-  @EnvironmentObject var router: Router
+  @State var store: StoreOf<LoginFeature>
   
   var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack {
-        
-        Image(R.image.loginImage)
-          .resizable()
-          .frame(width: 200, height: 120)
-        
-        Spacer().frame(height: 140)
-        
-        HStack(spacing: 15) {
-          
-          Button(action: {
-            viewStore.send(.view(.didTapGoogleLogin))
-          }, label: {
-            Image(R.image.googleLogin)
-              .frame(width: 67, height: 67)
-          })
-          
-          Button(action: {
-            
-          }, label: {
-            Image(R.image.kakaoLogin)
-              .frame(width: 67, height: 67)
-          })
-          
-          Button(action: {
-            
-          }, label: {
-            Image(R.image.appleLogin)
-              .frame(width: 67, height: 67)
-          })
+    NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+      contentView
+    } destination: { store in
+      switch store.state {
+      case .setProfile:
+        if let store = store.scope(state: \.setProfile, action: \.setProfile) {
+          SetProfileView(store: store)
         }
+        
+      
+        
+        
+//      case .selectEitherCatOrDog:
+//        if let store = store.scope(state: \.selectEitherCatOrDog, action: \.selectEitherCatOrDog) {
+//          SelectEitherCatOrDogView(store: store)
+//        }
+//        
+//      case .addPet:
+//        if let store = store.scope(state: \.addPet, action: \.addPet) {
+//          AddPetView(store: store)
+//        }
       }
-      .navigationDestination(
-        store: store.scope(
-          state: \.$setProfileState,
-          action: LoginFeature.Action.setProfileAction
-        )
-      ) { SetProfileView(store: $0) }
+    }
+  }
+  
+  private var contentView: some View {
+    VStack {
+      
+      Image(R.image.loginImage)
+        .resizable()
+        .frame(width: 200, height: 120)
+      
+      Spacer().frame(height: 140)
+      
+      HStack(spacing: 15) {
+        
+        Button(action: {
+          store.send(.view(.didTapGoogleLogin))
+        }, label: {
+          Image(R.image.googleLogin)
+            .frame(width: 67, height: 67)
+        })
+        
+        Button(action: {
+          
+        }, label: {
+          Image(R.image.kakaoLogin)
+            .frame(width: 67, height: 67)
+        })
+        
+        Button(action: {
+          
+        }, label: {
+          Image(R.image.appleLogin)
+            .frame(width: 67, height: 67)
+        })
+      }
     }
   }
 }

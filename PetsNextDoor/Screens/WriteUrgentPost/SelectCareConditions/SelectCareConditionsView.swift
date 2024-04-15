@@ -62,15 +62,15 @@ struct SelectCareConditionsView: View {
           rightContentView: {
             HStack(spacing: 8) {
               Menu {
-                ForEach(SelectCareConditionFeature.PayOption.allCases, id: \.self) { payOption in
+                ForEach(PND.RewardType.allCases, id: \.self) { payOption in
                   Button {
                     Keyboard.dismiss()
-                    viewStore.send(.onPayOptionChange(payOption))
+                    viewStore.send(.onRewardTypeChange(payOption))
                   } label: {
                     HStack {
                       Text(payOption.text)
                       Spacer()
-                      if viewStore.payOption == payOption {
+                      if viewStore.rewardType == payOption {
                         Image(systemName: "checkmark")
                       }
                     }
@@ -79,7 +79,7 @@ struct SelectCareConditionsView: View {
                 }
               } label: {
                 HStack(spacing: 4) {
-                  Text(viewStore.payOption.text)
+                  Text(viewStore.rewardType.text)
                     .font(.system(size: 16))
                     .minimumScaleFactor(0.8)
                   
@@ -98,10 +98,10 @@ struct SelectCareConditionsView: View {
               TextField(
                 "",
                 text: viewStore.binding(
-                  get: \.payAmount,
-                  send: { .onPayAmountChange($0) }
+                  get: \.rewardAmount,
+                  send: { .onRewardAmountChange($0) }
                 ),
-                prompt: Text(viewStore.payOptionPrompt)
+                prompt: Text(viewStore.rewardOptionPrompt)
               )
               .keyboardType(viewStore.onlyAllowNumberInput ? .numberPad : .alphabet)
               .font(.system(size: 16, weight: .medium))

@@ -25,6 +25,7 @@ struct SetProfileFeature: Reducer {
     
     var petViewModels: [SelectPetViewModel] = []
     
+    var isAddPetFlowPresented: Bool = false
     @PresentationState var selectEitherCatOrDogState: SelectEitherCatOrDogFeature.State?
 
     init(userRegisterModel: PND.UserRegistrationModel) {
@@ -32,7 +33,9 @@ struct SetProfileFeature: Reducer {
     }
 	}
 	
-	enum Action: Equatable {
+	enum Action: Equatable, BindableAction {
+    
+    case binding(BindingAction<State>)
 
     // View Actions
     case onUserProfileImageDataChange(Data?)
@@ -53,14 +56,16 @@ struct SetProfileFeature: Reducer {
     case _selectEitherCatOrDogAction(PresentationAction<SelectEitherCatOrDogFeature.Action>)
 	}
   
-  init() {
-    print("✅ SET PROFILE FEATURE INIT")
-  }
+  init() {}
 	
 	var body: some Reducer<State, Action> {
+    
+    BindingReducer()
+    
 		Reduce { state, action in
       
       switch action {
+      
       case ._selectEitherCatOrDogAction(.presented(.delegate(.onPetAddComplete(let addPetState)))):
 
         guard let breed = addPetState.selectedBreedName
@@ -139,7 +144,7 @@ struct SetProfileFeature: Reducer {
                   sex: petVM.gender,
                   neutered: petVM.isPetNeutralized,
                   breed: petVM.petSpecies,
-                  birth_date: petVM.birthday,
+                  birthDate: petVM.birthday,
                   weightInKg: petVM.weight ?? 0,
                   remarks: "",
                   profileImageId: petVM.profileImageId

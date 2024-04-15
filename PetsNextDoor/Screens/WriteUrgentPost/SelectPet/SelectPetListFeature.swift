@@ -59,13 +59,13 @@ struct SelectPetListFeature: Reducer {
         state.selectPetCellViewModels = petModel.map {
           SelectPetViewModel(
             id: $0.id,
-            petImageUrlString: nil,
+            petImageUrlString: $0.profileImageUrl,
             petName: $0.name,
             petSpecies: $0.breed,
-            petAge: DateConverter.calculateAge($0.birth_date),
+            petAge: DateConverter.calculateAge($0.birthDate),
             gender: $0.sex,
             petType: $0.petType,
-            birthday: $0.birth_date,
+            birthday: $0.birthDate,
             weight: $0.weightInKg
           )
         }

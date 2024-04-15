@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 extension PND {
   
   struct UrgentPostModel: Codable, Hashable {
@@ -14,25 +15,23 @@ extension PND {
     var carerGender: PND.GenderType
     var conditionIds: [Int]
     var content: String
-    var dateEndAt: String
-    var dateStartAt: String
+    var dates: [PND.Date]
     var imageIds: [Int]
     var petIds: [Int]
     var reward: String
-    var rewardAmount: String
+    var rewardType: PND.RewardType
     var title: String
     
     enum CodingKeys: String, CodingKey {
-      case careType = "care_type"
-      case carerGender = "carer_gender"
-      case conditionIds = "condition_ids"
+      case careType = "careType"
+      case carerGender = "carerGender"
+      case conditionIds = "conditionIds"
       case content
-      case dateEndAt = "date_end_at"
-      case dateStartAt = "date_start_at"
-      case imageIds = "image_ids"
-      case petIds = "pet_ids"
+      case dates
+      case imageIds = "imageIds"
+      case petIds = "petIds"
       case reward
-      case rewardAmount = "reward_amount"
+      case rewardType
       case title
     }
     
@@ -42,12 +41,14 @@ extension PND {
         carerGender: .male,
         conditionIds: [],
         content: "test content",
-        dateEndAt: "2024-01-28",
-        dateStartAt: "2024-01-20",
+        dates: [
+          Date(dateStartAt: "2024-04-01", dateEndAt: "2024-04-01"),
+          Date(dateStartAt: "2024-04-02", dateEndAt: "2024-04-02")
+        ],
         imageIds: [],
         petIds: [],
         reward: "reward",
-        rewardAmount: "10000",
+        rewardType: .negotiable,
         title: "돌봄급구 구합니다!"
       )
     }
@@ -58,14 +59,26 @@ extension PND {
         carerGender: .male,
         conditionIds: [],
         content: "",
-        dateEndAt: "",
-        dateStartAt: "",
+        dates: [
+          Date(dateStartAt: "2024-04-01", dateEndAt: "2024-04-01"),
+          Date(dateStartAt: "2024-04-02", dateEndAt: "2024-04-02")
+        ],
         imageIds: [],
         petIds: [],
         reward: "",
-        rewardAmount: "",
+        rewardType: .negotiable,
         title: ""
       )
+    }
+  }
+  
+  struct Date: Codable, Hashable {
+    let dateStartAt: String
+    let dateEndAt: String
+    
+    enum CodingKeys: String, CodingKey {
+      case dateStartAt
+      case dateEndAt
     }
   }
 }

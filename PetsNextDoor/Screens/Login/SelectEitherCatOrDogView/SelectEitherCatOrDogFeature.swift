@@ -10,16 +10,37 @@ import Combine
 import SnapKit
 import ComposableArchitecture
 
+@Reducer
+struct AddPetPath {
+  
+  @ObservableState
+  enum State: Equatable {
+    case addPet(AddPetFeature.State)
+  }
+  
+  enum Action: Equatable {
+    case addPet(AddPetFeature.Action)
+  }
+  
+  var body: some Reducer<State, Action> {
+    Scope(state: \.addPet, action: \.addPet) { AddPetFeature() }
+  }
+}
+
+@Reducer
 struct SelectEitherCatOrDogFeature: Reducer {
+  
+  @Dependency(\.dismiss) var dismiss
 	
+  @ObservableState
 	struct State: Equatable {
 		var isBottomButtonEnabled: Bool = false
 		var selectedPetType: PND.PetType? = nil
-
-    @PresentationState var addPetState: AddPetFeature.State? = nil
+    
+    var path: StackState<AddPetPath.State> = .init()
 	}
 	
-	enum Action: RestrictiveAction {
+	enum Action: RestrictiveAction, BindableAction {
     
     enum ViewAction: Equatable {
       case viewDidAppear
@@ -29,6 +50,8 @@ struct SelectEitherCatOrDogFeature: Reducer {
     }
     
     enum DelegateAction: Equatable {
+      
+      case moveToAddPetView
       case dismissComplete
       case onPetAddComplete(AddPetFeature.State)
     }
@@ -41,15 +64,20 @@ struct SelectEitherCatOrDogFeature: Reducer {
     case delegate(DelegateAction)
     case `internal`(InternalAction)
     
-    case addPetAction(PresentationAction<AddPetFeature.Action>)
+    case binding(BindingAction<State>)
+    case path(StackAction<AddPetPath.State, AddPetPath.Action>)
 	}
 	
 	var body: some Reducer<State, Action> {
+    
+    BindingReducer()
+    
+    addPetReducer
+    
 		Reduce { state, action in
 			switch action {
       
       case .view(.viewDidAppear):
-        state.addPetState = nil
         return .none
 
       case .view(.onPetSelection(let petType)):
@@ -58,40 +86,50 @@ struct SelectEitherCatOrDogFeature: Reducer {
 				return .none
 				
       case .view(.didTapBottomButton):
-        
         guard let petType = state.selectedPetType else { return .none }
-      
-        state.addPetState = AddPetFeature.State(selectedPetType: petType)
-
-        return .none
+        return .send(.delegate(.moveToAddPetView))
         
       case .view(.onDismiss):
         return .send(.delegate(.dismissComplete))
         
-        //MARK: - AddPetFeature
-        
-      case .addPetAction(.dismiss):
-        state.addPetState = nil 
-        return .none
-        
-      case .addPetAction(.presented(.onPetAddComplete)):
-        if let addPetState = state.addPetState {
-          return .send(.delegate(.onPetAddComplete(addPetState)))
-        }
-        return .none
-        
-      case .addPetAction(.presented(_:)):
-        return .none
-    
       case .delegate(_):
+        return .none
+      case .binding(_):
+        return .none
+      case .path(_):
         return .none
       }
 		}
-    .ifLet(
-      \.$addPetState,
-       action: /Action.addPetAction
-    ) {
-      AddPetFeature()
-    }
 	}
+  
+  var addPetReducer: some Reducer<State, Action> {
+    Reduce { state, action in
+      switch action {
+        
+      case let .path(action):
+        switch action {
+        case .element(id: _, action: .addPet(.onPetAddComplete(let addPetState))):
+          return .run { send in
+//            await dismiss(animation: .default)
+            await send(.delegate(.onPetAddComplete(addPetState)))
+          }
+          
+        default:
+          return .none
+        }
+        
+      case .delegate(.moveToAddPetView):
+        guard let petType = state.selectedPetType else { return .none }
+        
+        state.path.append(.addPet(AddPetFeature.State(selectedPetType: petType )))
+        return .none
+        
+      default:
+        return .none
+      }
+    }
+    .forEach(\.path, action: /Action.path) {
+      AddPetPath()
+    }
+  }
 }

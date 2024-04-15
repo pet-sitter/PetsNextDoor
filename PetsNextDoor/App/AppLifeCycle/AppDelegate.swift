@@ -36,11 +36,13 @@ struct PNDRootFeature: Reducer {
     Reduce<State, Action> { state, action in
       switch action {
       case .onAppear:
-        if let isLoggedIn = userDefaultsManager.get(.isLoggedIn) as? Bool, isLoggedIn == true {
-          state = .mainTab(state: MainTabBarFeature.State())
-        } else {
-          state = .login(state: LoginFeature.State())
-        }
+        state = .login(state: LoginFeature.State())
+//        state = .mainTab(state: MainTabBarFeature.State())
+//        if let isLoggedIn = userDefaultsManager.get(.isLoggedIn) as? Bool, isLoggedIn == true {
+//          state = .mainTab(state: MainTabBarFeature.State())
+//        } else {
+//          state = .login(state: LoginFeature.State())
+//        }
         return .none
         
       case .loginAction(.delegate(.moveToMainTabBarView)):
@@ -74,9 +76,7 @@ struct PNDRootApp: App {
     }
   }
 }
-
-
-
+ 
 
 
 @Reducer
@@ -196,8 +196,6 @@ struct MainTabBarView: View {
   
   private var contentView: some View {
     TabView(selection: $store.selectedTab) {
-      
-      
       HomeView(store: store.scope(state: \.homeState, action: \.homeAction))
         .tabItem {
           MainTab

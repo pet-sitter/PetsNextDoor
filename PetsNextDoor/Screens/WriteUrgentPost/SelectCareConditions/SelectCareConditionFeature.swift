@@ -19,9 +19,9 @@ struct SelectCareConditionFeature: Reducer {
     var careType: PND.CareType      = .visiting
  
     // 페이
-    var payOption: PayOption = .pay
-    var payAmount: String = ""
-    var payOptionPrompt: String = PayOption.pay.prompt
+    var rewardType: PND.RewardType = .pay
+    var rewardAmount: String = ""
+    var rewardOptionPrompt: String = PND.RewardType.pay.prompt
     
     // 날짜
     var selectedDates: Set<DateComponents> = []
@@ -45,8 +45,8 @@ struct SelectCareConditionFeature: Reducer {
     case onGenderIndexChange(Int)
     case onCareTypeIndexChange(Int)
 
-    case onPayOptionChange(PayOption)
-    case onPayAmountChange(String)
+    case onRewardTypeChange(PND.RewardType)
+    case onRewardAmountChange(String)
 
     case onSelectedDatesChanged(Set<DateComponents>)
     
@@ -58,28 +58,7 @@ struct SelectCareConditionFeature: Reducer {
     
   }
   
-  enum PayOption: String, CaseIterable {
-    case pay        = "pay"
-    case gifticon   = "gifticon"
-    case negotiable = "negotiable"
-    
-    var text: String {
-      switch self {
-      case .pay:        "사례비"
-      case .gifticon:   "기프티콘"
-      case .negotiable: "협의가능"
-      }
-    }
-    
-    var prompt: String {
-      switch self {
-      case .pay:        "원"
-      case .gifticon:   "기프티콘 종류"
-      case .negotiable: "협의가능"
-      }
-    }
 
-  }
   
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -111,13 +90,37 @@ struct SelectCareConditionFeature: Reducer {
         }
         return .none
         
+      case .onRewardTypeChange(let rewardType):
+        state.rewardAmount       = ""
+        state.rewardType         = rewardType
+        state.rewardOptionPrompt = rewardType.prompt
+        
+        state.isPayTextFieldDisabled = false
+        if rewardType == .negotiable {
+          state.isPayTextFieldDisabled = true
+        }
+        
+        if rewardType == .pay {
+          state.onlyAllowNumberInput = true
+        } else {
+          state.onlyAllowNumberInput = false
+        }
+        
+        state.urgentPostModel.rewardType = rewardType
+        return .none
+        
+      case .onRewardAmountChange(let rewardAmount):
+        state.rewardAmount            = rewardAmount
+        state.urgentPostModel.reward  = rewardAmount
+        return .none
+        
       case .onSelectedDatesChanged(let dateComponents):
         guard dateComponents.isEmpty == false else {
           state.selectedDatesText = "아래에서 날짜를 선택하세요."
           return .none
         }
         
-        state.selectedDates     = dateComponents
+        state.selectedDates  = dateComponents
         
         let selectedDateText = dateComponents
           .compactMap(\.day)
@@ -125,31 +128,8 @@ struct SelectCareConditionFeature: Reducer {
           .map { String($0) }
           .joined(separator: ",")
         
-        state.selectedDatesText  = "\(selectedDateText)일"
-        
-        return .none
-        
-      case .onPayOptionChange(let payOption):
-        state.payAmount       = ""
-        state.payOption       = payOption
-        state.payOptionPrompt = payOption.prompt
-        
-        state.isPayTextFieldDisabled = false
-        if payOption == .negotiable {
-          state.isPayTextFieldDisabled = true
-        }
-        
-        if payOption == .pay {
-          state.onlyAllowNumberInput = true
-        } else {
-          state.onlyAllowNumberInput = false
-        }
-        
-        return .none
-        
-      case .onPayAmountChange(let payAmount):
-        state.payAmount = payAmount
-//        state.urgentPostModel.reward = String(payAmount)
+        state.selectedDatesText     = "\(selectedDateText)일"
+        state.urgentPostModel.dates = DateConverter.convertDateComponentsToPNDDateModel(dateComponents)
         return .none
         
       case .setBottomButtonEnabled(let isEnabled):

@@ -44,7 +44,7 @@ struct AddPetFeature: Reducer {
     case onWeightChange(Int?)
     
     case didTapBottomButton
-    case onPetAddComplete
+    case onPetAddComplete(AddPetFeature.State)
     
     case petSpeciesListAction(PresentationAction<PetSpeciesListFeature.Action>)
     case addCautionsAction(PresentationAction<AddCautionsFeature.Action>)
@@ -110,7 +110,7 @@ struct AddPetFeature: Reducer {
         
         else {
           state.petAge      = DateConverter.calculateAge(state.birthday)
-          return .send(.onPetAddComplete)
+          return .send(.onPetAddComplete(state))
         }
         
       case .onPetAddComplete:

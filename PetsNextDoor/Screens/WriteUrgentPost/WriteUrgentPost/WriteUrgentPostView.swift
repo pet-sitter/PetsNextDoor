@@ -66,7 +66,7 @@ struct WriteUrgentPostFeature: Reducer {
             urgentPostModel.imageIds = uploadResponse.map(\.id)
           }
 
-          let postResult = try? await postService.postSOSPost(model: state.urgentPostModel)
+          let postResult = try? await postService.postSOSPost(model: urgentPostModel)
           
           await send(._setIsLoading(false))
   
@@ -74,8 +74,6 @@ struct WriteUrgentPostFeature: Reducer {
           await send(._setIsLoading(false))
           Toast.shared.present(title: "업로드 실패", symbol: "xmark")
         }
-        
-
         
       case ._validateInput:
         if !state.title.isEmpty, !state.content.isEmpty {

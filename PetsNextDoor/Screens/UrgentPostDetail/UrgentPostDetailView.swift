@@ -153,7 +153,7 @@ struct UrgentPostDetailFeature: Reducer {
             isPetSelected: false,
             gender: pet.sex,
             petType: pet.petType,
-            birthday: pet.birth_date,
+            birthday: pet.birthDate,
             isDeleteButtonHidden: true
           )
         }
