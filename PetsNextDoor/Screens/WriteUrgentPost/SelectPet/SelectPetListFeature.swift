@@ -18,9 +18,6 @@ struct SelectPetListFeature: Reducer {
     var isBottomButtonEnabled: Bool = false
     
     var urgentPostModel: PND.UrgentPostModel = .empty()
-    
-    // Child States
-    @PresentationState var selectCareConditionsState: SelectCareConditionFeature.State?
   }
   
   enum Action: Equatable {
@@ -30,8 +27,7 @@ struct SelectPetListFeature: Reducer {
     case setBottomButtonEnabled(Bool)
     case onBottomButtonTap
     
-    // Child States
-    case selectCareConditionsAction(PresentationAction<SelectCareConditionFeature.Action>)
+    case pushToSelectCareConditionsView(PND.UrgentPostModel)
   }
   
   var body: some Reducer<State, Action> {
@@ -92,17 +88,11 @@ struct SelectPetListFeature: Reducer {
         return .none
         
       case .onBottomButtonTap:
-        state.selectCareConditionsState = SelectCareConditionFeature.State(urgentPostModel: state.urgentPostModel)
-        return .none
-        
-        // Child Actions
-      case .selectCareConditionsAction:
+        return .send(.pushToSelectCareConditionsView(state.urgentPostModel))
+      
+      case .pushToSelectCareConditionsView:
         return .none
       }
     }
-    .ifLet(
-      \.$selectCareConditionsState,
-       action: /Action.selectCareConditionsAction
-    ) { SelectCareConditionFeature() }
   }
 }

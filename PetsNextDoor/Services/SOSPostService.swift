@@ -74,9 +74,9 @@ struct MockSosPostService: SOSPostServiceProvidable {
   
   func getSOSConditions() async throws -> [PND.Condition] {
     return [
-      PND.Condition(id: 0, name: "CCTV, 펫캠 촬영 동의"),
-      PND.Condition(id: 1, name: "신분증 인증"),
-      PND.Condition(id: 2, name: "사전 통화 가능 여부"),
+      PND.Condition(id: 1, name: "CCTV, 펫캠 촬영 동의"),
+      PND.Condition(id: 2, name: "신분증 인증"),
+      PND.Condition(id: 3, name: "사전 통화 가능 여부"),
     ]
   }
 }

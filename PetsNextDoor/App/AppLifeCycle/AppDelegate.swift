@@ -71,6 +71,7 @@ struct PNDRootApp: App {
   var body: some Scene {
     WindowGroup {
       RootView(store: store)
+        .enableGlobalLoading()
         .onOpenURL { url in
         }
     }
@@ -146,8 +147,25 @@ struct MainTabBarFeature: Reducer {
         
       case let .path(action):
         switch action {
-        
-        
+        case .element(id: _, action: .selectPetList(.pushToSelectCareConditionsView(let urgentModel))):
+          state.path.append(.selectCareConditions(SelectCareConditionFeature.State(urgentPostModel: urgentModel)))
+          return .none
+          
+        case .element(id: _, action: .selectCareConditions(.pushToSelectOtherRequirementsView(let urgentModel))):
+          state.path.append(.selectOtherRequirements(SelectOtherRequirementsFeature.State(urgentPostModel: urgentModel)))
+          return .none
+          
+        case .element(id: _, action: .selectOtherRequirements(.pushToWriteUrgentPostView(let urgentModel))):
+          state.path.append(.writeUrgentPost(WriteUrgentPostFeature.State(urgentPostModel: urgentModel)))
+          return .none
+          
+        case .element(id: _, action: .writeUrgentPost(.onPostUploadComplete)):
+          state.path.popLast()
+          state.path.popLast()
+          state.path.popLast()
+          state.path.popLast()
+          return .none
+          
         default:
           return .none
         }
@@ -185,6 +203,22 @@ struct MainTabBarView: View {
         if let store = store.scope(state: \.selectPetList, action: \.selectPetList) {
           SelectPetListView(store: store)
         }
+        
+      case .selectCareConditions:
+        if let store = store.scope(state: \.selectCareConditions, action: \.selectCareConditions) {
+          SelectCareConditionsView(store: store)
+        }
+        
+      case .selectOtherRequirements:
+        if let store = store.scope(state: \.selectOtherRequirements, action: \.selectOtherRequirements) {
+          SelectOtherRequirementsView(store: store)
+        }
+        
+      case .writeUrgentPost:
+        if let store = store.scope(state: \.writeUrgentPost, action: \.writeUrgentPost) {
+          WriteUrgentPostView(store: store)
+        }
+    
         
         
       @unknown default:

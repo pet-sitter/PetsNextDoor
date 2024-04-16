@@ -35,8 +35,6 @@ struct SelectCareConditionFeature: Reducer {
     var isPayTextFieldDisabled: Bool = false
     var onlyAllowNumberInput: Bool = true
     
-    // Child State
-    @PresentationState var selectOtherRequirementsState: SelectOtherRequirementsFeature.State?
   }
   
   enum Action: Equatable {
@@ -53,8 +51,7 @@ struct SelectCareConditionFeature: Reducer {
     case setBottomButtonEnabled(Bool)
     case onBottomButtonTap
     
-    // Child State
-    case selectOtherRequirementsAction(PresentationAction<SelectOtherRequirementsFeature.Action>)
+    case pushToSelectOtherRequirementsView(PND.UrgentPostModel)
     
   }
   
@@ -137,18 +134,11 @@ struct SelectCareConditionFeature: Reducer {
         return .none
         
       case .onBottomButtonTap:
-        state.selectOtherRequirementsState = SelectOtherRequirementsFeature.State(urgentPostModel: state.urgentPostModel)
-        return .none
+        return .send(.pushToSelectOtherRequirementsView(state.urgentPostModel))
         
-      case .selectOtherRequirementsAction:
+      case .pushToSelectOtherRequirementsView:
         return .none
       }
-    }
-    .ifLet(
-      \.$selectOtherRequirementsState,
-       action: /Action.selectOtherRequirementsAction
-    ) {
-      SelectOtherRequirementsFeature()
     }
   }
 }

@@ -17,8 +17,7 @@ final class PNDLoginPlugin: PluginType {
       "Bearer \(PNDTokenStore.shared.accessToken)",
       forHTTPHeaderField: "Authorization"
     )
-    print("✅ prepare accessToken: \(PNDTokenStore.shared.accessToken)")
-    print("✅ headers: \(newRequest.allHTTPHeaderFields)")
+    print("✅ accessToken: \(PNDTokenStore.shared.accessToken)")
     return newRequest
   }
   

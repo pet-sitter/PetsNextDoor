@@ -65,6 +65,32 @@ struct ViewDidLoadModifier: ViewModifier {
   }
 }
 
+struct LoadingViewModifier: ViewModifier {
+  
+  @StateObject private var controller = LoadingController.shared
+  
+  func body(content: Content) -> some View {
+    ZStack {
+      content
+      
+      if controller.isLoading {
+        Group {
+          
+          Color
+            .black
+            .opacity(0.1)
+            .ignoresSafeArea()
+          
+          ProgressView()
+        }
+        .allowsHitTesting(!controller.allowTouch)
+        .zIndex(1)
+      }
+    }
+    .animation(.spring(duration: 0.3), value: controller.isLoading)
+  }
+}
+
 extension View {
   
   func onViewDidLoad(_ task: @escaping () async -> Void) -> some View {

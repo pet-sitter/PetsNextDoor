@@ -57,7 +57,6 @@ extension PND {
   struct Condition: Codable, Hashable, Equatable {
     let id: Int
     let name: String
-    var isSelected: Bool = false
   }
   
   struct Pet: Codable, Hashable {

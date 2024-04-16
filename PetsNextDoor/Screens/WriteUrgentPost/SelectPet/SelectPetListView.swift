@@ -50,14 +50,6 @@ struct SelectPetListView: View {
       .onAppear {
         viewStore.send(.viewDidLoad)
       }
-      .navigationDestination(
-        store: store.scope(
-          state: \.$selectCareConditionsState,
-          action: { .selectCareConditionsAction($0) }),
-        destination: { store in
-          SelectCareConditionsView(store: store)
-        }
-      )
     }
   }
 }

@@ -33,6 +33,8 @@ struct WriteUrgentPostFeature: Reducer {
     // Internal Cases
     case _setIsLoading(Bool)
     case _validateInput
+    
+    case onPostUploadComplete
   }
   
   var body: some Reducer<State,Action> {
@@ -69,10 +71,20 @@ struct WriteUrgentPostFeature: Reducer {
           let postResult = try? await postService.postSOSPost(model: urgentPostModel)
           
           await send(._setIsLoading(false))
+          await send(.onPostUploadComplete)
+          
+          Toast.shared.present(
+            title: "게시글이 업로드 되었습니다.",
+            symbol: "checkmark.circle.fill"
+          )
   
         } catch: { error, send in
           await send(._setIsLoading(false))
-          Toast.shared.present(title: "업로드 실패", symbol: "xmark")
+          
+          Toast.shared.present(
+            title: "게시글 업로드 실패",
+            symbol: "xmark"
+          )
         }
         
       case ._validateInput:
@@ -90,7 +102,8 @@ struct WriteUrgentPostFeature: Reducer {
         state.isBottomButtonEnabled = isEnabled
         return .none
         
-
+      case .onPostUploadComplete:
+        return .none
       }
     }
   }
@@ -158,6 +171,7 @@ struct WriteUrgentPostView: View {
           viewStore.send(.onBottomButtonTap)
         }
       }
+      .isLoading(viewStore.isLoading)
     }
   }
 }

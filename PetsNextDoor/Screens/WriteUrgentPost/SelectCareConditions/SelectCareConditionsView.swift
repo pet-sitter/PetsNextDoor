@@ -159,14 +159,6 @@ struct SelectCareConditionsView: View {
           viewStore.send(.onBottomButtonTap)
         }
       }
-      .navigationDestination(
-        store: store.scope(
-          state: \.$selectOtherRequirementsState,
-          action: { .selectOtherRequirementsAction($0) }),
-        destination: { store in
-          SelectOtherRequirementsView(store: store)
-        }
-      )
     }
   }
   

@@ -14,15 +14,12 @@ struct SelectOtherRequirementsFeature: Reducer {
   
   struct State: Hashable {
     
-    var conditions: [PND.Condition] = []
+    var conditions: [Condition] = []
 
     var isBottomButtonEnabled: Bool = false
     
     var urgentPostModel: PND.UrgentPostModel
-    
-    // Child State
-    @PresentationState var writeUrgentPostState: WriteUrgentPostFeature.State?
-    
+      
   }
   
   enum Action: Equatable {
@@ -33,12 +30,17 @@ struct SelectOtherRequirementsFeature: Reducer {
     case onBottomButtonTap
     
     // Internal Cases
-    case _setConditions([PND.Condition])
+    case _setConditions([Condition])
     case _toggleCheckBoxValue(index: Int)
+
+    case pushToWriteUrgentPostView(PND.UrgentPostModel)
     
-    // Child Action
-    case writeUrgentPostAction(PresentationAction<WriteUrgentPostFeature.Action>)
-    
+  }
+  
+  struct Condition: Hashable {
+    let id: Int
+    let name: String
+    var isSelected: Bool = false
   }
   
   var body: some Reducer<State,Action> {
@@ -50,8 +52,9 @@ struct SelectOtherRequirementsFeature: Reducer {
         
         return .run { send in
           
-//          let conditions = try await postService.getSOSConditions()
-          let conditions = try await MockSosPostService().getSOSConditions()
+          let pndConditions = try await postService.getSOSConditions()
+          
+          let conditions: [Condition] = pndConditions.map { Condition(id: $0.id, name: $0.name) }
         
           await send(._setConditions(conditions))
           
@@ -69,33 +72,26 @@ struct SelectOtherRequirementsFeature: Reducer {
         
       case .onConditionCheckBoxTap(let index):
         state.conditions[index].isSelected.toggle()
+        
         state.urgentPostModel.conditionIds = state.conditions.filter(\.isSelected).map(\.id)
         
         if state.conditions.map(\.isSelected).contains(true) {
           return .send(.setBottomButtonEnabled(true))
         } else {
-          return .send(.setBottomButtonEnabled(false ))
+          return .send(.setBottomButtonEnabled(false))
         }
         
       case .onBottomButtonTap:
-        state.writeUrgentPostState = WriteUrgentPostFeature.State(urgentPostModel: state.urgentPostModel)
-        return .none
+        return .send(.pushToWriteUrgentPostView(state.urgentPostModel))
         
       case ._toggleCheckBoxValue(let index):
         state.conditions[index].isSelected.toggle()
-        
         return .none
         
-      case .writeUrgentPostAction:
+      case .pushToWriteUrgentPostView:
         return .none
 
       }
-    }
-    .ifLet(
-      \.$writeUrgentPostState,
-       action: /Action.writeUrgentPostAction
-    ) {
-      WriteUrgentPostFeature()
     }
   }
 }
@@ -142,16 +138,7 @@ struct SelectOtherRequirementsView: View {
         .onTapGesture {
           viewStore.send(.onBottomButtonTap)
         }
-        
       }
-      .navigationDestination(
-        store: store.scope(
-          state: \.$writeUrgentPostState,
-          action: { .writeUrgentPostAction($0) }),
-        destination: { store in
-          WriteUrgentPostView(store: store)
-        }
-      )
       .onAppear {
         viewStore.send(.onAppear)
       }
