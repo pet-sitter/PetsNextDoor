@@ -106,7 +106,7 @@ struct SelectOtherRequirementsView: View {
       VStack(alignment: .leading) {
         Spacer().frame(height: PND.Metrics.defaultSpacing)
         
-        Text(titleAttributedString)
+        Text("기타 요청사항")
           .font(.system(size: 20, weight: .bold))
           .padding(.leading, 20)
         
@@ -143,18 +143,6 @@ struct SelectOtherRequirementsView: View {
         viewStore.send(.onAppear)
       }
     }
-  }
-  
-  
-  var titleAttributedString: AttributedString {
-    let title = NSAttributedString {
-      AText("기타 요청사항")
-        .font(.systemFont(ofSize: 20, weight: .bold))
-      AText("(필수 선택)")
-        .font(.systemFont(ofSize: 20, weight: .bold))
-        .foregroundColor(PND.Colors.primary)
-    }
-    return AttributedString(title)
   }
 }
 

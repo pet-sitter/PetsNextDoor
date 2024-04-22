@@ -19,8 +19,8 @@ struct HomeFeature: Reducer {
     var isLoadingInitialData: Bool = false
     
     var tabIndex: Int = 0
-    var selectedCategory: SelectCategoryView_SwiftUI.Category = .onlyDogs
-    var selectedFilterOption: SelectCategoryView_SwiftUI.FilterOption = .newest
+    var selectedFilterOption: PND.FilterType  = .onlyDogs
+    var selectedSortOption: PND.SortOption    = .newest
     
     var selectPetState: SelectPetListFeature.State? = nil
 
@@ -37,8 +37,8 @@ struct HomeFeature: Reducer {
       case onAppear
       case onTabIndexChange(Int)
       case onSelectWritePostIcon
-      case onSelectedCategoryChange(SelectCategoryView_SwiftUI.Category)
-      case onSelectedFilterOptionChange(SelectCategoryView_SwiftUI.FilterOption)
+      case onSelectedFilterOptionChange(PND.FilterType)
+      case onSelectedSortOptionChange(PND.SortOption)
       case onUrgentPostTap(postId: Int)
     }
   
@@ -66,6 +66,8 @@ struct HomeFeature: Reducer {
       switch action {
 
       case .view(.onAppear):
+        guard state.urgentPostCardCellViewModels.isEmpty == false else { return .none }
+        
         return .run { [state] send in
           await send(.internal(.setIsLoadingInitialData(true)))
           await send(.internal(.fetchSOSPosts(page: 1)))
@@ -82,12 +84,13 @@ struct HomeFeature: Reducer {
         state.tabIndex = index
         return .none
         
-      case .view(.onSelectedCategoryChange(let category)):
-        state.selectedCategory = category
+      case .view(.onSelectedFilterOptionChange(let filterType)):
+        state.selectedFilterOption          = filterType
+        state.urgentPostCardCellViewModels  = []
         return .send(.internal(.fetchSOSPosts(page: 1)))
         
-      case .view(.onSelectedFilterOptionChange(let filterOption)):
-        state.selectedFilterOption          = filterOption
+      case .view(.onSelectedSortOptionChange(let sortOption)):
+        state.selectedSortOption            = sortOption
         state.urgentPostCardCellViewModels  = []
         
         return .run { send in
@@ -106,7 +109,8 @@ struct HomeFeature: Reducer {
             authorId: nil,
             page: page,
             size: 20,
-            sortBy: state.selectedFilterOption.rawValue
+            sortBy: state.selectedFilterOption.rawValue,
+            filterType: state.selectedFilterOption
           )
           
           let cellVMs = postModel
@@ -126,7 +130,6 @@ struct HomeFeature: Reducer {
           
         } catch: { error, send in
           Toast.shared.presentCommonError()
-          print("❌ error fetching posts: \(error)")
         }
         
       case .internal(.setInitialUrgentPostCardCellVMs(let cellVMs)):
@@ -144,17 +147,5 @@ struct HomeFeature: Reducer {
         return .none
       }
     }
-//    .ifLet(
-//      \.$urgentPostDetailState,
-//       action: /Action.urgentPostDetailAction
-//    ) {
-//      UrgentPostDetailFeature()
-//    }
-//    .ifLet(
-//      \.$selectPetListState,
-//       action: /Action.selectPetListAction
-//    ) {
-//      SelectPetListFeature()
-//    }
   }
 }

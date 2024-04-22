@@ -91,6 +91,16 @@ struct LoadingViewModifier: ViewModifier {
   }
 }
 
+struct PlainListModifier: ViewModifier {
+  
+  func body(content: Content) -> some View {
+    content
+      .background(.white)
+      .listRowSeparator(.hidden)
+      .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+  }
+}
+
 extension View {
   
   func onViewDidLoad(_ task: @escaping () async -> Void) -> some View {

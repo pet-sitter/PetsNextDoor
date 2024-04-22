@@ -16,7 +16,7 @@ struct CommunityFeature: Reducer {
     var meetingCardCellViewModels: [MeetingCardViewModel] = []
     
     var tabIndex: Int = 0
-    var selectedCategory: SelectCategoryView_SwiftUI.Category = .onlyDogs
+    var selectedCategory: PND.FilterType = .onlyDogs
   }
   
   enum Action: Equatable {
@@ -24,10 +24,8 @@ struct CommunityFeature: Reducer {
     case didTapAddButton
     
     case onTabIndexChange(Int)
-    case onSelectedCategoryChange(SelectCategoryView_SwiftUI.Category)
+    case onSelectedCategoryChange(PND.FilterType)
     
-    
-
   }
   
   var body: some Reducer<State, Action> {

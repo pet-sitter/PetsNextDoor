@@ -159,11 +159,12 @@ struct MainTabBarFeature: Reducer {
           state.path.append(.writeUrgentPost(WriteUrgentPostFeature.State(urgentPostModel: urgentModel)))
           return .none
           
-        case .element(id: _, action: .writeUrgentPost(.onPostUploadComplete)):
+        case .element(id: _, action: .writeUrgentPost(.onPostUploadComplete(let postId))):
           state.path.popLast()
           state.path.popLast()
           state.path.popLast()
           state.path.popLast()
+          state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
           return .none
           
         default:

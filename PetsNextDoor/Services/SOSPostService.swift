@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SOSPostServiceProvidable: PNDNetworkProvidable {
-  func getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String) async throws -> PND.SOSPostListModel
+  func getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String, filterType: PND.FilterType ) async throws -> PND.SOSPostListModel
   func getSOSPostDetail(id: Int) async throws -> PND.SOSPostDetailModel
   func postSOSPost(model: PND.UrgentPostModel) async throws -> PND.SOSPostDetailModel
   func getSOSConditions() async throws -> [PND.Condition]
@@ -25,9 +25,18 @@ struct SOSPostService: SOSPostServiceProvidable {
     authorId: Int?,
     page: Int,
     size: Int,
-    sortBy: String
+    sortBy: String,
+    filterType: PND.FilterType
   ) async throws -> PND.SOSPostListModel {
-    try await network.requestData(.getSOSPosts(authorId: authorId, page: page, size: size, sortBy: sortBy))
+    try await network.requestData(
+      .getSOSPosts(
+        authorId: authorId,
+        page: page,
+        size: size,
+        sortBy: sortBy,
+        filterType: filterType.rawValue
+      )
+    )
   }
   
   func getSOSPostDetail(id: Int) async throws -> PND.SOSPostDetailModel {
@@ -59,9 +68,18 @@ struct MockSosPostService: SOSPostServiceProvidable {
     authorId: Int?,
     page: Int,
     size: Int,
-    sortBy: String
+    sortBy: String,
+    filterType: PND.FilterType
   ) async throws -> PND.SOSPostListModel {
-    try await network.requestData(.getSOSPosts(authorId: authorId, page: page, size: size, sortBy: sortBy))
+    try await network.requestData(
+      .getSOSPosts(
+        authorId: authorId,
+        page: page,
+        size: size,
+        sortBy: sortBy,
+        filterType: filterType.rawValue
+      )
+    )
   }
   
   func getSOSPostDetail(id: Int) async throws -> PND.SOSPostDetailModel {

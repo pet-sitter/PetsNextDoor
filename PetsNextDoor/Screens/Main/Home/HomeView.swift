@@ -33,8 +33,7 @@ struct HomeView: View {
           )
           .padding(.leading, PND.Metrics.defaultSpacing)
           
-          ScrollView(.vertical) {
-            
+          SwiftUI.List {
             VStack(spacing: 0) {
               
               RoundedRectangle(cornerRadius: 4)
@@ -52,47 +51,64 @@ struct HomeView: View {
                   }
                   .padding(.leading, PND.Metrics.defaultSpacing + 12)
                 }
+                .modifier(PlainListModifier())
               
               Rectangle()
                 .fill(.white)
                 .frame(height: 5)
+                .modifier(PlainListModifier())
             }
+            .modifier(PlainListModifier())
             
             Rectangle()
               .fill(PND.Colors.gray10.asColor)
               .frame(height: 16)
+              .modifier(PlainListModifier())
             
             Rectangle()
               .fill(.white)
               .frame(height: 5)
+              .modifier(PlainListModifier())
             
             SelectCategoryView_SwiftUI(
-              selectedCategory: viewStore.binding(
-                get: \.selectedCategory,
-                send: { .view(.onSelectedCategoryChange($0)) }
-              ),
               filterOption: viewStore.binding(
                 get: \.selectedFilterOption,
-                send: { .view(.onSelectedFilterOptionChange($0)) }
+                send: { .view(.onSelectedFilterOptionChange($0))}
+              ),
+              sortOption: viewStore.binding(
+                get: \.selectedSortOption,
+                send: { .view(.onSelectedSortOptionChange($0))}
               )
             )
+            .modifier(PlainListModifier())
+            
+            
             
             if viewStore.isLoadingInitialData {
               ProgressView()
-                .frame(maxWidth: .infinity, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                
+                .modifier(PlainListModifier())
+                .id(UUID())
+              
             } else {
-              LazyVStack(spacing: 0) {
-                ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
-                  UrgentPostCardView_SwiftUI(viewModel: vm)
-                    .onTapGesture {
-                      viewStore.send(.view(.onUrgentPostTap(postId: vm.postId)))
-                      setTabBarIsHidden(to: true)
-                    }
-                }
+              
+              ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
+                UrgentPostCardView_SwiftUI(viewModel: vm)
+                  .modifier(PlainListModifier())
+                  .onTapGesture {
+                    viewStore.send(.view(.onUrgentPostTap(postId: vm.postId)))
+                    setTabBarIsHidden(to: true)
+                  }
               }
+              
+              
+              
             }
           }
+          .listStyle(.plain)
+          .environment(\.defaultMinListRowHeight, 0)
+            
+ 
+          
           
         }
         
@@ -158,6 +174,16 @@ struct HomeView: View {
             .offset(x: -17, y: -19)
         }
       }
+    }
+  }
+  
+  private var emptyView: some View {
+    VStack {
+      Spacer()
+      Text("작성된 돌봄 급구 글이 없습니다!\n첫 글을 작성해보세요!")
+        .multilineTextAlignment(.center)
+        .font(.system(size: 14, weight: .semibold))
+      Spacer()
     }
   }
   

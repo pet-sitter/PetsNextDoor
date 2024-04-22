@@ -34,7 +34,7 @@ struct WriteUrgentPostFeature: Reducer {
     case _setIsLoading(Bool)
     case _validateInput
     
-    case onPostUploadComplete
+    case onPostUploadComplete(postId: Int)
   }
   
   var body: some Reducer<State,Action> {
@@ -68,14 +68,19 @@ struct WriteUrgentPostFeature: Reducer {
             urgentPostModel.imageIds = uploadResponse.map(\.id)
           }
 
-          let postResult = try? await postService.postSOSPost(model: urgentPostModel)
+          guard let postResult = try? await postService.postSOSPost(model: urgentPostModel)
+          else {
+            await send(._setIsLoading(false))
+            Toast.shared.present(title: "업로드에 실패하였어요.", symbolType: .xMark)
+            return
+          }
           
           await send(._setIsLoading(false))
-          await send(.onPostUploadComplete)
+          await send(.onPostUploadComplete(postId: postResult.id))
           
           Toast.shared.present(
             title: "게시글이 업로드 되었습니다.",
-            symbol: "checkmark.circle.fill"
+            symbolType: .checkmark
           )
   
         } catch: { error, send in

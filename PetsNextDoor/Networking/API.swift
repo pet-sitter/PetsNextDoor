@@ -19,7 +19,7 @@ extension PND {
     
     //MARK: - Posts
     
-    case getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String)
+    case getSOSPosts(authorId: Int?, page: Int, size: Int, sortBy: String, filterType: String)
     case getSOSPostDetail(id: Int)
     case postSOSPost(model: PND.UrgentPostModel)
     case getSOSConditons
@@ -136,13 +136,14 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       
       //MARK: - Posts
       
-    case let .getSOSPosts(authorId, page, size, sortBy):
+    case let .getSOSPosts(authorId, page, size, sortBy, filterType):
       return .requestParameters(
         parameters: .builder
           .setOptional(key: "authorId", value: authorId)
           .setOptional(key: "page", value: page)
           .setOptional(key: "size", value: size)
           .setOptional(key: "sortBy", value: sortBy)
+          .setOptional(key: "filter_type", value: filterType)
           .build(),
         encoding: URLEncoding.queryString
       )

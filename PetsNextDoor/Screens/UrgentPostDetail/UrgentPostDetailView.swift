@@ -11,12 +11,13 @@ import ComposableArchitecture
 struct UrgentPostDetailFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
+  @Dependency(\.petService) var petService
   
   struct State: Equatable, Hashable {
     let postId: Int
     
     // view related
-    var selectedTabIndex: Int = 2
+    var selectedTabIndex: Int = 0
     var isLoading: Bool = false
     
     // header
@@ -57,6 +58,7 @@ struct UrgentPostDetailFeature: Reducer {
       case setConditionInfo(PND.SOSPostDetailModel)
       case setDetailInfo(String, [PND.MediaModel])
       case setPetProfileInfo([PND.Pet])
+
 		}
 		
 		case view(ViewAction)
@@ -76,15 +78,12 @@ struct UrgentPostDetailFeature: Reducer {
 					try await Task.sleep(nanoseconds: 500_000_000)
           
           let postDetail = try await postService.getSOSPostDetail(id: postId)
-    
+
           
           await send(.internal(.setHeaderInfo(postDetail)))
           await send(.internal(.setConditionInfo(postDetail)))
           await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
-//          await send(.internal(.setPetProfileInfo(postDetail.pets)))
-//          await send(.internal(.setPetProfileInfo([PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2), PND.Pet(id: 1, name: "다롱이", petType: .cat, sex: .female, neutered: false, breed: "푸들", birth_date: "123", weightInKg: 2)])))
-          
-			
+          await send(.internal(.setPetProfileInfo(postDetail.pets)))
           
 					await send(.internal(.setIsLoading(false)))
           
@@ -109,13 +108,15 @@ struct UrgentPostDetailFeature: Reducer {
           state.headerImageUrl = URL(string: image.url)
         }
         
-        if let authorProfileImageUrl = postDetailModel.author.profileImageUrl {
+        if let authorProfileImageUrl = postDetailModel.author?.profileImageUrl {
           state.authorProfileImageUrl = URL(string: authorProfileImageUrl)
         }
         
+        if let authorName = postDetailModel.author?.nickname {
+          state.authorName = authorName
+        }
         
-        state.authorName = postDetailModel.author.nickname
-        state.region = "화곡동"
+        state.region = "N/A"
         
         return .none
 				
@@ -126,7 +127,7 @@ struct UrgentPostDetailFeature: Reducer {
 					.init(title: "위치", details: "N/A"),
           .init(title: "돌봄형태", details: postDetailModel.careType.description),
           .init(title: "돌봄 도우미 성별", details: postDetailModel.carerGender.description),
-					.init(title: "페이", details: "시간당 10,000원")
+          .init(title: "페이", details: "\(postDetailModel.rewardType?.text ?? PND.RewardType.negotiable.text)" + "\(postDetailModel.reward ?? "")")
 				])
 				return .none
 				
@@ -162,6 +163,8 @@ struct UrgentPostDetailFeature: Reducer {
 			case .internal(.setIsLoading(let isLoading)):
 				state.isLoading = isLoading
 				return .none
+        
+
 
       }
     }
@@ -187,7 +190,7 @@ struct UrgentPostDetailView: View {
         VStack(spacing: 0) {
           
           StretchyHeaderView(
-            headerImageUrl: viewStore.authorProfileImageUrl,
+            headerImageUrl: viewStore.headerImageUrl,
             title: viewStore.title,
             authorName: viewStore.authorName,
             authorProfileImageUrl: viewStore.authorProfileImageUrl,

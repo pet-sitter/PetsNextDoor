@@ -11,36 +11,44 @@ extension PND {
   
   struct SOSPostDetailModel: Codable, Equatable {
     
-    let author: Author
+    let id: Int
+    var authorId: Int?
+    var author: Author?
+    
+    @DefaultEmptyString var title: String
+    @DefaultEmptyString var content: String
+    @DefaultEmptyArray var media: [PND.MediaModel]
+    @DefaultEmptyArray var conditions: [PND.Condition]
+    @DefaultEmptyArray var pets: [PND.Pet]
+    
+    let reward: String?
+    let rewardType: PND.RewardType?
+    
+    @DefaultEmptyArray var dates: [PND.Date]
     let careType: CareType
     let carerGender: PND.Sex
-    @DefaultEmptyArray var conditions: [PND.Condition]
-    @DefaultEmptyString var content: String
     let createdAt: String?
-    let dateEndAt: String?
-    let dateStartAt: String?
-    let id: Int?
-    @DefaultEmptyArray var media: [PND.MediaModel]
-    @DefaultEmptyArray var pets: [PND.Pet]
-    let reward: String?
-    let rewardAmount: String?
-    let thumbnailId: Int?
-    @DefaultEmptyString var title: String
     let updatedAt: String?
-  
+
+    let thumbnailId: Int?
+
     enum CodingKeys: String, CodingKey {
+      case id
+      case authorId
       case author
-      case careType = "careType"
-      case carerGender = "carerGender"
-      case conditions, content
-      case createdAt = "createdAt"
-      case dateEndAt = "dateEndAt"
-      case dateStartAt = "dateStartAt"
-      case id, media, pets, reward
-      case rewardAmount = "rewardAmount"
-      case thumbnailId = "thumbnailId"
       case title
-      case updatedAt = "updateAt"
+      case content
+      case media
+      case conditions
+      case pets
+      case reward
+      case rewardType
+      case dates
+      case careType
+      case carerGender
+      case createdAt
+      case updatedAt
+      case thumbnailId
     }
   }
   

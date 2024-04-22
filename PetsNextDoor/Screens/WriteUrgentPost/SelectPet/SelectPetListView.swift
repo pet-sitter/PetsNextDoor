@@ -19,7 +19,7 @@ struct SelectPetListView: View {
         Spacer().frame(height: 24)
         
         ScrollView(.vertical) {
-            Text("반려동물 선택")
+            Text("돌봄이 필요한 반려동물 선택")
               .modifier(HeaderTitleModifier())
             
             Spacer().frame(height: 16)

@@ -8,35 +8,9 @@
 import SwiftUI
 
 struct SelectCategoryView_SwiftUI: View {
-  
-  enum Category: CaseIterable {
-    case onlyDogs
-    case onlyCats
-    case doesntMatter
-    
-    var buttonTitle: String {
-      switch self {
-      case .onlyDogs:     "강아지만"
-      case .onlyCats:     "고양이만"
-      case .doesntMatter: "상관없음"
-      }
-    }
-  }
-  
-  enum FilterOption: String {
-    case newest   = "newest"
-    case deadline = "deadline"
-    
-    var description: String {
-      switch self {
-      case .newest:   "최신순"
-      case .deadline: "마감순"
-      }
-    }
-  }
 
-  @Binding var selectedCategory: Category
-  @Binding var filterOption: FilterOption
+  @Binding var filterOption: PND.FilterType
+  @Binding var sortOption: PND.SortOption
 
   var body: some View {
     HStack {
@@ -45,31 +19,31 @@ struct SelectCategoryView_SwiftUI: View {
       
       Menu {
         Button {
-          filterOption = .newest
+          sortOption = .newest
         } label: {
           HStack {
-            Text(FilterOption.newest.description)
+            Text(PND.SortOption.newest.description)
             Spacer()
-            if filterOption == .newest {
+            if sortOption == .newest {
               Image(systemName: "checkmark")
             }
           }
         }
         
         Button {
-          filterOption = .deadline
+          sortOption = .deadline
         } label: {
           HStack {
-            Text(FilterOption.deadline.description)
+            Text(PND.SortOption.deadline.description)
             Spacer()
-            if filterOption == .deadline {
+            if sortOption == .deadline {
               Image(systemName: "checkmark")
             }
           }
         }
 
       } label: {
-        Text(filterOption.description)
+        Text(sortOption.description)
           .font(.system(size: 16, weight: .bold))
           .foregroundStyle(PND.Colors.commonBlack.asColor)
       }
@@ -83,8 +57,8 @@ struct SelectCategoryView_SwiftUI: View {
       
       Spacer()
       
-      ForEach(Category.allCases, id: \.self) { category in
-        checkableButton(category: category)
+      ForEach(PND.FilterType.allCases, id: \.self) { filter in
+        checkableButton(animalFilter: filter)
       }
       
       
@@ -93,21 +67,21 @@ struct SelectCategoryView_SwiftUI: View {
     }
   }
   
-  func checkableButton(category: Category) -> some View {
+  func checkableButton(animalFilter: PND.FilterType) -> some View {
     return Button(action: {
-      selectedCategory = category
+      filterOption = animalFilter
     }, label: {
       HStack(spacing: 2) {
-        if selectedCategory == category {
+        if filterOption == animalFilter {
           Image(R.image.icon_check)
             .resizable()
             .frame(width: 12, height: 12)
         }
         
-        Text(category.buttonTitle)
-          .font(.system(size: 12, weight: selectedCategory == category ? .semibold : .regular))
+        Text(animalFilter.description)
+          .font(.system(size: 12, weight: filterOption == animalFilter ? .semibold : .regular))
           .foregroundStyle(
-            selectedCategory == category
+            filterOption == animalFilter
             ? PND.Colors.commonBlack.asColor
             : UIColor(hex: "#9E9E9E").asColor
           )
@@ -117,5 +91,5 @@ struct SelectCategoryView_SwiftUI: View {
 }
 
 #Preview {
-  SelectCategoryView_SwiftUI(selectedCategory: .constant(.onlyCats), filterOption: .constant(.newest))
+  SelectCategoryView_SwiftUI(filterOption: .constant(.onlyCats), sortOption: .constant(.newest))
 }

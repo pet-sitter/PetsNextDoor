@@ -193,6 +193,7 @@
 		DAE6FC602A95E20B008BF1F1 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FC5F2A95E20B008BF1F1 /* UILabel+Extension.swift */; };
 		DAE6FC642A96013C008BF1F1 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = DAE6FC632A96013C008BF1F1 /* CombineMoya */; };
 		DAE6FC662A96013C008BF1F1 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = DAE6FC652A96013C008BF1F1 /* Moya */; };
+		DAE730212BD6396700394012 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE730202BD6396700394012 /* FilterType.swift */; };
 		DAE8D3782B5647290026F167 /* CheckNicknameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8D3772B5647290026F167 /* CheckNicknameModel.swift */; };
 		DAE8D37A2B5649F70026F167 /* PetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8D3792B5649F70026F167 /* PetService.swift */; };
 		DAE8D37C2B564A370026F167 /* BreedListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8D37B2B564A370026F167 /* BreedListResponseModel.swift */; };
@@ -384,6 +385,7 @@
 		DAE121322B03702E008EF9AC /* BaseTextViewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextViewComponent.swift; sourceTree = "<group>"; };
 		DAE6FC5C2A95CF93008BF1F1 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		DAE6FC5F2A95E20B008BF1F1 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		DAE730202BD6396700394012 /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
 		DAE8D3772B5647290026F167 /* CheckNicknameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckNicknameModel.swift; sourceTree = "<group>"; };
 		DAE8D3792B5649F70026F167 /* PetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetService.swift; sourceTree = "<group>"; };
 		DAE8D37B2B564A370026F167 /* BreedListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedListResponseModel.swift; sourceTree = "<group>"; };
@@ -951,6 +953,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC68E342BCD57190007E41D /* RewardType.swift */,
+				DAE730202BD6396700394012 /* FilterType.swift */,
 			);
 			path = CommonModel;
 			sourceTree = "<group>";
@@ -1233,6 +1236,7 @@
 				DA3A946C2B51236F00B3529C /* BaseBottomButton_SwiftUI.swift in Sources */,
 				DA4B2A8A2AFB450C0053217A /* SizeProvidable.swift in Sources */,
 				DA30F3752BBAAB59005D615C /* TokenInterceptor.swift in Sources */,
+				DAE730212BD6396700394012 /* FilterType.swift in Sources */,
 				DAC71A342B4BCF6D00E6B53E /* SelectDateHorizontalView.swift in Sources */,
 				DA8BF09C2B5E5DEC00370C84 /* SetProfileView.swift in Sources */,
 				DA5DCB2B2BCE3F7100B308A7 /* LoadingManager.swift in Sources */,

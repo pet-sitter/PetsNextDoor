@@ -83,8 +83,39 @@ final class Toast: ObservableObject {
     timing: ToastTime = .medium
   ) {
     Task { @MainActor in
-      withAnimation(.snappy) {
-        toasts.append(.init(title: title, symbol: symbol, tint: tint, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing))
+      withAnimation(
+        .snappy
+      ) {
+        toasts.append(
+          .init(
+            title: title,
+            symbol: symbol,
+            tint: tint,
+            isUserInteractionEnabled: isUserInteractionEnabled,
+            timing: timing
+          )
+        )
+      }
+    }
+  }
+  
+  func present(
+    title: String,
+    symbolType: ToastSymbol
+  ) {
+    Task { @MainActor in
+      withAnimation(
+        .snappy
+      ) {
+        toasts.append(
+          .init(
+            title: title,
+            symbol: symbolType.rawValue,
+            tint: .primary,
+            isUserInteractionEnabled: true,
+            timing: .medium
+          )
+        )
       }
     }
   }
@@ -96,6 +127,13 @@ extension Toast {
     present(title: .commonError, symbol: "xmark")
   }
 }
+
+
+enum ToastSymbol: String, CaseIterable {
+  case xMark     = "xmark"
+  case checkmark = "checkmark.circle.fill"
+}
+
 
 struct ToastItem: Identifiable {
   let id: UUID = .init()
@@ -220,7 +258,3 @@ fileprivate struct ToastView: View {
     }
   }
 }
-
-//#Preview {
-//  RootView { SelectEitherCatOrDogView(viewModel: .init())}
-//}
