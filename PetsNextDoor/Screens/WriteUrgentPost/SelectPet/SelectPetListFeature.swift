@@ -16,7 +16,7 @@ struct SelectPetListFeature: Reducer {
     var selectPetCellViewModels: [SelectPetViewModel] = []
     var selectedPets: [SelectPetViewModel] = []
     var isBottomButtonEnabled: Bool = false
-    
+    var isLoading: Bool = false
     var urgentPostModel: PND.UrgentPostModel = .empty()
   }
   
@@ -26,6 +26,7 @@ struct SelectPetListFeature: Reducer {
     case setMyPets([PND.Pet])
     case setBottomButtonEnabled(Bool)
     case onBottomButtonTap
+    case setIsLoading(Bool)
     
     case pushToSelectCareConditionsView(PND.UrgentPostModel)
   }
@@ -36,13 +37,17 @@ struct SelectPetListFeature: Reducer {
       case .viewDidLoad:
         return .run { send in
           
+          await send(.setIsLoading(true))
+          
           let myPets = try await petService.getMyPets().pets
           
           await send(.setMyPets(myPets))
+          await send(.setIsLoading(false))
           
         } catch: { error, send in
           Toast.shared.present(title: .commonError, symbol: "xmark")
           await send(.setMyPets([]))
+          await send(.setIsLoading(false ))
         }
         
       case .setMyPets(let petModel):
@@ -90,6 +95,10 @@ struct SelectPetListFeature: Reducer {
       case .onBottomButtonTap:
         return .send(.pushToSelectCareConditionsView(state.urgentPostModel))
       
+      case .setIsLoading(let isLoading):
+        state.isLoading = isLoading
+        return .none
+        
       case .pushToSelectCareConditionsView:
         return .none
       }

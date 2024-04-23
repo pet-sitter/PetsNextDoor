@@ -14,6 +14,8 @@ struct HomeView: View {
   
   @State private var tabBarIsHidden: Bool = false
   
+  @Namespace var sd
+  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       ZStack {
@@ -24,7 +26,6 @@ struct HomeView: View {
           Spacer().frame(height: 12)
           
           SegmentControlView_SwiftUI(
-            
             selectedIndex: viewStore.binding(
               get: \.tabIndex,
               send: { .view(.onTabIndexChange($0)) }
@@ -32,88 +33,59 @@ struct HomeView: View {
             segmentTitles: ["돌봄급구", "돌봄메이트"]
           )
           .padding(.leading, PND.Metrics.defaultSpacing)
-          
-          SwiftUI.List {
-            VStack(spacing: 0) {
+
+          ScrollView(.vertical) {
+            LazyVStack(spacing: 0) {
               
-              RoundedRectangle(cornerRadius: 4)
-                .frame(height: 40)
-                .padding(.horizontal, PND.Metrics.defaultSpacing)
-                .foregroundStyle(PND.DS.gray20)
-                .overlay(alignment: .leading) {
-                  HStack(spacing: 8) {
-                    Image(R.image.icon_search)
-                      .size(16)
-                    
-                    Text("돌봄요청글을 검색해보세요")
-                      .foregroundStyle(UIColor(hex: "#9E9E9E").asColor)
-                      .font(.system(size: 16))
-                  }
-                  .padding(.leading, PND.Metrics.defaultSpacing + 12)
-                }
-                .modifier(PlainListModifier())
-              
+              VStack(spacing: 0) {
+                
+                searchView
+                
+                Rectangle()
+                  .fill(.white)
+                  .frame(height: 5)
+              }
+
+              Rectangle()
+                .fill(PND.Colors.gray10.asColor)
+                .frame(height: 16)
+       
               Rectangle()
                 .fill(.white)
                 .frame(height: 5)
-                .modifier(PlainListModifier())
-            }
-            .modifier(PlainListModifier())
-            
-            Rectangle()
-              .fill(PND.Colors.gray10.asColor)
-              .frame(height: 16)
-              .modifier(PlainListModifier())
-            
-            Rectangle()
-              .fill(.white)
-              .frame(height: 5)
-              .modifier(PlainListModifier())
-            
-            SelectCategoryView_SwiftUI(
-              filterOption: viewStore.binding(
-                get: \.selectedFilterOption,
-                send: { .view(.onSelectedFilterOptionChange($0))}
-              ),
-              sortOption: viewStore.binding(
-                get: \.selectedSortOption,
-                send: { .view(.onSelectedSortOptionChange($0))}
+             
+              SelectCategoryView_SwiftUI(
+                filterOption: viewStore.binding(
+                  get: \.selectedFilterOption,
+                  send: { .view(.onSelectedFilterOptionChange($0))}
+                ),
+                sortOption: viewStore.binding(
+                  get: \.selectedSortOption,
+                  send: { .view(.onSelectedSortOptionChange($0))}
+                )
               )
-            )
-            .modifier(PlainListModifier())
-            
-            
-            
-            if viewStore.isLoadingInitialData {
-              ProgressView()
-                .modifier(PlainListModifier())
-                .id(UUID())
-              
-            } else {
-              
-              ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
-                UrgentPostCardView_SwiftUI(viewModel: vm)
-                  .modifier(PlainListModifier())
-                  .onTapGesture {
-                    viewStore.send(.view(.onUrgentPostTap(postId: vm.postId)))
-                    setTabBarIsHidden(to: true)
-                  }
+       
+              if viewStore.isLoadingInitialData {
+                HStack {
+                  Spacer()
+                  ProgressView()
+                    .id(UUID())
+                  Spacer()
+                }
+                
+              } else {
+                ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
+                  UrgentPostCardView_SwiftUI(viewModel: vm)
+                    .onTapGesture {
+                      viewStore.send(.view(.onUrgentPostTap(postId: vm.postId)))
+                      setTabBarIsHidden(to: true)
+                    }
+                }
               }
-              
-              
-              
             }
           }
-          .listStyle(.plain)
-          .environment(\.defaultMinListRowHeight, 0)
-            
- 
-          
-          
         }
-        
         bottomTrailingFloatingButton
-
       }
       .onAppear {
         viewStore.send(.view(.onAppear))
@@ -153,6 +125,24 @@ struct HomeView: View {
       
       Spacer().frame(width: PND.Metrics.defaultSpacing)
     }
+  }
+  
+  private var searchView: some View {
+    RoundedRectangle(cornerRadius: 4)
+      .frame(height: 40)
+      .padding(.horizontal, PND.Metrics.defaultSpacing)
+      .foregroundStyle(PND.DS.gray20)
+      .overlay(alignment: .leading) {
+        HStack(spacing: 8) {
+          Image(R.image.icon_search)
+            .size(16)
+          
+          Text("돌봄요청글을 검색해보세요")
+            .foregroundStyle(UIColor(hex: "#9E9E9E").asColor)
+            .font(.system(size: 16))
+        }
+        .padding(.leading, PND.Metrics.defaultSpacing + 12)
+      }
   }
   
   private var bottomTrailingFloatingButton: some View {

@@ -48,7 +48,6 @@ struct SelectCategoryView_SwiftUI: View {
           .foregroundStyle(PND.Colors.commonBlack.asColor)
       }
 
-      
       Spacer().frame(width: 4)
       
       Image(R.image.icon_arr_down)
@@ -61,14 +60,12 @@ struct SelectCategoryView_SwiftUI: View {
         checkableButton(animalFilter: filter)
       }
       
-      
       Spacer().frame(width: PND.Metrics.defaultSpacing)
-      
     }
   }
   
   func checkableButton(animalFilter: PND.FilterType) -> some View {
-    return Button(action: {
+    Button(action: {
       filterOption = animalFilter
     }, label: {
       HStack(spacing: 2) {
@@ -86,7 +83,8 @@ struct SelectCategoryView_SwiftUI: View {
             : UIColor(hex: "#9E9E9E").asColor
           )
       }
-    })
+    }
+    )
   }
 }
 

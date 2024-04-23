@@ -87,7 +87,14 @@ struct HomeFeature: Reducer {
       case .view(.onSelectedFilterOptionChange(let filterType)):
         state.selectedFilterOption          = filterType
         state.urgentPostCardCellViewModels  = []
-        return .send(.internal(.fetchSOSPosts(page: 1)))
+        
+        return .run { send in
+          await send(.internal(.setIsLoadingInitialData(true)))
+          await send(.internal(.fetchSOSPosts(page: 1)))
+          await send(.internal(.setIsLoadingInitialData(false)))
+        }
+        
+
         
       case .view(.onSelectedSortOptionChange(let sortOption)):
         state.selectedSortOption            = sortOption
