@@ -38,6 +38,8 @@ struct UrgentPostDetailFeature: Reducer {
     // 반려동물 프로필
     var pets: [PND.Pet] = []
     var careNeededPetViewModels: [SelectPetViewModel] = []
+    
+    var isChatButtonEnabled: Bool = true
   }
   
   enum Action: RestrictiveAction {
@@ -46,6 +48,7 @@ struct UrgentPostDetailFeature: Reducer {
 			case onInit
 			case onSelectedTabIndexChange(Int)
 			case onPostImageTap(index: Int)
+      case onChatButtonTap
 		}
 		
 		enum DelegateAction: Equatable {
@@ -58,7 +61,7 @@ struct UrgentPostDetailFeature: Reducer {
       case setConditionInfo(PND.SOSPostDetailModel)
       case setDetailInfo(String, [PND.MediaModel])
       case setPetProfileInfo([PND.Pet])
-
+      case setChatButtonEnabled(Bool)
 		}
 		
 		case view(ViewAction)
@@ -100,6 +103,13 @@ struct UrgentPostDetailFeature: Reducer {
         // ImageViewer 같은거 간단하게 만들어야할듯?
 				return .none
         
+      case .view(.onChatButtonTap):
+        
+        return .none
+        
+      case .internal(.setChatButtonEnabled(let isEnabled)):
+        state.isChatButtonEnabled = isEnabled
+        return .none
         
       case .internal(.setHeaderInfo(let postDetailModel)):
         state.title = postDetailModel.title
@@ -122,12 +132,16 @@ struct UrgentPostDetailFeature: Reducer {
 				
         // 급구 조건
 			case .internal(.setConditionInfo(let postDetailModel)):
+        
+
+        
+        
 				state.detailInfoVM.append(contentsOf: [
-					.init(title: "날짜", details: "2023.09.20 ~ 2023.09.23", isDdayVisible: true, dDayString: "D-2"),
+          .init(title: "날짜", details: convertDateToString(postDetailModel.dates), isDdayVisible: true, dDayString: "D-2"),
 					.init(title: "위치", details: "N/A"),
           .init(title: "돌봄형태", details: postDetailModel.careType.description),
           .init(title: "돌봄 도우미 성별", details: postDetailModel.carerGender.description),
-          .init(title: "페이", details: "\(postDetailModel.rewardType?.text ?? PND.RewardType.negotiable.text)" + "\(postDetailModel.reward ?? "")")
+          .init(title: "페이", details: "\(postDetailModel.rewardType?.text ?? PND.RewardType.negotiable.text) " + "\(postDetailModel.reward ?? "")")
 				])
 				return .none
 				
@@ -169,6 +183,17 @@ struct UrgentPostDetailFeature: Reducer {
       }
     }
   }
+  
+  private func convertDateToString(_ dates: [PND.Date]) -> String {
+    guard
+      let startingDate = dates.first?.dateStartAt,
+      let endingDate   = dates.last?.dateEndAt
+    else { return "N/A" }
+    
+    if startingDate == endingDate { return startingDate }
+    
+    return "\(startingDate) ~ \(endingDate.dropFirst(5))"
+  }
 }
 
 
@@ -186,169 +211,182 @@ struct UrgentPostDetailView: View {
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      ScrollView(.vertical, showsIndicators: false) {
-        VStack(spacing: 0) {
-          
-          StretchyHeaderView(
-            headerImageUrl: viewStore.headerImageUrl,
-            title: viewStore.title,
-            authorName: viewStore.authorName,
-            authorProfileImageUrl: viewStore.authorProfileImageUrl,
-            region: viewStore.region
-          )
-          
-          VStack {
-            SwiftUI.Section {
-              
-              HorizontalSectionSelectView(
-                titles: ["급구조건", "상세내용", "반려동물 프로필"],
-                currentIndex: viewStore.binding(
-                  get: \.selectedTabIndex,
-                  send: { .view(.onSelectedTabIndexChange($0)) }
+      VStack {
+        ScrollView(.vertical, showsIndicators: false) {
+          VStack(spacing: 0) {
+            
+            StretchyHeaderView(
+              headerImageUrl: viewStore.headerImageUrl,
+              title: viewStore.title,
+              authorName: viewStore.authorName,
+              authorProfileImageUrl: viewStore.authorProfileImageUrl,
+              region: viewStore.region
+            )
+            
+            VStack {
+              SwiftUI.Section {
+                
+                HorizontalSectionSelectView(
+                  titles: ["급구조건", "상세내용", "반려동물 프로필"],
+                  currentIndex: viewStore.binding(
+                    get: \.selectedTabIndex,
+                    send: { .view(.onSelectedTabIndexChange($0)) }
+                  )
                 )
-              )
-              
-              switch viewStore.selectedTabIndex {
                 
-              case 0:
-                AgreementView(conditions: viewStore.conditions)
-                
-                Spacer()
-                  .frame(height: 16)
-                
-                ForEach(viewStore.detailInfoVM) { vm in
-                  UrgentPostDetailInformationView(viewModel: vm)
+                switch viewStore.selectedTabIndex {
+                  
+                case 0:
+                  AgreementView(conditions: viewStore.conditions)
+                  
                   Spacer()
-                    .frame(height: 15)
-                }
-                
-              case 1:
-                VStack(alignment: .leading, spacing: 25) {
+                    .frame(height: 16)
                   
-                  Text(viewStore.details)
-                    .font(.system(size: 16))
-                    .lineSpacing(5)
-                    .multilineTextAlignment(.leading)
+                  ForEach(viewStore.detailInfoVM) { vm in
+                    UrgentPostDetailInformationView(viewModel: vm)
+                    Spacer()
+                      .frame(height: 15)
+                  }
                   
-                  
-                  ScrollView(.horizontal) {
+                case 1:
+                  VStack(alignment: .leading, spacing: 25) {
                     
-                    HStack(spacing: 3) {
-                      ForEach(
-                        0..<(min(viewStore.postImageUrls.count, 3)),
-                        id: \.self
-                      ) { index in
-                        
-                        KFImage(viewStore.postImageUrls[index])
-                          .placeholder {
-                            ProgressView()
-                          }
-                          .resizable()
-                          .aspectRatio(contentMode: .fill)
-                          .frame(width: 112, height: 112)
-                          .clipped()
-                          .cornerRadius(4)
-                          .overlay {
-                            ZStack {
-                              Rectangle()
-                                .foregroundColor(.clear)
-                                .background(.black.opacity(0.5))
-                                .cornerRadius(4)
-                              
-                              Text("+\(viewStore.postImageUrls.count - 3)")
-                                .foregroundColor(.white)
-                                .font(.system(size: 24, weight: .bold))
+                    Text(viewStore.details)
+                      .font(.system(size: 16))
+                      .lineSpacing(5)
+                      .multilineTextAlignment(.leading)
+                    
+                    
+                    ScrollView(.horizontal) {
+                      
+                      HStack(spacing: 3) {
+                        ForEach(
+                          0..<(min(viewStore.postImageUrls.count, 3)),
+                          id: \.self
+                        ) { index in
+                          
+                          KFImage(viewStore.postImageUrls[index])
+                            .placeholder {
+                              ProgressView()
                             }
-                            .opacity((viewStore.postImageUrls.count > 3 && index == 2) ? 1 : 0)
-                          }
-                          .onTapGesture {
-                            viewStore.send(.view(.onPostImageTap(index: index)))
-                          }
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 112, height: 112)
+                            .clipped()
+                            .cornerRadius(4)
+                            .overlay {
+                              ZStack {
+                                Rectangle()
+                                  .foregroundColor(.clear)
+                                  .background(.black.opacity(0.5))
+                                  .cornerRadius(4)
+                                
+                                Text("+\(viewStore.postImageUrls.count - 3)")
+                                  .foregroundColor(.white)
+                                  .font(.system(size: 24, weight: .bold))
+                              }
+                              .opacity((viewStore.postImageUrls.count > 3 && index == 2) ? 1 : 0)
+                            }
+                            .onTapGesture {
+                              viewStore.send(.view(.onPostImageTap(index: index)))
+                            }
+                        }
                       }
                     }
                   }
-                }
-                .padding(.top, 16)
-                .padding(.horizontal, PND.Metrics.defaultSpacing)
-                
-              case 2:
-                VStack(alignment: .center) {
+                  .padding(.top, 16)
+                  .padding(.horizontal, PND.Metrics.defaultSpacing)
                   
-                  Text("돌봄이 필요한 반려동물")
-                    .font(.system(size: 16, weight: .semibold))
-                    .modifier(TextLeadingModifier())
-                    .padding(.leading, 16)
-                  
-                  Spacer().frame(height: 9)
-                  
-                  if viewStore.pets.isEmpty {
-                    Spacer().frame(height: 30)
-                    Text("반려동물 등록 정보가 없습니다.")
-                  } else {
+                case 2:
+                  VStack(alignment: .center) {
                     
-                    TabView(selection: $pageIndex.animation()) {
-                      ForEach(0..<viewStore.pets.count, id: \.self) { index in
-                        SelectPetView(
-                          viewModel: viewStore.careNeededPetViewModels.first!,
-                          onDeleteButtonTapped: nil
-                        )
-                        .tag(index)
-                      }
-                      .frame(height: 100)
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                    .frame(height: 120)
-                    .overlay(
-                      alignment: .bottom,
-                      content: {
-                        PageControl(
-                          numberOfPages: viewStore.pets.count,
-                          currentIndex: $pageIndex
-                        )
-                        .offset(y: 10)
-                      }
-                    )
-                    
-                    Spacer().frame(height: 20)
-                    
-                    Text("\(viewStore.authorName)의 반려동물")
+                    Text("돌봄이 필요한 반려동물")
                       .font(.system(size: 16, weight: .semibold))
                       .modifier(TextLeadingModifier())
                       .padding(.leading, 16)
                     
-                    Spacer().frame(height: 8)
-
-                    ScrollView(.horizontal, showsIndicators: false) {
-                      HStack(spacing: 0) {
-                        
-                        ForEach(viewStore.pets, id: \.id) { pet in
-                          PetProfileView(pet)
+                    Spacer().frame(height: 9)
+                    
+                    if viewStore.pets.isEmpty {
+                      Spacer().frame(height: 30)
+                      Text("반려동물 등록 정보가 없습니다.")
+                    } else {
+                      
+                      TabView(selection: $pageIndex.animation()) {
+                        ForEach(0..<viewStore.pets.count, id: \.self) { index in
+                          SelectPetView(
+                            viewModel: viewStore.careNeededPetViewModels.first!,
+                            onDeleteButtonTapped: nil
+                          )
+                          .tag(index)
                         }
-
-                        Spacer()
+                        .frame(height: 100)
                       }
-                      .padding(.leading, 12)
-                      .frame(width: UIScreen.main.bounds.size.width)
-                      .frame(minHeight: 150)
+                      .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                      .frame(height: 120)
+                      .overlay(
+                        alignment: .bottom,
+                        content: {
+                          PageControl(
+                            numberOfPages: viewStore.pets.count,
+                            currentIndex: $pageIndex
+                          )
+                          .offset(y: 10)
+                        }
+                      )
+                      
+                      Spacer().frame(height: 20)
+                      
+                      Text("\(viewStore.authorName)의 반려동물")
+                        .font(.system(size: 16, weight: .semibold))
+                        .modifier(TextLeadingModifier())
+                        .padding(.leading, 16)
+                      
+                      Spacer().frame(height: 8)
+
+                      ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0) {
+                          
+                          ForEach(viewStore.pets, id: \.id) { pet in
+                            PetProfileView(pet)
+                          }
+
+                          Spacer()
+                        }
+                        .padding(.leading, 12)
+                        .frame(width: UIScreen.main.bounds.size.width)
+                        .frame(minHeight: 150)
+                      }
+                      .frame(maxWidth: 400)
                     }
-                    .frame(maxWidth: 400)
                   }
+                  .padding(.top, 12)
+                
+                default:
+                  SwiftUI.EmptyView()
                 }
-                .padding(.top, 12)
-							
-							default:
-								SwiftUI.EmptyView()
-							}
+              }
             }
           }
         }
+        .redacted(reason: viewStore.isLoading ? .placeholder : [])
+        .coordinateSpace(name: "SCROLL")
+        .ignoresSafeArea(.container, edges: .vertical)
+        .onAppear {
+          viewStore.send(.view(.onInit))
+        }
+        
+        BaseBottomButton_SwiftUI(
+          isEnabledColor: PND.DS.primary,
+          title: "채팅하기",
+          isEnabled: viewStore.binding(
+            get: \.isChatButtonEnabled,
+            send: { .internal(.setChatButtonEnabled($0)) }
+          )
+        )
+        .onTapGesture { viewStore.send(.view(.onChatButtonTap)) }
       }
-			.redacted(reason: viewStore.isLoading ? .placeholder : [])
-      .coordinateSpace(name: "SCROLL")
-      .ignoresSafeArea(.container, edges: .vertical)
-      .onAppear {
-				viewStore.send(.view(.onInit))
-      }
+      
     }
 
   }

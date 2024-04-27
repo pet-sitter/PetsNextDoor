@@ -15,20 +15,16 @@ struct HomeFeature: Reducer {
   
   @ObservableState
   struct State: Equatable {
-    
-    var isLoadingInitialData: Bool = false
-    
-    var tabIndex: Int = 0
-    var selectedFilterOption: PND.FilterType  = .onlyDogs
+    var tabIndex: Int                         = 0
     var selectedSortOption: PND.SortOption    = .newest
+    var selectedFilterOption: PND.FilterType  = .onlyDogs
+    var isLoadingInitialData: Bool            = false
     
-    var selectPetState: SelectPetListFeature.State? = nil
-
     var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
     
+    var emptyContentMessage: String? = nil
+  
     fileprivate var page: Int = 1
-    
-
   }
   
   enum Action: RestrictiveAction, BindableAction {
@@ -46,6 +42,7 @@ struct HomeFeature: Reducer {
       case fetchSOSPosts(page: Int)
       case setInitialUrgentPostCardCellVMs([UrgentPostCardViewModel])
       case setIsLoadingInitialData(Bool)
+      case setEmptyContentMessage(String)
     }
     
     enum DelegateAction: Equatable {
@@ -66,7 +63,6 @@ struct HomeFeature: Reducer {
       switch action {
 
       case .view(.onAppear):
-        guard state.urgentPostCardCellViewModels.isEmpty == false else { return .none }
         
         return .run { [state] send in
           await send(.internal(.setIsLoadingInitialData(true)))
@@ -85,17 +81,14 @@ struct HomeFeature: Reducer {
         return .none
         
       case .view(.onSelectedFilterOptionChange(let filterType)):
-        state.selectedFilterOption          = filterType
-        state.urgentPostCardCellViewModels  = []
-        
+        state.selectedFilterOption = filterType
+        state.emptyContentMessage  = nil
         return .run { send in
           await send(.internal(.setIsLoadingInitialData(true)))
           await send(.internal(.fetchSOSPosts(page: 1)))
           await send(.internal(.setIsLoadingInitialData(false)))
         }
-        
-
-        
+      
       case .view(.onSelectedSortOptionChange(let sortOption)):
         state.selectedSortOption            = sortOption
         state.urgentPostCardCellViewModels  = []
@@ -119,6 +112,11 @@ struct HomeFeature: Reducer {
             sortBy: state.selectedFilterOption.rawValue,
             filterType: state.selectedFilterOption
           )
+          
+          if postModel.items.isEmpty {
+            await send(.internal(.setEmptyContentMessage("아직 작성된 글이 없어요.\n첫번째 글을 작성해보세요!")))
+            return
+          }
           
           let cellVMs = postModel
             .items
@@ -145,6 +143,10 @@ struct HomeFeature: Reducer {
     
       case .internal(.setIsLoadingInitialData(let isLoading)):
         state.isLoadingInitialData = isLoading
+        return .none
+        
+      case .internal(.setEmptyContentMessage(let message)):
+        state.emptyContentMessage = message
         return .none
         
       case .delegate(_):

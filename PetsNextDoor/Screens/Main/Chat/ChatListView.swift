@@ -10,10 +10,13 @@ import ComposableArchitecture
 
 struct ChatListView: View {
   
-  let store: StoreOf<ChatListFeature>
+  @State var store: StoreOf<ChatListFeature>
   
   var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    VStack {
+      
+      topNavigationBarView
+      
       SwiftUI.List {
         ForEach(0..<10) { _ in
           ChatRoomView()
@@ -21,18 +24,31 @@ struct ChatListView: View {
       }
       .environment(\.defaultMinListRowHeight, 0)
       .listStyle(.plain)
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          SegmentControlView_SwiftUI(
-            selectedIndex: viewStore.binding(
-              get: \.tabIndex,
-              send: { .onTabIndexChange($0)}
-            ),
-            segmentTitles: ["채팅", "모임채팅"]
-          )
-          .padding(.leading, PND.Metrics.defaultSpacing)
-        }
-      }
+    }
+  }
+  
+  private var topNavigationBarView: some View {
+    HStack {
+    
+      SegmentControlView_SwiftUI(
+        selectedIndex: $store.tabIndex,
+        segmentTitles: ["채팅", "모임채팅"]
+      )
+      .padding(.leading, PND.Metrics.defaultSpacing)
+      
+      Spacer()
+      
+      Button(action: {
+
+      }, label: {
+        Image(R.image.icon_setting)
+          .resizable()
+          .frame(width: 24, height: 24)
+          .tint(PND.Colors.commonBlack.asColor)
+      })
+      
+      Spacer().frame(width: PND.Metrics.defaultSpacing)
+      
     }
   }
 }

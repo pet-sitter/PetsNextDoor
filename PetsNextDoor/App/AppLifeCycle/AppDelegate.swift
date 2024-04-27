@@ -226,6 +226,7 @@ struct MainTabBarView: View {
         Text("UNDEFINED VIEW")
       }
     }
+    .tint(PND.DS.commonBlack)
     
   }
   

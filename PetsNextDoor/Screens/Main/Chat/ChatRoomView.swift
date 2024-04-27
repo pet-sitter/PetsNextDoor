@@ -28,29 +28,41 @@ struct ChatRoomView: View {
       HStack(alignment: .top, spacing: 0) {
         VStack(alignment: .leading, spacing: 0) {
           
-          Text("Author")
+          HStack(spacing: 4) {
+            Text(MockDataProvider.randomAuthorName)
+              .font(.system(size: 16, weight: .bold))
+            
+            Text("돌봄메이트")
+              .font(.system(size: 12, weight: .semibold))
+              .padding(4)
+              .background(PND.DS.gray20)
+              .cornerRadius(4)
+          }
           
           Spacer().frame(height: 4)
           
-          Text("chat test")
-          
+          Text(MockDataProvider.randomChatMessage)
+            .font(.system(size: 14, weight: .medium))
         }
         
         Spacer()
         
         VStack(alignment: .trailing, spacing: 0) {
-          Text("1분 전")
+          Text("\(MockDataProvider.randomCount)분 전")
+            .font(.system(size: 12, weight: .medium))
           
-          Text("32")
-            .padding(.horizontal, 4)
-            .padding(.vertical, 1)
+          Spacer().frame(height: 7)
+          
+          Text("\(MockDataProvider.randomCount)")
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
             .lineLimit(1)
-            .frame(height: 15)
-            .frame(minWidth: 15)
+            .frame(height: 22)
+            .frame(minWidth: 24)
             .foregroundStyle(PND.DS.primary)
-            .font(.system(size: 10, weight: .bold))
+            .font(.system(size: 12, weight: .bold))
             .background(PND.DS.commonBlack)
-            .cornerRadius(20)
+            .cornerRadius(17)
         }
       }
     }
@@ -58,6 +70,26 @@ struct ChatRoomView: View {
     .listRowInsets(EdgeInsets())
     .contentShape(Rectangle())
     .padding(.horizontal, 24)
+    .swipeActions(edge: .leading) {
+      Button(action: {
+        
+      }, label: {
+        Image(R.image.icon_fix)
+          .resizable()
+          .frame(width: 24, height: 24)
+      })
+      .tint(PND.DS.lightGreen)
+    }
+    .swipeActions(edge: .trailing) {
+      Button(action: {
+        
+      }, label: {
+        Text("나가기")
+          .font(.system(size: 12, weight: .bold))
+          .tint(.red)
+      })
+      .tint(.red)
+    }
   }
 }
 

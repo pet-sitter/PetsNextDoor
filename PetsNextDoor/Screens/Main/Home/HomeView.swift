@@ -74,12 +74,28 @@ struct HomeView: View {
                 }
                 
               } else {
-                ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
-                  UrgentPostCardView_SwiftUI(viewModel: vm)
-                    .onTapGesture {
-                      viewStore.send(.view(.onUrgentPostTap(postId: vm.postId)))
-                      setTabBarIsHidden(to: true)
+                if let emptyContentMessage = viewStore.state.emptyContentMessage {
+                  VStack {
+                    Spacer()
+                    HStack {
+                      Spacer()
+                      Text(emptyContentMessage)
+                        .multilineTextAlignment(.center)
+                        .frame(width: 150, height: 150)
+                      Spacer()
                     }
+                    Spacer()
+                  }
+                  
+                } else {
+                  ForEach(viewStore.urgentPostCardCellViewModels, id: \.postId) { vm in
+                    UrgentPostCardView_SwiftUI(viewModel: vm)
+                      .onTapGesture {
+                        viewStore.send(.view(.onUrgentPostTap(postId: vm.postId)))
+                        setTabBarIsHidden(to: true)
+                      }
+                  }
+                  .animation(.easeInOut, value: viewStore.state.urgentPostCardCellViewModels)
                 }
               }
             }

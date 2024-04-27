@@ -35,6 +35,8 @@ struct SelectPetListFeature: Reducer {
     Reduce { state, action in
       switch action {
       case .viewDidLoad:
+        guard state.selectPetCellViewModels.isEmpty else { return .none }
+        
         return .run { send in
           
           await send(.setIsLoading(true))
