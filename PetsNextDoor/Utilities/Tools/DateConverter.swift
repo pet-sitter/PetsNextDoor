@@ -41,4 +41,32 @@ struct DateConverter {
       .map { PND.Date(dateStartAt: $0, dateEndAt: $0) }
   }
   
+  static func calculateDDay(using dateString: String?) -> Int? {
+    guard let dateString else { return nil }
+    
+    let dateFormat = "yyyy-MM-dd"
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = dateFormat
+    
+    let currentDate = Date()
+    
+    if let targetDate = dateFormatter.date(from: dateString) {
+      
+      let components = Calendar.current.dateComponents(
+        [.day],
+        from: currentDate,
+        to: targetDate
+      )
+      
+      if let daysLeft = components.day {
+        return daysLeft
+      } else {
+        return nil
+      }
+    } else {
+      return nil
+    }
+  }
+  
 }

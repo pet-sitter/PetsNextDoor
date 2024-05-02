@@ -29,6 +29,7 @@ struct SelectPetListFeature: Reducer {
     case setIsLoading(Bool)
     
     case pushToSelectCareConditionsView(PND.UrgentPostModel)
+    case popToHomeView
   }
   
   var body: some Reducer<State, Action> {
@@ -54,9 +55,9 @@ struct SelectPetListFeature: Reducer {
         
       case .setMyPets(let petModel):
         
-        if petModel.isEmpty { // 테스트용 코드
-          state.selectPetCellViewModels = MockDataProvider.selectPetCellViewModels
-          return .none
+        if petModel.isEmpty {     // 반려동물 등록이 안 되어 있는데 혹시 들어오는 케이스 방지용
+          Toast.shared.present(title: "반려동물 등록 후 사용 가능해요.", symbolType: .info)
+          return .send(.popToHomeView)
         }
         
         state.selectPetCellViewModels = petModel.map {
@@ -102,6 +103,9 @@ struct SelectPetListFeature: Reducer {
         return .none
         
       case .pushToSelectCareConditionsView:
+        return .none
+        
+      case .popToHomeView:
         return .none
       }
     }

@@ -13,13 +13,13 @@ struct SelectOtherRequirementsFeature: Reducer {
   @Dependency(\.sosPostService) var postService
   
   struct State: Hashable {
-    
     var conditions: [Condition] = []
-
-    var isBottomButtonEnabled: Bool = false
-    
+    var isBottomButtonEnabled: Bool = true
     var urgentPostModel: PND.UrgentPostModel
-      
+    
+    init(urgentPostModel: PND.UrgentPostModel) {
+      self.urgentPostModel = urgentPostModel
+    }
   }
   
   enum Action: Equatable {
@@ -34,7 +34,6 @@ struct SelectOtherRequirementsFeature: Reducer {
     case _toggleCheckBoxValue(index: Int)
 
     case pushToWriteUrgentPostView(PND.UrgentPostModel)
-    
   }
   
   struct Condition: Hashable {
@@ -74,12 +73,8 @@ struct SelectOtherRequirementsFeature: Reducer {
         state.conditions[index].isSelected.toggle()
         
         state.urgentPostModel.conditionIds = state.conditions.filter(\.isSelected).map(\.id)
-        
-        if state.conditions.map(\.isSelected).contains(true) {
-          return .send(.setBottomButtonEnabled(true))
-        } else {
-          return .send(.setBottomButtonEnabled(false))
-        }
+
+        return .none
         
       case .onBottomButtonTap:
         return .send(.pushToWriteUrgentPostView(state.urgentPostModel))

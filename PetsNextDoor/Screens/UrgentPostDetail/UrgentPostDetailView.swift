@@ -11,7 +11,6 @@ import ComposableArchitecture
 struct UrgentPostDetailFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
-  @Dependency(\.petService) var petService
   
   struct State: Equatable, Hashable {
     let postId: Int
@@ -133,15 +132,18 @@ struct UrgentPostDetailFeature: Reducer {
         // 급구 조건
 			case .internal(.setConditionInfo(let postDetailModel)):
         
-
+        let dDay: Int?              = DateConverter.calculateDDay(using: postDetailModel.dates.first?.dateStartAt)
+        let dDayString: String      = "D-\(dDay ?? 0)"
+        let isDDayTagVisible: Bool  = (dDay ?? 1000) <= 7 && dDay != 0
         
-        
+        let payDetailString: String = "\(postDetailModel.rewardType?.text ?? PND.RewardType.negotiable.text) " + "\(NumberConverter.convertToCurrency(postDetailModel.reward ?? ""))"
+         
 				state.detailInfoVM.append(contentsOf: [
-          .init(title: "날짜", details: convertDateToString(postDetailModel.dates), isDdayVisible: true, dDayString: "D-2"),
+          .init(title: "날짜", details: convertDateToString(postDetailModel.dates), isDdayVisible: isDDayTagVisible, dDayString: dDayString),
 					.init(title: "위치", details: "N/A"),
           .init(title: "돌봄형태", details: postDetailModel.careType.description),
           .init(title: "돌봄 도우미 성별", details: postDetailModel.carerGender.description),
-          .init(title: "페이", details: "\(postDetailModel.rewardType?.text ?? PND.RewardType.negotiable.text) " + "\(postDetailModel.reward ?? "")")
+          .init(title: "페이", details: payDetailString)
 				])
 				return .none
 				
@@ -160,7 +162,7 @@ struct UrgentPostDetailFeature: Reducer {
         state.pets = pets
         state.careNeededPetViewModels = pets.map { pet -> SelectPetViewModel in
           SelectPetViewModel(
-            petImageUrlString: MockDataProvider.randomPetImageUrlString,
+            petImageUrlString: pet.profileImageUrl,
             petName: pet.name,
             petSpecies: pet.breed,
             petAge: 1,
@@ -313,12 +315,14 @@ struct UrgentPostDetailView: View {
                     } else {
                       
                       TabView(selection: $pageIndex.animation()) {
-                        ForEach(0..<viewStore.pets.count, id: \.self) { index in
+                        ForEach(0..<viewStore.careNeededPetViewModels.count, id: \.self) { index in
+                          
                           SelectPetView(
-                            viewModel: viewStore.careNeededPetViewModels.first!,
+                            viewModel: viewStore.careNeededPetViewModels[index],
                             onDeleteButtonTapped: nil
                           )
                           .tag(index)
+                          
                         }
                         .frame(height: 100)
                       }
@@ -347,6 +351,7 @@ struct UrgentPostDetailView: View {
                       ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 0) {
                           
+                          // 이 부분 수정 필요 - 전체 반려동물 목록
                           ForEach(viewStore.pets, id: \.id) { pet in
                             PetProfileView(pet)
                           }
@@ -502,7 +507,7 @@ struct UrgentPostDetailView: View {
   func PetProfileView(_ petModel: PND.Pet) -> some View {
     VStack(spacing: 0) {
       
-      KFImage(MockDataProvider.randomePetImageUrl)
+      KFImage(petModel.profileImageUrl?.asURL())
         .resizable()
         .frame(width: 48, height: 48)
         .clipShape(Circle())
@@ -520,8 +525,6 @@ struct UrgentPostDetailView: View {
           .frame(width: 15, height: 15)
           .scaledToFit()
       }
-      
-     
       
       Spacer().frame(height: 4)
       

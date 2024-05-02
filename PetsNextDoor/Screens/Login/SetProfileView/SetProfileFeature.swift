@@ -81,7 +81,7 @@ struct SetProfileFeature: Reducer {
           gender: addPetState.gender,
           petType: addPetState.selectedPetType,
           birthday: addPetState.birthday,
-          weight: addPetState.weight ?? 0,
+          weight: addPetState.weight?.asString() ?? "0",
           isDeleteButtonHidden: false
         )
 
@@ -145,7 +145,7 @@ struct SetProfileFeature: Reducer {
                   neutered: petVM.isPetNeutralized,
                   breed: petVM.petSpecies,
                   birthDate: petVM.birthday,
-                  weightInKg: petVM.weight ?? 0,
+                  weightInKg: petVM.weight ?? "0",
                   remarks: "",
                   profileImageId: petVM.profileImageId
                 )

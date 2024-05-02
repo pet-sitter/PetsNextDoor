@@ -132,6 +132,7 @@ extension Toast {
 enum ToastSymbol: String, CaseIterable {
   case xMark     = "xmark"
   case checkmark = "checkmark.circle.fill"
+  case info      = "info.circle"
 }
 
 

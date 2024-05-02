@@ -12,6 +12,8 @@ import ComposableArchitecture
 struct HomeFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
+  @Dependency(\.petService) var petService
+  @Dependency(\.userDataCenter) var userDataCenter
   
   @ObservableState
   struct State: Equatable {
@@ -40,7 +42,9 @@ struct HomeFeature: Reducer {
   
     enum InternalAction: Equatable {
       case fetchSOSPosts(page: Int)
+      case fetchMyPets
       case setInitialUrgentPostCardCellVMs([UrgentPostCardViewModel])
+      case setUserHasPetsRegistered(Bool)
       case setIsLoadingInitialData(Bool)
       case setEmptyContentMessage(String)
     }
@@ -64,9 +68,10 @@ struct HomeFeature: Reducer {
 
       case .view(.onAppear):
         
-        return .run { [state] send in
+        return .run { send in
           await send(.internal(.setIsLoadingInitialData(true)))
           await send(.internal(.fetchSOSPosts(page: 1)))
+          await send(.internal(.fetchMyPets))
           await send(.internal(.setIsLoadingInitialData(false)))
           
         } catch: { error, send in
@@ -74,7 +79,18 @@ struct HomeFeature: Reducer {
         }
         
       case .view(.onSelectWritePostIcon):
-        return .send(.delegate(.pushToSelectPetListView))
+        return .run { send in
+          
+          let userHasPetsRegistered: Bool = await userDataCenter.hasPetsRegistered
+          
+          if userHasPetsRegistered {
+            await send(.delegate(.pushToSelectPetListView))
+          } else {
+            
+            // 알림 띄워야함 - 반려동물 등록 유도 알림
+            Toast.shared.present(title: "반려동물을 먼저 등록해주세요", symbolType: .info)
+          }
+        }
     
       case .view(.onTabIndexChange(let index)):
         state.tabIndex = index
@@ -137,9 +153,25 @@ struct HomeFeature: Reducer {
           Toast.shared.presentCommonError()
         }
         
+      case .internal(.fetchMyPets):
+        return .run { send in
+          
+          let myPets = try await petService.getMyPets().pets
+          
+          await send(.internal(.setUserHasPetsRegistered(myPets.isEmpty ? false : true)))
+          
+        } catch: { error, _ in
+          PNDLogger.network.error("Failed fetching my pets with error: \(error)")
+        }
+        
       case .internal(.setInitialUrgentPostCardCellVMs(let cellVMs)):
         state.urgentPostCardCellViewModels = cellVMs
         return .none
+        
+      case .internal(.setUserHasPetsRegistered(let hasPets)):
+        return .run { _ in
+          await userDataCenter.setUserHasPetsRegistered(to: hasPets)
+        }
     
       case .internal(.setIsLoadingInitialData(let isLoading)):
         state.isLoadingInitialData = isLoading

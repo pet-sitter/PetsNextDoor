@@ -57,7 +57,7 @@ struct MockDataProvider {
         gender: .male,
         petType: .dog,
         birthday: "12/23",
-        weight: 1,
+        weight: "1",
         isDeleteButtonHidden: true
       ),
       .init(
@@ -70,7 +70,7 @@ struct MockDataProvider {
         gender: .male,
         petType: .dog,
         birthday: "12/23",
-        weight: 1,
+        weight: "1",
         isDeleteButtonHidden: true
       ),
       .init(
@@ -83,7 +83,7 @@ struct MockDataProvider {
         gender: .male,
         petType: .dog,
         birthday: "12/23",
-        weight: 1,
+        weight: "1",
         isDeleteButtonHidden: true
       ),
       .init(
@@ -96,7 +96,7 @@ struct MockDataProvider {
         gender: .male,
         petType: .dog,
         birthday: "12/23",
-        weight: 1,
+        weight: "1",
         isDeleteButtonHidden: true
       ),
       

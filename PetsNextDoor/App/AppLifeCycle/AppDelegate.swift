@@ -151,6 +151,10 @@ struct MainTabBarFeature: Reducer {
           state.path.append(.selectCareConditions(SelectCareConditionFeature.State(urgentPostModel: urgentModel)))
           return .none
           
+        case .element(id: _, action: .selectPetList(.popToHomeView)):
+          let _ = state.path.popLast()
+          return .none 
+          
         case .element(id: _, action: .selectCareConditions(.pushToSelectOtherRequirementsView(let urgentModel))):
           state.path.append(.selectOtherRequirements(SelectOtherRequirementsFeature.State(urgentPostModel: urgentModel)))
           return .none
@@ -160,10 +164,10 @@ struct MainTabBarFeature: Reducer {
           return .none
           
         case .element(id: _, action: .writeUrgentPost(.onPostUploadComplete(let postId))):
-          state.path.popLast()
-          state.path.popLast()
-          state.path.popLast()
-          state.path.popLast()
+          let _ = state.path.popLast()
+          let _ = state.path.popLast()
+          let _ = state.path.popLast()
+          let _ = state.path.popLast()
           state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
           return .none
           

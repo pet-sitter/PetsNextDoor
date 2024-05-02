@@ -51,6 +51,10 @@ extension PND.Dependency {
   enum UserDefaultsManagerKey: DependencyKey {
     static let liveValue: any UserDefaultsManageable = UserDefaultsManager()
   }
+  
+  enum UserDataCenterKey: DependencyKey {
+    static let liveValue: UserDataCenter = UserDataCenter()
+  }
 }
 
 extension DependencyValues {
@@ -93,6 +97,11 @@ extension DependencyValues {
   var userDefaultsManager: any UserDefaultsManageable {
     get { self[PND.Dependency.UserDefaultsManagerKey.self] }
     set { self[PND.Dependency.UserDefaultsManagerKey.self] = newValue }
+  }
+  
+  var userDataCenter: UserDataCenter {
+    get { self[PND.Dependency.UserDataCenterKey.self] }
+    set { self[PND.Dependency.UserDataCenterKey.self] = newValue }
   }
 }
 

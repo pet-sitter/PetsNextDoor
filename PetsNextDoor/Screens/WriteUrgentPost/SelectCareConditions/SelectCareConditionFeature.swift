@@ -19,9 +19,9 @@ struct SelectCareConditionFeature: Reducer {
     var careType: PND.CareType      = .visiting
  
     // 페이
-    var rewardType: PND.RewardType = .pay
+    var rewardType: PND.RewardType = .fee
     var rewardAmount: String = ""
-    var rewardOptionPrompt: String = PND.RewardType.pay.prompt
+    var rewardOptionPrompt: String = PND.RewardType.fee.prompt
     
     // 날짜
     var selectedDates: Set<DateComponents> = []
@@ -97,7 +97,7 @@ struct SelectCareConditionFeature: Reducer {
           state.isPayTextFieldDisabled = true
         }
         
-        if rewardType == .pay {
+        if rewardType == .fee {
           state.onlyAllowNumberInput = true
         } else {
           state.onlyAllowNumberInput = false

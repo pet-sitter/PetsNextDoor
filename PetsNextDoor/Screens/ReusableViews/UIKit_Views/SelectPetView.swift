@@ -24,7 +24,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   @Published var gender: PND.Sex
   @Published var petType: PND.PetType
   @Published var birthday: String
-  var weight: Int? = nil
+  var weight: String? = nil
   
   var profileImageId: Int? = nil
   
@@ -40,7 +40,7 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
     gender: PND.Sex,
     petType: PND.PetType,
     birthday: String,
-    weight: Int? = nil,
+    weight: String? = nil,
     isDeleteButtonHidden: Bool = true
   ) {
     self.id = id
