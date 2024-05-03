@@ -137,6 +137,7 @@ struct MainTabBarFeature: Reducer {
     Reduce { state, action in
       switch action {
         
+        // 홈화면 액션
       case .homeAction(.delegate(.pushToSelectPetListView)):
         state.path.append(.selectPetList(SelectPetListFeature.State()))
         return .none 
@@ -144,6 +145,12 @@ struct MainTabBarFeature: Reducer {
       case .homeAction(.delegate(.pushToUrgentPostDetailView(let postId))):
         state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
         return .none
+        
+      case .homeAction(.delegate(.selectMyPageView)):
+        state.selectedTab = .myPage
+        return .none
+        
+        // 마이페이지 화면 액션
         
       case let .path(action):
         switch action {

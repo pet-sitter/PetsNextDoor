@@ -29,6 +29,7 @@
 		DA06E49C2BE2178C0068EB20 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E49B2BE2178C0068EB20 /* Int+Extension.swift */; };
 		DA06E49F2BE21D3C0068EB20 /* UserDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E49E2BE21D3C0068EB20 /* UserDataCenter.swift */; };
 		DA06E4A72BE327150068EB20 /* NumberConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E4A62BE327150068EB20 /* NumberConverter.swift */; };
+		DA06E4BE2BE4BBF20068EB20 /* PetBirthDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E4BD2BE4BBF20068EB20 /* PetBirthDate.swift */; };
 		DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A5ED52AF5233900866138 /* ComponentModifier.swift */; };
 		DA0F92082A971C860059690E /* ValueObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92072A971C860059690E /* ValueObservable.swift */; };
 		DA0F92122A9848110059690E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92112A9848110059690E /* API.swift */; };
@@ -235,6 +236,7 @@
 		DA06E49B2BE2178C0068EB20 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		DA06E49E2BE21D3C0068EB20 /* UserDataCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataCenter.swift; sourceTree = "<group>"; };
 		DA06E4A62BE327150068EB20 /* NumberConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberConverter.swift; sourceTree = "<group>"; };
+		DA06E4BD2BE4BBF20068EB20 /* PetBirthDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetBirthDate.swift; sourceTree = "<group>"; };
 		DA0A5ED52AF5233900866138 /* ComponentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentModifier.swift; sourceTree = "<group>"; };
 		DA0F92072A971C860059690E /* ValueObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueObservable.swift; sourceTree = "<group>"; };
 		DA0F92112A9848110059690E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -962,6 +964,7 @@
 			children = (
 				DAC68E342BCD57190007E41D /* RewardType.swift */,
 				DAE730202BD6396700394012 /* FilterType.swift */,
+				DA06E4BD2BE4BBF20068EB20 /* PetBirthDate.swift */,
 			);
 			path = CommonModel;
 			sourceTree = "<group>";
@@ -1295,6 +1298,7 @@
 				DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */,
 				DA06E4A72BE327150068EB20 /* NumberConverter.swift in Sources */,
 				DAE8D3782B5647290026F167 /* CheckNicknameModel.swift in Sources */,
+				DA06E4BE2BE4BBF20068EB20 /* PetBirthDate.swift in Sources */,
 				DA0F92082A971C860059690E /* ValueObservable.swift in Sources */,
 				DAE8D37C2B564A370026F167 /* BreedListResponseModel.swift in Sources */,
 				DABA44A02A63C62C00FD2639 /* BaseTabBarController.swift in Sources */,

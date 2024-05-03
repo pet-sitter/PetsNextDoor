@@ -69,4 +69,23 @@ struct DateConverter {
     }
   }
   
+  static func extractYearMonthDay(fromDateString dateString: String) -> PND.PetBirthDate {
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    
+    if let date = dateFormatter.date(from: dateString) {
+      
+      let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
+      
+      if
+        let year = components.year,
+        let month = components.month,
+        let day = components.day {
+        return PND.PetBirthDate(year: year, month: month, day: day)
+      }
+    }
+    PNDLogger.default.debug("Invalid date format")
+    return PND.PetBirthDate(year: 0, month: 0, day: 0)
+  }
 }

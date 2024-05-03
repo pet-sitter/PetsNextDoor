@@ -107,6 +107,17 @@ struct HomeView: View {
         viewStore.send(.view(.onAppear))
         setTabBarIsHidden(to: false)
       }
+      .alert(
+        "돌봄 서비스를 이용하기 위해서는 반려동물 등록이 필요해요!",
+        isPresented: viewStore.binding(
+          get: \.isPetRegistrationNeededAlertPresented,
+          send: { .internal(.setIsPetRegistrationNeededAlertPresented($0)) }
+        )
+      ) {
+        Button("OK", role: .cancel) {
+          viewStore.send(.view(.onPetRegistrationAlertOkButtonTap))
+        }
+      }
 //      .toolbar(tabBarIsHidden ? .hidden : .visible, for: .tabBar)
     }
   }
@@ -200,6 +211,6 @@ struct HomeView: View {
   }
 }
 
-#Preview {
-  HomeView(store: .init(initialState: .init(), reducer: { HomeFeature() }))
-}
+//#Preview {
+//  HomeView(store: .init(initialState: .init(), reducer: { HomeFeature() }))
+//}

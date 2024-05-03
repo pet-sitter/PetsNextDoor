@@ -67,7 +67,8 @@ extension PND {
     let neutered: Bool
     let breed: String
     let birthDate: String
-    let weightInKg: String 
+    
+    let weightInKg: String
     let remarks: String?
     var profileImageId: Int? = nil
     var profileImageUrl: String? = nil

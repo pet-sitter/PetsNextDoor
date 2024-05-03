@@ -25,6 +25,8 @@ struct HomeFeature: Reducer {
     var urgentPostCardCellViewModels: [UrgentPostCardViewModel] = []
     
     var emptyContentMessage: String? = nil
+    
+    var isPetRegistrationNeededAlertPresented: Bool = false
   
     fileprivate var page: Int = 1
   }
@@ -38,6 +40,7 @@ struct HomeFeature: Reducer {
       case onSelectedFilterOptionChange(PND.FilterType)
       case onSelectedSortOptionChange(PND.SortOption)
       case onUrgentPostTap(postId: Int)
+      case onPetRegistrationAlertOkButtonTap
     }
   
     enum InternalAction: Equatable {
@@ -47,11 +50,13 @@ struct HomeFeature: Reducer {
       case setUserHasPetsRegistered(Bool)
       case setIsLoadingInitialData(Bool)
       case setEmptyContentMessage(String)
+      case setIsPetRegistrationNeededAlertPresented(Bool)
     }
     
     enum DelegateAction: Equatable {
       case pushToSelectPetListView
       case pushToUrgentPostDetailView(postId: Int)
+      case selectMyPageView
     }
     
     case view(ViewAction)
@@ -80,16 +85,15 @@ struct HomeFeature: Reducer {
         
       case .view(.onSelectWritePostIcon):
         return .run { send in
-          
-          let userHasPetsRegistered: Bool = await userDataCenter.hasPetsRegistered
-          
-          if userHasPetsRegistered {
-            await send(.delegate(.pushToSelectPetListView))
-          } else {
-            
-            // 알림 띄워야함 - 반려동물 등록 유도 알림
-            Toast.shared.present(title: "반려동물을 먼저 등록해주세요", symbolType: .info)
-          }
+          await send(.internal(.setIsPetRegistrationNeededAlertPresented(true)))
+//          let userHasPetsRegistered: Bool = await userDataCenter.hasPetsRegistered
+//          
+//          if userHasPetsRegistered {
+//            await send(.delegate(.pushToSelectPetListView))
+//          } else {
+//            
+//            await send(.internal(.setIsPetRegistrationNeededAlertPresented(true)))
+//          }
         }
     
       case .view(.onTabIndexChange(let index)):
@@ -117,6 +121,9 @@ struct HomeFeature: Reducer {
         
       case .view(.onUrgentPostTap(let postId)):
         return .send(.delegate(.pushToUrgentPostDetailView(postId: postId)))
+        
+      case .view(.onPetRegistrationAlertOkButtonTap):
+        return .send(.delegate(.selectMyPageView))
         
       case .internal(.fetchSOSPosts(let page)):
         return .run { [state] send in
@@ -179,6 +186,10 @@ struct HomeFeature: Reducer {
         
       case .internal(.setEmptyContentMessage(let message)):
         state.emptyContentMessage = message
+        return .none
+        
+      case .internal(.setIsPetRegistrationNeededAlertPresented(let isPresented)):
+        state.isPetRegistrationNeededAlertPresented = isPresented
         return .none
         
       case .delegate(_):

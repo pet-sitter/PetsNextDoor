@@ -187,9 +187,6 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .build(),
         encoding: JSONEncoding.default
       )
-      // 돌봄 급구 구해요!!
-      // 3일만 돌봐주실분!!
-      
     case .postCheckNickname(let nickname):
       return .requestParameters(
         parameters: .builder
@@ -210,22 +207,31 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       var parameters: [[String : Any]] = []
       
       for model in models {
-        parameters.append([
-          "birthDate" : model.birthDate,
+        
+        var petDictionary: [String : Any] = [
           "breed" : model.breed,
           "name" : model.name,
           "neutered" : model.neutered,
           "petType" : model.petType.rawValue,
           "sex" : model.sex.rawValue,
           "weightInKg" : model.weightInKg,
-        ])
+        ]
         
+        let birthday = DateConverter.extractYearMonthDay(fromDateString: model.birthDate)
+        
+        petDictionary["birthDate"] = ["year" : birthday.year,
+                                      "month" : birthday.month,
+                                      "day" : birthday.day]
+      
         if let profileImageId = model.profileImageUrl {
-          parameters.append(["profileImageId" : profileImageId])
+          petDictionary["profileImageId"] = profileImageId
         }
+        
         if let remarks = model.remarks {
-          parameters.append(["remarks" : remarks])
+          petDictionary["remarks"] = remarks
+          
         }
+        parameters.append(petDictionary)
       }
       
       return .requestParameters(
