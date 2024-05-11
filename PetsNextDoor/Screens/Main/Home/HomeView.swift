@@ -141,7 +141,7 @@ struct HomeView: View {
       Spacer()
       
       Button(action: {
-        store.send(.view(.onSelectWritePostIcon))
+        store.send(.view(.onSelectNotificationsIcon))
         setTabBarIsHidden(to: true)
       }, label: {
         Image(R.image.icon_bell)

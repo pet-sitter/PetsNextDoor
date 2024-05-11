@@ -41,7 +41,11 @@ struct SelectEitherCatOrDogView: View {
         .background(Color(red: 0.95, green: 0.95, blue: 0.95))
         .cornerRadius(4)
         .overlay(alignment: .trailing, content: {
-          Image("selectCat")
+          let blackImage = ImageConverter.desaturateImageToBlackAndWhite(image: .init(named: "selectCat")!)
+          let image: UIImage = store.selectedPetType == .cat
+          ? UIImage(named: "selectCat")!
+          : blackImage!
+          Image(uiImage: image)
             .resizable()
             .scaledToFit()
         })
@@ -64,7 +68,12 @@ struct SelectEitherCatOrDogView: View {
         .background(Color(red: 0.95, green: 0.95, blue: 0.95))
         .cornerRadius(4)
         .overlay(alignment: .trailing, content: {
-          Image("selectDog")
+          let blackImage = ImageConverter.desaturateImageToBlackAndWhite(image: .init(named: "selectDog")!)
+          let image: UIImage = store.selectedPetType == .dog
+          ? UIImage(named: "selectDog")!
+          : blackImage!
+          
+          Image(uiImage: image)
           .resizable()
           .scaledToFit()
           .offset(x: 20, y: 30)

@@ -36,6 +36,7 @@ struct HomeFeature: Reducer {
     enum ViewAction: Equatable {
       case onAppear
       case onTabIndexChange(Int)
+      case onSelectNotificationsIcon
       case onSelectWritePostIcon
       case onSelectedFilterOptionChange(PND.FilterType)
       case onSelectedSortOptionChange(PND.SortOption)
@@ -85,19 +86,21 @@ struct HomeFeature: Reducer {
         
       case .view(.onSelectWritePostIcon):
         return .run { send in
-          await send(.internal(.setIsPetRegistrationNeededAlertPresented(true)))
-//          let userHasPetsRegistered: Bool = await userDataCenter.hasPetsRegistered
-//          
-//          if userHasPetsRegistered {
-//            await send(.delegate(.pushToSelectPetListView))
-//          } else {
-//            
-//            await send(.internal(.setIsPetRegistrationNeededAlertPresented(true)))
-//          }
+          let userHasPetsRegistered: Bool = await userDataCenter.hasPetsRegistered
+          
+          if userHasPetsRegistered {
+            await send(.delegate(.pushToSelectPetListView))
+          } else {
+            
+            await send(.internal(.setIsPetRegistrationNeededAlertPresented(true)))
+          }
         }
     
       case .view(.onTabIndexChange(let index)):
         state.tabIndex = index
+        return .none
+        
+      case .view(.onSelectNotificationsIcon):
         return .none
         
       case .view(.onSelectedFilterOptionChange(let filterType)):

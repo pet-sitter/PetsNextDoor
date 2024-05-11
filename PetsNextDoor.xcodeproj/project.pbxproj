@@ -206,6 +206,7 @@
 		DAF813232AE299BA00B46E5C /* SelectPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813222AE299BA00B46E5C /* SelectPetView.swift */; };
 		DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */; };
 		DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813272AE2B80C00B46E5C /* AppAppearanceManager.swift */; };
+		DAF934A72BEF96C7006AA486 /* ImageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF934A62BEF96C7006AA486 /* ImageConverter.swift */; };
 		DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB93782A5ACE25006FC77C /* Dependency.swift */; };
 		DAFBA8A22B50F931003EF0BF /* SelectConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBA8A12B50F931003EF0BF /* SelectConditionView.swift */; };
 		DAFBA8AB2B511951003EF0BF /* SelectCareConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBA8AA2B511951003EF0BF /* SelectCareConditionsView.swift */; };
@@ -402,6 +403,7 @@
 		DAF813222AE299BA00B46E5C /* SelectPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetView.swift; sourceTree = "<group>"; };
 		DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetComponent.swift; sourceTree = "<group>"; };
 		DAF813272AE2B80C00B46E5C /* AppAppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearanceManager.swift; sourceTree = "<group>"; };
+		DAF934A62BEF96C7006AA486 /* ImageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConverter.swift; sourceTree = "<group>"; };
 		DAFB93782A5ACE25006FC77C /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		DAFBA8A12B50F931003EF0BF /* SelectConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionView.swift; sourceTree = "<group>"; };
 		DAFBA8AA2B511951003EF0BF /* SelectCareConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCareConditionsView.swift; sourceTree = "<group>"; };
@@ -817,6 +819,7 @@
 				DA0FD7382AA479C800497256 /* DateConverter.swift */,
 				DA06E4A62BE327150068EB20 /* NumberConverter.swift */,
 				DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */,
+				DAF934A62BEF96C7006AA486 /* ImageConverter.swift */,
 				DA517D942AFE176500343424 /* NSAttributedStringBuilder.swift */,
 			);
 			path = Tools;
@@ -1384,6 +1387,7 @@
 				DAAD52E52A7CBD5A00227BB5 /* BottomButtonComponent.swift in Sources */,
 				DA5C59BF2B22F20100EACCEF /* TCA+RestrictiveAction.swift in Sources */,
 				DABF953B2B3FE521004DFC3E /* PNDLogger.swift in Sources */,
+				DAF934A72BEF96C7006AA486 /* ImageConverter.swift in Sources */,
 				DA449DF22AC9A0E60025A397 /* NavigationTitleBarView.swift in Sources */,
 				DA15C12E2AE5623A004D8C58 /* ComponentBuildable.swift in Sources */,
 				DA25E8752B57AB250068D2F0 /* HomeView.swift in Sources */,
