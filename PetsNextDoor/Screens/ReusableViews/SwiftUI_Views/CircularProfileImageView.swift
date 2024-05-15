@@ -10,10 +10,10 @@ import Kingfisher
 
 struct CircularProfileImageView: View {
   
-  let imageUrlString: String
+  var imageUrlString: String?
   
   var body: some View {
-    KFImage(URL(string: imageUrlString))
+    KFImage(URL(string: imageUrlString ?? ""))
       .placeholder { ProgressView() }
       .resizable()
       .scaledToFill()

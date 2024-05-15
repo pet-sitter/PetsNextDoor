@@ -141,6 +141,10 @@
 		DA8BF09C2B5E5DEC00370C84 /* SetProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BF09B2B5E5DEC00370C84 /* SetProfileView.swift */; };
 		DA8DF4862AE7FA1E00FA0D9D /* ComponentRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DF4852AE7FA1E00FA0D9D /* ComponentRenderable.swift */; };
 		DA8DF4882AE7FB3400FA0D9D /* ComponentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DF4872AE7FB3400FA0D9D /* ComponentTableViewCell.swift */; };
+		DA8F5A752BF4B1C10031AB75 /* AddPetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A742BF4B1C10031AB75 /* AddPetButtonView.swift */; };
+		DA8F5A792BF4C6C20031AB75 /* MyPetInfoFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A782BF4C6C20031AB75 /* MyPetInfoFeature.swift */; };
+		DA8F5A7C2BF4C6DC0031AB75 /* MyActivityFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A7B2BF4C6DC0031AB75 /* MyActivityFeature.swift */; };
+		DA8F5A7E2BF4C8FD0031AB75 /* DefaultSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A7D2BF4C8FD0031AB75 /* DefaultSpacer.swift */; };
 		DA95347B2AEF8BE100ED21F9 /* HeaderTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347A2AEF8BE100ED21F9 /* HeaderTitleView.swift */; };
 		DA95347D2AEF8D2200ED21F9 /* HeaderTitleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */; };
 		DA95347F2AEF8E1800ED21F9 /* SelectPetListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347E2AEF8E1800ED21F9 /* SelectPetListFeature.swift */; };
@@ -202,6 +206,7 @@
 		DAE8D37A2B5649F70026F167 /* PetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8D3792B5649F70026F167 /* PetService.swift */; };
 		DAE8D37C2B564A370026F167 /* BreedListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8D37B2B564A370026F167 /* BreedListResponseModel.swift */; };
 		DAE8D37F2B56759F0026F167 /* SelectCategoryView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8D37E2B56759F0026F167 /* SelectCategoryView_SwiftUI.swift */; };
+		DAEDCEA42BF0EBA3002F55BC /* UserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEDCEA32BF0EBA3002F55BC /* UserProfileModel.swift */; };
 		DAF2D3A62A90CE8400A9B47A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2D3A52A90CE8400A9B47A /* Array+Extension.swift */; };
 		DAF813232AE299BA00B46E5C /* SelectPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813222AE299BA00B46E5C /* SelectPetView.swift */; };
 		DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */; };
@@ -339,6 +344,10 @@
 		DA8BF09B2B5E5DEC00370C84 /* SetProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileView.swift; sourceTree = "<group>"; };
 		DA8DF4852AE7FA1E00FA0D9D /* ComponentRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentRenderable.swift; sourceTree = "<group>"; };
 		DA8DF4872AE7FB3400FA0D9D /* ComponentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentTableViewCell.swift; sourceTree = "<group>"; };
+		DA8F5A742BF4B1C10031AB75 /* AddPetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetButtonView.swift; sourceTree = "<group>"; };
+		DA8F5A782BF4C6C20031AB75 /* MyPetInfoFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPetInfoFeature.swift; sourceTree = "<group>"; };
+		DA8F5A7B2BF4C6DC0031AB75 /* MyActivityFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivityFeature.swift; sourceTree = "<group>"; };
+		DA8F5A7D2BF4C8FD0031AB75 /* DefaultSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSpacer.swift; sourceTree = "<group>"; };
 		DA95347A2AEF8BE100ED21F9 /* HeaderTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleView.swift; sourceTree = "<group>"; };
 		DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleComponent.swift; sourceTree = "<group>"; };
 		DA95347E2AEF8E1800ED21F9 /* SelectPetListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetListFeature.swift; sourceTree = "<group>"; };
@@ -399,6 +408,7 @@
 		DAE8D3792B5649F70026F167 /* PetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetService.swift; sourceTree = "<group>"; };
 		DAE8D37B2B564A370026F167 /* BreedListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedListResponseModel.swift; sourceTree = "<group>"; };
 		DAE8D37E2B56759F0026F167 /* SelectCategoryView_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView_SwiftUI.swift; sourceTree = "<group>"; };
+		DAEDCEA32BF0EBA3002F55BC /* UserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileModel.swift; sourceTree = "<group>"; };
 		DAF2D3A52A90CE8400A9B47A /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		DAF813222AE299BA00B46E5C /* SelectPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetView.swift; sourceTree = "<group>"; };
 		DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetComponent.swift; sourceTree = "<group>"; };
@@ -588,6 +598,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */,
+				DAEDCEA32BF0EBA3002F55BC /* UserProfileModel.swift */,
 				DA86DEE12B31829900580D3C /* SOSPostModel.swift */,
 				DA146A572B710EC600832FC9 /* MyPetListModel.swift */,
 				DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */,
@@ -728,6 +739,7 @@
 		DA419C962A9B32B500C76AB9 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				DA8F5A772BF4C6B40031AB75 /* SubFeatures */,
 				DA8BF0892B5E54CC00370C84 /* MyPageView.swift */,
 				DA38FC312AADA19800A81C93 /* MyPageFeature.swift */,
 			);
@@ -858,6 +870,15 @@
 				DAE121322B03702E008EF9AC /* BaseTextViewComponent.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		DA8F5A772BF4C6B40031AB75 /* SubFeatures */ = {
+			isa = PBXGroup;
+			children = (
+				DA8F5A782BF4C6C20031AB75 /* MyPetInfoFeature.swift */,
+				DA8F5A7B2BF4C6DC0031AB75 /* MyActivityFeature.swift */,
+			);
+			path = SubFeatures;
 			sourceTree = "<group>";
 		};
 		DA9534762AEF8B1000ED21F9 /* WriteUrgentPost */ = {
@@ -1065,6 +1086,8 @@
 			isa = PBXGroup;
 			children = (
 				DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */,
+				DA8F5A742BF4B1C10031AB75 /* AddPetButtonView.swift */,
+				DA8F5A7D2BF4C8FD0031AB75 /* DefaultSpacer.swift */,
 				DA25E8772B57AC900068D2F0 /* PND.HostingController.swift */,
 				DA3A94772B5127BD00B3529C /* CheckBoxView.swift */,
 				DA3A946B2B51236F00B3529C /* BaseBottomButton_SwiftUI.swift */,
@@ -1243,7 +1266,9 @@
 				DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */,
 				DA6A91932BBBFAB700898737 /* Error+Extension.swift in Sources */,
 				DAD633122B837DB9004A962E /* CalendarView.swift in Sources */,
+				DA8F5A7C2BF4C6DC0031AB75 /* MyActivityFeature.swift in Sources */,
 				DA38FC322AADA19800A81C93 /* MyPageFeature.swift in Sources */,
+				DA8F5A752BF4B1C10031AB75 /* AddPetButtonView.swift in Sources */,
 				DA8A34FE2A765B850054FE25 /* Component.swift in Sources */,
 				7C51EF732A94EE60003132A1 /* BaseUnderlinedTextFieldView.swift in Sources */,
 				DADEB6DB2AEB9DF9002BED63 /* List.swift in Sources */,
@@ -1256,6 +1281,7 @@
 				DA8BF09C2B5E5DEC00370C84 /* SetProfileView.swift in Sources */,
 				DA5DCB2B2BCE3F7100B308A7 /* LoadingManager.swift in Sources */,
 				DA3A947C2B512BC500B3529C /* SelectOtherRequirementsView.swift in Sources */,
+				DAEDCEA42BF0EBA3002F55BC /* UserProfileModel.swift in Sources */,
 				DAFBA8A22B50F931003EF0BF /* SelectConditionView.swift in Sources */,
 				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
 				DA0F92172A9869840059690E /* Network.swift in Sources */,
@@ -1330,6 +1356,7 @@
 				DA2E7BCA2B8C63EE001B929C /* PageControl.swift in Sources */,
 				DA30F3782BBAAD31005D615C /* KeyChainService.swift in Sources */,
 				DA25E87C2B57CDA10068D2F0 /* CommunityView.swift in Sources */,
+				DA8F5A792BF4C6C20031AB75 /* MyPetInfoFeature.swift in Sources */,
 				DABF954B2B3FF97F004DFC3E /* PNDLoginPlugin.swift in Sources */,
 				DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */,
 				7C51EF762A94F4DA003132A1 /* UIView+Extension.swift in Sources */,
@@ -1399,6 +1426,7 @@
 				DA0F92222A9894A00059690E /* UserRegistrationStatus.swift in Sources */,
 				DAB395A42B1A0B2100B5415E /* AddPetFeature.swift in Sources */,
 				DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */,
+				DA8F5A7E2BF4C8FD0031AB75 /* DefaultSpacer.swift in Sources */,
 				DA25E8722B579C750068D2F0 /* UrgentPostCardView_SwiftUI.swift in Sources */,
 				DA8DF4862AE7FA1E00FA0D9D /* ComponentRenderable.swift in Sources */,
 			);

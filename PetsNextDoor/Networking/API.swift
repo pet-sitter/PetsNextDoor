@@ -32,6 +32,7 @@ extension PND {
     case postUserStatus(email: String)        // 이메일로 유저의 가입 상태를 조회
     case putMyPets(model: [PND.Pet])
     case getMyPets
+    case getUserInfo(userId: Int)
     
     //MARK: - Pets
     case getBreeds(pageSize: Int, petType: String)
@@ -88,6 +89,8 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       return "/users/me/pets"
     case .getMyPets:
       return "users/me/pets"
+    case .getUserInfo(let userId):
+      return "users/\(userId)"
       
       //MARK: - Pets
     case .getBreeds:
@@ -241,6 +244,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
         encoding: JSONEncoding.default
       )
       
+
       //MARK: - Pets
     case let .getBreeds(pageSize, petType):
       return .requestParameters(

@@ -11,33 +11,25 @@ import ComposableArchitecture
 @Reducer
 struct MyPageFeature: Reducer {
   
-  @Dependency(\.petService) var petService
-  @Dependency(\.userService) var userService
-  @Dependency(\.mediaService) var mediaService
-  
+  @Dependency(\.userService) private var userService
+
   @ObservableState
   struct State: Equatable {
     
-    var myPets: [PND.Pet] = []
-    var myPetViewModels: [SelectPetViewModel] = []
-    
-    var isAddPetViewPresented: Bool = false
-    
+    var myProfileImageUrlString: String? = nil
 
-    var selectEitherCatOrDogState: SelectEitherCatOrDogFeature.State?
+    var myPetInfoState: MyPetInfoFeature.State    = .init()
+    var myActivityState: MyActivityFeature.State  = .init()
   }
   
   enum Action: RestrictiveAction, BindableAction {
     
     enum ViewAction: Equatable {
       case onAppear
-      case onTapAddPetButton
     }
     
     enum InternalAction: Equatable {
-      case fetchMyPets
-      case setMyPets([PND.Pet])
-      case setIsAddPetViewPresented(Bool)
+      case setMyProfileImageUrlString(String)
     }
     
     enum DelegateAction: Equatable {
@@ -48,10 +40,16 @@ struct MyPageFeature: Reducer {
     case `internal`(InternalAction)
     case delegate(DelegateAction)
     case binding(BindingAction<State>)
-    case selectEitherCatOrDogAction(SelectEitherCatOrDogFeature.Action)
+    
+    // Child Actions
+    case myPetInfoAction(MyPetInfoFeature.Action)
+    case myActivityAction(MyActivityFeature.Action)
   }
   
   var body: some Reducer<State, Action> {
+    
+    Scope(state: \.myPetInfoState, action: \.myPetInfoAction)   { MyPetInfoFeature() }
+    Scope(state: \.myActivityState, action: \.myActivityAction) { MyActivityFeature() }
     
     BindingReducer()
     
@@ -60,43 +58,19 @@ struct MyPageFeature: Reducer {
       case .view(.onAppear):
         return .run { send in
           
-          await send(.internal(.fetchMyPets))
-        }
-        
-      case .view(.onTapAddPetButton):
-        
-        return .send(.internal(.setIsAddPetViewPresented(true)))
-        
-      case .internal(.fetchMyPets):
-        return .run { send in
+          let myProfileInfo = try await userService.getMyProfileInfo()
           
-          let myPets: [PND.Pet] = try await petService.getMyPets().pets
-          await send(.internal(.setMyPets(myPets)))
+          if let profileImageUrl = myProfileInfo.profileImageUrl {
+            await send(.internal(.setMyProfileImageUrlString(profileImageUrl)))
+          }
           
+
         } catch: { error, send in
-          PNDLogger.network.error("Failed fetching my pets")
+          
         }
         
-      case .internal(.setMyPets(let pets)):
-        state.myPets = pets
-        state.myPetViewModels = pets.map {
-          SelectPetViewModel(
-            id: $0.id,
-            petImageUrlString: $0.profileImageUrl,
-            petName: $0.name,
-            petSpecies: $0.breed,
-            petAge: DateConverter.calculateAge($0.birthDate),
-            gender: $0.sex,
-            petType: $0.petType,
-            birthday: $0.birthDate,
-            weight: $0.weightInKg
-          )
-        }
-        return .none
-        
-      case .internal(.setIsAddPetViewPresented(let isPresented)):
-        state.isAddPetViewPresented     = isPresented
-        state.selectEitherCatOrDogState = .init()
+      case .internal(.setMyProfileImageUrlString(let urlString)):
+        state.myProfileImageUrlString = urlString
         return .none
         
       case .delegate:
@@ -105,90 +79,16 @@ struct MyPageFeature: Reducer {
       case .binding:
         return .none
         
+        
         // Child Actions
         
-      case .selectEitherCatOrDogAction(let action):
-
-        switch action {
-        case .delegate(.dismissComplete):
-          state.isAddPetViewPresented     = false
-          state.selectEitherCatOrDogState = nil
-          
-        case .delegate(.onPetAddComplete(let addPetState)):
-          guard let breed = addPetState.selectedBreedName
-          else { return .none }
-          
-          let newPetViewModel = SelectPetViewModel(
-            petImageData: addPetState.selectedPetImageData,
-            petName: addPetState.petName,
-            petSpecies: breed,
-            petAge: addPetState.petAge ?? 1,
-            isPetNeutralized: addPetState.isNeutralized,
-            isPetSelected: false,
-            gender: addPetState.gender,
-            petType: addPetState.selectedPetType,
-            birthday: addPetState.birthday,
-            weight: addPetState.weight?.asString() ?? "0",
-            remarks: addPetState.cautionText,
-            isDeleteButtonHidden: false
-          )
-          
-          state.myPetViewModels.append(newPetViewModel)
-          state.isAddPetViewPresented     = false
-          state.selectEitherCatOrDogState = nil
-          
-          return registerNewPet(using: newPetViewModel)
-
-        default:
-          break
-        }
+      case .myPetInfoAction:
+        return .none
         
+      case .myActivityAction:
         return .none
       }
     }
-    .ifLet(\.selectEitherCatOrDogState, action: \.selectEitherCatOrDogAction) {
-      SelectEitherCatOrDogFeature()
-    }
-  }
-  
-  private func registerNewPet(using petViewModel: SelectPetViewModel) -> Effect<Action> {
-    .run { send in
-      
-      if let petImageData = petViewModel.petImageData {
-        let imageId = await uploadPetProfileImage(withImageData: petImageData)
-        petViewModel.profileImageId = imageId
-      }
-      
-      try await registerMyPet(using: petViewModel)
-      
-    } catch: { error, send in
-      Toast.shared.present(title: .commonError, symbolType: .xMark)
-    }
-  }
-  
-  private func registerMyPet(using petViewModel: SelectPetViewModel) async throws {
-    let petModel: PND.Pet = PND.Pet(
-      id: Int(arc4random()),
-      name: petViewModel.petName,
-      petType: petViewModel.petType,
-      sex: petViewModel.gender,
-      neutered: petViewModel.isPetNeutralized,
-      breed: petViewModel.petSpecies,
-      birthDate: petViewModel.birthday,
-      weightInKg: petViewModel.weight ?? "0",
-      remarks: petViewModel.remarks,
-      profileImageId: petViewModel.profileImageId
-    )
-     
-    try await userService.registerMyPets([petModel])
-  }
-  
-  private func uploadPetProfileImage(withImageData data: Data) async -> Int? {
-    let uploadResponse = try? await mediaService.uploadImage(
-      imageData: data,
-      imageName: "myPet-\(Int(arc4random()))"
-    )
-    return uploadResponse?.id
   }
 }
 
@@ -197,46 +97,136 @@ struct MyPageView: View {
   
   @State var store: StoreOf<MyPageFeature>
   
+  @State private var selectedTab: Tab = .mySchedule
+  @Namespace private var tabNamespace
+  
+  enum Tab: CaseIterable, Equatable {
+    case mySchedule
+    case myActivity
+    case myPetInfo
+    
+    var description: String {
+      switch self {
+      case .mySchedule: "나의 일정"
+      case .myActivity: "나의 활동"
+      case .myPetInfo:  "반려동물 정보"
+      }
+    }
+  }
+
+  
   var body: some View {
     VStack {
       topNavigationBarView
       
+      DefaultSpacer(axis: .vertical)
+      
+      profileInfoHeaderView
+      
+      DefaultSpacer(axis: .vertical)
+      Rectangle()
+        .foregroundStyle(PND.DS.gray20)
+        .frame(height: 1)
+        .padding(.horizontal, PND.Metrics.defaultSpacing)
+      
+      segmentTabView
+      
       ScrollView(.vertical) {
-        ForEach(store.myPetViewModels, id: \.id) { vm in
-            SelectPetView(viewModel: vm, onDeleteButtonTapped: nil)
-        }
         
-        RoundedRectangle(cornerRadius: 4)
-          .frame(height: 54)
-          .padding(.horizontal, PND.Metrics.defaultSpacing)
-          .foregroundStyle(PND.Colors.gray20.asColor)
-          .contentShape(Rectangle())
-          .overlay(
-            Button("반려동물 추가하기", systemImage: "plus") {
-              store.send(.view(.onTapAddPetButton))
-            }
-              .foregroundStyle(.black)
-          )
-          .onTapGesture {
-            store.send(.view(.onTapAddPetButton))
-          }
-      }
-    }
-    .fullScreenCover(
-      isPresented: $store.isAddPetViewPresented,
-      content: {
-        IfLetStore(
-          store.scope(
-            state: \.selectEitherCatOrDogState,
-            action: \.selectEitherCatOrDogAction
-          )
-        ) { store in
-          SelectEitherCatOrDogView(store: store)
+        switch selectedTab {
+          
+        case .mySchedule:
+          Text("N/A mySchedule")
+          
+        case .myActivity:
+          MyActivityView(store: store.scope(state: \.myActivityState, action: \.myActivityAction))
+          
+        case .myPetInfo:
+          MyPetInfoView(store: store.scope(state: \.myPetInfoState, action: \.myPetInfoAction))
         }
       }
-    )
+      .animation(nil, value: selectedTab)
+    }
+
     .onAppear {
       store.send(.view(.onAppear))
+    }
+  }
+  
+  var profileInfoHeaderView: some View {
+    HStack(spacing: 0) {
+      DefaultSpacer(axis: .horizontal)
+      
+      // 정보
+      VStack(alignment: .leading, spacing: 5) {
+        
+        Text("아롱맘님")
+          .font(.system(size: 20, weight: .bold))
+
+        
+        HStack(spacing: 28) {
+          // 돌봄메이트
+          VStack(alignment: .leading, spacing: 5) {
+            Text("12")
+              .font(.system(size: 20, weight: .bold))
+            Text("돌봄메이트")
+              .font(.system(size: 14))
+          }
+          
+          // 돌봄횟수
+          VStack(alignment: .leading, spacing: 5) {
+            Text("3")
+              .font(.system(size: 20, weight: .bold))
+            Text("돌봄횟수")
+              .font(.system(size: 14))
+          }
+          
+          // 받은 후기
+          VStack(alignment: .leading, spacing: 5) {
+            Text("24")
+              .font(.system(size: 20, weight: .bold))
+            Text("받은 후기")
+              .font(.system(size: 14))
+          }
+        }
+      }
+      
+      Spacer()
+      
+      // 프로필 사진
+      CircularProfileImageView(imageUrlString: MockDataProvider.randomPetImageUrlString)
+        .frame(width: 60, height: 60)
+      
+      DefaultSpacer(axis: .horizontal)
+    }
+  }
+  
+  private var segmentTabView: some View {
+    HStack {
+      ForEach(Tab.allCases, id: \.self) { currentTab in
+        ZStack(alignment: .bottom) {
+          Text(currentTab.description)
+            .font(.system(size: 16, weight: .bold))
+            .foregroundStyle(selectedTab == currentTab ? PND.DS.commonBlack : PND.DS.gray50)
+          
+          if selectedTab == currentTab {
+            RoundedRectangle(cornerRadius: 10)
+              .fill(PND.DS.commonBlack)
+              .matchedGeometryEffect(id: "tabNamespaceId", in: tabNamespace)
+              .frame(height: 2)
+              .frame(width: UIScreen.fixedScreenSize.width / 3 - (PND.Metrics.defaultSpacing * 2))
+              .offset(y: 10)
+          }
+
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 55)
+        .onTapGesture {
+          withAnimation(.spring(.snappy(duration: 0.25))) {
+            selectedTab = currentTab
+          }
+        }
+      }
     }
   }
   
@@ -263,6 +253,9 @@ struct MyPageView: View {
       Spacer().frame(width: PND.Metrics.defaultSpacing)
     }
   }
+  
+
+  
 }
 
 #Preview {
