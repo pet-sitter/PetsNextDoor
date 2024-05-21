@@ -32,6 +32,7 @@ extension NetworkProvidable {
               print("🛜 Network Success: \(networkResponse) for target: \(target)")
               continuation.resume(returning: networkResponse)
             } catch(let error) {
+              
               if error.isUnauthorizedError {
                 print("❌ Unauthorized error: \(error) - token refresh needed")
                 

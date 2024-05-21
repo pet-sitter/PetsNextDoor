@@ -27,5 +27,6 @@ extension PND {
     let id: Int
     let nickname: String
     var profileImageUrl: String?
+    @DefaultEmptyArray var pets: [PND.Pet]
   }
 }

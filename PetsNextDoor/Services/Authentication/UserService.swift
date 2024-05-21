@@ -99,6 +99,11 @@ final class UserServiceMock: UserServiceProvidable {
   }
   
   func getUserInfo(userId: Int) async throws -> PND.UserInfoModel {
-    return .init(id: 1, nickname: "test userInfo", profileImageUrl: MockDataProvider.randomPetImageUrlString)
+    return .init(
+      id: 1,
+      nickname: "test userInfo",
+      profileImageUrl: MockDataProvider.randomPetImageUrlString,
+      pets: []
+    )
   }
 }

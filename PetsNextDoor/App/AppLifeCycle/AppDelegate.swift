@@ -83,6 +83,8 @@ struct PNDRootApp: App {
 @Reducer
 struct MainTabBarFeature: Reducer {
   
+  @Dependency(\.userDataCenter) var userDataCenter
+  
   @ObservableState
   struct State: Equatable {
     
@@ -98,6 +100,9 @@ struct MainTabBarFeature: Reducer {
   }
   
   enum Action: BindableAction {
+    
+    case onAppear
+    
     case binding(BindingAction<State>)
     
     case homeAction(HomeFeature.Action)
@@ -136,6 +141,10 @@ struct MainTabBarFeature: Reducer {
   var navigationReducer: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
+        
+      case .onAppear:
+        
+        return .none 
         
         // 홈화면 액션
       case .homeAction(.delegate(.pushToSelectPetListView)):
@@ -230,15 +239,14 @@ struct MainTabBarView: View {
         if let store = store.scope(state: \.writeUrgentPost, action: \.writeUrgentPost) {
           WriteUrgentPostView(store: store)
         }
-    
-        
-        
       @unknown default:
         Text("UNDEFINED VIEW")
       }
     }
     .tint(PND.DS.commonBlack)
-    
+    .onAppear {
+      store.send(.onAppear)
+    }
   }
   
   private var contentView: some View {
