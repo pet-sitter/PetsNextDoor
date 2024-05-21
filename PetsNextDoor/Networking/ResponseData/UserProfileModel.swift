@@ -10,7 +10,7 @@ import Foundation
 extension PND {
   
   // 내 정보 조회 시 사용하는 모델
-  struct UserProfileModel: Codable {
+  struct UserProfileModel: Codable, Equatable {
     let id: Int
     let email: String
     var fbProviderType: PND.FBProviderType?

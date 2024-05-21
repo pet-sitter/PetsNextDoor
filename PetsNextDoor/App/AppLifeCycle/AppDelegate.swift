@@ -141,10 +141,10 @@ struct MainTabBarFeature: Reducer {
   var navigationReducer: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-        
       case .onAppear:
-        
-        return .none 
+				return .run { _ in
+					await userDataCenter.configureInitialUserData()
+				}
         
         // 홈화면 액션
       case .homeAction(.delegate(.pushToSelectPetListView)):
@@ -160,7 +160,13 @@ struct MainTabBarFeature: Reducer {
         return .none
         
         // 마이페이지 화면 액션
+				
+			case .myPageAction(.myActivityAction(.onUrgentPostTap(let postId))):
+				state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
+				return .none
         
+				
+				// 그 외
       case let .path(action):
         switch action {
         case .element(id: _, action: .selectPetList(.pushToSelectCareConditionsView(let urgentModel))):
@@ -186,6 +192,7 @@ struct MainTabBarFeature: Reducer {
           let _ = state.path.popLast()
           state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
           return .none
+				
           
         default:
           return .none
@@ -239,7 +246,14 @@ struct MainTabBarView: View {
         if let store = store.scope(state: \.writeUrgentPost, action: \.writeUrgentPost) {
           WriteUrgentPostView(store: store)
         }
-      @unknown default:
+				
+			case .myActivity(_):
+				if let store = store.scope(state: \.myActivity, action: \.myActivity) {
+					MyActivityView(store: store)
+				}
+				
+				
+			@unknown default:
         Text("UNDEFINED VIEW")
       }
     }

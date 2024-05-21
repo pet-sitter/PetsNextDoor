@@ -18,7 +18,7 @@ struct MainTabNavigationPath {
     case selectCareConditions(SelectCareConditionFeature.State)
     case selectOtherRequirements(SelectOtherRequirementsFeature.State)
     case writeUrgentPost(WriteUrgentPostFeature.State)
-    
+		case myActivity(MyActivityFeature.State)
   }
   
   enum Action {
@@ -27,6 +27,7 @@ struct MainTabNavigationPath {
     case selectCareConditions(SelectCareConditionFeature.Action)
     case selectOtherRequirements(SelectOtherRequirementsFeature.Action)
     case writeUrgentPost(WriteUrgentPostFeature.Action)
+		case myActivity(MyActivityFeature.Action)
   }
   
   var body: some Reducer<State, Action> {
@@ -35,6 +36,6 @@ struct MainTabNavigationPath {
     Scope(state: \.selectCareConditions, action: \.selectCareConditions) { SelectCareConditionFeature() }
     Scope(state: \.selectOtherRequirements, action: \.selectOtherRequirements) { SelectOtherRequirementsFeature() }
     Scope(state: \.writeUrgentPost, action: \.writeUrgentPost) { WriteUrgentPostFeature() }
-    
+		Scope(state: \.myActivity, action: \.myActivity) { MyActivityFeature() }
   }
 }

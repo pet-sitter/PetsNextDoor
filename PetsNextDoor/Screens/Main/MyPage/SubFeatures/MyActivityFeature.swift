@@ -24,8 +24,10 @@ struct MyActivityFeature: Reducer {
     
     case onAppear
     case setUrgentPostCardCellVMs([UrgentPostCardViewModel])
+		case onUrgentPostTap(postId: Int)
     
     case setEmptyContentMessage(String)
+		
     case binding(BindingAction<State>)
   }
   
@@ -35,15 +37,15 @@ struct MyActivityFeature: Reducer {
       switch action {
       case .onAppear:
         switch state.selectedIndex {
-        case 0, 1, 2:
+        case 0, 1, 2: 			// 추후 변경
           return .run { send in
             
             let posts = try await postService.getSOSPosts(
               authorId: nil,
               page: 1,
               size: 20,
-              sortBy: "dog",
-              filterType: .onlyDogs
+							sortBy: PND.SortOption.newest.rawValue,
+							filterType: .all
             )
             
             if posts.items.isEmpty {
@@ -77,7 +79,11 @@ struct MyActivityFeature: Reducer {
       case .setUrgentPostCardCellVMs(let cellVMs):
         state.urgentPostCardCellVMs = cellVMs
         return .none
-        
+				
+			case .onUrgentPostTap:
+				return .none
+
+		
       case .setEmptyContentMessage(let message):
         state.emptyContentMessage = message
         return .none
@@ -106,6 +112,9 @@ struct MyActivityView: View {
       LazyVStack(spacing: 0) {
         ForEach(store.urgentPostCardCellVMs, id: \.postId) { vm in
             UrgentPostCardView_SwiftUI(viewModel: vm)
+						.onTapGesture {
+							store.send(.onUrgentPostTap(postId: vm.postId))
+						}
         }
       }
     }

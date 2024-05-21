@@ -12,10 +12,14 @@ import ComposableArchitecture
 struct UrgentPostDetailFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService
+	@Dependency(\.userDataCenter) var userDataCenter
   
   @ObservableState
   struct State: Equatable, Hashable {
     let postId: Int
+		
+		// Info
+		var isMyPost: Bool = false
     
     // view related
     var selectedTabIndex: Int = 0
@@ -68,6 +72,7 @@ struct UrgentPostDetailFeature: Reducer {
       case setDetailInfo(String, [PND.MediaModel])
       case setPetProfileInfo([PND.Pet])
       case setChatButtonEnabled(Bool)
+			case setIsMyPost(Bool)
 		}
 		
 		case view(ViewAction)
@@ -89,15 +94,17 @@ struct UrgentPostDetailFeature: Reducer {
 					try await Task.sleep(nanoseconds: 500_000_000)
           
           let postDetail = try await postService.getSOSPostDetail(id: postId)
-
-          
+					
           await send(.internal(.setHeaderInfo(postDetail)))
           await send(.internal(.setConditionInfo(postDetail)))
           await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
           await send(.internal(.setPetProfileInfo(postDetail.pets)))
-          
+					
 					await send(.internal(.setIsLoading(false)))
-          
+					
+					let myId = await userDataCenter.userProfileModel?.id
+					await send(.internal(.setIsMyPost(myId == postDetail.author?.id ? true : false )))
+					
         } catch: { error, send in
           print("❌ error: \(error)")
           Toast.shared.presentCommonError()
@@ -126,6 +133,10 @@ struct UrgentPostDetailFeature: Reducer {
       case .internal(.setChatButtonEnabled(let isEnabled)):
         state.isChatButtonEnabled = isEnabled
         return .none
+				
+			case .internal(.setIsMyPost(let isMyPost)):
+				state.isMyPost = isMyPost
+				return .none
         
       case .internal(.setHeaderInfo(let postDetailModel)):
         state.title = postDetailModel.title

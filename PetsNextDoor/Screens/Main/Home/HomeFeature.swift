@@ -46,9 +46,7 @@ struct HomeFeature: Reducer {
   
     enum InternalAction: Equatable {
       case fetchSOSPosts(page: Int)
-      case fetchMyPets
       case setInitialUrgentPostCardCellVMs([UrgentPostCardViewModel])
-      case setUserHasPetsRegistered(Bool)
       case setIsLoadingInitialData(Bool)
       case setEmptyContentMessage(String)
       case setIsPetRegistrationNeededAlertPresented(Bool)
@@ -77,7 +75,6 @@ struct HomeFeature: Reducer {
         return .run { send in
           await send(.internal(.setIsLoadingInitialData(true)))
           await send(.internal(.fetchSOSPosts(page: 1)))
-          await send(.internal(.fetchMyPets))
           await send(.internal(.setIsLoadingInitialData(false)))
           
         } catch: { error, send in
@@ -91,7 +88,6 @@ struct HomeFeature: Reducer {
           if userHasPetsRegistered {
             await send(.delegate(.pushToSelectPetListView))
           } else {
-            
             await send(.internal(.setIsPetRegistrationNeededAlertPresented(true)))
           }
         }
@@ -135,7 +131,7 @@ struct HomeFeature: Reducer {
             authorId: nil,
             page: page,
             size: 20,
-            sortBy: state.selectedFilterOption.rawValue,
+            sortBy: state.selectedSortOption.rawValue,
             filterType: state.selectedFilterOption
           )
           
@@ -163,26 +159,10 @@ struct HomeFeature: Reducer {
           Toast.shared.presentCommonError()
         }
         
-      case .internal(.fetchMyPets):
-        return .run { send in
-          
-          let myPets = try await petService.getMyPets().pets
-          
-          await send(.internal(.setUserHasPetsRegistered(myPets.isEmpty ? false : true)))
-          
-        } catch: { error, _ in
-          PNDLogger.network.error("Failed fetching my pets with error: \(error)")
-        }
-        
       case .internal(.setInitialUrgentPostCardCellVMs(let cellVMs)):
         state.urgentPostCardCellViewModels = cellVMs
         return .none
-        
-      case .internal(.setUserHasPetsRegistered(let hasPets)):
-        return .run { _ in
-          await userDataCenter.setUserHasPetsRegistered(to: hasPets)
-        }
-    
+			
       case .internal(.setIsLoadingInitialData(let isLoading)):
         state.isLoadingInitialData = isLoading
         return .none

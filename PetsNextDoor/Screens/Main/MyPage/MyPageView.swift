@@ -11,13 +11,17 @@ import ComposableArchitecture
 @Reducer
 struct MyPageFeature: Reducer {
   
-  @Dependency(\.userService) private var userService
+	@Dependency(\.userDataCenter) private var userDataCenter
 
   @ObservableState
   struct State: Equatable {
     
+		var myNickname: String = ""
     var myProfileImageUrlString: String? = nil
 
+		
+		// Child States
+		
     var myPetInfoState: MyPetInfoFeature.State    = .init()
     var myActivityState: MyActivityFeature.State  = .init()
   }
@@ -29,7 +33,7 @@ struct MyPageFeature: Reducer {
     }
     
     enum InternalAction: Equatable {
-      case setMyProfileImageUrlString(String)
+			case setMyProfileInfo(PND.UserProfileModel?)
     }
     
     enum DelegateAction: Equatable {
@@ -55,22 +59,19 @@ struct MyPageFeature: Reducer {
     
     Reduce { state, action in
       switch action {
-      case .view(.onAppear):
-        return .run { send in
-          
-          let myProfileInfo = try await userService.getMyProfileInfo()
-          
-          if let profileImageUrl = myProfileInfo.profileImageUrl {
-            await send(.internal(.setMyProfileImageUrlString(profileImageUrl)))
-          }
-          
-
-        } catch: { error, send in
+			case .view(.onAppear):
+				return .run { send in
+					
+					let userProfileModel = await userDataCenter.userProfileModel
+					await send(.internal(.setMyProfileInfo(userProfileModel)))
+					
+				} catch: { error, send in
           
         }
         
-      case .internal(.setMyProfileImageUrlString(let urlString)):
-        state.myProfileImageUrlString = urlString
+      case .internal(.setMyProfileInfo(let userModel)):
+				state.myNickname 							= userModel?.nickname ?? "N/A"
+				state.myProfileImageUrlString = userModel?.profileImageUrl
         return .none
         
       case .delegate:
@@ -160,7 +161,7 @@ struct MyPageView: View {
       // 정보
       VStack(alignment: .leading, spacing: 5) {
         
-        Text("아롱맘님")
+				Text(store.myNickname)
           .font(.system(size: 20, weight: .bold))
 
         
