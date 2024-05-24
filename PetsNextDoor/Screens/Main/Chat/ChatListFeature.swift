@@ -17,8 +17,9 @@ struct ChatListFeature: Reducer {
   }
   
   enum Action: Equatable, BindableAction {
-    case binding(BindingAction<State>)
     case onTabIndexChange(Int)
+    case onChatRoomTap
+    case binding(BindingAction<State>)
   }
   
   var body: some Reducer<State, Action> {
@@ -29,6 +30,10 @@ struct ChatListFeature: Reducer {
         
       case .onTabIndexChange(let tabIndex):
         state.tabIndex = tabIndex
+        return .none
+        
+      case .onChatRoomTap:
+        
         return .none
         
       case .binding:

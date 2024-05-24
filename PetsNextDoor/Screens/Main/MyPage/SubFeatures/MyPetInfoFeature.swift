@@ -97,7 +97,7 @@ struct MyPetInfoFeature: Reducer {
             petType: addPetState.selectedPetType,
             birthday: addPetState.birthday,
             weight: addPetState.weight?.asString() ?? "0",
-            remarks: addPetState.cautionText,
+            remarks: addPetState.remarksText,
             isDeleteButtonHidden: true
           )
           
@@ -125,12 +125,11 @@ struct MyPetInfoFeature: Reducer {
   
   private func registerNewPet(using petViewModel: SelectPetViewModel) -> Effect<Action> {
     .run { send in
-      
       if let petImageData = petViewModel.petImageData {
         let imageId = await uploadPetProfileImage(withImageData: petImageData)
         petViewModel.profileImageId = imageId
       }
-      
+
       try await registerMyPet(using: petViewModel)
       
     } catch: { error, send in

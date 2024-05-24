@@ -159,6 +159,12 @@ struct MainTabBarFeature: Reducer {
         state.selectedTab = .myPage
         return .none
         
+        // 채팅방 목록 액션
+        
+      case .chatListAction(.onChatRoomTap):
+        state.path.append(.chat(ChatFeature.State()))
+        return .none
+        
         // 마이페이지 화면 액션
 				
 			case .myPageAction(.myActivityAction(.onUrgentPostTap(let postId))):
@@ -242,6 +248,11 @@ struct MainTabBarView: View {
           SelectOtherRequirementsView(store: store)
         }
         
+      case .chat:
+        if let store = store.scope(state: \.chat, action: \.chat) {
+          ChatView(store: store)
+        }
+        
       case .writeUrgentPost:
         if let store = store.scope(state: \.writeUrgentPost, action: \.writeUrgentPost) {
           WriteUrgentPostView(store: store)
@@ -252,6 +263,7 @@ struct MainTabBarView: View {
 					MyActivityView(store: store)
 				}
 				
+
 				
 			@unknown default:
         Text("UNDEFINED VIEW")

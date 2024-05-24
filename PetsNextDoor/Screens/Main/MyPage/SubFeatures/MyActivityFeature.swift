@@ -12,6 +12,7 @@ import ComposableArchitecture
 struct MyActivityFeature: Reducer {
   
   @Dependency(\.sosPostService) var postService // 추후 변경 필요
+  @Dependency(\.userDataCenter) var userDataCenter
 
   @ObservableState
   struct State: Equatable {
@@ -40,8 +41,10 @@ struct MyActivityFeature: Reducer {
         case 0, 1, 2: 			// 추후 변경
           return .run { send in
             
+            let myAuthorId: Int? = await userDataCenter.userProfileModel?.id
+            
             let posts = try await postService.getSOSPosts(
-              authorId: nil,
+              authorId: myAuthorId,
               page: 1,
               size: 20,
 							sortBy: PND.SortOption.newest.rawValue,
@@ -109,17 +112,33 @@ struct MyActivityView: View {
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(.leading, PND.Metrics.defaultSpacing)
       
-      LazyVStack(spacing: 0) {
-        ForEach(store.urgentPostCardCellVMs, id: \.postId) { vm in
-            UrgentPostCardView_SwiftUI(viewModel: vm)
-						.onTapGesture {
-							store.send(.onUrgentPostTap(postId: vm.postId))
-						}
+      if store.emptyContentMessage == nil {
+        LazyVStack(spacing: 0) {
+          ForEach(store.urgentPostCardCellVMs, id: \.postId) { vm in
+              UrgentPostCardView_SwiftUI(viewModel: vm)
+              .onTapGesture {
+                store.send(.onUrgentPostTap(postId: vm.postId))
+              }
+          }
         }
+      } else {
+        emptyView
       }
     }
     .onAppear {
       store.send(.onAppear)
+    }
+  }
+  
+  private var emptyView: some View {
+    VStack {
+      Spacer()
+      
+      Text(store.emptyContentMessage ?? "")
+        .multilineTextAlignment(.center)
+        .padding()
+      
+      Spacer()
     }
   }
 }

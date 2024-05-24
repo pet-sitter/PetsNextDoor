@@ -142,10 +142,10 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case let .getSOSPosts(authorId, page, size, sortBy, filterType):
       return .requestParameters(
         parameters: .builder
-          .setOptional(key: "authorId", value: authorId)
+          .setOptional(key: "author_id", value: authorId)
           .setOptional(key: "page", value: page)
           .setOptional(key: "size", value: size)
-          .setOptional(key: "sortBy", value: sortBy)
+          .setOptional(key: "sort_by", value: sortBy)
           .setOptional(key: "filter_type", value: filterType)
           .build(),
         encoding: URLEncoding.queryString
@@ -212,6 +212,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       for model in models {
         
         var petDictionary: [String : Any] = [
+          "birthDate" : model.birthDate,
           "breed" : model.breed,
           "name" : model.name,
           "neutered" : model.neutered,
@@ -219,14 +220,8 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           "sex" : model.sex.rawValue,
           "weightInKg" : model.weightInKg,
         ]
-        
-        let birthday = DateConverter.extractYearMonthDay(fromDateString: model.birthDate)
-        
-        petDictionary["birthDate"] = ["year" : birthday.year,
-                                      "month" : birthday.month,
-                                      "day" : birthday.day]
-      
-        if let profileImageId = model.profileImageUrl {
+  
+        if let profileImageId = model.profileImageId {
           petDictionary["profileImageId"] = profileImageId
         }
         

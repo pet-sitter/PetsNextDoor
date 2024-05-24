@@ -20,6 +20,7 @@ struct ChatListView: View {
       SwiftUI.List {
         ForEach(0..<10) { _ in
           ChatRoomView()
+            .onTapGesture { store.send(.onChatRoomTap) }
         }
       }
       .environment(\.defaultMinListRowHeight, 0)

@@ -11,20 +11,27 @@ import ComposableArchitecture
 struct AddCautionsFeature: Reducer {
   
   struct State: Hashable {
-    var cautionText: String = ""
+    var remarksText: String = ""
+    var cautionsText: String = ""
+    
     var isBottomButtonEnabled: Bool = true
   }
   
   enum Action: Equatable {
-    case onCautionTextChange(String)
+    case onRemarksTextChange(String)
+    case onCautionsTextChange(String)
     case onBottomButtonTap
   }
   
   var body: some Reducer<State,Action> {
     Reduce { state, action in
       switch action {
-      case .onCautionTextChange(let text):
-        state.cautionText = text
+      case .onRemarksTextChange(let text):
+        state.remarksText = text
+        return .none
+        
+      case .onCautionsTextChange(let text):
+        state.cautionsText = text
         return .none
         
       case .onBottomButtonTap:
@@ -44,14 +51,7 @@ struct AddCautionsView: View {
         
         Spacer().frame(height: PND.Metrics.defaultSpacing)
         
-        Image(R.image.icon_paw)
-          .resizable()
-          .frame(width: 40, height: 40)
-          .padding(.leading, PND.Metrics.defaultSpacing)
-        
-        Spacer().frame(height: 12)
-        
-        Text("건강 관련\n주의 사항을 알려주세요.")
+        Text("돌봄시\n참고사항을 알려주세요.")
           .font(.system(size: 20, weight: .bold))
           .modifier(HeaderTitleModifier())
         
@@ -59,15 +59,30 @@ struct AddCautionsView: View {
         
         TextEditorWithBackground(
           text: viewStore.binding(
-            get: \.cautionText,
-            send: { .onCautionTextChange($0) }
+            get: \.remarksText,
+            send: { .onRemarksTextChange($0) }
+          ),
+          placeholder: "예) 배변 패드 보관 위치, 사료 섭취 무게 등"
+        )
+        .padding(.horizontal, PND.Metrics.defaultSpacing)
+        
+        DefaultSpacer(axis: .vertical)
+        
+        Text("건강 관련\n주의 사항을 알려주세요.")
+          .font(.system(size: 20, weight: .bold))
+          .modifier(HeaderTitleModifier())
+        Spacer().frame(height: 20)
+        
+        TextEditorWithBackground(
+          text: viewStore.binding(
+            get: \.cautionsText,
+            send: { .onCautionsTextChange($0) }
           ),
           placeholder: "예) 먹고 있는 약, 앓고 있는 병, 알러지 여부 등"
         )
         .padding(.horizontal, PND.Metrics.defaultSpacing)
-        .frame(height: 178)
         
-        Spacer()
+        Spacer(minLength: 100)
         
         BaseBottomButton_SwiftUI(
           title: "다음으로",

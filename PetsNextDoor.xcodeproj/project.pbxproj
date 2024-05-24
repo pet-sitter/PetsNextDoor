@@ -145,6 +145,7 @@
 		DA8F5A792BF4C6C20031AB75 /* MyPetInfoFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A782BF4C6C20031AB75 /* MyPetInfoFeature.swift */; };
 		DA8F5A7C2BF4C6DC0031AB75 /* MyActivityFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A7B2BF4C6DC0031AB75 /* MyActivityFeature.swift */; };
 		DA8F5A7E2BF4C8FD0031AB75 /* DefaultSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A7D2BF4C8FD0031AB75 /* DefaultSpacer.swift */; };
+		DA952C632C00761700A8AEDE /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA952C622C00761700A8AEDE /* ChatView.swift */; };
 		DA95347B2AEF8BE100ED21F9 /* HeaderTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347A2AEF8BE100ED21F9 /* HeaderTitleView.swift */; };
 		DA95347D2AEF8D2200ED21F9 /* HeaderTitleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */; };
 		DA95347F2AEF8E1800ED21F9 /* SelectPetListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95347E2AEF8E1800ED21F9 /* SelectPetListFeature.swift */; };
@@ -348,6 +349,7 @@
 		DA8F5A782BF4C6C20031AB75 /* MyPetInfoFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPetInfoFeature.swift; sourceTree = "<group>"; };
 		DA8F5A7B2BF4C6DC0031AB75 /* MyActivityFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivityFeature.swift; sourceTree = "<group>"; };
 		DA8F5A7D2BF4C8FD0031AB75 /* DefaultSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSpacer.swift; sourceTree = "<group>"; };
+		DA952C622C00761700A8AEDE /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		DA95347A2AEF8BE100ED21F9 /* HeaderTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleView.swift; sourceTree = "<group>"; };
 		DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleComponent.swift; sourceTree = "<group>"; };
 		DA95347E2AEF8E1800ED21F9 /* SelectPetListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetListFeature.swift; sourceTree = "<group>"; };
@@ -732,6 +734,7 @@
 				DA8BF0862B5E543500370C84 /* ChatListView.swift */,
 				DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */,
 				DA565D562BC784C000E6A9FD /* ChatRoomView.swift */,
+				DA952C622C00761700A8AEDE /* ChatView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1427,6 +1430,7 @@
 				DAB395A42B1A0B2100B5415E /* AddPetFeature.swift in Sources */,
 				DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */,
 				DA8F5A7E2BF4C8FD0031AB75 /* DefaultSpacer.swift in Sources */,
+				DA952C632C00761700A8AEDE /* ChatView.swift in Sources */,
 				DA25E8722B579C750068D2F0 /* UrgentPostCardView_SwiftUI.swift in Sources */,
 				DA8DF4862AE7FA1E00FA0D9D /* ComponentRenderable.swift in Sources */,
 			);

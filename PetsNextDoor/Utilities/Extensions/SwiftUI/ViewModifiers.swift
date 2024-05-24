@@ -14,7 +14,7 @@ struct HeaderTitleModifier: ViewModifier {
       content
         .font(.system(size: 20, weight: .bold))
         .multilineTextAlignment(.leading)
-        .padding(.leading, 20)
+        .padding(.leading, PND.Metrics.defaultSpacing)
       Spacer()
     }
   }

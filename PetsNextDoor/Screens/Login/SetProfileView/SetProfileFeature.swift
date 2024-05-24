@@ -82,7 +82,7 @@ struct SetProfileFeature: Reducer {
           petType: addPetState.selectedPetType,
           birthday: addPetState.birthday,
           weight: addPetState.weight?.asString() ?? "0",
-          remarks: addPetState.cautionText,
+          remarks: addPetState.remarksText,
           isDeleteButtonHidden: false
         )
 

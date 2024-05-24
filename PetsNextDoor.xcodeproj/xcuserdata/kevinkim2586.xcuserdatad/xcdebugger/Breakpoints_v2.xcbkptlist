@@ -3,4 +3,22 @@
    uuid = "0621EA5E-499A-4206-A47A-09304C91DB14"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "58B6C4CE-73BE-4A90-8D0D-E9F797118318"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PetsNextDoor/Screens/Login/AddPetView/AddCautionsView.swift"
+            startingColumnNumber = "21"
+            endingColumnNumber = "21"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

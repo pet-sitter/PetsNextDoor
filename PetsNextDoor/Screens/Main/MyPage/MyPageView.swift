@@ -255,8 +255,6 @@ struct MyPageView: View {
     }
   }
   
-
-  
 }
 
 #Preview {

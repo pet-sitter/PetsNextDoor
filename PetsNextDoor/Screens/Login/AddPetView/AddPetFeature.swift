@@ -27,8 +27,9 @@ struct AddPetFeature: Reducer {
     
     var selectedBreedName: String? = nil
     
-    var cautionText: String = ""
-    
+    var remarksText: String = "" //  돌봄시 참고사항
+    var cautionsText: String = "" // 건강관련 주의사항
+     
     @PresentationState var petSpeciesListState: PetSpeciesListFeature.State? = nil
     @PresentationState var addCautionsState: AddCautionsFeature.State? = nil
   }
@@ -94,7 +95,7 @@ struct AddPetFeature: Reducer {
         return .none
         
       case .didTapBottomButton:
-        if state.cautionText.isEmpty  {
+        if state.remarksText.isEmpty  {
           state.addCautionsState = AddCautionsFeature.State()
           return .none
         } else if state.selectedBreedName == nil {
@@ -109,7 +110,7 @@ struct AddPetFeature: Reducer {
         }
         
         else {
-          state.petAge      = DateConverter.calculateAge(state.birthday)
+          state.petAge = DateConverter.calculateAge(state.birthday)
           return .send(.onPetAddComplete(state))
         }
         
@@ -134,8 +135,12 @@ struct AddPetFeature: Reducer {
         state.addCautionsState = nil
         return .none
         
-      case .addCautionsAction(.presented(.onCautionTextChange(let text))):
-        state.cautionText = text
+      case .addCautionsAction(.presented(.onRemarksTextChange(let text))):
+        state.remarksText = text
+        return .none
+        
+      case .addCautionsAction(.presented(.onCautionsTextChange(let text))):
+        state.cautionsText = text
         return .none
         
       case .addCautionsAction(.dismiss):
