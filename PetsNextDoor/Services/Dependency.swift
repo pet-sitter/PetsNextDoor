@@ -55,6 +55,10 @@ extension PND.Dependency {
   enum UserDataCenterKey: DependencyKey {
     static let liveValue: UserDataCenter = UserDataCenter()
   }
+  
+  enum ChatDataProviderKey: DependencyKey {
+    static let liveValue: any ChatDataProvidable = ChatDataProvider()
+  }
 }
 
 extension DependencyValues {
@@ -102,6 +106,11 @@ extension DependencyValues {
   var userDataCenter: UserDataCenter {
     get { self[PND.Dependency.UserDataCenterKey.self] }
     set { self[PND.Dependency.UserDataCenterKey.self] = newValue }
+  }
+  
+  var chatDataProvider: any ChatDataProvidable {
+    get { self[PND.Dependency.ChatDataProviderKey.self] }
+    set { self[PND.Dependency.ChatDataProviderKey.self] = newValue }
   }
 }
 

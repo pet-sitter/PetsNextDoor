@@ -139,6 +139,9 @@
 		DA8BF08A2B5E54CC00370C84 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BF0892B5E54CC00370C84 /* MyPageView.swift */; };
 		DA8BF08E2B5E557900370C84 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BF08D2B5E557900370C84 /* LoginView.swift */; };
 		DA8BF09C2B5E5DEC00370C84 /* SetProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BF09B2B5E5DEC00370C84 /* SetProfileView.swift */; };
+		DA8D20152C1D7790009F2755 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = DA8D20142C1D7790009F2755 /* SocketIO */; };
+		DA8D20182C1D77B1009F2755 /* LiveChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D20172C1D77B1009F2755 /* LiveChatService.swift */; };
+		DA8D20282C206870009F2755 /* ChatDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D20272C206870009F2755 /* ChatDataProvider.swift */; };
 		DA8DF4862AE7FA1E00FA0D9D /* ComponentRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DF4852AE7FA1E00FA0D9D /* ComponentRenderable.swift */; };
 		DA8DF4882AE7FB3400FA0D9D /* ComponentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DF4872AE7FB3400FA0D9D /* ComponentTableViewCell.swift */; };
 		DA8F5A752BF4B1C10031AB75 /* AddPetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8F5A742BF4B1C10031AB75 /* AddPetButtonView.swift */; };
@@ -343,6 +346,8 @@
 		DA8BF0892B5E54CC00370C84 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		DA8BF08D2B5E557900370C84 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DA8BF09B2B5E5DEC00370C84 /* SetProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileView.swift; sourceTree = "<group>"; };
+		DA8D20172C1D77B1009F2755 /* LiveChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatService.swift; sourceTree = "<group>"; };
+		DA8D20272C206870009F2755 /* ChatDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataProvider.swift; sourceTree = "<group>"; };
 		DA8DF4852AE7FA1E00FA0D9D /* ComponentRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentRenderable.swift; sourceTree = "<group>"; };
 		DA8DF4872AE7FB3400FA0D9D /* ComponentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentTableViewCell.swift; sourceTree = "<group>"; };
 		DA8F5A742BF4B1C10031AB75 /* AddPetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetButtonView.swift; sourceTree = "<group>"; };
@@ -430,6 +435,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */,
+				DA8D20152C1D7790009F2755 /* SocketIO in Frameworks */,
 				DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */,
 				DA565D5D2BC7A3E900E6A9FD /* ComposableArchitecture in Frameworks */,
 				DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */,
@@ -731,6 +737,8 @@
 		DA419C952A9B32AF00C76AB9 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				DA8D20172C1D77B1009F2755 /* LiveChatService.swift */,
+				DA8D20272C206870009F2755 /* ChatDataProvider.swift */,
 				DA8BF0862B5E543500370C84 /* ChatListView.swift */,
 				DA38FC2F2AADA17400A81C93 /* ChatListFeature.swift */,
 				DA565D562BC784C000E6A9FD /* ChatRoomView.swift */,
@@ -1175,6 +1183,7 @@
 				DA604D7F2B68AEC5001FE27F /* Kingfisher */,
 				DA565D592BC7A3AF00E6A9FD /* ComposableArchitecture */,
 				DA565D5C2BC7A3E900E6A9FD /* ComposableArchitecture */,
+				DA8D20142C1D7790009F2755 /* SocketIO */,
 			);
 			productName = PetsNextDoor;
 			productReference = DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */;
@@ -1214,6 +1223,7 @@
 				DA4F05202A68021800D7E7A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				DAE6FC622A96013C008BF1F1 /* XCRemoteSwiftPackageReference "Moya" */,
 				DAE121232B030557008EF9AC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				DA8D20132C1D778F009F2755 /* XCRemoteSwiftPackageReference "socket" */,
 			);
 			productRefGroup = DAC6C2CE2A3D7932002D33F8 /* Products */;
 			projectDirPath = "";
@@ -1258,6 +1268,7 @@
 				DA8A34F12A7654900054FE25 /* Colors.swift in Sources */,
 				DA4B2A8D2AFB5C400053217A /* SelectConditionHorizontalComponent.swift in Sources */,
 				DA95347B2AEF8BE100ED21F9 /* HeaderTitleView.swift in Sources */,
+				DA8D20282C206870009F2755 /* ChatDataProvider.swift in Sources */,
 				DA449DFD2ACABBAA0025A397 /* String+Extension.swift in Sources */,
 				DA20157A2ABEF8D600F7516A /* MediaService.swift in Sources */,
 				7C1277FC2A544A0C004A83A4 /* ShortlyConfigurable.swift in Sources */,
@@ -1324,6 +1335,7 @@
 				DADEB6D82AEB9BC1002BED63 /* SectionsBuildable.swift in Sources */,
 				DA95348E2AF0D19800ED21F9 /* HashableViewModel.swift in Sources */,
 				DA3A94722B51241000B3529C /* SegmentButtonControlView.swift in Sources */,
+				DA8D20182C1D77B1009F2755 /* LiveChatService.swift in Sources */,
 				DA20157F2ABEFC2200F7516A /* UploadMediaResponseModel.swift in Sources */,
 				DAAD52E82A7CBF5200227BB5 /* IdentifierProvidable.swift in Sources */,
 				DA86A0FA2A62741700525711 /* Server.swift in Sources */,
@@ -1707,6 +1719,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		DA8D20132C1D778F009F2755 /* XCRemoteSwiftPackageReference "socket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		DAE121232B030557008EF9AC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -1804,6 +1824,11 @@
 		DA86A1012A62792D00525711 /* RswiftGenerateInternalResources */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "plugin:RswiftGenerateInternalResources";
+		};
+		DA8D20142C1D7790009F2755 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA8D20132C1D778F009F2755 /* XCRemoteSwiftPackageReference "socket" */;
+			productName = SocketIO;
 		};
 		DAE121242B030558008EF9AC /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

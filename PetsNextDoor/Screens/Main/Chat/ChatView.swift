@@ -11,6 +11,8 @@ import ComposableArchitecture
 @Reducer
 struct ChatFeature: Reducer {
   
+  @Dependency(\.chatDataProvider) var chatDataProvider
+  
   @ObservableState
   struct State: Equatable {
     
@@ -19,7 +21,7 @@ struct ChatFeature: Reducer {
   enum Action: RestrictiveAction, BindableAction {
 
     enum ViewAction: Equatable {
-      
+      case onAppear
     }
     
     enum InternalAction: Equatable {
@@ -41,9 +43,24 @@ struct ChatFeature: Reducer {
   var body: some Reducer<State, Action> {
     BindingReducer()
     Reduce { state, action in
-      return .none 
+      switch action {
+      case .view(.onAppear):
+        
+      case .internal:
+        break
+      case .delegate:
+        break
+      case .binding:
+        break
+      }
     }
   }
+  
+  private func asd() -> Effect<Action> {
+    
+  }
+  
+  
 }
 
 struct ChatView: View {
@@ -72,6 +89,19 @@ struct ChatView: View {
       }
       .environment(\.defaultMinListRowHeight, 0)
       .listStyle(.plain)
+    }
+    .onAppear {
+      store.send(.view(.onAppear))
+//
+//      ChatClient.shared.connect(username: "kevinkim2586")
+//          ChatClient.shared.receiveMessage { username, text, id in
+//            print("✅ receiveMessage: \(username)")
+////              self.receiveMessage(username: username, text: text, id: id)
+//          }
+//          ChatClient.shared.receiveNewUser { username, users in
+//            print("✅ receiveNewUser: \(username)")
+////              self.receiveNewUser(username: username, users: users)
+//          }
     }
   }
   
