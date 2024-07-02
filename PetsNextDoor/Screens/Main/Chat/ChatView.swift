@@ -5,8 +5,25 @@
 //  Created by kevinkim2586 on 2024/05/24.
 //
 
-import SwiftUI
 import ComposableArchitecture
+
+
+
+
+enum ChatType: Equatable, Identifiable {
+
+	case text(ChatTextBubbleViewModel)
+//	case image
+	
+	var id: String {
+		switch self {
+		case .text(let vm):
+			return vm.id
+		}
+	}
+}
+
+
 
 @Reducer
 struct ChatFeature: Reducer {
@@ -16,7 +33,8 @@ struct ChatFeature: Reducer {
   @ObservableState
 	struct State: Equatable {
 
-		var chatViewModels: [ChatBubbleViewModel] = []
+		var chats: [ChatType] = []
+
   }
   
   enum Action: RestrictiveAction, BindableAction {
@@ -26,7 +44,7 @@ struct ChatFeature: Reducer {
     }
     
     enum InternalAction: Equatable {
-			case setInitialChatVMs([ChatBubbleViewModel])
+			case setInitialChatVMs([ChatTextBubbleViewModel])
     }
     
     enum DelegateAction: Equatable {
@@ -54,7 +72,7 @@ struct ChatFeature: Reducer {
 				// Internal
 				
 			case .internal(.setInitialChatVMs(let chatVMs)):
-				state.chatViewModels = chatVMs
+//				state.chatViewModels = chatVMs
 				return .none
 				
 			case .internal:
@@ -71,15 +89,33 @@ struct ChatFeature: Reducer {
 			return .none
     }
   }
-  
 	
-  
+	
+	
+	
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+import SwiftUI
+import Kingfisher
 
 struct ChatView: View {
   
   @State var store: StoreOf<ChatFeature>
-  
 
 	var body: some View {
 		ScrollViewReader { proxy in
@@ -87,8 +123,13 @@ struct ChatView: View {
 			topNavigationBarView
 			
 			SwiftUI.List {
-				ForEach($store.chatViewModels, id: \.id) { vm in
-					ChatBubbleView(viewModel: vm)
+				ForEach(store.chats, id: \.id) { chatType in
+					switch chatType {
+					case .text(let vm):
+						ChatTextBubbleView(viewModel: vm)
+					}
+			
+
 				}
 				
 		
@@ -164,31 +205,24 @@ struct ChatView: View {
 }
 
 
-struct ChatBubbleViewModel: Equatable {
+struct ChatTextBubbleViewModel: Equatable {
 	
 	var id: String = UUID().uuidString
-	let chatBubbleType: BubbleType = .text
+
 	
 	let body: String
 	let isMyChat: Bool
 
-	enum BubbleType {
-		case text
-	}
 }
 
-struct ChatBubbleView: View {
+
+struct ChatTextBubbleView: View {
 	
-	@Binding var viewModel: ChatBubbleViewModel
+	var viewModel: ChatTextBubbleViewModel
 	
 	var body: some View {
 		VStack(spacing: 0) {
-			
-			switch viewModel.chatBubbleType {
-			case .text:
-				chatTextView
-			}
-
+			chatTextView
 		}
 		.background(.white)
 		.listRowSeparator(.hidden)
@@ -197,24 +231,53 @@ struct ChatBubbleView: View {
 	}
 	
 	var chatTextView: some View {
-		Text(viewModel.body)
-			.multilineTextAlignment(.leading)
-			.lineLimit(nil)
-			.fixedSize(horizontal: false, vertical: true)
-			.foregroundStyle(viewModel.isMyChat ? PND.DS.commonWhite : PND.DS.commonBlack)
-			.padding(.horizontal, 16)
-			.padding(.vertical, 10)
-			.background(viewModel.isMyChat ? PND.DS.primary : PND.DS.gray20)
-			.clipShape(
-				.rect(
-					topLeadingRadius: viewModel.isMyChat ? 20 : 0,
-					bottomLeadingRadius: 20,
-					bottomTrailingRadius: 20,
-					topTrailingRadius: viewModel.isMyChat ? 0 : 20
+		HStack(alignment: .top, spacing: 0) {
+//			if viewModel.isMyChat == false {
+//				profileView
+//			}
+//		
+			Text(viewModel.body)
+				.multilineTextAlignment(.leading)
+				.lineLimit(nil)
+				.fixedSize(horizontal: false, vertical: true)
+				.foregroundStyle(viewModel.isMyChat ? PND.DS.commonWhite : PND.DS.commonBlack)
+				.padding(.horizontal, 16)
+				.padding(.vertical, 10)
+				.background(viewModel.isMyChat ? PND.DS.primary : PND.DS.gray20)
+				.clipShape(
+					.rect(
+						topLeadingRadius: viewModel.isMyChat ? 20 : 0,
+						bottomLeadingRadius: 20,
+						bottomTrailingRadius: 20,
+						topTrailingRadius: viewModel.isMyChat ? 0 : 20
+					)
 				)
-			)
-			.padding(.vertical, 10)
-			.modifier(ChatBubbleSpaceModifier(isMyChat: viewModel.isMyChat))
+				.padding(.top, viewModel.isMyChat ? 5 : 30)
+				.padding(.bottom, viewModel.isMyChat ? 24 : 40)
+				.modifier(ChatBubbleSpaceModifier(isMyChat: viewModel.isMyChat))
+				.overlay(
+					alignment: .topLeading,
+					content: {
+						if !viewModel.isMyChat {
+							profileView
+								.offset(x: -10, y: -10)
+						}
+					})
+				
+			
+		}
+	}
+	
+	var profileView: some View {
+		HStack(spacing: 0) {
+			KFImage.url(MockDataProvider.randomePetImageUrl)
+				.resizable()
+				.frame(width: 36, height: 36)
+				.clipShape(Circle())
+				.padding(.leading, PND.Metrics.defaultSpacing)
+			
+			Text("호두 언니")
+		}
 	}
 }
 
@@ -229,7 +292,7 @@ struct ChatBubbleSpaceModifier: ViewModifier {
 			if isMyChat {
 				Spacer(minLength: 72)
 			} else {
-				Spacer().frame(width: 40)
+				Spacer().frame(width: 42)
 			}
 			
 			content

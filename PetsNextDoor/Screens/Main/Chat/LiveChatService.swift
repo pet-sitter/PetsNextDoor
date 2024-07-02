@@ -6,27 +6,80 @@
 //
 
 import Foundation
+import Combine
 import SocketIO
 
 
 protocol ChatServiceProvidable {
   
   var delegate: (any ChatServiceDelegate)? { get set }
-  
+}
 
+protocol SocketServiceProvidable {
+	
+	var socket: SocketIOClient { get }
+	
+	init(socketURL: URL)
+	
+	func connect()
+	func disconnect()
 }
 
 protocol ChatServiceDelegate: AnyObject {
   func onReceiveNewUser()
-  func onReceiveMessage()
+	func onReceiveNewChat(_ chatModel: PND.ChatModel)
   
 }
 
 
-final class LiveChatService: ChatServiceProvidable {
+extension PND {
+	struct ChatModel: Codable {
+		
+		var id: String = UUID().uuidString
+		
+		let textBody: String
+	}
+}
+
+
+
+
+
+
+final class MockLiveChatService: ChatServiceProvidable {
+	
+	weak var delegate: (any ChatServiceDelegate)?
+	
+	private var timerSubscription: AnyCancellable?
+	
+	init() {
+		beginGeneratingMockChatMessages()
+	}
+	
+	private func beginGeneratingMockChatMessages() {
+		
+		timerSubscription = Timer
+			.publish(every: 3.0, on: .main, in: .common)
+			.autoconnect()
+			.sink { [weak self] _ in
+				self?.delegate?.onReceiveNewChat(PND.ChatModel(textBody: MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!))
+			}
+	}
+	
+	func stopGeneratingMockChatMessages() {
+		timerSubscription?.cancel()
+		timerSubscription = nil
+	}
+}
+
+
+
+
+
+final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   
-  private let socketManager: SocketManager
-  private let socket: SocketIOClient
+  private(set) var socketManager: SocketManager
+  private(set) var socket: SocketIOClient
   
   weak var delegate: (any ChatServiceDelegate)?
   
@@ -60,7 +113,7 @@ final class LiveChatService: ChatServiceProvidable {
       
       
       
-      self?.delegate?.onReceiveMessage()
+//      self?.delegate?.onReceiveNewChat()
     }
     
     socket.on("receiveNewUser") { [weak self] data, _ in

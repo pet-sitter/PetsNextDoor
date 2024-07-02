@@ -15,9 +15,10 @@ final class ChatDataProvider: ChatDataProvidable {
   private var chatService: any ChatServiceProvidable
   
   init() {
-    self.chatService = LiveChatService(
-      socketURL: URL(string: "http://localhost:3000")!
-    )
+//    self.chatService = LiveChatService(
+//      socketURL: URL(string: "http://localhost:3000")!
+//    )
+		self.chatService = MockLiveChatService()
     self.chatService.delegate = self
   }
 }
@@ -28,7 +29,7 @@ extension ChatDataProvider: ChatServiceDelegate {
     
   }
   
-  func onReceiveMessage() {
+	func onReceiveNewChat(_ chatModel: PND.ChatModel) {
     
   }
   
