@@ -11,6 +11,8 @@ import SocketIO
 
 
 protocol ChatServiceProvidable {
+	
+	func connect()
   
   var delegate: (any ChatServiceDelegate)? { get set }
 }
@@ -26,6 +28,9 @@ protocol SocketServiceProvidable {
 }
 
 protocol ChatServiceDelegate: AnyObject {
+	
+	func onConnect()
+	func onDisconnect()
   func onReceiveNewUser()
 	func onReceiveNewChat(_ chatModel: PND.ChatModel)
   
@@ -53,17 +58,28 @@ final class MockLiveChatService: ChatServiceProvidable {
 	private var timerSubscription: AnyCancellable?
 	
 	init() {
+	}
+	
+	func connect() {
 		beginGeneratingMockChatMessages()
 	}
 	
 	private func beginGeneratingMockChatMessages() {
 		
 		timerSubscription = Timer
-			.publish(every: 3.0, on: .main, in: .common)
+			.publish(every: 2.5, on: .main, in: .common)
 			.autoconnect()
 			.sink { [weak self] _ in
-				self?.delegate?.onReceiveNewChat(PND.ChatModel(textBody: MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!))
+				self?.delegate?.onReceiveNewChat(
+					PND.ChatModel(
+						textBody: MockDataProvider.chatBubbleViewModels
+							.map(\.body)
+							.randomElement()!
+					)
+				)
 			}
+		
+		delegate?.onConnect()
 	}
 	
 	func stopGeneratingMockChatMessages() {
@@ -106,12 +122,7 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     
     socket.on("receiveMessage") { [weak self] data, _ in
       
-      
-      
-      
-      
-      
-      
+		
       
 //      self?.delegate?.onReceiveNewChat()
     }
@@ -175,3 +186,15 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
 //    }
 //  }
 //}
+
+
+//
+//      ChatClient.shared.connect(username: "kevinkim2586")
+//          ChatClient.shared.receiveMessage { username, text, id in
+//            print("✅ receiveMessage: \(username)")
+////              self.receiveMessage(username: username, text: text, id: id)
+//          }
+//          ChatClient.shared.receiveNewUser { username, users in
+//            print("✅ receiveNewUser: \(username)")
+////              self.receiveNewUser(username: username, users: users)
+//          }

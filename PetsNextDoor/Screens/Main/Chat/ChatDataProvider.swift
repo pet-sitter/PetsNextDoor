@@ -6,14 +6,20 @@
 
 import Foundation
 
-protocol ChatDataProvidable {
-  
-}
 
-final class ChatDataProvider: ChatDataProvidable {
-  
+final class ChatDataProvider {
+
   private var chatService: any ChatServiceProvidable
-  
+	
+	
+	enum Action: Equatable {
+		case onConnect
+		case onDisconnect
+		case onReceiveNewChatType(ChatType)
+	}
+	
+	var continuation: AsyncStream<Action>.Continuation!
+	
   init() {
 //    self.chatService = LiveChatService(
 //      socketURL: URL(string: "http://localhost:3000")!
@@ -21,18 +27,51 @@ final class ChatDataProvider: ChatDataProvidable {
 		self.chatService = MockLiveChatService()
     self.chatService.delegate = self
   }
+	
+	func observeChatActionStream() -> AsyncStream<Action> {
+		let stream = AsyncStream<Action> { continuation in
+			continuation.onTermination = { _ in
+					// socket.cancel()
+				
+			}
+			
+
+			self.continuation = continuation
+		}
+		
+		
+		chatService.connect()
+		
+		
+		return stream
+	}
 }
 
 extension ChatDataProvider: ChatServiceDelegate {
+	
+	func onConnect() {
+		continuation.yield(.onConnect)
+	}
+	
+	func onDisconnect() {
+		continuation.yield(.onDisconnect)
+	}
   
   func onReceiveNewUser() {
-    
+		
   }
   
 	func onReceiveNewChat(_ chatModel: PND.ChatModel) {
-    
+		continuation.yield(
+			.onReceiveNewChatType(
+				ChatType.text(
+					ChatTextBubbleViewModel(
+						body: "123213",
+						isMyChat: true
+					)
+				)
+			)
+		)
   }
-  
-  
 }
 

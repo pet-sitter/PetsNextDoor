@@ -6,14 +6,11 @@
 //
 
 import ComposableArchitecture
-
-
-
+import SwiftUI
 
 enum ChatType: Equatable, Identifiable {
 
 	case text(ChatTextBubbleViewModel)
-//	case image
 	
 	var id: String {
 		switch self {
@@ -22,7 +19,6 @@ enum ChatType: Equatable, Identifiable {
 		}
 	}
 }
-
 
 
 @Reducer
@@ -35,8 +31,17 @@ struct ChatFeature: Reducer {
 
 		var chats: [ChatType] = []
 
+		var connectivityState = ConnectivityState.disconnected
+		
+		
+		enum ConnectivityState: String {
+			case connecting
+			case connected
+			case disconnected
+		}
   }
-  
+	
+
   enum Action: RestrictiveAction, BindableAction {
 
     enum ViewAction: Equatable {
@@ -44,7 +49,7 @@ struct ChatFeature: Reducer {
     }
     
     enum InternalAction: Equatable {
-			case setInitialChatVMs([ChatTextBubbleViewModel])
+			case chatDataProviderAction(ChatDataProvider.Action)
     }
     
     enum DelegateAction: Equatable {
@@ -56,9 +61,16 @@ struct ChatFeature: Reducer {
     case `internal`(InternalAction)
     
     case binding(BindingAction<State>)
-    
   }
-  
+	
+	enum CancellableID {
+		
+	}
+	
+	init() {
+		
+	}
+	
   var body: some Reducer<State, Action> {
 		BindingReducer()
 		Reduce { state, action in
@@ -67,16 +79,23 @@ struct ChatFeature: Reducer {
 				
 				// View
 			case .view(.onAppear):
-				return .send(.internal(.setInitialChatVMs(MockDataProvider.chatBubbleViewModels)))
+				return observeChatActionStream()
 				
 				// Internal
 				
-			case .internal(.setInitialChatVMs(let chatVMs)):
-//				state.chatViewModels = chatVMs
+			case .internal(.chatDataProviderAction(.onConnect)):
 				return .none
 				
-			case .internal:
-				break
+			case .internal(.chatDataProviderAction(.onDisconnect)):
+				return .none
+				
+			case .internal(.chatDataProviderAction(.onReceiveNewChatType(let chatType))):
+				state.chats.append(chatType)
+				return .none
+				
+
+				
+
 				
 				// Delegate
 			case .delegate:
@@ -86,22 +105,40 @@ struct ChatFeature: Reducer {
 			case .binding:
 				break
       }
+			
+			
+			
 			return .none
-    }
-  }
+		}
+	}
 	
-	
-	
-	
-	
-	
+
+	private func observeChatActionStream() -> Effect<Action> {
+		return .run { send in
+			
+			let actions = chatDataProvider.observeChatActionStream()
+			
+			await withThrowingTaskGroup(of: Void.self) { group in
+				
+				for await action in actions {
+					group.addTask { await send(.internal(.chatDataProviderAction(action))) }
+					
+					switch action {
+					case .onConnect:
+						break
+						 
+					case .onDisconnect:
+						break
+						
+					default: break
+					}
+				}
+			}
+			
+		}
+	}
 	
 }
-
-
-
-
-
 
 
 
@@ -140,16 +177,6 @@ struct ChatView: View {
     }
     .onAppear {
       store.send(.view(.onAppear))
-//
-//      ChatClient.shared.connect(username: "kevinkim2586")
-//          ChatClient.shared.receiveMessage { username, text, id in
-//            print("✅ receiveMessage: \(username)")
-////              self.receiveMessage(username: username, text: text, id: id)
-//          }
-//          ChatClient.shared.receiveNewUser { username, users in
-//            print("✅ receiveNewUser: \(username)")
-////              self.receiveNewUser(username: username, users: users)
-//          }
     }
   }
   
@@ -209,7 +236,6 @@ struct ChatTextBubbleViewModel: Equatable {
 	
 	var id: String = UUID().uuidString
 
-	
 	let body: String
 	let isMyChat: Bool
 
