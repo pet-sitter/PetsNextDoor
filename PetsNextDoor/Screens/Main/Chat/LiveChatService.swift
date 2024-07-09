@@ -43,6 +43,8 @@ extension PND {
 		var id: String = UUID().uuidString
 		
 		let textBody: String
+    
+    let isMyChat: Bool
 	}
 }
 
@@ -67,14 +69,15 @@ final class MockLiveChatService: ChatServiceProvidable {
 	private func beginGeneratingMockChatMessages() {
 		
 		timerSubscription = Timer
-			.publish(every: 2.5, on: .main, in: .common)
+			.publish(every: 3.5, on: .main, in: .common)
 			.autoconnect()
 			.sink { [weak self] _ in
 				self?.delegate?.onReceiveNewChat(
 					PND.ChatModel(
 						textBody: MockDataProvider.chatBubbleViewModels
 							.map(\.body)
-							.randomElement()!
+							.randomElement()!,
+            isMyChat: [true, false].randomElement()!
 					)
 				)
 			}

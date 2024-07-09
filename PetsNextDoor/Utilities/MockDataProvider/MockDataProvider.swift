@@ -122,5 +122,36 @@ struct MockDataProvider {
 		]
 	}
 	
-	
+  static var chatTypes: [ChatViewType] {
+    var chatTypes: [ChatViewType] = []
+    
+    var previousChatBubbleVM: ChatTextBubbleViewModel? = nil
+    
+    chatBubbleViewModels
+      .enumerated()
+      .forEach { index, vm in
+        chatTypes.append(ChatViewType.text(vm))
+        
+        if let previousChatBubbleVM {
+          
+          if previousChatBubbleVM.isMyChat == vm.isMyChat {
+            chatTypes.append(ChatViewType.spacer(height: 4))
+          } else {
+            chatTypes.append(ChatViewType.spacer(height: 10))
+          }
+          
+          
+        } else { // 0번째 index
+          
+        }
+        
+        previousChatBubbleVM = vm
+
+     
+      }
+    
+    return chatTypes
+
+  }
+
 }

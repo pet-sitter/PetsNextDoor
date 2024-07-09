@@ -6,19 +6,21 @@
 
 import Foundation
 
-
 final class ChatDataProvider {
+  
+  enum Action: Equatable {
+    case onConnect
+    case onDisconnect
+    case onReceiveNewChatType([ChatViewType])
+  }
 
   private var chatService: any ChatServiceProvidable
+  
+  
+  
+  private var chatModels: [PND.ChatModel] = []
 	
-	
-	enum Action: Equatable {
-		case onConnect
-		case onDisconnect
-		case onReceiveNewChatType(ChatType)
-	}
-	
-	var continuation: AsyncStream<Action>.Continuation!
+	private var continuation: AsyncStream<Action>.Continuation!
 	
   init() {
 //    self.chatService = LiveChatService(
@@ -45,6 +47,44 @@ final class ChatDataProvider {
 		
 		return stream
 	}
+  
+  func sendChat(text: String) {
+    
+    let newChatModel: PND.ChatModel = PND.ChatModel(textBody: text, isMyChat: true)
+    
+    var chatViewTypes: [ChatViewType] = []
+    
+    if let lastChatModel = chatModels.last {
+      if lastChatModel.isMyChat == newChatModel.isMyChat {
+        chatViewTypes.append(ChatViewType.spacer(height: 4))
+      } else {
+        chatViewTypes.append(ChatViewType.spacer(height: 10))
+      }
+    } else { // 첫번째 Chat
+      chatViewTypes.append(ChatViewType.spacer(height: 4))
+    }
+    
+    
+    chatViewTypes.append(ChatViewType.text(
+      ChatTextBubbleViewModel(
+        body: newChatModel.textBody,
+        isMyChat: newChatModel.isMyChat
+      )
+    ))
+    
+    chatModels.append(newChatModel)
+    
+    
+    continuation.yield(.onReceiveNewChatType(chatViewTypes))
+    
+  }
+}
+
+// Utility Methods
+
+extension ChatDataProvider {
+  
+
 }
 
 extension ChatDataProvider: ChatServiceDelegate {
@@ -62,16 +102,29 @@ extension ChatDataProvider: ChatServiceDelegate {
   }
   
 	func onReceiveNewChat(_ chatModel: PND.ChatModel) {
-		continuation.yield(
-			.onReceiveNewChatType(
-				ChatType.text(
-					ChatTextBubbleViewModel(
-						body: "123213",
-						isMyChat: true
-					)
-				)
-			)
-		)
+
+    var chatViewTypes: [ChatViewType] = []
+    
+    if let lastChatModel = chatModels.last {
+      if lastChatModel.isMyChat == chatModel.isMyChat {
+        chatViewTypes.append(ChatViewType.spacer(height: 4))
+      } else {
+        chatViewTypes.append(ChatViewType.spacer(height: 10))
+      }
+    } else { // 첫번째 Chat
+      chatViewTypes.append(ChatViewType.spacer(height: 4))
+    }
+  
+    chatViewTypes.append(ChatViewType.text(
+      ChatTextBubbleViewModel(
+        body: chatModel.textBody,
+        isMyChat: chatModel.isMyChat
+      )
+    ))
+    
+    self.chatModels.append(chatModel)
+
+		continuation.yield(.onReceiveNewChatType(chatViewTypes))
   }
 }
 
