@@ -14,12 +14,12 @@ final class ChatDataProvider {
     case onReceiveNewChatType([ChatViewType])
   }
 
-
   private var chatService: any ChatServiceProvidable
   
   private(set) var chatModels: [PND.ChatModel] = []
 	
 	private var continuation: AsyncStream<Action>.Continuation!
+  
 	
   init() {
     self.chatService = LiveChatService(
@@ -28,12 +28,12 @@ final class ChatDataProvider {
     )
     chatService.delegate = self
   }
+  
 	
 	func observeChatActionStream() -> AsyncStream<Action> {
 		let stream = AsyncStream<Action> { continuation in
-			continuation.onTermination = { _ in
-					// socket.cancel()
-				
+			continuation.onTermination = { [weak self] _ in
+        self?.chatService.disconnect()
 			}
     
 			self.continuation = continuation
@@ -44,11 +44,6 @@ final class ChatDataProvider {
 	}
   
   func sendChat(text: String) {
-    
-    
-    
-    
-    
     chatService.sendMessage(text)
   }
 }

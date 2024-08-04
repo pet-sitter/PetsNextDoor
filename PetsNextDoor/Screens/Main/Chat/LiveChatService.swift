@@ -15,6 +15,7 @@ protocol ChatServiceProvidable {
   var delegate: (any ChatServiceDelegate)? { get set }
 	
 	func connect()
+  func disconnect()
   func sendMessage(_ message: String)
 }
 
@@ -27,9 +28,7 @@ protocol SocketServiceProvidable: WebSocketDelegate {
   var configuration: Configuration { get }
 	
   init(socketURL: URL, configuration: Configuration)
-	
-	func connect()
-	func disconnect()
+
 }
 
 
@@ -157,6 +156,8 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
 final class MockLiveChatService: ChatServiceProvidable {
 
   
+
+  
   weak var delegate: (any ChatServiceDelegate)?
   
   private var timerSubscription: AnyCancellable?
@@ -166,6 +167,11 @@ final class MockLiveChatService: ChatServiceProvidable {
   
   func connect() {
     beginGeneratingMockChatMessages()
+  }
+  
+  func disconnect() {
+    timerSubscription?.cancel()
+    timerSubscription = nil
   }
   
   func sendMessage(_ message: String) {

@@ -37,7 +37,6 @@ struct ChatFeature: Reducer {
     
     var textFieldText: String = ""
     
-    var isAtBottomPosition: Bool = false
 
 		var connectivityState = ConnectivityState.disconnected
 		enum ConnectivityState: String {
@@ -88,7 +87,6 @@ struct ChatFeature: Reducer {
 				
 				// View
 			case .view(.onAppear):
-//        state.chats = MockDataProvider.chatTypes
 				return observeChatActionStream()
 
 				// Internal
@@ -162,58 +160,63 @@ struct ChatFeature: Reducer {
 
 
 
-
 import SwiftUI
 import Kingfisher
 
 struct ChatView: View {
   
   @State var store: StoreOf<ChatFeature>
-  
-  @Namespace private var bottomOfChatList
-  
 
-  @ViewBuilder
-  func chatTextBubbleView(vm: ChatTextBubbleViewModel) -> some View {
-    ChatTextBubbleView(viewModel: vm)
-  }
+  @Namespace private var bottomOfChatList
+  @State private var isAtBottomPosition: Bool = false
 
 	var body: some View {
 		ScrollViewReader { proxy in
-			
-			
-			SwiftUI.List {
-				ForEach(store.chats, id: \.id) { chatType in
+      ZStack {
+        SwiftUI.List {
           
-          switch chatType {
-          case .text(let vm):
-            ChatTextBubbleView(viewModel: vm)
-            
-          case .spacer(let height):
-            chatSpacer(height: height)
+          ForEach(store.chats, id: \.id) { chatType in
+            switch chatType {
+            case .text(let vm):
+              ChatTextBubbleView(viewModel: vm)
+              
+            case .spacer(let height):
+              chatSpacer(height: height)
+            }
           }
           
-
-
+          Spacer()
+            .frame(height: PND.Metrics.defaultSpacing)
+          
+          Color.clear
+            .frame(height: 1)
+            .modifier(PlainListModifier())
+            .onAppear       { isAtBottomPosition = true }
+            .onDisappear()  { isAtBottomPosition = false }
+            .id(bottomOfChatList)
+        }
+        .environment(\.defaultMinListRowHeight, 0)
+        .listStyle(.plain)
+        .onChange(of: store.chats) { _, _ in
+          if isAtBottomPosition {
+            DispatchQueue.main.async {
+              withAnimation() {
+                proxy.scrollTo(bottomOfChatList, anchor: .bottom)
+              }
+            }
+          }
         }
         
+        // TextField
+        VStack {
+          Spacer()
+          chatTextFieldView()
+        }
         
-      
-        HStack { Spacer() }
-          .id(bottomOfChatList)
-          .modifier(PlainListModifier())
-			}
-      .environment(\.defaultMinListRowHeight, 0)
-      .listStyle(.plain)
-      .onChange(of: store.chats) { oldValue, newValue in
 
-      }
-      .onChange(of: store.isAtBottomPosition) { oldValue, newValue in
-          print("✅ isAtBottomPosition: \(newValue)")
-      }
-      
-      chatTextFieldView(scrollViewProxy: proxy)
-      
+        
+      } // ZStack
+
     }
     .toolbar {
       ToolbarItemGroup(placement: .topBarLeading) {
@@ -255,7 +258,7 @@ struct ChatView: View {
   
 
   @ViewBuilder
-  private func chatTextFieldView(scrollViewProxy: ScrollViewProxy) -> some View {
+  private func chatTextFieldView() -> some View {
     HStack(spacing: 0) {
       
       Button(action: {
@@ -286,12 +289,6 @@ struct ChatView: View {
       
       Button(action: {
         store.send(.view(.onSendChatButtonTap))
-        DispatchQueue.main.async {
-          withAnimation(.easeOut(duration: 0.5)) {
-            scrollViewProxy.scrollTo(bottomOfChatList, anchor: .bottom)
-          }
-        }
-
       }, label: {
         Image(systemName: "envelope")
           .frame(width: 24, height: 24)
@@ -303,6 +300,7 @@ struct ChatView: View {
       })
     }
     .padding(.horizontal, 12)
+    .modifier(PlainListModifier())
   }
   
   @ViewBuilder
@@ -422,7 +420,7 @@ struct ChatTextBubbleView: View {
 
 
 
-#Preview {
-  ChatView(store: .init(initialState: .init(), reducer: { ChatFeature()}))
-}
+//#Preview {
+//  ChatView(store: .init(initialState: .init(), reducer: { ChatFeature()}))
+//}
 

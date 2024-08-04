@@ -35,8 +35,8 @@ struct PNDRootFeature: Reducer {
     Reduce<State, Action> { state, action in
       switch action {
       case .onAppear:
-        state = .login(state: LoginFeature.State())
-//        state = .mainTab(state: MainTabBarFeature.State())
+//        state = .login(state: LoginFeature.State())
+        state = .mainTab(state: MainTabBarFeature.State())
 //        if let isLoggedIn = userDefaultsManager.get(.isLoggedIn) as? Bool, isLoggedIn == true {
 //          state = .mainTab(state: MainTabBarFeature.State())
 //        } else {
