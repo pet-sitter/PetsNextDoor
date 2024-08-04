@@ -43,7 +43,7 @@ struct MeetingCardView: View {
         
         HStack(alignment: .center, spacing: 4) {
           
-					Image(R.image.person_2)
+          Image(.person2)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 16, height: 16)

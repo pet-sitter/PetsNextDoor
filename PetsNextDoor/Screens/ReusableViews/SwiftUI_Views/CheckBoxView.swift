@@ -15,7 +15,8 @@ struct CheckBoxView: View {
     Button(action: {
       isSelected.toggle()
     }, label: {
-      Image(isSelected ? R.image.checkbox_selected : R.image.checkboxUnselected)
+      Image(isSelected ? .checkboxSelected : .checkboxUnselected)
+
         .resizable()
         .scaledToFit()
         .frame(width: 24, height: 24)

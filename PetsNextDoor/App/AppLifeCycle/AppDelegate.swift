@@ -5,7 +5,6 @@
 //  Created by kevinkim2586 on 2023/06/17.
 //
 import SwiftUI
-
 import ComposableArchitecture
 import FirebaseCore
 import GoogleSignIn
@@ -336,23 +335,23 @@ struct MainTabBarView: View {
     func image(isSelected: Bool) -> Image {
       switch self {
       case .home:
-        Image(isSelected ? R.image.icon_home_selected : R.image.icon_home)
+        Image(isSelected ? .iconHomeSelected : .iconHome)
           .resizable()
         
       case .community:
-        Image(isSelected ? R.image.icon_community_selected : R.image.icon_community)
+        Image(isSelected ? .iconCommunitySelected : .iconCommunity)
           .resizable()
         
       case .chatList:
-        Image(isSelected ? R.image.icon_chat_selected : R.image.icon_chat)
+        Image(isSelected ? .iconChatSelected : .iconChat)
           .resizable()
         
       case .calendar:
-        Image(isSelected ? R.image.icon_calendar_selected : R.image.icon_calendar)
+        Image(isSelected ? .iconCalendarSelected : .iconCalendar)
           .resizable()
         
       case .myPage:
-        Image(isSelected ? R.image.icon_user_selected : R.image.icon_user)
+        Image(isSelected ? .iconUserSelected : .iconUser)
           .resizable()
       }
     }
@@ -392,5 +391,13 @@ extension AppDelegate {
     options: [UIApplication.OpenURLOptionsKey: Any] = [:]
   ) -> Bool {
     return GIDSignIn.sharedInstance.handle(url)
+  }
+}
+
+extension UINavigationController {
+  
+  open override func viewWillLayoutSubviews() {
+    super.viewWillLayoutSubviews()
+    navigationBar.topItem?.backButtonDisplayMode = .minimal
   }
 }

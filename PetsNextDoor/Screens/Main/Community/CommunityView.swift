@@ -49,7 +49,7 @@ struct CommunityView: View {
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
             HStack {
-              Image(R.image.icon_pin_nav_bar)
+              Image(.iconPinNavBar)
                 .frame(width: 24, height: 24)
               
               ZStack {

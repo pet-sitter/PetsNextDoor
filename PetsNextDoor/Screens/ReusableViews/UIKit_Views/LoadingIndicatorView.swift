@@ -30,7 +30,7 @@ final class LoadingIndicatorView: UIView {
     self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     
     activityIndicator = UIActivityIndicatorView(style: .large)
-    activityIndicator.color = UIColor(resource: R.color.mainColor)
+    activityIndicator.color = PND.Colors.primary
     self.addSubview(activityIndicator)
     
     activityIndicator.snp.makeConstraints {

@@ -50,7 +50,7 @@ struct SelectCategoryView_SwiftUI: View {
 
       Spacer().frame(width: 4)
       
-      Image(R.image.icon_arr_down)
+      Image(.iconArrDown)
         .resizable()
         .frame(width: 16, height: 16)
       
@@ -70,7 +70,7 @@ struct SelectCategoryView_SwiftUI: View {
     }, label: {
       HStack(spacing: 2) {
         if filterOption == animalFilter {
-          Image(R.image.icon_check)
+          Image(.iconCheck)
             .resizable()
             .frame(width: 12, height: 12)
         }

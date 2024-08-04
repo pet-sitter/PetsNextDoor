@@ -100,7 +100,7 @@ final class UrgentPostCardView: UIView, HeightProvidable {
     calendarImageView = UIImageView()
     calendarImageView.set {
       dateStackView.addArrangedSubview($0)
-      $0.image = UIImage(resource: R.image.icon_cal)
+      $0.image = UIImage(resource: .iconCal)
       $0.tintColor = PND.Colors.commonOrange
       $0.snp.makeConstraints {
         $0.width.height.equalTo(16)
@@ -124,7 +124,7 @@ final class UrgentPostCardView: UIView, HeightProvidable {
     locationImageView = UIImageView()
     locationImageView.set {
       locationStackView.addArrangedSubview($0)
-      $0.image = UIImage(resource: R.image.icon_pin)
+      $0.image = UIImage(resource: .iconPin)
       $0.snp.makeConstraints {
         $0.width.height.equalTo(16)
       }
@@ -147,7 +147,7 @@ final class UrgentPostCardView: UIView, HeightProvidable {
     costImageView = UIImageView()
     costImageView.set {
       costStackView.addArrangedSubview($0)
-      $0.image = UIImage(resource: R.image.icon_pay)
+      $0.image = UIImage(resource: .iconPay)
       $0.tintColor = PND.Colors.commonOrange
       $0.snp.makeConstraints {
         $0.width.height.equalTo(16)

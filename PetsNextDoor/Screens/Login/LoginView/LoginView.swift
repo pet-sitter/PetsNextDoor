@@ -40,8 +40,7 @@ struct LoginView: View {
   
   private var contentView: some View {
     VStack {
-      
-      Image(R.image.loginImage)
+      Image(.login)
         .resizable()
         .frame(width: 200, height: 120)
       
@@ -52,21 +51,21 @@ struct LoginView: View {
         Button(action: {
           store.send(.view(.didTapGoogleLogin))
         }, label: {
-          Image(R.image.googleLogin)
+          Image(.googleLogin)
             .frame(width: 67, height: 67)
         })
         
         Button(action: {
           
         }, label: {
-          Image(R.image.kakaoLogin)
+          Image(.kakaoLogin)
             .frame(width: 67, height: 67)
         })
         
         Button(action: {
           
         }, label: {
-          Image(R.image.appleLogin)
+          Image(.appleLogin)
             .frame(width: 67, height: 67)
         })
       }

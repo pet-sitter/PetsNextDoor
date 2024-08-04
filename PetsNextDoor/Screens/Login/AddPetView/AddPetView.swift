@@ -50,7 +50,7 @@ struct AddPetView: View {
           Spacer().frame(height: 20)
           
           SelectConditionView(
-            leftImageName: R.image.icon_paw.name,
+            leftImageName: .iconPaw,
             conditionTitle: viewStore.selectedPetType == .cat ? "묘종" : "견종",
             rightContentView: {
               Text(viewStore.selectedBreedName ?? (viewStore.selectedPetType == .cat ? "묘종 입력하기" : "견종 입력하기"))
@@ -64,7 +64,7 @@ struct AddPetView: View {
           Spacer().frame(height: 20)
           
           SelectConditionView(
-            leftImageName: R.image.icon_paw.name,
+            leftImageName: .iconPaw,
             conditionTitle: "몸무게",
             rightContentView: {
               TextField(
@@ -88,7 +88,7 @@ struct AddPetView: View {
           Spacer().frame(height: 20)
           
           SelectConditionView(
-            leftImageName: R.image.icon_heart.name,
+            leftImageName: .iconHeart,
             conditionTitle: "성별",
             rightContentView: {
               HStack(spacing: 8) {
@@ -113,7 +113,7 @@ struct AddPetView: View {
           Spacer().frame(height: 20)
           
           SelectConditionView(
-            leftImageName: R.image.icon_cal.name,
+            leftImageName: .iconCal,
             conditionTitle: "날짜",
             rightContentView: {
               DatePicker(

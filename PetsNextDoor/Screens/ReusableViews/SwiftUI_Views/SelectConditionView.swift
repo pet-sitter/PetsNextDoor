@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectConditionView<RightContent: View>: View {
   
-  let leftImageName: String?
+  let leftImageName: ImageResource?
   let conditionTitle: String
   
   @ViewBuilder

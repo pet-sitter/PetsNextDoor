@@ -1,4 +1,5 @@
 {
+  "originHash" : "1a85d445a5e5ec6ce0774d0b756a791b4d46a289aa023bbc283a8a17fdfe0529",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -172,15 +173,6 @@
       }
     },
     {
-      "identity" : "r.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mac-cain13/R.swift.git",
-      "state" : {
-        "revision" : "0e4ec17f329136b712d0a96128597b8ff2f31bdc",
-        "version" : "7.3.2"
-      }
-    },
-    {
       "identity" : "reactiveswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveCocoa/ReactiveSwift.git",
@@ -208,30 +200,12 @@
       }
     },
     {
-      "identity" : "socket.io-client-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/socketio/socket.io-client-swift",
-      "state" : {
-        "branch" : "master",
-        "revision" : "175da8b5156f6b132436f0676cc84c2f6a766b6e"
-      }
-    },
-    {
       "identity" : "starscream",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/daltoniam/Starscream",
       "state" : {
         "revision" : "ac6c0fc9da221873e01bd1a0d4818498a71eef33",
         "version" : "4.0.6"
-      }
-    },
-    {
-      "identity" : "swift-argument-parser",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-argument-parser",
-      "state" : {
-        "revision" : "0fbc8848e389af3bb55c182bc19ca9d5dc2f255b",
-        "version" : "1.4.0"
       }
     },
     {
@@ -343,15 +317,6 @@
       }
     },
     {
-      "identity" : "xcodeedit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tomlokhorst/XcodeEdit",
-      "state" : {
-        "revision" : "cd466d6e8c5ffd2f2b61165d37b0646f09068e1e",
-        "version" : "2.9.0"
-      }
-    },
-    {
       "identity" : "xctest-dynamic-overlay",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
@@ -361,5 +326,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

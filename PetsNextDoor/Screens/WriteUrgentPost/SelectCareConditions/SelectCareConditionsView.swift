@@ -25,7 +25,7 @@ struct SelectCareConditionsView: View {
         Spacer().frame(height: 20)
         
         SelectConditionView(
-          leftImageName: R.image.icon_heart.name,
+          leftImageName: .iconHeart,
           conditionTitle: "성별",
           rightContentView: {
             SegmentControlView_SwiftUI(
@@ -41,7 +41,7 @@ struct SelectCareConditionsView: View {
         Spacer().frame(height: 20)
         
         SelectConditionView(
-          leftImageName: R.image.icon_paw.name,
+          leftImageName: .iconPaw,
           conditionTitle: "돌봄형태",
           rightContentView: {
             SegmentButtonControlView(
@@ -57,7 +57,7 @@ struct SelectCareConditionsView: View {
         Spacer().frame(height: 20)
         
         SelectConditionView(
-          leftImageName: R.image.icon_pay.name,
+          leftImageName: .iconPay,
           conditionTitle: "페이",
           rightContentView: {
             HStack(spacing: 8) {
@@ -120,7 +120,7 @@ struct SelectCareConditionsView: View {
         Spacer().frame(height: 20)
         
         SelectConditionView(
-          leftImageName: R.image.icon_cal.name,
+          leftImageName: .iconCal,
           conditionTitle: "날짜",
           rightContentView: {
             Text(viewStore.selectedDatesText)

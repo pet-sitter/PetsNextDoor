@@ -100,7 +100,7 @@ final class SelectCategoryView: UIView {
     arrowDownImageView = UIImageView()
     arrowDownImageView.set {
       containerView.addSubview($0)
-      $0.image = UIImage(resource: R.image.icon_arr_down)
+      $0.image = UIImage(resource: .iconArrDown)
       $0.contentMode = .scaleAspectFit
       $0.snp.makeConstraints {
         $0.leading.equalTo(filterOptionsLabel.snp.trailing).offset(4)
@@ -180,7 +180,7 @@ final class CheckableButton: UIButton {
       .normalTitleStyle(font: .systemFont(ofSize: 12, weight: .regular), color: UIColor(hex: "#9E9E9E"))
       .selectedTitleStyle(font: .systemFont(ofSize: 12, weight: .semibold), color: PND.Colors.commonBlack)
       .bgColor(.clear)
-      .selectedImage(UIImage(resource: R.image.icon_check))
+      .selectedImage(UIImage(resource: .iconCheck))
       .normalImage(UIImage())
       .imageEdgeInsets(right: 2.0)
     

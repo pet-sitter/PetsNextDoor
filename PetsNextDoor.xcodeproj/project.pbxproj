@@ -126,7 +126,6 @@
 		DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F62A62739500525711 /* LoadingIndicator.swift */; };
 		DA86A0FA2A62741700525711 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0F92A62741700525711 /* Server.swift */; };
 		DA86A0FC2A6274C100525711 /* GesturePassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86A0FB2A6274C100525711 /* GesturePassthroughView.swift */; };
-		DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = DA86A0FE2A62789200525711 /* RswiftLibrary */; };
 		DA86DEDF2B31825500580D3C /* SOSPostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEDE2B31825500580D3C /* SOSPostService.swift */; };
 		DA86DEE22B31829900580D3C /* SOSPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA86DEE12B31829900580D3C /* SOSPostModel.swift */; };
 		DA8A34F12A7654900054FE25 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A34F02A7654900054FE25 /* Colors.swift */; };
@@ -139,7 +138,6 @@
 		DA8BF08A2B5E54CC00370C84 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BF0892B5E54CC00370C84 /* MyPageView.swift */; };
 		DA8BF08E2B5E557900370C84 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BF08D2B5E557900370C84 /* LoginView.swift */; };
 		DA8BF09C2B5E5DEC00370C84 /* SetProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BF09B2B5E5DEC00370C84 /* SetProfileView.swift */; };
-		DA8D20152C1D7790009F2755 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = DA8D20142C1D7790009F2755 /* SocketIO */; };
 		DA8D20182C1D77B1009F2755 /* LiveChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D20172C1D77B1009F2755 /* LiveChatService.swift */; };
 		DA8D20282C206870009F2755 /* ChatDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D20272C206870009F2755 /* ChatDataProvider.swift */; };
 		DA8DF4862AE7FA1E00FA0D9D /* ComponentRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DF4852AE7FA1E00FA0D9D /* ComponentRenderable.swift */; };
@@ -216,6 +214,8 @@
 		DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */; };
 		DAF813282AE2B80C00B46E5C /* AppAppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF813272AE2B80C00B46E5C /* AppAppearanceManager.swift */; };
 		DAF934A72BEF96C7006AA486 /* ImageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF934A62BEF96C7006AA486 /* ImageConverter.swift */; };
+		DAFA5A102C57BB5D00B83322 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA5A0F2C57BB5D00B83322 /* ChatModel.swift */; };
+		DAFA5A142C57D17300B83322 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = DAFA5A132C57D17300B83322 /* Starscream */; };
 		DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB93782A5ACE25006FC77C /* Dependency.swift */; };
 		DAFBA8A22B50F931003EF0BF /* SelectConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBA8A12B50F931003EF0BF /* SelectConditionView.swift */; };
 		DAFBA8AB2B511951003EF0BF /* SelectCareConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBA8AA2B511951003EF0BF /* SelectCareConditionsView.swift */; };
@@ -421,6 +421,7 @@
 		DAF813242AE2A31200B46E5C /* SelectPetComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetComponent.swift; sourceTree = "<group>"; };
 		DAF813272AE2B80C00B46E5C /* AppAppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearanceManager.swift; sourceTree = "<group>"; };
 		DAF934A62BEF96C7006AA486 /* ImageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConverter.swift; sourceTree = "<group>"; };
+		DAFA5A0F2C57BB5D00B83322 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		DAFB93782A5ACE25006FC77C /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		DAFBA8A12B50F931003EF0BF /* SelectConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionView.swift; sourceTree = "<group>"; };
 		DAFBA8AA2B511951003EF0BF /* SelectCareConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCareConditionsView.swift; sourceTree = "<group>"; };
@@ -434,9 +435,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA86A0FF2A62789200525711 /* RswiftLibrary in Frameworks */,
-				DA8D20152C1D7790009F2755 /* SocketIO in Frameworks */,
 				DA275C5E2A44777500D09F77 /* FirebaseAnalyticsSwift in Frameworks */,
+				DAFA5A142C57D17300B83322 /* Starscream in Frameworks */,
 				DA565D5D2BC7A3E900E6A9FD /* ComposableArchitecture in Frameworks */,
 				DA4F05222A68021800D7E7A7 /* ComposableArchitecture in Frameworks */,
 				DA565D5A2BC7A3AF00E6A9FD /* ComposableArchitecture in Frameworks */,
@@ -1000,6 +1000,7 @@
 				DAC68E342BCD57190007E41D /* RewardType.swift */,
 				DAE730202BD6396700394012 /* FilterType.swift */,
 				DA06E4BD2BE4BBF20068EB20 /* PetBirthDate.swift */,
+				DAFA5A0F2C57BB5D00B83322 /* ChatModel.swift */,
 			);
 			path = CommonModel;
 			sourceTree = "<group>";
@@ -1161,7 +1162,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DA86A1022A62792D00525711 /* PBXTargetDependency */,
 			);
 			name = PetsNextDoor;
 			packageProductDependencies = (
@@ -1175,7 +1175,6 @@
 				DA275C6B2A4481A600D09F77 /* SnapKit */,
 				7C1277FE2A544B8C004A83A4 /* CombineCocoa */,
 				DA86A0EC2A62711800525711 /* Kingfisher */,
-				DA86A0FE2A62789200525711 /* RswiftLibrary */,
 				DA4F05212A68021800D7E7A7 /* ComposableArchitecture */,
 				DAE6FC632A96013C008BF1F1 /* CombineMoya */,
 				DAE6FC652A96013C008BF1F1 /* Moya */,
@@ -1183,7 +1182,7 @@
 				DA604D7F2B68AEC5001FE27F /* Kingfisher */,
 				DA565D592BC7A3AF00E6A9FD /* ComposableArchitecture */,
 				DA565D5C2BC7A3E900E6A9FD /* ComposableArchitecture */,
-				DA8D20142C1D7790009F2755 /* SocketIO */,
+				DAFA5A132C57D17300B83322 /* Starscream */,
 			);
 			productName = PetsNextDoor;
 			productReference = DAC6C2CD2A3D7932002D33F8 /* PetsNextDoor.app */;
@@ -1219,11 +1218,10 @@
 				DA275C6A2A4481A600D09F77 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				7C1277FD2A544B8C004A83A4 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 				DA86A0EB2A62711800525711 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				DA86A0FD2A62789200525711 /* XCRemoteSwiftPackageReference "R.swift" */,
 				DA4F05202A68021800D7E7A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				DAE6FC622A96013C008BF1F1 /* XCRemoteSwiftPackageReference "Moya" */,
 				DAE121232B030557008EF9AC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				DA8D20132C1D778F009F2755 /* XCRemoteSwiftPackageReference "socket" */,
+				DAFA5A122C57D17300B83322 /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = DAC6C2CE2A3D7932002D33F8 /* Products */;
 			projectDirPath = "";
@@ -1255,6 +1253,7 @@
 				DA0FD7392AA479C800497256 /* DateConverter.swift in Sources */,
 				DA5926E72B2812A400E00E74 /* UserDefaults+Extension.swift in Sources */,
 				DA0F92122A9848110059690E /* API.swift in Sources */,
+				DAFA5A102C57BB5D00B83322 /* ChatModel.swift in Sources */,
 				DAFF56CA2B58B6B10085A054 /* ViewModifiers.swift in Sources */,
 				DA146A612B711CC800832FC9 /* Sequence+Extension.swift in Sources */,
 				DABF95662B40165E004DFC3E /* UrgentPostModel.swift in Sources */,
@@ -1450,13 +1449,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		DA86A1022A62792D00525711 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = DA86A1012A62792D00525711 /* RswiftGenerateInternalResources */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		DAC6C2DB2A3D7933002D33F8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -1519,7 +1511,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1573,7 +1565,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1711,22 +1703,6 @@
 				minimumVersion = 7.0.0;
 			};
 		};
-		DA86A0FD2A62789200525711 /* XCRemoteSwiftPackageReference "R.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mac-cain13/R.swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
-		DA8D20132C1D778F009F2755 /* XCRemoteSwiftPackageReference "socket" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		DAE121232B030557008EF9AC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -1741,6 +1717,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 15.0.0;
+			};
+		};
+		DAFA5A122C57D17300B83322 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.6;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1816,20 +1800,6 @@
 			package = DA86A0EB2A62711800525711 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
-		DA86A0FE2A62789200525711 /* RswiftLibrary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA86A0FD2A62789200525711 /* XCRemoteSwiftPackageReference "R.swift" */;
-			productName = RswiftLibrary;
-		};
-		DA86A1012A62792D00525711 /* RswiftGenerateInternalResources */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = "plugin:RswiftGenerateInternalResources";
-		};
-		DA8D20142C1D7790009F2755 /* SocketIO */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA8D20132C1D778F009F2755 /* XCRemoteSwiftPackageReference "socket" */;
-			productName = SocketIO;
-		};
 		DAE121242B030558008EF9AC /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DAE121232B030557008EF9AC /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
@@ -1844,6 +1814,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DAE6FC622A96013C008BF1F1 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		DAFA5A132C57D17300B83322 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAFA5A122C57D17300B83322 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

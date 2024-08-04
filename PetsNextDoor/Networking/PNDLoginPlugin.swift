@@ -14,7 +14,7 @@ final class PNDLoginPlugin: PluginType {
      
     var newRequest = request
     newRequest.setValue(
-      "Bearer \(PNDTokenStore.shared.accessToken)",
+      "\(PNDTokenStore.shared.accessToken)",
       forHTTPHeaderField: "Authorization"
     )
     print("✅ accessToken: \(PNDTokenStore.shared.accessToken)")

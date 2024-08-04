@@ -36,6 +36,8 @@ struct ChatFeature: Reducer {
 		var chats: [ChatViewType] = []
     
     var textFieldText: String = ""
+    
+    var isAtBottomPosition: Bool = false
 
 		var connectivityState = ConnectivityState.disconnected
 		enum ConnectivityState: String {
@@ -50,7 +52,6 @@ struct ChatFeature: Reducer {
 
     enum ViewAction: Equatable {
       case onAppear
-      
       
       // ChatTextField
       case onSendChatButtonTap
@@ -89,7 +90,7 @@ struct ChatFeature: Reducer {
 			case .view(.onAppear):
 //        state.chats = MockDataProvider.chatTypes
 				return observeChatActionStream()
-				
+
 				// Internal
 				
 			case .internal(.chatDataProviderAction(.onConnect)):
@@ -105,6 +106,8 @@ struct ChatFeature: Reducer {
 
       case .view(.onSendChatButtonTap):
         // empty, 숫자 초과 등 검사 로직 추가
+        guard state.textFieldText.isEmpty == false else { return .none }
+        
         chatDataProvider.sendChat(text: state.textFieldText)
         state.textFieldText = ""
         return .none
@@ -167,53 +170,103 @@ struct ChatView: View {
   
   @State var store: StoreOf<ChatFeature>
   
-  @State private var isScrolling: Bool = false
+  @Namespace private var bottomOfChatList
+  
+
+  @ViewBuilder
+  func chatTextBubbleView(vm: ChatTextBubbleViewModel) -> some View {
+    ChatTextBubbleView(viewModel: vm)
+  }
 
 	var body: some View {
 		ScrollViewReader { proxy in
 			
-			topNavigationBarView
 			
 			SwiftUI.List {
 				ForEach(store.chats, id: \.id) { chatType in
-  
-					switch chatType {
-					case .text(let vm):
-						ChatTextBubbleView(viewModel: vm)
+          
+          switch chatType {
+          case .text(let vm):
+            ChatTextBubbleView(viewModel: vm)
             
           case .spacer(let height):
             chatSpacer(height: height)
-					}
-			
+          }
+          
+
 
         }
- 
+        
+        
+      
+        HStack { Spacer() }
+          .id(bottomOfChatList)
+          .modifier(PlainListModifier())
 			}
       .environment(\.defaultMinListRowHeight, 0)
       .listStyle(.plain)
       .onChange(of: store.chats) { oldValue, newValue in
-        if let lastChatId = newValue.last?.id {
-          withAnimation {
-            proxy.scrollTo(lastChatId, anchor: .bottom)
-          }
-        }
+
+      }
+      .onChange(of: store.isAtBottomPosition) { oldValue, newValue in
+          print("✅ isAtBottomPosition: \(newValue)")
       }
       
-      chatTextFieldView
+      chatTextFieldView(scrollViewProxy: proxy)
       
+    }
+    .toolbar {
+      ToolbarItemGroup(placement: .topBarLeading) {
+        Text("채팅")
+          .foregroundStyle(PND.Colors.commonBlack.asColor)
+          .font(.system(size: 20, weight: .bold))
+        
+        HStack(spacing: 2) {
+          
+          Image(systemName: "person.fill")
+            .resizable()
+            .frame(width: 9, height: 9)
+          
+          Text("10")
+            .font(.system(size: 12, weight: .bold))
+        }
+        .foregroundStyle(PND.Colors.gray50.asColor)
+        .frame(height: 23)
+        .padding(.horizontal, 8)
+        .background(PND.Colors.gray20.asColor)
+        .clipShape(.capsule)
+      }
+      
+      ToolbarItemGroup(placement: .topBarTrailing) {
+        Button(action: {
+    
+        }, label: {
+          Image(.iconSetting)
+            .resizable()
+            .frame(width: 24, height: 24)
+            .tint(PND.Colors.commonBlack.asColor)
+        })
+      }
     }
     .onAppear {
       store.send(.view(.onAppear))
     }
   }
   
+
   @ViewBuilder
-  private var chatTextFieldView: some View {
+  private func chatTextFieldView(scrollViewProxy: ScrollViewProxy) -> some View {
     HStack(spacing: 0) {
-      Image(systemName: "plus")
-        .resizable()
-        .frame(width: 24, height: 24)
       
+      Button(action: {
+        
+      }, label: {
+        Image(systemName: "plus")
+          .resizable()
+          .frame(width: 24, height: 24)
+          .foregroundStyle(PND.DS.commonBlack)
+      })
+
       Spacer().frame(width: 4)
       
       TextField(
@@ -233,12 +286,18 @@ struct ChatView: View {
       
       Button(action: {
         store.send(.view(.onSendChatButtonTap))
+        DispatchQueue.main.async {
+          withAnimation(.easeOut(duration: 0.5)) {
+            scrollViewProxy.scrollTo(bottomOfChatList, anchor: .bottom)
+          }
+        }
+
       }, label: {
         Image(systemName: "envelope")
           .frame(width: 24, height: 24)
-          .foregroundStyle(PND.DS.commonWhite)
+          .foregroundStyle(store.textFieldText.isEmpty ? PND.DS.commonBlack : PND.DS.commonWhite)
           .padding(.all, 8)
-          .background(PND.DS.gray90)
+          .background(store.textFieldText.isEmpty ? PND.DS.gray30 : PND.DS.gray90)
           .clipShape(RoundedRectangle(cornerRadius: 4))
           .frame(height: 40)
       })
@@ -249,65 +308,18 @@ struct ChatView: View {
   @ViewBuilder
   private func chatSpacer(height: CGFloat) -> some View{
     Rectangle()
-//      .fill(Color.orange.opacity(0.3))
       .fill(Color.white)
       .frame(height: height)
       .modifier(PlainListModifier())
   }
 
-  @ViewBuilder
-  private var topNavigationBarView: some View {
-    HStack {
-      Spacer().frame(width: PND.Metrics.defaultSpacing)
 
-			Button {
-				
-			} label: {
-				Image(systemName: "chevron.left")
-					.frame(width: 24, height: 24)
-					.foregroundStyle(PND.Colors.commonBlack.asColor)
-			}
-      Text("채팅")
-        .foregroundStyle(PND.Colors.commonBlack.asColor)
-        .font(.system(size: 20, weight: .bold))
-			
-			HStack(spacing: 2) {
-				
-				Image(systemName: "person.fill")
-					.resizable()
-					.frame(width: 9, height: 9)
-				
-				Text("10")
-					.font(.system(size: 12, weight: .bold))
-			}
-			.foregroundStyle(PND.Colors.gray50.asColor)
-			.frame(height: 23)
-			.padding(.horizontal, 8)
-			.background(PND.Colors.gray20.asColor)
-			.clipShape(.capsule)
-			
-			
-    
-      Spacer()
-      
-      Button(action: {
-  
-      }, label: {
-        Image(R.image.icon_setting)
-          .resizable()
-          .frame(width: 24, height: 24)
-          .tint(PND.Colors.commonBlack.asColor)
-      })
-      
-      Spacer().frame(width: PND.Metrics.defaultSpacing)
-    }
-  }
 }
 
 
 struct ChatTextBubbleViewModel: Equatable {
 	
-	var id: String = UUID().uuidString
+	let id: String = UUID().uuidString
 
 	let body: String
 	let isMyChat: Bool
@@ -325,10 +337,8 @@ struct ChatTextBubbleView: View {
 		VStack(spacing: 0) {
       if viewModel.isMyChat {
         myChatTextView
-//          .background(Color.blue.opacity(0.23))
       } else {
         otherChatTextView
-//          .background(Color.orange.opacity(0.23))
       }
 		}
     .modifier(PlainListModifier())

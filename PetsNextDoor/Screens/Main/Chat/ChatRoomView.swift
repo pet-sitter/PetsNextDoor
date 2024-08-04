@@ -74,7 +74,7 @@ struct ChatRoomView: View {
       Button(action: {
         
       }, label: {
-        Image(R.image.icon_fix)
+        Image(.iconFix)
           .resizable()
           .frame(width: 24, height: 24)
       })

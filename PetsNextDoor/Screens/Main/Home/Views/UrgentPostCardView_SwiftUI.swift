@@ -46,7 +46,7 @@ struct UrgentPostCardView_SwiftUI: View {
         
         // 날짜
         HStack(spacing: 6) {
-          Image(R.image.icon_cal)
+          Image(.iconCal)
             .resizable()
             .frame(width: 16, height: 16)
           
@@ -56,7 +56,7 @@ struct UrgentPostCardView_SwiftUI: View {
         
         // 위치
         HStack(spacing: 6) {
-          Image(R.image.icon_pin)
+          Image(.iconPin)
             .resizable()
             .frame(width: 16, height: 16)
           
@@ -66,7 +66,7 @@ struct UrgentPostCardView_SwiftUI: View {
         
         // 페이
         HStack(spacing: 6) {
-          Image(R.image.icon_pay)
+          Image(.iconPay)
             .resizable()
             .frame(width: 16, height: 16)
           

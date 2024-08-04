@@ -14,7 +14,8 @@ final class PNDTokenStore {
   private let keyChainService = KeychainService()
     
   var accessToken: String {
-    keyChainService.read(.accessToken) ?? "Invalid Access Token"
+    let token: String = keyChainService.read(.accessToken) ?? "Invalid Access Token"
+    return "Bearer \(token)"
   }
   
   private init() {}

@@ -53,7 +53,7 @@ extension PND.Dependency {
   }
   
   enum UserDataCenterKey: DependencyKey {
-    static let liveValue: UserDataCenter = UserDataCenter()
+    static let liveValue: UserDataCenter = UserDataCenter.shared
   }
   
   enum ChatDataProviderKey: DependencyKey {

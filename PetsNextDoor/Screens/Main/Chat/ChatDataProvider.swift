@@ -14,20 +14,19 @@ final class ChatDataProvider {
     case onReceiveNewChatType([ChatViewType])
   }
 
+
   private var chatService: any ChatServiceProvidable
   
-  
-  
-  private var chatModels: [PND.ChatModel] = []
+  private(set) var chatModels: [PND.ChatModel] = []
 	
 	private var continuation: AsyncStream<Action>.Continuation!
 	
   init() {
-//    self.chatService = LiveChatService(
-//      socketURL: URL(string: "http://localhost:3000")!
-//    )
-		self.chatService = MockLiveChatService()
-    self.chatService.delegate = self
+    self.chatService = LiveChatService(
+      socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
+      configuration: .init(roomId: 1)
+    )
+    chatService.delegate = self
   }
 	
 	func observeChatActionStream() -> AsyncStream<Action> {
@@ -36,56 +35,24 @@ final class ChatDataProvider {
 					// socket.cancel()
 				
 			}
-			
-
+    
 			self.continuation = continuation
 		}
 		
-		
 		chatService.connect()
-		
-		
 		return stream
 	}
   
   func sendChat(text: String) {
     
-    let newChatModel: PND.ChatModel = PND.ChatModel(textBody: text, isMyChat: true)
-    
-    var chatViewTypes: [ChatViewType] = []
-    
-    if let lastChatModel = chatModels.last {
-      if lastChatModel.isMyChat == newChatModel.isMyChat {
-        chatViewTypes.append(ChatViewType.spacer(height: 4))
-      } else {
-        chatViewTypes.append(ChatViewType.spacer(height: 10))
-      }
-    } else { // 첫번째 Chat
-      chatViewTypes.append(ChatViewType.spacer(height: 4))
-    }
     
     
-    chatViewTypes.append(ChatViewType.text(
-      ChatTextBubbleViewModel(
-        body: newChatModel.textBody,
-        isMyChat: newChatModel.isMyChat
-      )
-    ))
-    
-    chatModels.append(newChatModel)
     
     
-    continuation.yield(.onReceiveNewChatType(chatViewTypes))
-    
+    chatService.sendMessage(text)
   }
 }
 
-// Utility Methods
-
-extension ChatDataProvider {
-  
-
-}
 
 extension ChatDataProvider: ChatServiceDelegate {
 	
@@ -101,30 +68,33 @@ extension ChatDataProvider: ChatServiceDelegate {
 		
   }
   
-	func onReceiveNewChat(_ chatModel: PND.ChatModel) {
+  func onReceiveNewText(_ chatModel: PND.ChatModel) {
+    _Concurrency.Task {
+      
+      let myUserId: Int     = await UserDataCenter.shared.userProfileModel?.id ?? 0
+      let senderUserId: Int = chatModel.sender?.id ?? 0
+      
+      await MainActor.run {
+        var chatViewTypes: [ChatViewType] = []
+        
+        if let lastChatModel = chatModels.last {
+          chatViewTypes.append(ChatViewType.spacer(height: 10))
+        } else {  // 첫번째 말풍선인 경우
+          chatViewTypes.append(ChatViewType.spacer(height: 4))
+        }
+        
+        chatViewTypes.append(ChatViewType.text(
+          ChatTextBubbleViewModel(
+            body: chatModel.message,
+            isMyChat: myUserId == senderUserId
+          )
+        ))
+        
+        chatModels.append(chatModel)
 
-    var chatViewTypes: [ChatViewType] = []
-    
-    if let lastChatModel = chatModels.last {
-      if lastChatModel.isMyChat == chatModel.isMyChat {
-        chatViewTypes.append(ChatViewType.spacer(height: 4))
-      } else {
-        chatViewTypes.append(ChatViewType.spacer(height: 10))
+        continuation.yield(.onReceiveNewChatType(chatViewTypes))
       }
-    } else { // 첫번째 Chat
-      chatViewTypes.append(ChatViewType.spacer(height: 4))
     }
-  
-    chatViewTypes.append(ChatViewType.text(
-      ChatTextBubbleViewModel(
-        body: chatModel.textBody,
-        isMyChat: chatModel.isMyChat
-      )
-    ))
-    
-    self.chatModels.append(chatModel)
-
-		continuation.yield(.onReceiveNewChatType(chatViewTypes))
   }
 }
 

@@ -126,7 +126,7 @@ struct HomeView: View {
     HStack {
       Spacer().frame(width: PND.Metrics.defaultSpacing)
       HStack {
-        Image(R.image.icon_pin_nav_bar)
+        Image(.iconPinNavBar)
           .frame(width: 24, height: 24)
         
         Text("중곡동")
@@ -144,7 +144,7 @@ struct HomeView: View {
         store.send(.view(.onSelectNotificationsIcon))
         setTabBarIsHidden(to: true)
       }, label: {
-        Image(R.image.icon_bell)
+        Image(.iconBell)
           .resizable()
           .frame(width: 24, height: 24)
           .tint(PND.Colors.commonBlack.asColor)
@@ -161,7 +161,7 @@ struct HomeView: View {
       .foregroundStyle(PND.DS.gray20)
       .overlay(alignment: .leading) {
         HStack(spacing: 8) {
-          Image(R.image.icon_search)
+          Image(.iconSearch)
             .size(16)
           
           Text("돌봄요청글을 검색해보세요")

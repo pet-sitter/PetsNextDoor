@@ -245,7 +245,7 @@ struct MyPageView: View {
       Button(action: {
   
       }, label: {
-        Image(R.image.icon_setting)
+        Image(.iconSetting)
           .resizable()
           .frame(width: 24, height: 24)
           .tint(PND.Colors.commonBlack.asColor)

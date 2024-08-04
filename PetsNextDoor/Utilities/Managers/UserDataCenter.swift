@@ -7,7 +7,10 @@
 
 import Foundation
 
-actor UserDataCenter {
+@MainActor
+final class UserDataCenter {
+  
+  static let shared: UserDataCenter = .init()
 	
 	private let petService: any PetServiceProvidable 	 = PetService()
 	private let userService: any UserServiceProvidable = UserService()
