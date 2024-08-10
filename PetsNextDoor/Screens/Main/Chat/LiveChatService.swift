@@ -135,7 +135,8 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.plain.rawValue,
-      message: message
+      message: message,
+      messageId: UUID().uuidString
     )
     
     guard

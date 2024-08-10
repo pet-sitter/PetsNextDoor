@@ -64,7 +64,7 @@ struct PNDRootApp: App {
   
   init() {
     FirebaseApp.configure()
-    IQKeyboardManager.shared.enable = true
+//    IQKeyboardManager.shared.enable = true
   }
   
   var body: some Scene {

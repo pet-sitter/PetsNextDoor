@@ -19,6 +19,7 @@ extension PND {
     let room: Room
     let messageType: String // 추후 enum으로 변경
     let message: String
+    @DefaultEmptyString var messageId: String
     var createdAt: String?
     var updatedAt: String?
   }
