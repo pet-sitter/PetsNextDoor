@@ -17,6 +17,7 @@ protocol ChatServiceProvidable {
 	func connect()
   func disconnect()
   func sendMessage(_ message: String)
+  func sendImages(mediaIds: [Int])
 }
 
 protocol SocketServiceProvidable: WebSocketDelegate {
@@ -149,6 +150,28 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     
     socket?.write(string: chatJSON)
   }
+  
+  func sendImages(mediaIds: [Int]) {
+    
+    let chatRequestModel: PND.ChatModel = PND.ChatModel(
+      room: PND.Room(id: configuration.roomId),
+      messageType: PND.MessageType.media.rawValue,
+      message: "",
+      messageId: UUID().uuidString,
+      medias: mediaIds.map { PND.Media(id: $0) }
+    )
+    
+    guard
+      let encodedModel = try? JSONEncoder().encode(chatRequestModel),
+      let chatJSON = String(data: encodedModel, encoding: .utf8)
+    else {
+      PNDLogger.`default`.error("sendImages error encoding message")
+      return
+    }
+  
+    socket?.write(string: chatJSON)
+    
+  }
 }
 
 
@@ -156,9 +179,6 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
 
 final class MockLiveChatService: ChatServiceProvidable {
 
-  
-
-  
   weak var delegate: (any ChatServiceDelegate)?
   
   private var timerSubscription: AnyCancellable?
@@ -179,6 +199,10 @@ final class MockLiveChatService: ChatServiceProvidable {
     
   }
   
+  func sendImages(mediaIds: [Int]) {
+    
+    
+  }
   
   private func beginGeneratingMockChatMessages() {
     
@@ -186,6 +210,12 @@ final class MockLiveChatService: ChatServiceProvidable {
       .publish(every: 3.5, on: .main, in: .common)
       .autoconnect()
       .sink { [weak self] _ in
+        self?.delegate?.onReceiveNewText(PND.ChatModel(
+          room: .init(id: 1),
+          messageType: [PND.MessageType.media, PND.MessageType.plain].randomElement()!.rawValue,
+          message: MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!,
+          messageId: UUID().uuidString
+        ))
 //        self?.delegate?.onReceiveNewText(
 //          MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!
 //        )

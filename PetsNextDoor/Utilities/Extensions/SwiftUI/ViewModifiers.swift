@@ -82,6 +82,7 @@ struct LoadingViewModifier: ViewModifier {
             .ignoresSafeArea()
           
           ProgressView()
+            .tint(.white)
         }
         .allowsHitTesting(!controller.allowTouch)
         .zIndex(1)

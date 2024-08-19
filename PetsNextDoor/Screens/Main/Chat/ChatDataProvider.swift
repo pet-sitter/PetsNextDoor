@@ -5,6 +5,8 @@
 //  Created by kevinkim2586 on 6/17/24/
 
 import Foundation
+import PhotosUI
+import _PhotosUI_SwiftUI
 
 final class ChatDataProvider {
   
@@ -15,6 +17,7 @@ final class ChatDataProvider {
   }
 
   private var chatService: any ChatServiceProvidable
+  private let mediaService: any MediaServiceProvidable
   
   private(set) var chatModels: [PND.ChatModel] = []
 	
@@ -26,6 +29,8 @@ final class ChatDataProvider {
       socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
       configuration: .init(roomId: 1)
     )
+//    self.chatService = MockLiveChatService()
+    self.mediaService = MediaService()
     chatService.delegate = self
   }
   
@@ -45,6 +50,25 @@ final class ChatDataProvider {
   
   func sendChat(text: String) {
     chatService.sendMessage(text)
+  }
+  
+  func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws {
+    
+
+    var imageDatas: [Data]   = []
+    
+    for item in items {
+      let imageData = await PhotoConverter.getImageData(fromPhotosPickerItem: item)
+      
+      if let imageData {
+        imageDatas.append(imageData)
+      }
+    }
+    
+    let uploadResponseModel: [PND.UploadMediaResponseModel] = try await mediaService.uploadImages(imageDatas: imageDatas)
+    let mediaIds: [Int] = uploadResponseModel.map(\.id)
+    
+    chatService.sendImages(mediaIds: mediaIds)
   }
 }
 
@@ -68,22 +92,49 @@ extension ChatDataProvider: ChatServiceDelegate {
       
       let myUserId: Int     = await UserDataCenter.shared.userProfileModel?.id ?? 0
       let senderUserId: Int = chatModel.sender?.id ?? 0
+      let isMyChat: Bool    = myUserId == senderUserId
       
       await MainActor.run {
         var chatViewTypes: [ChatViewType] = []
         
         if let lastChatModel = chatModels.last {
-          chatViewTypes.append(ChatViewType.spacer(height: 10))
+          
+          if lastChatModel.sender?.id == myUserId { // 마지막 채팅이 내가 보낸 채팅이면
+            chatViewTypes.append(ChatViewType.spacer(height: 4))
+          } else { // 마지막 채팅이 상대방이 보낸 채팅이면
+            chatViewTypes.append(ChatViewType.spacer(height: 20))
+          }
+        
         } else {  // 첫번째 말풍선인 경우
           chatViewTypes.append(ChatViewType.spacer(height: 4))
         }
         
-        chatViewTypes.append(ChatViewType.text(
-          ChatTextBubbleViewModel(
-            body: chatModel.message,
-            isMyChat: myUserId == senderUserId
-          )
-        ))
+        switch chatModel.messageType {
+          
+        case PND.MessageType.plain.rawValue:
+          chatViewTypes.append(ChatViewType.text(
+            ChatTextBubbleViewModel(
+              body: chatModel.message,
+              isMyChat: myUserId == senderUserId
+            )
+          ))
+          
+        case PND.MessageType.media.rawValue:
+          if let medias = chatModel.medias, medias.count == 1, let firstMedia = medias.first {
+            chatViewTypes.append(ChatViewType.singleImage(SingleChatImageViewModel(
+              media: firstMedia,
+              isMyChat: isMyChat
+            )))
+          } else if let medias = chatModel.medias, medias.count >= 2 {
+            chatViewTypes.append(ChatViewType.multipleImages(MultipleChatImageViewModel(
+              medias: medias,
+              isMyChat: isMyChat
+            )))
+          }
+          
+        default:
+          break
+        }
         
         chatModels.append(chatModel)
 

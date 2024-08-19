@@ -7,16 +7,25 @@
 
 import ComposableArchitecture
 import SwiftUI
+import PhotosUI
 
 enum ChatViewType: Equatable, Identifiable {
 
 	case text(ChatTextBubbleViewModel)
+  case singleImage(SingleChatImageViewModel)
+  case multipleImages(MultipleChatImageViewModel)
   case spacer(height: CGFloat)
 	
 	var id: String {
 		switch self {
 		case .text(let vm):
 			return vm.id
+      
+    case .singleImage(let vm):
+      return vm.id
+      
+    case .multipleImages(let vm):
+      return vm.id
       
     case .spacer:
       return UUID().uuidString
@@ -37,6 +46,11 @@ struct ChatFeature: Reducer {
     
     var textFieldText: String = ""
     
+    
+    var isUploadingImage: Bool = false
+    
+    var selectedPhotoPickerItems: [PhotosPickerItem] = []
+    
 
 		var connectivityState = ConnectivityState.disconnected
 		enum ConnectivityState: String {
@@ -54,10 +68,13 @@ struct ChatFeature: Reducer {
       
       // ChatTextField
       case onSendChatButtonTap
+      case onUserImageSelection
     }
     
     enum InternalAction: Equatable {
 			case chatDataProviderAction(ChatDataProvider.Action)
+      case setIsUploadingImage(Bool)
+      case setSelectedPhotoPickerItems([PhotosPickerItem])
     }
     
     enum DelegateAction: Equatable {
@@ -101,6 +118,13 @@ struct ChatFeature: Reducer {
         state.chats.append(contentsOf: chatType)
 				return .none
 				
+      case .internal(.setIsUploadingImage(let isLoading)):
+        state.isUploadingImage = isLoading
+        return .none
+        
+      case .internal(.setSelectedPhotoPickerItems(let pickerItems)):
+        state.selectedPhotoPickerItems = pickerItems
+        return .none
 
       case .view(.onSendChatButtonTap):
         // empty, 숫자 초과 등 검사 로직 추가
@@ -109,8 +133,32 @@ struct ChatFeature: Reducer {
         chatDataProvider.sendChat(text: state.textFieldText)
         state.textFieldText = ""
         return .none
-
-				
+        
+      case .view(.onUserImageSelection):
+        guard state.selectedPhotoPickerItems.isEmpty == false else { return .none }
+        
+        return .run { [state] send in
+          await send(.internal(.setIsUploadingImage(true)))
+          
+          try await chatDataProvider.sendImages(withPhotosPickerItems: state.selectedPhotoPickerItems)
+        
+          await send(.internal(.setSelectedPhotoPickerItems([])))
+          await send(.internal(.setIsUploadingImage(false)))
+          
+        } catch: { error, send in
+          
+          await send(.internal(.setIsUploadingImage(false)))
+          
+          Toast
+            .shared
+            .present(
+              title: "이미지 업로드에 실패했어요. 잠시 후 다시 시도해주세요.",
+              symbolType: .xMark
+            )
+          
+          print("❌ Error uploading images in ChatFeature : \(error)")
+        }
+        
 				// Delegate
 			case .delegate:
 				break
@@ -169,17 +217,22 @@ struct ChatView: View {
 
   @Namespace private var bottomOfChatList
   @State private var isAtBottomPosition: Bool = false
-  
   @State private var scrollViewProxy: ScrollViewProxy?
   
+
   var body: some View {
     ScrollViewReader { proxy in
       SwiftUI.List {
-        
         ForEach(store.chats, id: \.id) { chatType in
           switch chatType {
           case .text(let vm):
             ChatTextBubbleView(viewModel: vm)
+            
+          case .singleImage(let vm):
+            SingleChatImageView(viewModel: vm)
+            
+          case .multipleImages(let vm):
+            MultipleChatImageView(viewModel: vm)
             
           case .spacer(let height):
             chatSpacer(height: height)
@@ -187,7 +240,8 @@ struct ChatView: View {
         }
         
         Spacer()
-          .frame(height: PND.Metrics.defaultSpacing)
+          .frame(height: 50)
+          .modifier(PlainListModifier())
         
         Color.clear
           .frame(height: 1)
@@ -213,8 +267,6 @@ struct ChatView: View {
       .overlay(alignment: .bottom) {
         chatTextFieldView()
       }
-      
-      
     }
     .toolbar {
       ToolbarItemGroup(placement: .topBarLeading) {
@@ -270,6 +322,7 @@ struct ChatView: View {
         }
       }
     }
+    .isLoading(store.isUploadingImage)
     .onAppear {
       store.send(.view(.onAppear))
     }
@@ -280,15 +333,20 @@ struct ChatView: View {
   private func chatTextFieldView() -> some View {
     HStack(spacing: 0) {
       
-      Button(action: {
-        
-      }, label: {
+      PhotosPicker(
+        selection: $store.state.selectedPhotoPickerItems,
+        maxSelectionCount: 5,
+        matching: .images
+      ) {
         Image(systemName: "plus")
           .resizable()
           .frame(width: 24, height: 24)
           .foregroundStyle(PND.DS.commonBlack)
-      })
-
+      }
+      .onChange(of: store.selectedPhotoPickerItems) { _, _ in
+        store.send(.view(.onUserImageSelection))
+      }
+      
       Spacer().frame(width: 4)
       
       TextField(
@@ -338,16 +396,200 @@ struct ChatView: View {
 }
 
 
-struct ChatTextBubbleViewModel: Equatable {
-	
-	let id: String = UUID().uuidString
 
-	let body: String
-	let isMyChat: Bool
+struct SingleChatImageViewModel: Equatable {
+  
+  let id: String = UUID().uuidString
+  
+  let media: PND.Media
+  
+  let isMyChat: Bool
+}
 
+struct SingleChatImageView: View {
+  
+  var viewModel: SingleChatImageViewModel
+  
+  var body: some View {
+    VStack(spacing: 0) {
+      if viewModel.isMyChat {
+        myImageView
+      } else {
+        otherImageView
+      }
+    }
+    .modifier(PlainListModifier())
+  }
+  
+  private var myImageView: some View {
+    HStack(spacing: 0) {
+      Spacer(minLength: 72)
+      
+      KFImage.url(URL(string: viewModel.media.url ?? ""))
+        .placeholder {
+          ProgressView()
+        }
+        .resizable()
+        .centerCropImage(width: UIScreen.fixedScreenSize.width / CGFloat(4) * CGFloat(2.7), height: UIScreen.fixedScreenSize.width / CGFloat(4) * CGFloat(2.7))
+        .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
+      
+      DefaultSpacer(axis: .horizontal)
+    }
+  }
+  
+  private var otherImageView: some View {
+    HStack(alignment: .top, spacing: 0) {
+      
+      profileView
+      Spacer().frame(width: 12)
+      
+      VStack(alignment: .leading, spacing: 0) {
+        
+        Text("호두 언니")
+          .font(.system(size: 14, weight: .medium))
+        
+        Spacer().frame(height: 4)
+        
+        KFImage.url(URL(string: viewModel.media.url ?? ""))
+          .placeholder {
+            ProgressView()
+          }
+          .resizable()
+          .centerCropImage(width: UIScreen.fixedScreenSize.width / CGFloat(4) * CGFloat(2.7), height: UIScreen.fixedScreenSize.width / CGFloat(4) * CGFloat(2.7))
+          .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
+        
+      }
+    }
+  }
+  
+  private var profileView: some View {
+    HStack(spacing: 0) {
+      KFImage.url(MockDataProvider.randomePetImageUrl)
+        .resizable()
+        .frame(width: 36, height: 36)
+        .clipShape(Circle())
+        .padding(.leading, PND.Metrics.defaultSpacing)
+    }
+  }
 }
 
 
+
+struct MultipleChatImageViewModel: Equatable {
+  
+  let id: String = UUID().uuidString
+  
+  var medias: [PND.Media]
+  
+  let firstImageUrlString: String
+  let secondImageUrlString: String
+  
+  let additionalImageCount: Int
+  
+  let isMyChat: Bool
+  
+  init(medias: [PND.Media], isMyChat: Bool) {
+    self.medias = medias
+    self.isMyChat = isMyChat
+    self.firstImageUrlString = self.medias.removeFirst().url ?? ""
+    self.secondImageUrlString = self.medias.removeFirst().url ?? ""
+    self.additionalImageCount = medias.count - 2
+  }
+}
+
+struct MultipleChatImageView: View {
+  
+  var viewModel: MultipleChatImageViewModel
+  
+  var body: some View {
+    VStack(spacing: 0) {
+      if viewModel.isMyChat {
+        myImageView
+      } else {
+        otherImageView
+      }
+    }
+    .modifier(PlainListModifier())
+  }
+  
+  private var myImageView: some View {
+    HStack(spacing: 4) {
+      
+      Spacer(minLength: 72)
+      
+      KFImage.url(URL(string: viewModel.firstImageUrlString))
+        .placeholder {
+          ProgressView()
+        }
+        .resizable()
+        .centerCropImage(width: CGFloat(125), height: CGFloat(125))
+        .scaledToFill()
+        .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
+      
+      KFImage.url(URL(string: viewModel.secondImageUrlString))
+        .placeholder {
+          ProgressView()
+        }
+        .resizable()
+        .centerCropImage(width: CGFloat(125), height: CGFloat(125))
+        .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
+      
+      DefaultSpacer(axis: .horizontal)
+    }
+  }
+  
+  private var otherImageView: some View {
+    HStack(alignment: .top, spacing: 0) {
+      
+      profileView
+      Spacer().frame(width: 12)
+      
+      VStack(alignment: .leading, spacing: 0) {
+        
+        Text("호두 언니")
+          .font(.system(size: 14, weight: .medium))
+        
+        Spacer().frame(height: 4)
+        
+        HStack(spacing: 4) {
+          KFImage.url(URL(string: viewModel.firstImageUrlString))
+            .placeholder {
+              ProgressView()
+            }
+            .resizable()
+            .centerCropImage(width: CGFloat(125), height: CGFloat(125))
+            .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
+          
+          KFImage.url(URL(string: viewModel.secondImageUrlString))
+            .placeholder {
+              ProgressView()
+            }
+            .resizable()
+            .centerCropImage(width: CGFloat(125), height: CGFloat(125))
+            .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
+        }
+      }
+    }
+  }
+  
+  private var profileView: some View {
+    HStack(spacing: 0) {
+      KFImage.url(MockDataProvider.randomePetImageUrl)
+        .resizable()
+        .frame(width: 36, height: 36)
+        .clipShape(Circle())
+        .padding(.leading, PND.Metrics.defaultSpacing)
+    }
+  }
+}
+
+
+
+struct ChatTextBubbleViewModel: Equatable {
+  let id: String = UUID().uuidString
+  let body: String
+  let isMyChat: Bool
+}
 
 
 struct ChatTextBubbleView: View {
@@ -363,8 +605,6 @@ struct ChatTextBubbleView: View {
       }
 		}
     .modifier(PlainListModifier())
-		 
-  
 	}
   
   var myChatTextView: some View {
@@ -392,7 +632,6 @@ struct ChatTextBubbleView: View {
   }
   
   var otherChatTextView: some View {
-    
     HStack(alignment: .top, spacing: 0) {
       
       profileView
@@ -443,7 +682,7 @@ struct ChatTextBubbleView: View {
 
 
 
-//#Preview {
-//  ChatView(store: .init(initialState: .init(), reducer: { ChatFeature()}))
-//}
+#Preview {
+  ChatView(store: .init(initialState: .init(), reducer: { ChatFeature()}))
+}
 

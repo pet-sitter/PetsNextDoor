@@ -29,8 +29,8 @@ struct SelectImagesHorizontalView: View {
         PhotosPicker(
           selection: $selectedPhotoPickerItems,
           maxSelectionCount: maxImagesCount,
-          matching: .images)
-        {
+          matching: .images
+        ) {
           ZStack {
             Rectangle()
               .foregroundColor(.clear)

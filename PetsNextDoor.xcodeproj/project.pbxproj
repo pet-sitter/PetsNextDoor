@@ -31,6 +31,7 @@
 		DA06E4A72BE327150068EB20 /* NumberConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E4A62BE327150068EB20 /* NumberConverter.swift */; };
 		DA06E4BE2BE4BBF20068EB20 /* PetBirthDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E4BD2BE4BBF20068EB20 /* PetBirthDate.swift */; };
 		DA0A5ED62AF5233900866138 /* ComponentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A5ED52AF5233900866138 /* ComponentModifier.swift */; };
+		DA0E43D92C737CE800E03ADC /* Kingfisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0E43D82C737CE800E03ADC /* Kingfisher+Extension.swift */; };
 		DA0F92082A971C860059690E /* ValueObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92072A971C860059690E /* ValueObservable.swift */; };
 		DA0F92122A9848110059690E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92112A9848110059690E /* API.swift */; };
 		DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0F92132A9848720059690E /* NetworkProvidable.swift */; };
@@ -248,6 +249,7 @@
 		DA06E4A62BE327150068EB20 /* NumberConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberConverter.swift; sourceTree = "<group>"; };
 		DA06E4BD2BE4BBF20068EB20 /* PetBirthDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetBirthDate.swift; sourceTree = "<group>"; };
 		DA0A5ED52AF5233900866138 /* ComponentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentModifier.swift; sourceTree = "<group>"; };
+		DA0E43D82C737CE800E03ADC /* Kingfisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kingfisher+Extension.swift"; sourceTree = "<group>"; };
 		DA0F92072A971C860059690E /* ValueObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueObservable.swift; sourceTree = "<group>"; };
 		DA0F92112A9848110059690E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		DA0F92132A9848720059690E /* NetworkProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvidable.swift; sourceTree = "<group>"; };
@@ -591,6 +593,14 @@
 				DAFD545C2AFA51400089E93E /* SelectCareConditionFeature.swift */,
 			);
 			path = SelectCareConditions;
+			sourceTree = "<group>";
+		};
+		DA0E43D72C737CD600E03ADC /* Kingfisher */ = {
+			isa = PBXGroup;
+			children = (
+				DA0E43D82C737CE800E03ADC /* Kingfisher+Extension.swift */,
+			);
+			path = Kingfisher;
 			sourceTree = "<group>";
 		};
 		DA0F920C2A98412D0059690E /* AuthenticatePhoneNumberView */ = {
@@ -1069,6 +1079,7 @@
 		DACB0A1D2A47E20F002D18E7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				DA0E43D72C737CD600E03ADC /* Kingfisher */,
 				DA474B702B26CB88002FADC6 /* SwiftUI */,
 				DA11370F2AC3FBAE0061F1E0 /* TCA */,
 				DAF2D3A42A90CE7C00A9B47A /* Foundation */,
@@ -1348,6 +1359,7 @@
 				DA8A35042A765F140054FE25 /* TextFieldComponent.swift in Sources */,
 				DA10461D2B9AFAA400ACD453 /* AddCautionsView.swift in Sources */,
 				DAAD52F32A7CC90E00227BB5 /* UITableView+Extension.swift in Sources */,
+				DA0E43D92C737CE800E03ADC /* Kingfisher+Extension.swift in Sources */,
 				DA565D572BC784C000E6A9FD /* ChatRoomView.swift in Sources */,
 				DA86DEE22B31829900580D3C /* SOSPostModel.swift in Sources */,
 				DA449E012ACC488F0025A397 /* SelectCategoryView.swift in Sources */,

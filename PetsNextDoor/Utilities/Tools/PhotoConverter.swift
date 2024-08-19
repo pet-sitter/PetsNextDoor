@@ -20,4 +20,7 @@ struct PhotoConverter {
     return (UIImage(data: imageData ?? Data()), imageData)
   }
   
+  static func getImageData(fromPhotosPickerItem item: PhotosPickerItem) async -> Data? {
+    return try? await item.loadTransferable(type: Data.self)
+  }
 }
