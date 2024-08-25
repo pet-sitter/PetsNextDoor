@@ -112,4 +112,15 @@ extension View {
     frame(width: value, height: value)
   }
   
+  @ViewBuilder
+  func `if`<Content: View>(
+    _ condition: Bool,
+    _ apply: (Self) -> Content
+  ) -> some View {
+    if condition {
+      apply(self)
+    } else {
+      self
+    }
+  }
 }

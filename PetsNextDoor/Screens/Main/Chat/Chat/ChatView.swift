@@ -410,6 +410,8 @@ struct SingleChatImageView: View {
   
   var viewModel: SingleChatImageViewModel
   
+  @State private var isChatImageViewPresented: Bool = false
+  
   var body: some View {
     VStack(spacing: 0) {
       if viewModel.isMyChat {
@@ -419,6 +421,15 @@ struct SingleChatImageView: View {
       }
     }
     .modifier(PlainListModifier())
+    .fullScreenCover(
+      isPresented: $isChatImageViewPresented,
+      onDismiss: {
+        
+      },
+      content: {
+        ChatImageViewer(medias: [viewModel.media])
+      }
+    )
   }
   
   private var myImageView: some View {
@@ -489,17 +500,22 @@ struct MultipleChatImageViewModel: Equatable {
   let isMyChat: Bool
   
   init(medias: [PND.Media], isMyChat: Bool) {
+    self.additionalImageCount = medias.count - 2
     self.medias = medias
     self.isMyChat = isMyChat
-    self.firstImageUrlString = self.medias.removeFirst().url ?? ""
-    self.secondImageUrlString = self.medias.removeFirst().url ?? ""
-    self.additionalImageCount = medias.count - 2
+    
+    var tempMedias: [PND.Media] = medias
+    
+    self.firstImageUrlString = tempMedias.removeFirst().url ?? ""
+    self.secondImageUrlString = tempMedias.removeFirst().url ?? ""
   }
 }
 
 struct MultipleChatImageView: View {
   
   var viewModel: MultipleChatImageViewModel
+  
+  @State private var isChatImageViewPresented: Bool = false
   
   var body: some View {
     VStack(spacing: 0) {
@@ -510,6 +526,18 @@ struct MultipleChatImageView: View {
       }
     }
     .modifier(PlainListModifier())
+    .onTapGesture {
+      isChatImageViewPresented = true
+    }
+    .fullScreenCover(
+      isPresented: $isChatImageViewPresented,
+      onDismiss: {
+        
+      },
+      content: {
+        ChatImageViewer(medias: viewModel.medias)
+      }
+    )
   }
   
   private var myImageView: some View {
@@ -532,6 +560,20 @@ struct MultipleChatImageView: View {
         }
         .resizable()
         .centerCropImage(width: CGFloat(125), height: CGFloat(125))
+        .if(viewModel.additionalImageCount >= 1, { view in
+          view
+            .overlay(
+              ZStack {
+                Color
+                  .black
+                  .opacity(0.5)
+                
+                Text("+\(viewModel.additionalImageCount)")
+                  .font(.system(size: 20, weight: .bold))
+                  .foregroundStyle(PND.DS.commonWhite)
+              }
+            )
+        })
         .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
       
       DefaultSpacer(axis: .horizontal)
@@ -566,6 +608,20 @@ struct MultipleChatImageView: View {
             }
             .resizable()
             .centerCropImage(width: CGFloat(125), height: CGFloat(125))
+            .if(viewModel.additionalImageCount >= 1, { view in
+              view
+                .overlay(
+                  ZStack {
+                    Color
+                      .black
+                      .opacity(0.5)
+                    
+                    Text("+\(viewModel.additionalImageCount)")
+                      .font(.system(size: 20, weight: .bold))
+                      .foregroundStyle(PND.DS.commonWhite)
+                  }
+                )
+            })
             .clipShape(RoundedRectangle(cornerRadius: CGFloat(20)))
         }
       }
