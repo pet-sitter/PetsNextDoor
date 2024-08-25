@@ -18,6 +18,7 @@ struct MainTabNavigationPath {
     case selectCareConditions(SelectCareConditionFeature.State)
     case selectOtherRequirements(SelectOtherRequirementsFeature.State)
     case chat(ChatFeature.State)
+    case chatMemberList(ChatMembersFeature.State)
     case writeUrgentPost(WriteUrgentPostFeature.State)
 		case myActivity(MyActivityFeature.State)
   }
@@ -28,6 +29,7 @@ struct MainTabNavigationPath {
     case selectCareConditions(SelectCareConditionFeature.Action)
     case selectOtherRequirements(SelectOtherRequirementsFeature.Action)
     case chat(ChatFeature.Action)
+    case chatMemberList(ChatMembersFeature.Action)
     case writeUrgentPost(WriteUrgentPostFeature.Action)
 		case myActivity(MyActivityFeature.Action)
   }
@@ -38,6 +40,7 @@ struct MainTabNavigationPath {
     Scope(state: \.selectCareConditions, action: \.selectCareConditions) { SelectCareConditionFeature() }
     Scope(state: \.selectOtherRequirements, action: \.selectOtherRequirements) { SelectOtherRequirementsFeature() }
     Scope(state: \.chat, action: \.chat) { ChatFeature() }
+    Scope(state: \.chatMemberList, action: \.chatMemberList) { ChatMembersFeature() }
     Scope(state: \.writeUrgentPost, action: \.writeUrgentPost) { WriteUrgentPostFeature() }
 		Scope(state: \.myActivity, action: \.myActivity) { MyActivityFeature() }
   }

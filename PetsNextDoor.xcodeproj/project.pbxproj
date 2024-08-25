@@ -193,6 +193,7 @@
 		DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */; };
 		DACDA46D2B63821E00B3A837 /* AddPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACDA46C2B63821E00B3A837 /* AddPetView.swift */; };
 		DAD633122B837DB9004A962E /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD633112B837DB9004A962E /* CalendarView.swift */; };
+		DAD72D4D2C7B097300399F9B /* ChatMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD72D4C2C7B097300399F9B /* ChatMembersView.swift */; };
 		DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */; };
 		DADD6DEA2B2D464C009DB81D /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */; };
 		DADEB6D02AEB8468002BED63 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEB6CF2AEB8468002BED63 /* Renderer.swift */; };
@@ -407,6 +408,7 @@
 		DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		DACDA46C2B63821E00B3A837 /* AddPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetView.swift; sourceTree = "<group>"; };
 		DAD633112B837DB9004A962E /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		DAD72D4C2C7B097300399F9B /* ChatMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMembersView.swift; sourceTree = "<group>"; };
 		DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFilledTextField.swift; sourceTree = "<group>"; };
 		DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		DADEB6CF2AEB8468002BED63 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
@@ -860,6 +862,7 @@
 			isa = PBXGroup;
 			children = (
 				DA952C622C00761700A8AEDE /* ChatView.swift */,
+				DAD72D4C2C7B097300399F9B /* ChatMembersView.swift */,
 				DA5916562C7AFD7F004A3D7F /* ChatImageViewer.swift */,
 			);
 			path = Chat;
@@ -1378,6 +1381,7 @@
 				DAF813252AE2A31200B46E5C /* SelectPetComponent.swift in Sources */,
 				DA06E4A72BE327150068EB20 /* NumberConverter.swift in Sources */,
 				DAE8D3782B5647290026F167 /* CheckNicknameModel.swift in Sources */,
+				DAD72D4D2C7B097300399F9B /* ChatMembersView.swift in Sources */,
 				DA06E4BE2BE4BBF20068EB20 /* PetBirthDate.swift in Sources */,
 				DA0F92082A971C860059690E /* ValueObservable.swift in Sources */,
 				DAE8D37C2B564A370026F167 /* BreedListResponseModel.swift in Sources */,

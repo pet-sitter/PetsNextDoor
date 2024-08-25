@@ -65,6 +65,7 @@ struct ChatFeature: Reducer {
 
     enum ViewAction: Equatable {
       case onAppear
+      case onMemberListButtonTap
       
       // ChatTextField
       case onSendChatButtonTap
@@ -105,6 +106,9 @@ struct ChatFeature: Reducer {
 				// View
 			case .view(.onAppear):
 				return observeChatActionStream()
+        
+      case .view(.onMemberListButtonTap):
+        return .none
 
 				// Internal
 				
@@ -305,7 +309,7 @@ struct ChatView: View {
           }
           
           Button {
-            
+            store.send(.view(.onMemberListButtonTap))
           } label: {
             HStack {
               Text("멤버 관리")

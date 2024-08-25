@@ -23,7 +23,7 @@ extension PND {
 extension PND {
   
   // 타 이용자 정보 조회 시 사용하는 모델
-  struct UserInfoModel: Codable {
+  struct UserInfoModel: Codable, Equatable {
     let id: Int
     let nickname: String
     var profileImageUrl: String?

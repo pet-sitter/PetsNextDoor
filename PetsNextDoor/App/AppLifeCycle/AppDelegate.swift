@@ -199,6 +199,16 @@ struct MainTabBarFeature: Reducer {
           return .none
 				
           
+        case .element(id: _, action: .chat(.view(.onMemberListButtonTap))):
+          state.path.append(.chatMemberList(ChatMembersFeature.State(users: [
+            // 임시 코드
+            .init(id: 0, nickname: "호두 언니", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+            .init(id: 1, nickname: "레오", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+            .init(id: 2, nickname: "크리스티아누 호달두", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+            .init(id: 3, nickname: "리오넬 메시", profileImageUrl: "https://placedog.net/200/200random", pets: [])
+          ])))
+          return .none
+          
         default:
           return .none
         }
@@ -250,6 +260,11 @@ struct MainTabBarView: View {
       case .chat:
         if let store = store.scope(state: \.chat, action: \.chat) {
           ChatView(store: store)
+        }
+        
+      case .chatMemberList:
+        if let store = store.scope(state: \.chatMemberList, action: \.chatMemberList) {
+          ChatMembersView(store: store)
         }
         
       case .writeUrgentPost:

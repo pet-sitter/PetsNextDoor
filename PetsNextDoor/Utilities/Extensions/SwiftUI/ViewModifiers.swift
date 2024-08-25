@@ -123,4 +123,15 @@ extension View {
       self
     }
   }
+  
+  func onDragDownGesture(_ task: @escaping () -> Void) -> some View {
+    self
+      .gesture(
+        DragGesture().onEnded { value in
+          if value.location.y - value.startLocation.y > 150 {
+            task()
+          }
+        }
+      )
+  }
 }
