@@ -428,7 +428,7 @@ struct SingleChatImageView: View {
     .fullScreenCover(
       isPresented: $isChatImageViewPresented,
       onDismiss: {
-        
+        isChatImageViewPresented = false 
       },
       content: {
         ChatImageViewer(medias: [viewModel.media])
@@ -536,7 +536,7 @@ struct MultipleChatImageView: View {
     .fullScreenCover(
       isPresented: $isChatImageViewPresented,
       onDismiss: {
-        
+        isChatImageViewPresented = false
       },
       content: {
         ChatImageViewer(medias: viewModel.medias)

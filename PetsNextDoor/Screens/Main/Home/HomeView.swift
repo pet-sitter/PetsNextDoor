@@ -118,10 +118,10 @@ struct HomeView: View {
           viewStore.send(.view(.onPetRegistrationAlertOkButtonTap))
         }
       }
-//      .toolbar(tabBarIsHidden ? .hidden : .visible, for: .tabBar)
     }
   }
   
+  @ViewBuilder
   private var topNavigationBarView: some View {
     HStack {
       Spacer().frame(width: PND.Metrics.defaultSpacing)

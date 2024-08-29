@@ -52,6 +52,7 @@
 		DA15C12E2AE5623A004D8C58 /* ComponentBuildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C12D2AE5623A004D8C58 /* ComponentBuildable.swift */; };
 		DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C12F2AE5628E004D8C58 /* ComponentBuilder.swift */; };
 		DA15C1322AE57699004D8C58 /* UITableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C1312AE57699004D8C58 /* UITableViewAdapter.swift */; };
+		DA18A62F2C80BC0F0038C75C /* MainTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18A62E2C80BC0F0038C75C /* MainTabs.swift */; };
 		DA20157A2ABEF8D600F7516A /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2015792ABEF8D600F7516A /* MediaService.swift */; };
 		DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20157B2ABEF9C300F7516A /* ServiceError.swift */; };
 		DA20157F2ABEFC2200F7516A /* UploadMediaResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20157E2ABEFC2200F7516A /* UploadMediaResponseModel.swift */; };
@@ -192,7 +193,7 @@
 		DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */; };
 		DACB0A222A47E25F002D18E7 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */; };
 		DACDA46D2B63821E00B3A837 /* AddPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACDA46C2B63821E00B3A837 /* AddPetView.swift */; };
-		DAD633122B837DB9004A962E /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD633112B837DB9004A962E /* CalendarView.swift */; };
+		DAD633122B837DB9004A962E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD633112B837DB9004A962E /* MapView.swift */; };
 		DAD72D4D2C7B097300399F9B /* ChatMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD72D4C2C7B097300399F9B /* ChatMembersView.swift */; };
 		DAD7C3F22AFB7AC3009C8D9B /* BaseFilledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */; };
 		DADD6DEA2B2D464C009DB81D /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */; };
@@ -274,6 +275,7 @@
 		DA15C12D2AE5623A004D8C58 /* ComponentBuildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBuildable.swift; sourceTree = "<group>"; };
 		DA15C12F2AE5628E004D8C58 /* ComponentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBuilder.swift; sourceTree = "<group>"; };
 		DA15C1312AE57699004D8C58 /* UITableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewAdapter.swift; sourceTree = "<group>"; };
+		DA18A62E2C80BC0F0038C75C /* MainTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabs.swift; sourceTree = "<group>"; };
 		DA2015792ABEF8D600F7516A /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		DA20157B2ABEF9C300F7516A /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		DA20157E2ABEFC2200F7516A /* UploadMediaResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadMediaResponseModel.swift; sourceTree = "<group>"; };
@@ -407,7 +409,7 @@
 		DACB0A1F2A47E224002D18E7 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		DACB0A212A47E25F002D18E7 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		DACDA46C2B63821E00B3A837 /* AddPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetView.swift; sourceTree = "<group>"; };
-		DAD633112B837DB9004A962E /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		DAD633112B837DB9004A962E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		DAD72D4C2C7B097300399F9B /* ChatMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMembersView.swift; sourceTree = "<group>"; };
 		DAD7C3F12AFB7AC3009C8D9B /* BaseFilledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFilledTextField.swift; sourceTree = "<group>"; };
 		DADD6DE92B2D464C009DB81D /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
@@ -726,7 +728,7 @@
 				DA419C932A9B329800C76AB9 /* Home */,
 				DA419C942A9B329E00C76AB9 /* Community */,
 				DA419C952A9B32AF00C76AB9 /* Chat */,
-				DAD633102B837DA7004A962E /* Calendar */,
+				DAD633102B837DA7004A962E /* Map */,
 				DA419C962A9B32B500C76AB9 /* MyPage */,
 			);
 			path = Main;
@@ -826,6 +828,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */,
+				DA18A62E2C80BC0F0038C75C /* MainTabs.swift */,
 				DA755EB02BC7BC3400209389 /* MainTabNavigationPath.swift */,
 				DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */,
 			);
@@ -1124,12 +1127,12 @@
 			path = UrgentPostDetail;
 			sourceTree = "<group>";
 		};
-		DAD633102B837DA7004A962E /* Calendar */ = {
+		DAD633102B837DA7004A962E /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				DAD633112B837DB9004A962E /* CalendarView.swift */,
+				DAD633112B837DB9004A962E /* MapView.swift */,
 			);
-			path = Calendar;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		DADD6DE82B2D4641009DB81D /* SwiftUI_Views */ = {
@@ -1300,6 +1303,7 @@
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
 				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
 				DA25E8782B57AC900068D2F0 /* PND.HostingController.swift in Sources */,
+				DA18A62F2C80BC0F0038C75C /* MainTabs.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				DAB571822B087CE900687979 /* MeetingCardComponent.swift in Sources */,
 				DA755EB12BC7BC3400209389 /* MainTabNavigationPath.swift in Sources */,
@@ -1317,7 +1321,7 @@
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
 				DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */,
 				DA6A91932BBBFAB700898737 /* Error+Extension.swift in Sources */,
-				DAD633122B837DB9004A962E /* CalendarView.swift in Sources */,
+				DAD633122B837DB9004A962E /* MapView.swift in Sources */,
 				DA8F5A7C2BF4C6DC0031AB75 /* MyActivityFeature.swift in Sources */,
 				DA38FC322AADA19800A81C93 /* MyPageFeature.swift in Sources */,
 				DA8F5A752BF4B1C10031AB75 /* AddPetButtonView.swift in Sources */,
