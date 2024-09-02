@@ -25,6 +25,7 @@
 		7CF354EB2B1767980058DCA7 /* SelectEitherCatOrDogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF354EA2B1767980058DCA7 /* SelectEitherCatOrDogView.swift */; };
 		7CF354F32B176DDA0058DCA7 /* PND+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF354F22B176DDA0058DCA7 /* PND+Models.swift */; };
 		7CF7614C2B136ACB0003F684 /* SelectEitherCatOrDogFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF7614B2B136ACB0003F684 /* SelectEitherCatOrDogFeature.swift */; };
+		A1A84403DAE565256C7AFD3D /* Pods_PetsNextDoor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 035686319ABF3A3B35D11D1F /* Pods_PetsNextDoor.framework */; };
 		DA0227AE2AC2D9880014A3E4 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */; };
 		DA06E49C2BE2178C0068EB20 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E49B2BE2178C0068EB20 /* Int+Extension.swift */; };
 		DA06E49F2BE21D3C0068EB20 /* UserDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06E49E2BE21D3C0068EB20 /* UserDataCenter.swift */; };
@@ -53,6 +54,7 @@
 		DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C12F2AE5628E004D8C58 /* ComponentBuilder.swift */; };
 		DA15C1322AE57699004D8C58 /* UITableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C1312AE57699004D8C58 /* UITableViewAdapter.swift */; };
 		DA18A62F2C80BC0F0038C75C /* MainTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18A62E2C80BC0F0038C75C /* MainTabs.swift */; };
+		DA18A69D2C85E1870038C75C /* ButtonStyle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18A69C2C85E1870038C75C /* ButtonStyle+Extension.swift */; };
 		DA20157A2ABEF8D600F7516A /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2015792ABEF8D600F7516A /* MediaService.swift */; };
 		DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20157B2ABEF9C300F7516A /* ServiceError.swift */; };
 		DA20157F2ABEFC2200F7516A /* UploadMediaResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20157E2ABEFC2200F7516A /* UploadMediaResponseModel.swift */; };
@@ -231,6 +233,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		035686319ABF3A3B35D11D1F /* Pods_PetsNextDoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PetsNextDoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37E13C6AE786116C6A576FFC /* Pods-PetsNextDoor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsNextDoor.debug.xcconfig"; path = "Target Support Files/Pods-PetsNextDoor/Pods-PetsNextDoor.debug.xcconfig"; sourceTree = "<group>"; };
 		7C1277F22A544131004A83A4 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		7C1277F42A544142004A83A4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7C1277F62A54418C004A83A4 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -248,6 +252,7 @@
 		7CF354EA2B1767980058DCA7 /* SelectEitherCatOrDogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEitherCatOrDogView.swift; sourceTree = "<group>"; };
 		7CF354F22B176DDA0058DCA7 /* PND+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PND+Models.swift"; sourceTree = "<group>"; };
 		7CF7614B2B136ACB0003F684 /* SelectEitherCatOrDogFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEitherCatOrDogFeature.swift; sourceTree = "<group>"; };
+		A520EA08794AE78F403430DF /* Pods-PetsNextDoor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsNextDoor.release.xcconfig"; path = "Target Support Files/Pods-PetsNextDoor/Pods-PetsNextDoor.release.xcconfig"; sourceTree = "<group>"; };
 		DA0227AD2AC2D9880014A3E4 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		DA06E49B2BE2178C0068EB20 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		DA06E49E2BE21D3C0068EB20 /* UserDataCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataCenter.swift; sourceTree = "<group>"; };
@@ -276,6 +281,7 @@
 		DA15C12F2AE5628E004D8C58 /* ComponentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBuilder.swift; sourceTree = "<group>"; };
 		DA15C1312AE57699004D8C58 /* UITableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewAdapter.swift; sourceTree = "<group>"; };
 		DA18A62E2C80BC0F0038C75C /* MainTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabs.swift; sourceTree = "<group>"; };
+		DA18A69C2C85E1870038C75C /* ButtonStyle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ButtonStyle+Extension.swift"; sourceTree = "<group>"; };
 		DA2015792ABEF8D600F7516A /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		DA20157B2ABEF9C300F7516A /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		DA20157E2ABEFC2200F7516A /* UploadMediaResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadMediaResponseModel.swift; sourceTree = "<group>"; };
@@ -465,6 +471,7 @@
 				7C1277FF2A544B8C004A83A4 /* CombineCocoa in Frameworks */,
 				DAE6FC662A96013C008BF1F1 /* Moya in Frameworks */,
 				DA275C672A44817700D09F77 /* GoogleSignIn in Frameworks */,
+				A1A84403DAE565256C7AFD3D /* Pods_PetsNextDoor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,6 +799,7 @@
 			isa = PBXGroup;
 			children = (
 				DA474B732B26CB91002FADC6 /* Shape+Extension.swift */,
+				DA18A69C2C85E1870038C75C /* ButtonStyle+Extension.swift */,
 				DAFF56C92B58B6B10085A054 /* ViewModifiers.swift */,
 				DA5926ED2B283A8100E00E74 /* Spacer+Extension.swift */,
 			);
@@ -1051,6 +1059,8 @@
 				DAC6C2CF2A3D7932002D33F8 /* PetsNextDoor */,
 				DAC6C2CE2A3D7932002D33F8 /* Products */,
 				DAAD52FD2A7D0A3D00227BB5 /* Recovered References */,
+				E061CF1BFDD331A386F2058C /* Pods */,
+				EF0EEF0D3BBFF9795BD485A9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1190,6 +1200,23 @@
 			path = UIKit_Views;
 			sourceTree = "<group>";
 		};
+		E061CF1BFDD331A386F2058C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				37E13C6AE786116C6A576FFC /* Pods-PetsNextDoor.debug.xcconfig */,
+				A520EA08794AE78F403430DF /* Pods-PetsNextDoor.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EF0EEF0D3BBFF9795BD485A9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				035686319ABF3A3B35D11D1F /* Pods_PetsNextDoor.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1197,9 +1224,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAC6C2E12A3D7933002D33F8 /* Build configuration list for PBXNativeTarget "PetsNextDoor" */;
 			buildPhases = (
+				0FCB05956047B5210EED6306 /* [CP] Check Pods Manifest.lock */,
 				DAC6C2C92A3D7932002D33F8 /* Sources */,
 				DAC6C2CA2A3D7932002D33F8 /* Frameworks */,
 				DAC6C2CB2A3D7932002D33F8 /* Resources */,
+				AA5FD4C8FCB7994552D53BDB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1286,6 +1315,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0FCB05956047B5210EED6306 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PetsNextDoor-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA5FD4C8FCB7994552D53BDB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PetsNextDoor/Pods-PetsNextDoor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PetsNextDoor/Pods-PetsNextDoor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsNextDoor/Pods-PetsNextDoor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DAC6C2C92A3D7932002D33F8 /* Sources */ = {
@@ -1457,6 +1528,7 @@
 				DA95347D2AEF8D2200ED21F9 /* HeaderTitleComponent.swift in Sources */,
 				DA4B2A8F2AFB63680053217A /* ButtonSegmentControlView.swift in Sources */,
 				DAA4F58B2B4BE5DF00E0E10F /* WriteUrgentPostView.swift in Sources */,
+				DA18A69D2C85E1870038C75C /* ButtonStyle+Extension.swift in Sources */,
 				DADEB6D02AEB8468002BED63 /* Renderer.swift in Sources */,
 				7C51EF642A94EBE5003132A1 /* BaseTableView.swift in Sources */,
 				DACB0A202A47E224002D18E7 /* UIApplication+Extension.swift in Sources */,
@@ -1625,6 +1697,7 @@
 		};
 		DAC6C2E22A3D7933002D33F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37E13C6AE786116C6A576FFC /* Pods-PetsNextDoor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1653,6 +1726,7 @@
 		};
 		DAC6C2E32A3D7933002D33F8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A520EA08794AE78F403430DF /* Pods-PetsNextDoor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

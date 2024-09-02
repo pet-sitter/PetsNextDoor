@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>해당 앱은 사용자의 위치 추적을 위해 위치 정보를 수집합니다.</string>
+	<key>NMFClientId</key>
+	<string>hop2d347rc</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>사진첩 접근을 위한 권한이 필요해요.</string>
 	<key>CFBundleURLTypes</key>

@@ -92,7 +92,7 @@ struct MainTabBarFeature: Reducer {
     var homeState: HomeFeature.State            = .init()
     var communityState: CommunityFeature.State  = .init()
     var chatListState: ChatListFeature.State    = .init()
-    var mapState: MapFeature.State            = .init()
+    var mapState: MapFeature.State              = .init()
     var myPageState: MyPageFeature.State        = .init()
     
     var path: StackState<MainTabNavigationPath.State> = .init()
