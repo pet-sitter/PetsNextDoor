@@ -53,7 +53,6 @@
 		DA15C12E2AE5623A004D8C58 /* ComponentBuildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C12D2AE5623A004D8C58 /* ComponentBuildable.swift */; };
 		DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C12F2AE5628E004D8C58 /* ComponentBuilder.swift */; };
 		DA15C1322AE57699004D8C58 /* UITableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15C1312AE57699004D8C58 /* UITableViewAdapter.swift */; };
-		DA18A62F2C80BC0F0038C75C /* MainTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18A62E2C80BC0F0038C75C /* MainTabs.swift */; };
 		DA18A69D2C85E1870038C75C /* ButtonStyle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18A69C2C85E1870038C75C /* ButtonStyle+Extension.swift */; };
 		DA20157A2ABEF8D600F7516A /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2015792ABEF8D600F7516A /* MediaService.swift */; };
 		DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20157B2ABEF9C300F7516A /* ServiceError.swift */; };
@@ -280,7 +279,6 @@
 		DA15C12D2AE5623A004D8C58 /* ComponentBuildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBuildable.swift; sourceTree = "<group>"; };
 		DA15C12F2AE5628E004D8C58 /* ComponentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBuilder.swift; sourceTree = "<group>"; };
 		DA15C1312AE57699004D8C58 /* UITableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewAdapter.swift; sourceTree = "<group>"; };
-		DA18A62E2C80BC0F0038C75C /* MainTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabs.swift; sourceTree = "<group>"; };
 		DA18A69C2C85E1870038C75C /* ButtonStyle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ButtonStyle+Extension.swift"; sourceTree = "<group>"; };
 		DA2015792ABEF8D600F7516A /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		DA20157B2ABEF9C300F7516A /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
@@ -836,7 +834,6 @@
 			isa = PBXGroup;
 			children = (
 				DAC6C2D02A3D7932002D33F8 /* AppDelegate.swift */,
-				DA18A62E2C80BC0F0038C75C /* MainTabs.swift */,
 				DA755EB02BC7BC3400209389 /* MainTabNavigationPath.swift */,
 				DAC6C2D22A3D7932002D33F8 /* SceneDelegate.swift */,
 			);
@@ -1374,7 +1371,6 @@
 				DAAD530D2A7E291300227BB5 /* EmptyView.swift in Sources */,
 				DA38FC302AADA17400A81C93 /* ChatListFeature.swift in Sources */,
 				DA25E8782B57AC900068D2F0 /* PND.HostingController.swift in Sources */,
-				DA18A62F2C80BC0F0038C75C /* MainTabs.swift in Sources */,
 				DA86A0F72A62739500525711 /* LoadingIndicator.swift in Sources */,
 				DAB571822B087CE900687979 /* MeetingCardComponent.swift in Sources */,
 				DA755EB12BC7BC3400209389 /* MainTabNavigationPath.swift in Sources */,

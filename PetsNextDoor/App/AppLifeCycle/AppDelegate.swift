@@ -87,7 +87,7 @@ struct MainTabBarFeature: Reducer {
   @ObservableState
   struct State: Equatable {
     
-    var selectedTab: MainTabs.MainTab = .home
+    var selectedTab: MainTabBarView.MainTab = .home
     
     var homeState: HomeFeature.State            = .init()
     var communityState: CommunityFeature.State  = .init()
@@ -290,29 +290,87 @@ struct MainTabBarView: View {
   }
   
   private var contentView: some View {
-    VStack(spacing: 0) {
-      ZStack {
-        switch store.selectedTab {
-        case .home:
-          HomeView(store: store.scope(state: \.homeState, action: \.homeAction))
-          
-        case .chatList:
-          ChatListView(store: store.scope(state: \.chatListState, action: \.chatListAction))
-          
-        case .map:
-          MapView(store: store.scope(state: \.mapState, action: \.mapAction))
-          
-        case .community:
-          CommunityView(store: store.scope(state: \.communityState, action: \.communityAction))
-          
-        case .myPage:
-          MyPageView(store: store.scope(state: \.myPageState, action: \.myPageAction))
+    TabView(selection: $store.selectedTab) {
+      HomeView(store: store.scope(state: \.homeState, action: \.homeAction))
+        .tabItem {
+          MainTab
+            .home
+            .image(isSelected: store.selectedTab == .home)
+            .frame(width: imageSize, height: imageSize)
         }
-      }
-      MainTabs(selectedTab: $store.selectedTab)
+        .tag(MainTab.home)
+      
+      ChatListView(store: store.scope(state: \.chatListState, action: \.chatListAction))
+        .tabItem {
+          MainTab
+            .chatList
+            .image(isSelected: store.selectedTab == .chatList)
+            .frame(width: imageSize, height: imageSize)
+        }
+        .tag(MainTab.chatList)
+      
+      MapView(store: store.scope(state: \.mapState, action: \.mapAction))
+        .tabItem {
+          MainTab
+            .map
+            .image(isSelected: store.selectedTab == .map)
+            .frame(width: imageSize, height: imageSize)
+        }
+        .tag(MainTab.map)
+      
+      CommunityView(store: store.scope(state: \.communityState, action: \.communityAction))
+        .tabItem {
+          MainTab
+            .community
+            .image(isSelected: store.selectedTab == .community)
+            .frame(width: imageSize, height: imageSize)
+        }
+        .tag(MainTab.community)
+      
+      MyPageView(store: store.scope(state: \.myPageState, action: \.myPageAction))
+        .tabItem {
+          MainTab
+            .myPage
+            .image(isSelected: store.selectedTab == .myPage)
+            .frame(width: imageSize, height: imageSize)
+        }
+        .tag(MainTab.myPage)
     }
   }
   
+  enum MainTab: CaseIterable {
+    
+    case home
+    case chatList
+    case map
+    case community
+    case myPage
+    
+    func image(isSelected: Bool) -> Image {
+      switch self {
+      case .home:
+        Image(isSelected ? .iconHomeSelected : .iconHome)
+          .resizable()
+        
+      case .chatList:
+        Image(isSelected ? .iconChatSelected : .iconChat)
+          .resizable()
+        
+      case .map:
+        Image(isSelected ? .iconMapSelected : .iconMapUnselected)
+          .resizable()
+          
+        
+      case .community:
+        Image(isSelected ? .iconCommunitySelected : .iconCommunity)
+          .resizable()
+        
+      case .myPage:
+        Image(isSelected ? .iconUserSelected : .iconUser)
+          .resizable()
+      }
+    }
+  }
 
 }
 
