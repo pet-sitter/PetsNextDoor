@@ -14,8 +14,6 @@ struct HomeView: View {
   
   @State private var tabBarIsHidden: Bool = false
   
-  @Namespace var sd
-  
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       ZStack {

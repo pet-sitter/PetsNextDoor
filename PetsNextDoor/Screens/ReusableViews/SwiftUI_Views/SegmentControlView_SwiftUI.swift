@@ -25,7 +25,7 @@ struct SegmentControlView_SwiftUI: View {
       selectedIndex = index
     }, label: {
       Text(title)
-        .font(.system(size: 20, weight: index == selectedIndex ? .semibold : .medium))
+        .font(.system(size: 20, weight: .bold))
         .foregroundStyle(
           index == selectedIndex
           ? PND.Colors.primary.asColor

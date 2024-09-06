@@ -89,7 +89,7 @@ struct MainTabBarFeature: Reducer {
     
     var selectedTab: MainTabBarView.MainTab = .home
     
-    var homeState: HomeFeature.State            = .init()
+    var homeState: MainHomeFeature.State        = .init()
     var communityState: CommunityFeature.State  = .init()
     var chatListState: ChatListFeature.State    = .init()
     var mapState: MapFeature.State              = .init()
@@ -104,7 +104,7 @@ struct MainTabBarFeature: Reducer {
     
     case binding(BindingAction<State>)
     
-    case homeAction(HomeFeature.Action)
+    case homeAction(MainHomeFeature.Action)
     case communityAction(CommunityFeature.Action)
     case chatListAction(ChatListFeature.Action)
     case mapAction(MapFeature.Action)
@@ -114,7 +114,7 @@ struct MainTabBarFeature: Reducer {
   }
   
   var body: some Reducer<State,Action> {
-    Scope(state: \.homeState, action: \.homeAction)           {   HomeFeature()      }
+    Scope(state: \.homeState, action: \.homeAction)           {   MainHomeFeature()  }
     Scope(state: \.communityState, action: \.communityAction) {   CommunityFeature() }
     Scope(state: \.chatListState, action: \.chatListAction)   {   ChatListFeature()  }
     Scope(state: \.mapState, action: \.mapAction)             {   MapFeature()       }
@@ -146,17 +146,17 @@ struct MainTabBarFeature: Reducer {
 				}
         
         // 홈화면 액션
-      case .homeAction(.delegate(.pushToSelectPetListView)):
-        state.path.append(.selectPetList(SelectPetListFeature.State()))
-        return .none 
-        
-      case .homeAction(.delegate(.pushToUrgentPostDetailView(let postId))):
-        state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
-        return .none
-        
-      case .homeAction(.delegate(.selectMyPageView)):
-        state.selectedTab = .myPage
-        return .none
+//      case .homeAction(.delegate(.pushToSelectPetListView)):
+//        state.path.append(.selectPetList(SelectPetListFeature.State()))
+//        return .none 
+//        
+//      case .homeAction(.delegate(.pushToUrgentPostDetailView(let postId))):
+//        state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
+//        return .none
+//        
+//      case .homeAction(.delegate(.selectMyPageView)):
+//        state.selectedTab = .myPage
+//        return .none
         
         // 채팅방 목록 액션
         
@@ -291,7 +291,7 @@ struct MainTabBarView: View {
   
   private var contentView: some View {
     TabView(selection: $store.selectedTab) {
-      HomeView(store: store.scope(state: \.homeState, action: \.homeAction))
+      MainHomeView(store: store.scope(state: \.homeState, action: \.homeAction))
         .tabItem {
           MainTab
             .home
@@ -318,7 +318,9 @@ struct MainTabBarView: View {
         }
         .tag(MainTab.map)
       
-      CommunityView(store: store.scope(state: \.communityState, action: \.communityAction))
+      
+      HomeView(store: .init(initialState: .init(), reducer: { HomeFeature() }))
+//      CommunityView(store: store.scope(state: \.communityState, action: \.communityAction))
         .tabItem {
           MainTab
             .community
