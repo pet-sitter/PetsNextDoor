@@ -55,6 +55,7 @@ struct MainHomeFeature: Reducer {
       case onAppear
       case onTabIndexChange(Int)
       case onSortOptionChange(PND.SortOption)
+      case onEventCardTap(EventCardView.ViewModel)
     }
     
     enum InternalAction: Equatable {
@@ -62,7 +63,7 @@ struct MainHomeFeature: Reducer {
     }
     
     enum DelegateAction: Equatable {
-      
+      case pushToEventDetailView(eventId: String)
     }
     
     case view(ViewAction)
@@ -78,7 +79,6 @@ struct MainHomeFeature: Reducer {
       switch action {
         
       case .view(.onAppear):
-        
         return .none
         
       case .view(.onTabIndexChange(let index)):
@@ -88,6 +88,9 @@ struct MainHomeFeature: Reducer {
       case .view(.onSortOptionChange(let sortOption)):
         state.sortOption = sortOption
         return .none
+        
+      case .view(.onEventCardTap(let viewModel)):
+        return .send(.delegate(.pushToEventDetailView(eventId: viewModel.id)))
         
       default:
         return .none
@@ -141,6 +144,9 @@ struct MainHomeView: View {
           
           ForEach(store.eventCardVMs, id: \.id) { vm in
               EventCardView(viewModel: vm)
+              .onTapGesture {
+                store.send(.view(.onEventCardTap(vm)))
+              }
           }
           
         }
@@ -264,7 +270,6 @@ struct EventCardView: View {
         Spacer().frame(height: 4)
         
         HStack(spacing: 0) {
-          
           KFImage.url(MockDataProvider.randomePetImageUrl)
             .resizable()
             .scaledToFit()
