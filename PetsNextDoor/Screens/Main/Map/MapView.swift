@@ -215,6 +215,23 @@ struct MapView: View {
         .onAppear() {
           
         }
+        .overlay(alignment: .top, content: {
+          Button {
+            
+          } label : {
+            Capsule()
+              .foregroundStyle(PND.DS.gray90)
+              .frame(width: UIScreen.fixedScreenSize.width / 2, height: 36)
+              .overlay(
+                Text("+ 근처 이벤트 45개 더보기")
+                  .multilineTextAlignment(.center)
+                  .font(.system(size: 14, weight: .semibold))
+                  .foregroundStyle(.white)
+              )
+          }
+          .offset(y: 10)
+          .buttonStyle(ScaleEffectButtonStyle())
+        })
         .overlay(alignment: .bottom) {
           eventHorizontalTabView
         }

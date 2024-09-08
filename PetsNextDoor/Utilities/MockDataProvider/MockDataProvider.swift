@@ -38,7 +38,7 @@ struct MockDataProvider {
   }
   
   static var randomPetImageUrlString: String {
-    "https://placedog.net/200/200?random"
+    "https://placedog.net/640/480?random"
   }
   
   static var randomePetImageUrl: URL {

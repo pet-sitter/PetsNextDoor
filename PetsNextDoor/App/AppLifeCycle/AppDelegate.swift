@@ -178,6 +178,11 @@ struct MainTabBarFeature: Reducer {
 				// 그 외
       case let .path(action):
         switch action {
+          
+        case .element(id: _, action: .eventDetail(.delegate(.popView))):
+          let _ = state.path.popLast()
+          return .none 
+          
         case .element(id: _, action: .selectPetList(.pushToSelectCareConditionsView(let urgentModel))):
           state.path.append(.selectCareConditions(SelectCareConditionFeature.State(urgentPostModel: urgentModel)))
           return .none
