@@ -53,7 +53,7 @@ extension PND {
   struct ChatMessagesModel: Codable {
     let hasNext: Bool
     let hasPreve: Bool
-    @DefaultEmptyArray var items: [ChatMessagesModel]
+    @DefaultEmptyArray var items: [ChatMessages]
   }
   
   struct ChatMessages: Codable {

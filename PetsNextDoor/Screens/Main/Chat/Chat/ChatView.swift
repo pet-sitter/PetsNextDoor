@@ -103,9 +103,18 @@ struct ChatFeature: Reducer {
 			
 			switch action {
 				
-				// View
-			case .view(.onAppear):
-				return observeChatActionStream()
+        // View
+      case .view(.onAppear):
+        return .run { send in
+          
+          let room = try await chatDataProvider.fetchRoomInfo()
+          print("✅ room: \(room)")
+          
+          
+          await observeChatActionStream()
+        } catch: { error, send in
+          print("❌ error onAppear : \(error.asMoyaError.debugDescription)")
+        }
         
       case .view(.onMemberListButtonTap):
         return .none
@@ -177,6 +186,8 @@ struct ChatFeature: Reducer {
 			return .none
 		}
 	}
+  
+
 	
 
 	private func observeChatActionStream() -> Effect<Action> {
@@ -200,10 +211,8 @@ struct ChatFeature: Reducer {
 					}
 				}
 			}
-			
 		}
 	}
-	
 }
 
 

@@ -26,6 +26,9 @@ struct ChatListView: View {
       .environment(\.defaultMinListRowHeight, 0)
       .listStyle(.plain)
     }
+    .onAppear() {
+      store.send(.onAppear)
+    }
   }
   
   private var topNavigationBarView: some View {

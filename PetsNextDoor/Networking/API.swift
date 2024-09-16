@@ -37,6 +37,14 @@ extension PND {
     //MARK: - Pets
     case getBreeds(pageSize: Int, petType: String)
     
+    //MARK: - Chat
+    case getChatRooms
+    case postChatRoom
+    case getChatRoom(roomId: Int)
+    case postJoinChatRoom(roomId: Int)
+    case postLeaveChatRoom(roomId: Int)
+    case getChatRoomMessages(roomId: Int, prev: Int?, next: Int?, size: Int)
+    
     
   }
 }
@@ -95,6 +103,19 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       //MARK: - Pets
     case .getBreeds:
       return "/breeds"
+      
+    case .getChatRooms:
+      return "/chat/rooms"
+    case .postChatRoom:
+      return "/chat/rooms"
+    case .getChatRoom(let roomId):
+      return "/chat/rooms/\(roomId)"
+    case .postJoinChatRoom(let roomId):
+      return "/chat/rooms/\(roomId)/join"
+    case .postLeaveChatRoom(let roomId):
+      return "/chat/rooms/\(roomId)/leave"
+    case let .getChatRoomMessages(roomId, _, _, _):
+      return "/chat/rooms/\(roomId)/messages"
     }
   }
   
@@ -247,6 +268,18 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .set(key: "page", value: 1)
           .set(key: "size", value: pageSize)
           .set(key: "pet_type", value: petType)
+          .build(),
+        encoding: URLEncoding.queryString
+      )
+      
+      
+      //MARK: - Chat
+    case let .getChatRoomMessages(roomId, prev, next, size):
+      return .requestParameters(
+        parameters: .builder
+          .setOptional(key: "prev", value: prev)
+          .setOptional(key: "next", value: next)
+          .set(key: "size", value: size)
           .build(),
         encoding: URLEncoding.queryString
       )

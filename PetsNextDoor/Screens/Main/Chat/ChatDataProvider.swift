@@ -15,41 +15,59 @@ final class ChatDataProvider {
     case onDisconnect
     case onReceiveNewChatType([ChatViewType])
   }
+  
+  struct Configuration {
+    let roomId: Int
+  }
+  
+  private let configuration: Configuration
 
-  private var chatService: any ChatServiceProvidable
+  private var chatSocketService: any ChatServiceProvidable
+  private var chatAPIService: any ChatAPIServiceProvidable
   private let mediaService: any MediaServiceProvidable
   
   private(set) var chatModels: [PND.ChatModel] = []
 	
 	private var continuation: AsyncStream<Action>.Continuation!
   
-	
+  
+  
   init() {
-    self.chatService = LiveChatService(
+    self.configuration = Configuration(roomId: 1)
+    self.chatSocketService = LiveChatService(
       socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
-      configuration: .init(roomId: 1)
+      configuration: .init(roomId: configuration.roomId)
     )
-//    self.chatService = MockLiveChatService()
+    self.chatAPIService = ChatAPIService()
     self.mediaService = MediaService()
-    chatService.delegate = self
+    chatSocketService.delegate = self
   }
+  
+  
+  
+  func fetchRoomInfo() async throws -> PND.ChatRoomModel {
+    return try await chatAPIService.getChatRoom(roomId: configuration.roomId)
+  }
+  
+  
+  
   
 	
 	func observeChatActionStream() -> AsyncStream<Action> {
 		let stream = AsyncStream<Action> { continuation in
 			continuation.onTermination = { [weak self] _ in
-        self?.chatService.disconnect()
+        self?.chatSocketService.disconnect()
 			}
     
 			self.continuation = continuation
 		}
 		
-		chatService.connect()
+    chatSocketService.connect()
 		return stream
 	}
   
   func sendChat(text: String) {
-    chatService.sendMessage(text)
+    chatSocketService.sendMessage(text)
   }
   
   func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws {
@@ -68,7 +86,7 @@ final class ChatDataProvider {
     let uploadResponseModel: [PND.UploadMediaResponseModel] = try await mediaService.uploadImages(imageDatas: imageDatas)
     let mediaIds: [Int] = uploadResponseModel.map(\.id)
     
-    chatService.sendImages(mediaIds: mediaIds)
+    chatSocketService.sendImages(mediaIds: mediaIds)
   }
 }
 
