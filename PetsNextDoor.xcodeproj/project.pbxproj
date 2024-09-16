@@ -228,6 +228,8 @@
 		DAFB93792A5ACE25006FC77C /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB93782A5ACE25006FC77C /* Dependency.swift */; };
 		DAFBA8A22B50F931003EF0BF /* SelectConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBA8A12B50F931003EF0BF /* SelectConditionView.swift */; };
 		DAFBA8AB2B511951003EF0BF /* SelectCareConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBA8AA2B511951003EF0BF /* SelectCareConditionsView.swift */; };
+		DAFCD3652C980E17000AA591 /* ChatAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFCD3642C980E17000AA591 /* ChatAPIService.swift */; };
+		DAFCD3672C980F64000AA591 /* ChatListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFCD3662C980F64000AA591 /* ChatListModel.swift */; };
 		DAFD545D2AFA51400089E93E /* SelectCareConditionFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFD545C2AFA51400089E93E /* SelectCareConditionFeature.swift */; };
 		DAFF56C82B58B4F00085A054 /* SelectPetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFF56C72B58B4F00085A054 /* SelectPetListView.swift */; };
 		DAFF56CA2B58B6B10085A054 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFF56C92B58B6B10085A054 /* ViewModifiers.swift */; };
@@ -445,6 +447,8 @@
 		DAFB93782A5ACE25006FC77C /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		DAFBA8A12B50F931003EF0BF /* SelectConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectConditionView.swift; sourceTree = "<group>"; };
 		DAFBA8AA2B511951003EF0BF /* SelectCareConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCareConditionsView.swift; sourceTree = "<group>"; };
+		DAFCD3642C980E17000AA591 /* ChatAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAPIService.swift; sourceTree = "<group>"; };
+		DAFCD3662C980F64000AA591 /* ChatListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListModel.swift; sourceTree = "<group>"; };
 		DAFD545C2AFA51400089E93E /* SelectCareConditionFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCareConditionFeature.swift; sourceTree = "<group>"; };
 		DAFF56C72B58B4F00085A054 /* SelectPetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetListView.swift; sourceTree = "<group>"; };
 		DAFF56C92B58B6B10085A054 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
@@ -634,6 +638,8 @@
 		DA0F921E2A9894750059690E /* ResponseData */ = {
 			isa = PBXGroup;
 			children = (
+				DAFA5A0F2C57BB5D00B83322 /* ChatModel.swift */,
+				DAFCD3662C980F64000AA591 /* ChatListModel.swift */,
 				DA0F92212A9894A00059690E /* UserRegistrationStatus.swift */,
 				DAEDCEA32BF0EBA3002F55BC /* UserProfileModel.swift */,
 				DA86DEE12B31829900580D3C /* SOSPostModel.swift */,
@@ -703,12 +709,13 @@
 		DA2015772ABEF8BF00F7516A /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				DA2015792ABEF8D600F7516A /* MediaService.swift */,
-				DAE8D3792B5649F70026F167 /* PetService.swift */,
-				DACB0A142A47E08F002D18E7 /* Authentication */,
-				DA20157B2ABEF9C300F7516A /* ServiceError.swift */,
 				DAFB93782A5ACE25006FC77C /* Dependency.swift */,
 				DA86DEDE2B31825500580D3C /* SOSPostService.swift */,
+				DAFCD3642C980E17000AA591 /* ChatAPIService.swift */,
+				DA2015792ABEF8D600F7516A /* MediaService.swift */,
+				DAE8D3792B5649F70026F167 /* PetService.swift */,
+				DA20157B2ABEF9C300F7516A /* ServiceError.swift */,
+				DACB0A142A47E08F002D18E7 /* Authentication */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1051,7 +1058,6 @@
 				DAC68E342BCD57190007E41D /* RewardType.swift */,
 				DAE730202BD6396700394012 /* FilterType.swift */,
 				DA06E4BD2BE4BBF20068EB20 /* PetBirthDate.swift */,
-				DAFA5A0F2C57BB5D00B83322 /* ChatModel.swift */,
 			);
 			path = CommonModel;
 			sourceTree = "<group>";
@@ -1404,6 +1410,7 @@
 				DADEB6DB2AEB9DF9002BED63 /* List.swift in Sources */,
 				DA474B7F2B2725CB002FADC6 /* UrgentPostDetailView.swift in Sources */,
 				DA3A946C2B51236F00B3529C /* BaseBottomButton_SwiftUI.swift in Sources */,
+				DAFCD3652C980E17000AA591 /* ChatAPIService.swift in Sources */,
 				DA4B2A8A2AFB450C0053217A /* SizeProvidable.swift in Sources */,
 				DA30F3752BBAAB59005D615C /* TokenInterceptor.swift in Sources */,
 				DAE730212BD6396700394012 /* FilterType.swift in Sources */,
@@ -1416,6 +1423,7 @@
 				DACB0A1B2A47E1B4002D18E7 /* LoginService.swift in Sources */,
 				DA0F92172A9869840059690E /* Network.swift in Sources */,
 				DAE8D37A2B5649F70026F167 /* PetService.swift in Sources */,
+				DAFCD3672C980F64000AA591 /* ChatListModel.swift in Sources */,
 				DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */,
 				DA15C1302AE5628E004D8C58 /* ComponentBuilder.swift in Sources */,
 				DA8DF4882AE7FB3400FA0D9D /* ComponentTableViewCell.swift in Sources */,
