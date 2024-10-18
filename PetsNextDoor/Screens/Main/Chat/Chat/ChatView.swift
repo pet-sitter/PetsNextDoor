@@ -105,16 +105,17 @@ struct ChatFeature: Reducer {
 				
         // View
       case .view(.onAppear):
-        return .run { send in
-          
-          let room = try await chatDataProvider.fetchRoomInfo()
-          print("✅ room: \(room)")
-          
-          
-          await observeChatActionStream()
-        } catch: { error, send in
-          print("❌ error onAppear : \(error.asMoyaError.debugDescription)")
-        }
+        return observeChatActionStream()
+//        return .run { send in
+//          
+//          let room = try? await chatDataProvider.fetchRoomInfo()
+//          
+//          
+//          observeChatActionStream()
+//          
+//        } catch: { error, send in
+//          print("❌ error onAppear : \(error.asMoyaError.debugDescription)")
+//        }
         
       case .view(.onMemberListButtonTap):
         return .none

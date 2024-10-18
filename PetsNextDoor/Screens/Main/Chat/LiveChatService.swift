@@ -137,7 +137,8 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.plain.rawValue,
       message: message,
-      messageId: UUID().uuidString
+      messageId: UUID().uuidString,
+      medias: []
     )
     
     guard
@@ -214,7 +215,8 @@ final class MockLiveChatService: ChatServiceProvidable {
           room: .init(id: "1"),
           messageType: [PND.MessageType.media, PND.MessageType.plain].randomElement()!.rawValue,
           message: MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!,
-          messageId: UUID().uuidString
+          messageId: UUID().uuidString,
+          medias: []
         ))
 //        self?.delegate?.onReceiveNewText(
 //          MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!

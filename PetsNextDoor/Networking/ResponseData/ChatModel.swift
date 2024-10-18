@@ -21,7 +21,7 @@ extension PND {
     let messageType: String // 추후 enum으로 변경
     let message: String
     @DefaultEmptyString var messageId: String
-    var medias: [Media]?
+    @DefaultEmptyArray var medias: [Media]
     var createdAt: String?
     var updatedAt: String?
   }

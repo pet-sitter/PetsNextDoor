@@ -30,10 +30,8 @@ final class ChatDataProvider {
 	
 	private var continuation: AsyncStream<Action>.Continuation!
   
-  
-  
   init() {
-    self.configuration = Configuration(roomId: "1")
+    self.configuration = Configuration(roomId: "f5e17d20-5688-4924-b6c7-4509e80f04ad")
     self.chatSocketService = LiveChatService(
       socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
       configuration: .init(roomId: configuration.roomId)
@@ -41,6 +39,7 @@ final class ChatDataProvider {
     self.chatAPIService = ChatAPIService()
     self.mediaService = MediaService()
     chatSocketService.delegate = self
+    chatSocketService.connect()
   }
   
   
@@ -48,9 +47,6 @@ final class ChatDataProvider {
   func fetchRoomInfo() async throws -> PND.ChatRoomModel {
     return try await chatAPIService.getChatRoom(roomId: configuration.roomId)
   }
-  
-  
-  
   
 	
 	func observeChatActionStream() -> AsyncStream<Action> {
@@ -138,14 +134,14 @@ extension ChatDataProvider: ChatServiceDelegate {
           ))
           
         case PND.MessageType.media.rawValue:
-          if let medias = chatModel.medias, medias.count == 1, let firstMedia = medias.first {
+          if chatModel.medias.count == 1, let firstMedia = chatModel.medias.first {
             chatViewTypes.append(ChatViewType.singleImage(SingleChatImageViewModel(
               media: firstMedia,
               isMyChat: isMyChat
             )))
-          } else if let medias = chatModel.medias, medias.count >= 2 {
+          } else if chatModel.medias.count >= 2 {
             chatViewTypes.append(ChatViewType.multipleImages(MultipleChatImageViewModel(
-              medias: medias,
+              medias: chatModel.medias,
               isMyChat: isMyChat
             )))
           }
@@ -153,7 +149,6 @@ extension ChatDataProvider: ChatServiceDelegate {
         default:
           break
         }
-        
         chatModels.append(chatModel)
 
         continuation.yield(.onReceiveNewChatType(chatViewTypes))
