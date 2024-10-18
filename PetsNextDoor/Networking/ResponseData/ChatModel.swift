@@ -27,11 +27,11 @@ extension PND {
   }
 
   struct Room: Codable {
-    let id: Int
+    let id: String
   }
   
   struct Media: Codable, Equatable {
-    let id: Int
+    let id: String
     var url: String?
     var createdAt: String?
   }
@@ -39,7 +39,7 @@ extension PND {
   
   
   struct Sender: Codable {
-    let id: Int
+    let id: String
   }
 }
 

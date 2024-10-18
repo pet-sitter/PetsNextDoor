@@ -17,7 +17,7 @@ final class ChatDataProvider {
   }
   
   struct Configuration {
-    let roomId: Int
+    let roomId: String
   }
   
   private let configuration: Configuration
@@ -33,7 +33,7 @@ final class ChatDataProvider {
   
   
   init() {
-    self.configuration = Configuration(roomId: 1)
+    self.configuration = Configuration(roomId: "1")
     self.chatSocketService = LiveChatService(
       socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
       configuration: .init(roomId: configuration.roomId)
@@ -84,7 +84,7 @@ final class ChatDataProvider {
     }
     
     let uploadResponseModel: [PND.UploadMediaResponseModel] = try await mediaService.uploadImages(imageDatas: imageDatas)
-    let mediaIds: [Int] = uploadResponseModel.map(\.id)
+    let mediaIds: [String] = uploadResponseModel.map(\.id)
     
     chatSocketService.sendImages(mediaIds: mediaIds)
   }
@@ -108,9 +108,9 @@ extension ChatDataProvider: ChatServiceDelegate {
   func onReceiveNewText(_ chatModel: PND.ChatModel) {
     _Concurrency.Task {
       
-      let myUserId: Int     = await UserDataCenter.shared.userProfileModel?.id ?? 0
-      let senderUserId: Int = chatModel.sender?.id ?? 0
-      let isMyChat: Bool    = myUserId == senderUserId
+      let myUserId: String      = await UserDataCenter.shared.userProfileModel?.id ?? "1"
+      let senderUserId: String  = chatModel.sender?.id ?? "0"
+      let isMyChat: Bool        = myUserId == senderUserId
       
       await MainActor.run {
         var chatViewTypes: [ChatViewType] = []

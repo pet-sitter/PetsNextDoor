@@ -13,7 +13,7 @@ protocol UserServiceProvidable: PNDNetworkProvidable {
   func getMyPets() async throws -> PND.MyPetListModel
   func registerMyPets(_ pets: [PND.Pet]) async throws
   func getMyProfileInfo() async throws -> PND.UserProfileModel
-  func getUserInfo(userId: Int) async throws -> PND.UserInfoModel
+  func getUserInfo(userId: String) async throws -> PND.UserInfoModel
 }
 
 final class UserService: UserServiceProvidable {
@@ -39,7 +39,7 @@ final class UserService: UserServiceProvidable {
     try await network.requestData(.getMyProfile)
   }
   
-  func getUserInfo(userId: Int) async throws -> PND.UserInfoModel {
+  func getUserInfo(userId: String) async throws -> PND.UserInfoModel {
     try await network.requestData(.getUserInfo(userId: userId))
   }
 }
@@ -59,7 +59,7 @@ final class UserServiceMock: UserServiceProvidable {
   func getMyPets() async throws -> PND.MyPetListModel {
     return .init(pets: [
       PND.Pet(
-        id: 1,
+        id: "1",
         name: "pet test 1",
         petType: .cat,
         sex: .female,
@@ -70,7 +70,7 @@ final class UserServiceMock: UserServiceProvidable {
         remarks: "주의사항 테스트입니다 1"
       ),
       PND.Pet(
-        id: 2,
+        id: "2",
         name: "pet test 2",
         petType: .dog,
         sex: .male,
@@ -89,7 +89,7 @@ final class UserServiceMock: UserServiceProvidable {
   
   func getMyProfileInfo() async throws -> PND.UserProfileModel {
     return .init(
-      id: 1,
+      id: "1",
       email: "test@gmail.com",
       fbProviderType: .google,
       fullname: "Test Fullname",
@@ -98,9 +98,9 @@ final class UserServiceMock: UserServiceProvidable {
     )
   }
   
-  func getUserInfo(userId: Int) async throws -> PND.UserInfoModel {
+  func getUserInfo(userId: String) async throws -> PND.UserInfoModel {
     return .init(
-      id: 1,
+      id: "1",
       nickname: "test userInfo",
       profileImageUrl: MockDataProvider.randomPetImageUrlString,
       pets: []

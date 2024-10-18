@@ -9,7 +9,7 @@ import Foundation
 
 protocol MediaServiceProvidable: PNDNetworkProvidable {
   func uploadImage(imageData: Data, imageName: String) async throws -> PND.UploadMediaResponseModel
-  func getImage(id: Int) async throws -> PND.UploadMediaResponseModel
+  func getImage(id: String) async throws -> PND.UploadMediaResponseModel
   func uploadImages(imageDatas: [Data]) async throws -> [PND.UploadMediaResponseModel]
 }
 
@@ -27,7 +27,7 @@ final class MediaService: MediaServiceProvidable {
     }
   }
   
-  func getImage(id: Int) async throws -> PND.UploadMediaResponseModel {
+  func getImage(id: String) async throws -> PND.UploadMediaResponseModel {
     try await network.requestData(.getMedia(id: id))
   }
   
@@ -59,7 +59,7 @@ final class MediaServiceMock: MediaServiceProvidable {
     }
   }
   
-  func getImage(id: Int) async throws -> PND.UploadMediaResponseModel {
+  func getImage(id: String) async throws -> PND.UploadMediaResponseModel {
     try await network.requestData(.getMedia(id: id))
   }
   

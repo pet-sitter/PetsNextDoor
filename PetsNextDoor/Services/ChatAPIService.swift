@@ -11,11 +11,11 @@ import Moya
 protocol ChatAPIServiceProvidable: PNDNetworkProvidable {
   func getChatRooms() async throws -> PND.ChatListModel
   func postChatRoom() async throws -> PND.ChatCreationModel
-  func getChatRoom(roomId: Int) async throws -> PND.ChatRoomModel
-  func joinChatRoom(roomId: Int) async throws -> Response
-  func leaveChatRoom(roomId: Int) async throws -> Response
+  func getChatRoom(roomId: String) async throws -> PND.ChatRoomModel
+  func joinChatRoom(roomId: String) async throws -> Response
+  func leaveChatRoom(roomId: String) async throws -> Response
   func getChatRoomMessages(
-    roomId: Int,
+    roomId: String,
     prev: Int?,
     next: Int?,
     size: Int
@@ -39,23 +39,23 @@ struct ChatAPIService: ChatAPIServiceProvidable {
   }
   
   // 채팅방 조회
-  func getChatRoom(roomId: Int) async throws -> PND.ChatRoomModel {
+  func getChatRoom(roomId: String) async throws -> PND.ChatRoomModel {
     try await network.requestData(.getChatRoom(roomId: roomId))
   }
   
   // 채팅방 참가
-  func joinChatRoom(roomId: Int) async throws -> Response {
+  func joinChatRoom(roomId: String) async throws -> Response {
     try await network.plainRequest(.postJoinChatRoom(roomId: roomId))
   }
   
   // 채팅방 나가기
-  func leaveChatRoom(roomId: Int) async throws -> Response {
+  func leaveChatRoom(roomId: String) async throws -> Response {
     try await network.plainRequest(.postLeaveChatRoom(roomId: roomId))
   }
   
   // 채팅방 메시지 조회
   func getChatRoomMessages(
-    roomId: Int,
+    roomId: String,
     prev: Int? = nil,
     next: Int? = nil,
     size: Int = 30
@@ -82,7 +82,7 @@ struct MockChatAPIService: ChatAPIServiceProvidable {
         id: "123",
         joinUsers: [
           PND.JoinUser(
-            profileImageId: .init(string: "", valid: true),
+            profileImageUrl: "",
             userId: "12313",
             userNickname: "nickname test"
           )
@@ -96,19 +96,19 @@ struct MockChatAPIService: ChatAPIServiceProvidable {
   
   func postChatRoom() async throws -> PND.ChatCreationModel {
     return PND.ChatCreationModel(
-      joinUserIds: [0,1,2],
+      joinUserIds: ["0","1", "2"],
       roomName: "놀이 이벤트 방 이름 테스트",
       roomType: "EVENT"
     )
   }
   
-  func getChatRoom(roomId: Int) async throws -> PND.ChatRoomModel {
+  func getChatRoom(roomId: String) async throws -> PND.ChatRoomModel {
     return PND.ChatRoomModel(
       createdAt: "1726472095",
       id: UUID().uuidString,
       joinUsers: [
         .init(
-          profileImageId: .init(string: "123", valid: true),
+          profileImageUrl: "",
           userId: UUID().uuidString,
           userNickname: "userName Test"
         )
@@ -119,16 +119,16 @@ struct MockChatAPIService: ChatAPIServiceProvidable {
     )
   }
   
-  func joinChatRoom(roomId: Int) async throws -> Moya.Response {
+  func joinChatRoom(roomId: String) async throws -> Moya.Response {
     .init(statusCode: 200, data: .init())
   }
   
-  func leaveChatRoom(roomId: Int) async throws -> Moya.Response {
+  func leaveChatRoom(roomId: String) async throws -> Moya.Response {
     .init(statusCode: 200, data: .init())
   }
   
   func getChatRoomMessages(
-    roomId: Int,
+    roomId: String,
     prev: Int?,
     next: Int?,
     size: Int
@@ -140,10 +140,10 @@ struct MockChatAPIService: ChatAPIServiceProvidable {
         PND.ChatMessages(
           content: "안녕 메시지 테스트야",
           createdAt: "1726472095",
-          id: 12,
+          id: "12",
           messageType: PND.MessageType.plain.rawValue,
-          roomID: 1,
-          userID: 12
+          roomID: "1",
+          userID: "12"
         )
       ]
     )

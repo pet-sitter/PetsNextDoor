@@ -34,7 +34,7 @@ extension PND {
   
   struct MediaModel: Codable, Equatable {
     
-    let id: Int?
+    let id: String?
     let mediaType: MediaType
     let url: String
     let createdAt: String
@@ -55,12 +55,12 @@ extension PND {
   }
   
   struct Condition: Codable, Hashable, Equatable {
-    let id: Int
+    let id: String
     let name: String
   }
   
   struct Pet: Codable, Hashable {
-    let id: Int
+    let id: String
     let name: String
     let petType: PND.PetType
     let sex: PND.Sex
@@ -70,7 +70,7 @@ extension PND {
     
     let weightInKg: String
     let remarks: String?
-    var profileImageId: Int? = nil
+    var profileImageId: String? = nil
     var profileImageUrl: String? = nil
   }
   

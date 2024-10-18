@@ -40,7 +40,7 @@ struct HomeFeature: Reducer {
       case onSelectWritePostIcon
       case onSelectedFilterOptionChange(PND.FilterType)
       case onSelectedSortOptionChange(PND.SortOption)
-      case onUrgentPostTap(postId: Int)
+      case onUrgentPostTap(postId: String)
       case onPetRegistrationAlertOkButtonTap
     }
   
@@ -54,7 +54,7 @@ struct HomeFeature: Reducer {
     
     enum DelegateAction: Equatable {
       case pushToSelectPetListView
-      case pushToUrgentPostDetailView(postId: Int)
+      case pushToUrgentPostDetailView(postId: String)
       case selectMyPageView
     }
     
@@ -140,20 +140,20 @@ struct HomeFeature: Reducer {
             return
           }
           
-          let cellVMs = postModel
-            .items
-            .compactMap { item -> UrgentPostCardViewModel in
-              return UrgentPostCardViewModel(
-                mainImageUrlString: item.media.first?.url ?? "",
-                postTitle: item.title,
-                date: "N/A",
-                location: "N/A",
-                cost: item.reward,
-                postId: item.id
-              )
-            }
-          
-          await send(.internal(.setInitialUrgentPostCardCellVMs(cellVMs)))
+//          let cellVMs = postModel
+//            .items
+//            .compactMap { item -> UrgentPostCardViewModel in
+//              return UrgentPostCardViewModel(
+//                mainImageUrlString: item.media.first?.url ?? "",
+//                postTitle: item.title,
+//                date: "N/A",
+//                location: "N/A",
+//                cost: item.reward,
+//                postId: item.id
+//              )
+//            }
+//          
+//          await send(.internal(.setInitialUrgentPostCardCellVMs(cellVMs)))
           
         } catch: { error, send in
           Toast.shared.presentCommonError()

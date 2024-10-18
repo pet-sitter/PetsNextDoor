@@ -139,7 +139,7 @@ struct SetProfileFeature: Reducer {
         
               let petArray: [PND.Pet] = state.petViewModels.map { petVM -> PND.Pet in
                 PND.Pet(
-                  id: Int(arc4random()),
+                  id: UUID().uuidString,
                   name: petVM.petName,
                   petType: petVM.petType,
                   sex: petVM.gender,

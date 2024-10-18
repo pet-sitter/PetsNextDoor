@@ -53,9 +53,9 @@ struct SelectOtherRequirementsFeature: Reducer {
           
           let pndConditions = try await postService.getSOSConditions()
           
-          let conditions: [Condition] = pndConditions.map { Condition(id: $0.id, name: $0.name) }
-        
-          await send(._setConditions(conditions))
+//          let conditions: [Condition] = pndConditions.map { Condition(id: $0.id, name: $0.name) }
+//        
+//          await send(._setConditions(conditions))
           
         } catch: { error, send in
           print("❌ error fetching conditions: \(error)")

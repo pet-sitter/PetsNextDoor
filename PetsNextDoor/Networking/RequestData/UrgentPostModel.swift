@@ -16,8 +16,8 @@ extension PND {
     var conditionIds: [Int]
     var content: String
     var dates: [PND.Date]
-    var imageIds: [Int]
-    var petIds: [Int]
+    var imageIds: [String]
+    var petIds: [String]
     var reward: String
     var rewardType: PND.RewardType
     var title: String

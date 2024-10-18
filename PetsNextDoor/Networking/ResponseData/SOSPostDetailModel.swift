@@ -11,7 +11,7 @@ extension PND {
   
   struct SOSPostDetailModel: Codable, Equatable {
     
-    let id: Int
+    let id: String
     var authorId: Int?
     var author: Author?
     
@@ -76,7 +76,7 @@ extension PND {
   
   struct Author: Codable, Hashable {
     
-    let id: Int
+    let id: String
     let nickname: String
     let profileImageUrl: String?
     

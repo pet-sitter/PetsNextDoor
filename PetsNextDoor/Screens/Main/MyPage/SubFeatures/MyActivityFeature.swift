@@ -25,7 +25,7 @@ struct MyActivityFeature: Reducer {
     
     case onAppear
     case setUrgentPostCardCellVMs([UrgentPostCardViewModel])
-		case onUrgentPostTap(postId: Int)
+		case onUrgentPostTap(postId: String)
     
     case setEmptyContentMessage(String)
 		
@@ -34,67 +34,67 @@ struct MyActivityFeature: Reducer {
   
   var body: some Reducer<State, Action> {
     BindingReducer()
-    Reduce { state, action in
-      switch action {
-      case .onAppear:
-        switch state.selectedIndex {
-        case 0, 1, 2: 			// 추후 변경
-          return .run { send in
-            
-            let myAuthorId: Int? = await userDataCenter.userProfileModel?.id
-            
-            let posts = try await postService.getSOSPosts(
-              authorId: myAuthorId,
-              page: 1,
-              size: 20,
-							sortBy: PND.SortOption.newest.rawValue,
-							filterType: .all
-            )
-            
-            if posts.items.isEmpty {
-              await send(.setEmptyContentMessage("아직 작성하신 글이 없어요."))
-              return
-            }
-            
-            let cellVMs = posts
-              .items
-              .compactMap { item -> UrgentPostCardViewModel in
-                return UrgentPostCardViewModel(
-                  mainImageUrlString: item.media.first?.url ?? "",
-                  postTitle: item.title,
-                  date: "N/A",
-                  location: "N/A",
-                  cost: item.reward,
-                  postId: item.id
-                )
-              }
-            
-            await send(.setUrgentPostCardCellVMs(cellVMs))
-            
-            
-          } catch: { error, send in
-            Toast.shared.presentCommonError()
-          }
-          
-        default: return .none
-        }
-        
-      case .setUrgentPostCardCellVMs(let cellVMs):
-        state.urgentPostCardCellVMs = cellVMs
-        return .none
-				
-			case .onUrgentPostTap:
-				return .none
-
-		
-      case .setEmptyContentMessage(let message):
-        state.emptyContentMessage = message
-        return .none
-        
-      case .binding:
-        return .none
-      }
-    }
+//    Reduce { state, action in
+//      switch action {
+//      case .onAppear:
+//        switch state.selectedIndex {
+//        case 0, 1, 2: 			// 추후 변경
+//          return .run { send in
+//            
+//            let myAuthorId: Int? = await userDataCenter.userProfileModel?.id
+//            
+//            let posts = try await postService.getSOSPosts(
+//              authorId: myAuthorId,
+//              page: 1,
+//              size: 20,
+//							sortBy: PND.SortOption.newest.rawValue,
+//							filterType: .all
+//            )
+//            
+//            if posts.items.isEmpty {
+//              await send(.setEmptyContentMessage("아직 작성하신 글이 없어요."))
+//              return
+//            }
+//            
+//            let cellVMs = posts
+//              .items
+//              .compactMap { item -> UrgentPostCardViewModel in
+//                return UrgentPostCardViewModel(
+//                  mainImageUrlString: item.media.first?.url ?? "",
+//                  postTitle: item.title,
+//                  date: "N/A",
+//                  location: "N/A",
+//                  cost: item.reward,
+//                  postId: item.id
+//                )
+//              }
+//            
+//            await send(.setUrgentPostCardCellVMs(cellVMs))
+//            
+//            
+//          } catch: { error, send in
+//            Toast.shared.presentCommonError()
+//          }
+//          
+//        default: return .none
+//        }
+//        
+//      case .setUrgentPostCardCellVMs(let cellVMs):
+//        state.urgentPostCardCellVMs = cellVMs
+//        return .none
+//				
+//			case .onUrgentPostTap:
+//				return .none
+//
+//		
+//      case .setEmptyContentMessage(let message):
+//        state.emptyContentMessage = message
+//        return .none
+//        
+//      case .binding:
+//        return .none
+//      }
+//    }
   }
 }
 

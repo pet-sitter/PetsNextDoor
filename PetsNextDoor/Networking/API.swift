@@ -15,7 +15,7 @@ extension PND {
     
     //MARK: - Media
     case uploadImage(imageData: Data, imageName: String)
-    case getMedia(id: Int)
+    case getMedia(id: String)
     
     //MARK: - Posts
     
@@ -32,7 +32,7 @@ extension PND {
     case postUserStatus(email: String)        // 이메일로 유저의 가입 상태를 조회
     case putMyPets(model: [PND.Pet])
     case getMyPets
-    case getUserInfo(userId: Int)
+    case getUserInfo(userId: String)
     
     //MARK: - Pets
     case getBreeds(pageSize: Int, petType: String)
@@ -40,10 +40,10 @@ extension PND {
     //MARK: - Chat
     case getChatRooms
     case postChatRoom
-    case getChatRoom(roomId: Int)
-    case postJoinChatRoom(roomId: Int)
-    case postLeaveChatRoom(roomId: Int)
-    case getChatRoomMessages(roomId: Int, prev: Int?, next: Int?, size: Int)
+    case getChatRoom(roomId: String)
+    case postJoinChatRoom(roomId: String)
+    case postLeaveChatRoom(roomId: String)
+    case getChatRoomMessages(roomId: String, prev: Int?, next: Int?, size: Int)
     
     
   }

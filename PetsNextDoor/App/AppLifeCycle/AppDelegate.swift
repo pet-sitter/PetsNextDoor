@@ -141,10 +141,11 @@ struct MainTabBarFeature: Reducer {
     Reduce { state, action in
       switch action {
       case .onAppear:
+        return .none
 				return .run { _ in
 					await userDataCenter.configureInitialUserData()
 				}
-        
+//        
         // 홈화면 액션
 //      case .homeAction(.delegate(.pushToSelectPetListView)):
 //        state.path.append(.selectPetList(SelectPetListFeature.State()))
@@ -211,10 +212,10 @@ struct MainTabBarFeature: Reducer {
         case .element(id: _, action: .chat(.view(.onMemberListButtonTap))):
           state.path.append(.chatMemberList(ChatMembersFeature.State(users: [
             // 임시 코드
-            .init(id: 0, nickname: "호두 언니", profileImageUrl: "https://placedog.net/200/200random", pets: []),
-            .init(id: 1, nickname: "레오", profileImageUrl: "https://placedog.net/200/200random", pets: []),
-            .init(id: 2, nickname: "크리스티아누 호달두", profileImageUrl: "https://placedog.net/200/200random", pets: []),
-            .init(id: 3, nickname: "리오넬 메시", profileImageUrl: "https://placedog.net/200/200random", pets: [])
+            .init(id: "0", nickname: "호두 언니", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+            .init(id: "1", nickname: "레오", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+            .init(id: "2", nickname: "크리스티아누 호달두", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+            .init(id: "3", nickname: "리오넬 메시", profileImageUrl: "https://placedog.net/200/200random", pets: [])
           ])))
           return .none
           

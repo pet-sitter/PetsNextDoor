@@ -34,7 +34,7 @@ struct WriteUrgentPostFeature: Reducer {
     case _setIsLoading(Bool)
     case _validateInput
     
-    case onPostUploadComplete(postId: Int)
+    case onPostUploadComplete(postId: String)
   }
   
   var body: some Reducer<State,Action> {

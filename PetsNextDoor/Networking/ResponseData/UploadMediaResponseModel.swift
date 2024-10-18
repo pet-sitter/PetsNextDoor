@@ -13,7 +13,7 @@ extension PND {
   struct UploadMediaResponseModel: Codable {
     
     let createdAt: String
-    let id: Int
+    let id: String
     let mediaType: String
     let url: String
     

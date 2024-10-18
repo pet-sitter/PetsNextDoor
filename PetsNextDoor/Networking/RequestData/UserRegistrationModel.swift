@@ -16,7 +16,7 @@ extension PND {
     var fbUid: String
     var fullname: String    // Social 계정 이름 (ex. 김영채/Young Chae KIM)
     var nickname: String    // 사용자가 직접 설정하는 이름 (SetProfileView에서)
-    var profileImageId: Int?
+    var profileImageId: String?
     
     /**
       Init 단계에서는 nickname과 profileImageId를 받지 않는다 - 이후 SetProfileView에서 별도로 입력 받는다.

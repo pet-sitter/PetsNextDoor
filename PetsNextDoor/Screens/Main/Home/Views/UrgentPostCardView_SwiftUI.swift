@@ -14,7 +14,7 @@ struct UrgentPostCardViewModel: HashableViewModel {
   let date: String
   let location: String
   let cost: String
-  let postId: Int
+  let postId: String
 }
 
 
@@ -82,9 +82,9 @@ struct UrgentPostCardView_SwiftUI: View {
     .contentShape(Rectangle())
   }
 }
-
-#Preview {
-  UrgentPostCardView_SwiftUI(viewModel: .init(mainImageUrlString: "https://placedog.net/640/480?random", postTitle: "돌봄급구 구해요", date: "2020-10-29", location: "중곡동", cost: "10,500", postId: 0))
-}
+//
+//#Preview {
+//  UrgentPostCardView_SwiftUI(viewModel: .init(mainImageUrlString: "https://placedog.net/640/480?random", postTitle: "돌봄급구 구해요", date: "2020-10-29", location: "중곡동", cost: "10,500", postId: 0))
+//}
 
 

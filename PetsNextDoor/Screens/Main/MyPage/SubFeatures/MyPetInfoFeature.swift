@@ -139,7 +139,7 @@ struct MyPetInfoFeature: Reducer {
   
   private func registerMyPet(using petViewModel: SelectPetViewModel) async throws {
     let petModel: PND.Pet = PND.Pet(
-      id: Int(arc4random()),
+      id: UUID().uuidString,
       name: petViewModel.petName,
       petType: petViewModel.petType,
       sex: petViewModel.gender,
@@ -154,7 +154,7 @@ struct MyPetInfoFeature: Reducer {
     try await userService.registerMyPets([petModel])
   }
   
-  private func uploadPetProfileImage(withImageData data: Data) async -> Int? {
+  private func uploadPetProfileImage(withImageData data: Data) async -> String? {
     let uploadResponse = try? await mediaService.uploadImage(
       imageData: data,
       imageName: "myPet-\(Int(arc4random()))"

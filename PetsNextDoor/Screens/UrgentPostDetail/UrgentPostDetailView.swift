@@ -16,7 +16,7 @@ struct UrgentPostDetailFeature: Reducer {
   
   @ObservableState
   struct State: Equatable, Hashable {
-    let postId: Int
+    let postId: String
 		
 		// Info
 		var isMyPost: Bool = false
@@ -93,17 +93,17 @@ struct UrgentPostDetailFeature: Reducer {
 					
 					try await Task.sleep(nanoseconds: 500_000_000)
           
-          let postDetail = try await postService.getSOSPostDetail(id: postId)
+//          let postDetail = try await postService.getSOSPostDetail(id: postId)
+//					
+//          await send(.internal(.setHeaderInfo(postDetail)))
+//          await send(.internal(.setConditionInfo(postDetail)))
+//          await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
+//          await send(.internal(.setPetProfileInfo(postDetail.pets)))
 					
-          await send(.internal(.setHeaderInfo(postDetail)))
-          await send(.internal(.setConditionInfo(postDetail)))
-          await send(.internal(.setDetailInfo(postDetail.content, postDetail.media)))
-          await send(.internal(.setPetProfileInfo(postDetail.pets)))
-					
-					await send(.internal(.setIsLoading(false)))
-					
-					let myId = await userDataCenter.userProfileModel?.id
-					await send(.internal(.setIsMyPost(myId == postDetail.author?.id ? true : false )))
+//					await send(.internal(.setIsLoading(false)))
+//					
+//					let myId = await userDataCenter.userProfileModel?.id
+//					await send(.internal(.setIsMyPost(myId == postDetail.author?.id ? true : false )))
 					
         } catch: { error, send in
           print("❌ error: \(error)")
@@ -690,33 +690,33 @@ struct UrgentPostDetailView: View {
     HStack(spacing: 20) {
     
 
-      let isFirstSelected = conditions.first(where: { $0.id == 1 }) != nil
-      let isSecondSelected = conditions.first(where: { $0.id == 2 }) != nil
-      let isThirdSelected = conditions.first(where: { $0.id == 3 }) != nil
+//      let isFirstSelected = conditions.first(where: { $0.id == 1 }) != nil
+//      let isSecondSelected = conditions.first(where: { $0.id == 2 }) != nil
+//      let isThirdSelected = conditions.first(where: { $0.id == 3 }) != nil
       
-      VStack(spacing: 16) {        
-        Image(isFirstSelected ? "icon_cctv_on" : "icon_cctv_off")
-          .frame(width: 56, height: 56)
-        
-        Text("펫캠촬영")
-          .font(.system(size: 12, weight: .medium))
-      }
-      
-      VStack(spacing: 16) {
-        Image(isSecondSelected ? "icon_id_on" : "icon_id_off")
-          .frame(width: 56, height: 56)
-        
-        Text("신분증 인증")
-          .font(.system(size: 12, weight: .medium))
-      }
-      
-      VStack(spacing: 16) {
-        Image(isThirdSelected ? "icon_call_on" : "icon_call_off")
-          .frame(width: 56, height: 56)
-        
-        Text("사전 통화")
-          .font(.system(size: 12, weight: .medium))
-      }
+//      VStack(spacing: 16) {        
+//        Image(isFirstSelected ? "icon_cctv_on" : "icon_cctv_off")
+//          .frame(width: 56, height: 56)
+//        
+//        Text("펫캠촬영")
+//          .font(.system(size: 12, weight: .medium))
+//      }
+//      
+//      VStack(spacing: 16) {
+//        Image(isSecondSelected ? "icon_id_on" : "icon_id_off")
+//          .frame(width: 56, height: 56)
+//        
+//        Text("신분증 인증")
+//          .font(.system(size: 12, weight: .medium))
+//      }
+//      
+//      VStack(spacing: 16) {
+//        Image(isThirdSelected ? "icon_call_on" : "icon_call_off")
+//          .frame(width: 56, height: 56)
+//        
+//        Text("사전 통화")
+//          .font(.system(size: 12, weight: .medium))
+//      }
     }
     .frame(height: 115)
     .frame(maxWidth: UIScreen.fixedScreenSize.width - (PND.Metrics.defaultSpacing * 2), alignment: .center)
@@ -766,7 +766,7 @@ struct UrgentPostDetailView: View {
 }
 
 #Preview {
-  UrgentPostDetailView(store: .init(initialState: .init(postId: 74), reducer: { UrgentPostDetailFeature() }))
+  UrgentPostDetailView(store: .init(initialState: .init(postId: "3"), reducer: { UrgentPostDetailFeature() }))
 }
 
 //MARK: - 돌봄급구글 상세 - 급구 조건 - 정보 뷰

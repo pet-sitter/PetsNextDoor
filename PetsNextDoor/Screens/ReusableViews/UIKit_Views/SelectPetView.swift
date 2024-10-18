@@ -11,7 +11,7 @@ import SnapKit
 
 final class SelectPetViewModel: HashableViewModel, ObservableObject {
 
-  let id: Int
+  let id: String
   @Published var petImageUrlString: String?
   @Published var petImageData: Data?
   @Published var petName: String
@@ -28,10 +28,10 @@ final class SelectPetViewModel: HashableViewModel, ObservableObject {
   
   var remarks: String? = nil
   
-  var profileImageId: Int? = nil
+  var profileImageId: String? = nil
   
   init(
-    id: Int = UUID().hashValue,
+    id: String = UUID().uuidString,
     petImageUrlString: String? = nil,
     petImageData: Data? = nil,
     petName: String,

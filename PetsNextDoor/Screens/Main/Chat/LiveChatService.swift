@@ -17,7 +17,7 @@ protocol ChatServiceProvidable {
 	func connect()
   func disconnect()
   func sendMessage(_ message: String)
-  func sendImages(mediaIds: [Int])
+  func sendImages(mediaIds: [String])
 }
 
 protocol SocketServiceProvidable: WebSocketDelegate {
@@ -47,7 +47,7 @@ protocol ChatServiceDelegate: AnyObject {
 final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   
   struct Configuration {
-    let roomId: Int
+    let roomId: String
   }
   
   private(set) var socket: WebSocket?
@@ -151,7 +151,7 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     socket?.write(string: chatJSON)
   }
   
-  func sendImages(mediaIds: [Int]) {
+  func sendImages(mediaIds: [String]) {
     
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
       room: PND.Room(id: configuration.roomId),
@@ -199,7 +199,7 @@ final class MockLiveChatService: ChatServiceProvidable {
     
   }
   
-  func sendImages(mediaIds: [Int]) {
+  func sendImages(mediaIds: [String]) {
     
     
   }
@@ -211,7 +211,7 @@ final class MockLiveChatService: ChatServiceProvidable {
       .autoconnect()
       .sink { [weak self] _ in
         self?.delegate?.onReceiveNewText(PND.ChatModel(
-          room: .init(id: 1),
+          room: .init(id: "1"),
           messageType: [PND.MessageType.media, PND.MessageType.plain].randomElement()!.rawValue,
           message: MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!,
           messageId: UUID().uuidString

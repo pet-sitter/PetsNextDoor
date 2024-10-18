@@ -11,7 +11,7 @@ extension PND {
   
   // 내 정보 조회 시 사용하는 모델
   struct UserProfileModel: Codable, Equatable {
-    let id: Int
+    let id: String
     let email: String
     var fbProviderType: PND.FBProviderType?
     let fullname: String
@@ -24,7 +24,7 @@ extension PND {
   
   // 타 이용자 정보 조회 시 사용하는 모델
   struct UserInfoModel: Codable, Equatable {
-    let id: Int
+    let id: String
     let nickname: String
     var profileImageUrl: String?
     @DefaultEmptyArray var pets: [PND.Pet]

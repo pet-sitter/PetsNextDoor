@@ -24,7 +24,7 @@ extension PND {
   }
   
   struct JoinUser: Codable {
-    let profileImageId: ProfileImageId?
+    let profileImageUrl: String?
     let userId: String
     let userNickname: String?
   }
@@ -41,7 +41,7 @@ extension PND {
   
   // 채팅방 생성 후 오는 Response
   struct ChatCreationModel: Codable {
-    @DefaultEmptyArray var joinUserIds: [Int]
+    @DefaultEmptyArray var joinUserIds: [String]
     let roomName: String
     let roomType: String
   }
@@ -59,9 +59,9 @@ extension PND {
   struct ChatMessages: Codable {
     let content: String
     let createdAt: String
-    let id: Int
+    let id: String
     let messageType: String
-    let roomID: Int
-    let userID: Int
+    let roomID: String
+    let userID: String
   }
 }
