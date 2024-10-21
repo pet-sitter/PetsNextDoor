@@ -22,6 +22,7 @@ struct MainTabNavigationPath {
     case chatMemberList(ChatMembersFeature.State)
     case writeUrgentPost(WriteUrgentPostFeature.State)
 		case myActivity(MyActivityFeature.State)
+    case settings(SettingsFeature.State)
   }
   
   enum Action {
@@ -34,6 +35,7 @@ struct MainTabNavigationPath {
     case chatMemberList(ChatMembersFeature.Action)
     case writeUrgentPost(WriteUrgentPostFeature.Action)
 		case myActivity(MyActivityFeature.Action)
+    case settings(SettingsFeature.Action)
   }
   
   var body: some Reducer<State, Action> {
@@ -45,6 +47,7 @@ struct MainTabNavigationPath {
     Scope(state: \.chat, action: \.chat) { ChatFeature() }
     Scope(state: \.chatMemberList, action: \.chatMemberList) { ChatMembersFeature() }
     Scope(state: \.writeUrgentPost, action: \.writeUrgentPost) { WriteUrgentPostFeature() }
-		Scope(state: \.myActivity, action: \.myActivity) { MyActivityFeature() }
+    Scope(state: \.myActivity, action: \.myActivity) { MyActivityFeature() }
+    Scope(state: \.settings, action: \.settings) { SettingsFeature() }
   }
 }

@@ -48,6 +48,11 @@ struct PNDRootFeature: Reducer {
         state = .mainTab(state: MainTabBarFeature.State())
         return .none 
         
+      case .mainTabBarAction(.path(.element(id: _, action: .settings(.onLogoutButtonTap)))):
+        PNDTokenStore.shared.removeAllTokenInfo()
+        state = .login(state: LoginFeature.State())
+        return .none
+        
       default:
         return .none
       }
@@ -76,7 +81,7 @@ struct PNDRootApp: App {
     }
   }
 }
- 
+
 
 
 @Reducer
@@ -145,19 +150,7 @@ struct MainTabBarFeature: Reducer {
 				return .run { _ in
 					await userDataCenter.configureInitialUserData()
 				}
-//        
-        // 홈화면 액션
-//      case .homeAction(.delegate(.pushToSelectPetListView)):
-//        state.path.append(.selectPetList(SelectPetListFeature.State()))
-//        return .none 
-//        
-//      case .homeAction(.delegate(.pushToUrgentPostDetailView(let postId))):
-//        state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
-//        return .none
-//        
-//      case .homeAction(.delegate(.selectMyPageView)):
-//        state.selectedTab = .myPage
-//        return .none
+
         
       case .homeAction(.delegate(.pushToEventDetailView(let eventId))):
         state.path.append(.eventDetail(EventDetailFeature.State()))
@@ -170,10 +163,16 @@ struct MainTabBarFeature: Reducer {
         return .none
         
         // 마이페이지 화면 액션
-				
+			
+      case .myPageAction(.view(.pushToSettingsPageView)):
+        state.path.append(.settings(SettingsFeature.State()))
+        return .none
+        
 			case .myPageAction(.myActivityAction(.onUrgentPostTap(let postId))):
 				state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
 				return .none
+        
+      
         
 				
 				// 그 외
@@ -293,7 +292,10 @@ struct MainTabBarView: View {
 					MyActivityView(store: store)
 				}
 				
-
+      case .settings:
+        if let store = store.scope(state: \.settings, action: \.settings) {
+          SettingsView(store: store)
+        }
 				
 			@unknown default:
         Text("UNDEFINED VIEW")
@@ -378,7 +380,6 @@ struct MainTabBarView: View {
         Image(isSelected ? .iconMapSelected : .iconMapUnselected)
           .resizable()
           
-        
       case .community:
         Image(isSelected ? .iconCommunitySelected : .iconCommunity)
           .resizable()

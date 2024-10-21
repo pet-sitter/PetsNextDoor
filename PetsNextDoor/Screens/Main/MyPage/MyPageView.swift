@@ -30,6 +30,7 @@ struct MyPageFeature: Reducer {
     
     enum ViewAction: Equatable {
       case onAppear
+      case pushToSettingsPageView
     }
     
     enum InternalAction: Equatable {
@@ -68,6 +69,9 @@ struct MyPageFeature: Reducer {
 				} catch: { error, send in
           
         }
+        
+      case .view(.pushToSettingsPageView):
+        return .none
         
       case .internal(.setMyProfileInfo(let userModel)):
 				state.myNickname 							= userModel?.nickname ?? "N/A"
@@ -243,7 +247,7 @@ struct MyPageView: View {
       Spacer()
       
       Button(action: {
-  
+        store.send(.view(.pushToSettingsPageView))
       }, label: {
         Image(.iconSetting)
           .resizable()
@@ -254,8 +258,62 @@ struct MyPageView: View {
       Spacer().frame(width: PND.Metrics.defaultSpacing)
     }
   }
+}
+
+
+
+
+
+@Reducer
+struct SettingsFeature: Reducer {
+  
+  @ObservableState
+  struct State: Equatable {
+    
+  }
+  
+  enum Action: BindableAction {
+    
+    case onLogoutButtonTap
+    case binding(BindingAction<State>)
+  }
+  
+  var body: some Reducer<State, Action> {
+    BindingReducer()
+    
+    Reduce { state, action in
+      switch action {
+        
+      case .onLogoutButtonTap:
+        return .none
+        
+      case .binding:
+        return .none
+      }
+    }
+  }
+}
+
+struct SettingsView: View {
+  
+  @State var store: StoreOf<SettingsFeature>
+  
+  var body: some View {
+    VStack(spacing: 0) {
+      
+      Button {
+        store.send(.onLogoutButtonTap)
+      } label: {
+        Text("로그아웃")
+      }
+
+    }
+  }
   
 }
+
+
+
 
 #Preview {
   MyPageView(store: .init(initialState: .init(), reducer: { MyPageFeature() }))

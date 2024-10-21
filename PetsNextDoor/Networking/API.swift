@@ -104,6 +104,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case .getBreeds:
       return "/breeds"
       
+      //MARK: - Chat
     case .getChatRooms:
       return "/chat/rooms"
     case .postChatRoom:
