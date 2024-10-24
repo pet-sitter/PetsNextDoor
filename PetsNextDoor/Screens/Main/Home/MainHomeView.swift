@@ -14,7 +14,7 @@ struct MainHomeFeature: Reducer {
   
   @ObservableState
   struct State: Equatable {
-    var tabIndex: Int = 1
+    var tabIndex: Int = 0
     var sortOption: PND.SortOption = .newest // 최신순, 마감순
     
     var eventCardVMs: [EventCardView.ViewModel] = [
@@ -84,6 +84,7 @@ struct MainHomeFeature: Reducer {
       case onTabIndexChange(Int)
       case onSortOptionChange(PND.SortOption)
       case onEventCardTap(EventCardView.ViewModel)
+      case onSelectPlusButton
     }
     
     enum InternalAction: Equatable {
@@ -92,6 +93,7 @@ struct MainHomeFeature: Reducer {
     
     enum DelegateAction: Equatable {
       case pushToEventDetailView(eventId: String)
+      case pushToCreateEventView
     }
     
     case view(ViewAction)
@@ -119,6 +121,9 @@ struct MainHomeFeature: Reducer {
         
       case .view(.onEventCardTap(let viewModel)):
         return .send(.delegate(.pushToEventDetailView(eventId: viewModel.id)))
+        
+      case .view(.onSelectPlusButton):
+        return .send(.delegate(.pushToCreateEventView))
         
       default:
         return .none
@@ -157,6 +162,21 @@ struct MainHomeView: View {
       }
       
     }
+    .overlay(alignment: .bottomTrailing, content: {
+      Button {
+        store.send(.view(.onSelectPlusButton))
+      } label: {
+        Circle()
+          .foregroundStyle(PND.DS.commonBlack)
+          .frame(width: 60, height: 60)
+          .overlay(alignment: .center) {
+            Image(systemName: "plus")
+              .frame(width: 32, height: 32)
+              .foregroundStyle(PND.DS.primary)
+          }
+          .offset(x: -17, y: -19)
+      }
+    })
     .onAppear() {
       store.send(.view(.onAppear))
     }

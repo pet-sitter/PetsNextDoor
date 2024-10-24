@@ -156,6 +156,10 @@ struct MainTabBarFeature: Reducer {
         state.path.append(.eventDetail(EventDetailFeature.State()))
         return .none
         
+      case .homeAction(.delegate(.pushToCreateEventView)):
+        state.path.append(.createEvent(CreateEventFeature.State()))
+        return .none
+        
         // 채팅방 목록 액션
         
       case .chatListAction(.onChatRoomTap):
@@ -250,6 +254,11 @@ struct MainTabBarView: View {
       case .eventDetail:
         if let store = store.scope(state: \.eventDetail, action: \.eventDetail) {
           EventDetailView(store: store)
+        }
+        
+      case .createEvent:
+        if let store = store.scope(state: \.createEvent, action: \.createEvent) {
+          CreateEventView(store: store)
         }
         
       case .urgentPostDetail:

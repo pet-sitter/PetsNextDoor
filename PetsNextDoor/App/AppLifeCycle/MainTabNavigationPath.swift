@@ -14,6 +14,7 @@ struct MainTabNavigationPath {
   @ObservableState
   enum State: Equatable {
     case eventDetail(EventDetailFeature.State)
+    case createEvent(CreateEventFeature.State)
     case urgentPostDetail(UrgentPostDetailFeature.State)
     case selectPetList(SelectPetListFeature.State)
     case selectCareConditions(SelectCareConditionFeature.State)
@@ -27,6 +28,7 @@ struct MainTabNavigationPath {
   
   enum Action {
     case eventDetail(EventDetailFeature.Action)
+    case createEvent(CreateEventFeature.Action)
     case urgentPostDetail(UrgentPostDetailFeature.Action)
     case selectPetList(SelectPetListFeature.Action)
     case selectCareConditions(SelectCareConditionFeature.Action)
@@ -40,6 +42,7 @@ struct MainTabNavigationPath {
   
   var body: some Reducer<State, Action> {
     Scope(state: \.eventDetail, action: \.eventDetail) { EventDetailFeature() }
+    Scope(state: \.createEvent, action: \.createEvent) { CreateEventFeature() }
     Scope(state: \.urgentPostDetail, action: \.urgentPostDetail) { UrgentPostDetailFeature() }
     Scope(state: \.selectPetList, action: \.selectPetList) { SelectPetListFeature() }
     Scope(state: \.selectCareConditions, action: \.selectCareConditions) { SelectCareConditionFeature() }
