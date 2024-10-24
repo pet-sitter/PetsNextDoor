@@ -15,6 +15,10 @@ struct CreateEventFeature: Reducer {
   struct State: Equatable {
     
     var isEventTypePickerExpanded: Bool = false
+    var isDatePickerExpanded: Bool = false
+    var isSubjectPickerExpanded: Bool = false
+    var isParticipantsPickerExpanded: Bool = false
+    var isFeePickerExpanded: Bool = false
   }
   
   enum Action: BindableAction {
@@ -98,7 +102,7 @@ struct CreateEventView: View {
   @ViewBuilder
   private var datePickerView: some View {
     ExpandableView(
-      isExpanded: $store.isEventTypePickerExpanded,
+      isExpanded: $store.isDatePickerExpanded,
       thumbnail: ThumbnailView {
         HStack {
           Text("2")
@@ -158,7 +162,7 @@ struct CreateEventView: View {
   @ViewBuilder
   private var eventSubjectPickerView: some View {
     ExpandableView(
-      isExpanded: $store.isEventTypePickerExpanded,
+      isExpanded: $store.isSubjectPickerExpanded,
       thumbnail: ThumbnailView {
         HStack {
           Text("3")
@@ -192,7 +196,7 @@ struct CreateEventView: View {
   @ViewBuilder
   private var participantPickerView: some View {
     ExpandableView(
-      isExpanded: $store.isEventTypePickerExpanded,
+      isExpanded: $store.isParticipantsPickerExpanded,
       thumbnail: ThumbnailView {
         HStack {
           Text("4")
@@ -225,7 +229,7 @@ struct CreateEventView: View {
   @ViewBuilder
   private var feePickerView: some View {
     ExpandableView(
-      isExpanded: $store.isEventTypePickerExpanded,
+      isExpanded: $store.isFeePickerExpanded,
       thumbnail: ThumbnailView {
         HStack {
           Text("5")
