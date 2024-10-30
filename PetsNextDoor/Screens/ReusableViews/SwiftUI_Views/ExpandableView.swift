@@ -10,22 +10,39 @@ import SwiftUI
 struct ExpandableView: View {
   
   @Binding var isExpanded: Bool
+  @Binding var isFocused: Bool
   
   var thumbnail: ThumbnailView
   var expanded: ExpandedView
-
+  
   var body: some View {
     ZStack {
-      if isExpanded {
-        VStack {
-          thumbnail
+      VStack {
+        thumbnail
+        if isExpanded {
           expanded
         }
-      } else {
-        thumbnail
       }
     }
-    .background(Color.gray.opacity(0.2))
+    .padding(.horizontal, 16)
+    .padding(.vertical, 20)
+    .background(PND.DS.commonWhite)
+    .cornerRadius(8)
+    .padding(.horizontal, PND.Metrics.defaultSpacing)
+    .if(isFocused, { view in
+      view
+        .overlay {
+          RoundedRectangle(cornerRadius: 8)
+            .inset(by: 0.5)
+            .stroke(PND.DS.primary, lineWidth: 1)
+            .padding(.horizontal, PND.Metrics.defaultSpacing)
+        }
+    })
+    .onChange(of: isFocused, { oldValue, newValue in
+      withAnimation (.spring(response: 0.5)){
+        isExpanded.toggle()
+      }
+    })
     .onTapGesture {
       withAnimation (.spring(response: 0.5)){
         isExpanded.toggle()
@@ -54,130 +71,4 @@ struct ThumbnailView: View, Identifiable {
       AnyView(content)
     }
   }
-}
-struct ContentView: View {
-  
-  @State private var isExpanded: Bool = false
-  
-  var body: some View {
-    
-    ZStack {
-      ScrollView {
-        VStack(spacing: 15){
-        
-            ExpandableView(
-              isExpanded: $isExpanded,
-              thumbnail: ThumbnailView {
-                
-                VStack(alignment: .leading, spacing: 10) {
-                  Text("The art of being an artist")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.black)
-                  
-                  Text("Reading time: 3 mins")
-                    .foregroundStyle(.black)
-                }
-                .padding()
-                
-              },
-              expanded: ExpandedView {
-                VStack(alignment: .leading, spacing: 12) {
-                  Text("The art of being an artist")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.black)
-                  
-                  Text("Reading time: 3 mins")
-                  
-                    .foregroundStyle(.black)
-                  
-                  Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                    .foregroundStyle(.black)
-                  
-                  Spacer()
-                }
-                .padding()
-              }
-            )
-          
-          ExpandableView(
-            isExpanded: .constant(false),
-            thumbnail: ThumbnailView {
-              
-              VStack(alignment: .leading, spacing: 10) {
-                Text("The art of being an artist")
-                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .foregroundStyle(.black)
-                
-                Text("Reading time: 3 mins")
-                  .foregroundStyle(.black)
-              }
-              .padding()
-              
-            },
-            expanded: ExpandedView {
-              VStack(alignment: .leading, spacing: 12) {
-                Text("The art of being an artist")
-                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .foregroundStyle(.black)
-                
-                Text("Reading time: 3 mins")
-                
-                  .foregroundStyle(.black)
-                
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                  .foregroundStyle(.black)
-                
-                Spacer()
-              }
-              .padding()
-            }
-          )
-          
-          ExpandableView(
-            isExpanded: .constant(false),
-            thumbnail: ThumbnailView {
-              
-              VStack(alignment: .leading, spacing: 10) {
-                Text("The art of being an artist")
-                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .foregroundStyle(.black)
-                
-                Text("Reading time: 3 mins")
-                  .foregroundStyle(.black)
-              }
-              .padding()
-              
-            },
-            expanded: ExpandedView {
-              VStack(alignment: .leading, spacing: 12) {
-                Text("The art of being an artist")
-                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .foregroundStyle(.black)
-                
-                Text("Reading time: 3 mins")
-                
-                  .foregroundStyle(.black)
-                
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                  .foregroundStyle(.black)
-                
-                Spacer()
-              }
-              .padding()
-            }
-          )
-          
-        }
-      }
-      .scrollIndicators(.never)
-      .padding()
-    }
-
-    
-  }
-}
-
-
-#Preview {
-  ContentView()
 }
