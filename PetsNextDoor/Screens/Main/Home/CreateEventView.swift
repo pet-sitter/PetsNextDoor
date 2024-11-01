@@ -13,18 +13,31 @@ struct CreateEventFeature: Reducer {
   
   @ObservableState
   struct State: Equatable {
+    
+    // 이벤트 종류
+    var isEventDurationPickerFocused: Bool = true
     var eventDuration: EventDuration? = nil
     
+    // 날짜 시간
     var isDatePickerExpanded: Bool = false
     var isDatePickerFocused: Bool = false
+    var dateChangedByUser: Bool = false
     var date: Date = .init()
     
+    // 이벤트 주제
+  
     var isSubjectPickerExpanded: Bool = false
     var isSubjectPickerFocused: Bool = false
+    var subject: String? = nil
     
+    
+    // 참여 인원
     var isParticipantsPickerExpanded: Bool = false
     var isParticipantsPickerFocused: Bool = false
+    var participants: Int = 0
     
+    
+    // 참여 비용
     var isFeePickerExpanded: Bool = false
     var isFeePickerFocused: Bool = false
   }
@@ -33,6 +46,13 @@ struct CreateEventFeature: Reducer {
     
     case onEventDurationChange(EventDuration)
     case onDateChange
+    
+    case onEventSubjectPickerTap
+    case onEventSubjectChange(String)
+    
+    
+    case onMinusParticipants
+    case onPlusParticipants
     
     case binding(BindingAction<State>)
   }
@@ -56,8 +76,33 @@ struct CreateEventFeature: Reducer {
         return .none
         
       case .onDateChange:
+        state.dateChangedByUser = true
+        return .none
+        
+      case .onEventSubjectPickerTap:
+        state.isDatePickerFocused = false
         state.isSubjectPickerFocused = true
         return .none
+        
+        
+      case .onEventSubjectChange(let subject):
+        state.isSubjectPickerFocused = false
+        state.isParticipantsPickerFocused = true
+        state.subject = subject
+        return .none
+        
+      case .onPlusParticipants:
+        state.participants += 1
+        return .none
+        
+      case .onMinusParticipants:
+        if state.participants <= 0 {
+          return .none
+        }
+        
+        state.participants -= 1
+        return .none
+
         
       default:
         return .none
@@ -104,12 +149,15 @@ struct CreateEventView: View {
   }
   
   @ViewBuilder
-  private func numberTextView(number: String) -> some View {
+  private func numberTextView(
+    number: String,
+    isFocused: Bool
+  ) -> some View {
     Text(number)
       .foregroundStyle(.white)
       .padding(.horizontal, 8)
       .padding(.vertical, 4)
-      .background(PND.DS.primary)
+      .background(isFocused ? PND.DS.primary : PND.DS.gray30)
       .clipShape(Circle())
       .font(.system(size: 14, weight: .bold))
   }
@@ -125,7 +173,7 @@ struct CreateEventView: View {
   @ViewBuilder
   private var eventDurationTypePickerView: some View {
     HStack(spacing: 0) {
-      numberTextView(number: "1")
+      numberTextView(number: "1", isFocused: (store.isEventDurationPickerFocused || store.eventDuration != nil))
       
       Spacer().frame(width: 8)
       
@@ -228,7 +276,7 @@ struct CreateEventView: View {
       isFocused: $store.isDatePickerFocused,
       thumbnail: ThumbnailView {
         HStack {
-          numberTextView(number: "2")
+          numberTextView(number: "2", isFocused: (store.isDatePickerFocused || store.dateChangedByUser))
           
           settingsTypeTitleView(title: "날짜/시간")
           
@@ -261,6 +309,7 @@ struct CreateEventView: View {
 
       }
     )
+    .allowsHitTesting(store.eventDuration != nil)
   }
   
   // 이벤트 종류
@@ -274,21 +323,31 @@ struct CreateEventView: View {
       isFocused: $store.isSubjectPickerFocused,
       thumbnail: ThumbnailView {
         HStack {
-          numberTextView(number: "3")
+          numberTextView(number: "3", isFocused: (store.isSubjectPickerFocused || store.subject != nil))
             
           
           settingsTypeTitleView(title: "이벤트 주제")
           
           Spacer()
           
-          Text("이벤트 종류를 선택하세요")
-            .font(.system(size: 14, weight: .bold))
-            .foregroundStyle(PND.DS.gray50)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
-            .background(PND.DS.gray10)
-            .clipShape(Capsule())
-         
+          if let subject = store.subject {
+            Text(subject)
+              .font(.system(size: 14, weight: .bold))
+              .foregroundStyle(PND.DS.primary)
+              .padding(.vertical, 8)
+              .padding(.horizontal, 12)
+              .background(PND.DS.lightGreen)
+              .clipShape(Capsule())
+            
+          } else {
+            Text("이벤트 종류를 선택하세요")
+              .font(.system(size: 14, weight: .bold))
+              .foregroundStyle(PND.DS.gray50)
+              .padding(.vertical, 8)
+              .padding(.horizontal, 12)
+              .background(PND.DS.gray10)
+              .clipShape(Capsule())
+          }
         }
 
 
@@ -315,12 +374,18 @@ struct CreateEventView: View {
                   Text("산책")
                 }
                 .frame(width: squareSize, height: squareSize)
+                .onTapGesture {
+                  store.send(.onEventSubjectChange("산책"))
+                }
               }
           }
           .frame(width: totalWidth)
         }
       }
     )
+    .onTapGesture {
+      store.send(.onEventSubjectPickerTap)
+    }
   }
   
   
@@ -332,23 +397,54 @@ struct CreateEventView: View {
       isFocused: $store.isParticipantsPickerFocused,
       thumbnail: ThumbnailView {
         HStack {
-          numberTextView(number: "4")
+          numberTextView(number: "4", isFocused: store.isParticipantsPickerFocused)
             
-          
           settingsTypeTitleView(title: "최소 참여인원")
           
           Spacer()
           
-          Text("3명")
-            .font(.system(size: 16, weight: .bold))
-         
+          HStack(spacing: 8) {
+            
+            Image(systemName: "minus")
+              .resizable()
+              .frame(width: 8, height: 2)
+              .padding(.horizontal, 4)
+              .padding(.vertical, 7)
+              .background(store.participants >= 1 ? PND.DS.primary : PND.DS.gray30)
+              .foregroundStyle(PND.DS.commonWhite)
+              .clipShape(Circle())
+              .onTapGesture {
+                store.send(.onMinusParticipants)
+              }
+            
+            Text("\(store.participants)")
+              .foregroundStyle(store.participants >= 1 ? PND.DS.primary : PND.DS.gray50)
+              .font(.system(size: 14, weight: .bold))
+            
+            Image(systemName: "plus")
+              .resizable()
+              .frame(width: 8, height: 8)
+              .padding(.horizontal, 4)
+              .padding(.vertical, 7)
+              .background(store.participants >= 1 ? PND.DS.primary : PND.DS.gray30)
+              .foregroundStyle(PND.DS.commonWhite)
+              .clipShape(Circle())
+              .onTapGesture {
+                store.send(.onPlusParticipants)
+              }
+             
+          }
+          .padding(.horizontal, 12)
+          .padding(.vertical, 8)
+          .background(store.participants >= 1 ? PND.DS.lightGreen : PND.DS.gray10)
+          .clipShape(Capsule())
         }
-
       },
       expanded: ExpandedView {
-        Text("이벤트 종류")
+        Rectangle().frame(height: 0)
       }
     )
+    .allowsHitTesting(store.subject != nil)
   }
   
   // 참여비용
@@ -359,7 +455,7 @@ struct CreateEventView: View {
       isFocused: $store.isFeePickerFocused,
       thumbnail: ThumbnailView {
         HStack {
-          numberTextView(number: "5")
+          numberTextView(number: "5", isFocused: store.isFeePickerFocused)
           settingsTypeTitleView(title: "참여 비용")
           Spacer()
           Text("3,000원")

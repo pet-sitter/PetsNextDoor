@@ -43,11 +43,11 @@ struct ExpandableView: View {
         isExpanded.toggle()
       }
     })
-    .onTapGesture {
-      withAnimation (.spring(response: 0.5)){
-        isExpanded.toggle()
-      }
-    }
+//    .onTapGesture {
+//      withAnimation (.spring(response: 0.5)){
+//        isExpanded.toggle()
+//      }
+//    }
   }
 }
 
