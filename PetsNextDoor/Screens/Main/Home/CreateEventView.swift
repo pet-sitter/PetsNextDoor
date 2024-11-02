@@ -40,6 +40,10 @@ struct CreateEventFeature: Reducer {
     // 참여 비용
     var isFeePickerExpanded: Bool = false
     var isFeePickerFocused: Bool = false
+    var fee: Int = 0
+    var feeTextFieldText: String = ""
+    
+    var isBottomButtonEnabled: Bool = false
   }
   
   enum Action: BindableAction {
@@ -54,6 +58,9 @@ struct CreateEventFeature: Reducer {
     case onMinusParticipants
     case onPlusParticipants
     
+    case onFeePickerTap
+    
+
     case binding(BindingAction<State>)
   }
   
@@ -102,7 +109,33 @@ struct CreateEventFeature: Reducer {
         
         state.participants -= 1
         return .none
-
+        
+      case .onFeePickerTap:
+        guard state.participants >= 1 else { return .none }
+        state.isParticipantsPickerFocused = false
+        state.isFeePickerFocused = true
+        return .none
+        
+      case .binding(\.feeTextFieldText):
+//        state.feeTextFieldText = "\(state.feeTextFieldText)원"
+        
+        let digits = state.feeTextFieldText
+          .components(separatedBy: CharacterSet.decimalDigits.inverted)
+          .joined()
+        
+        if let price = Int(digits) {
+          state.fee = price
+          
+          if price > 0 {
+            state.isBottomButtonEnabled = true
+//            state.feeTextFieldText = "\(price)원"
+          }
+        }
+        
+        
+     
+        
+        return .none
         
       default:
         return .none
@@ -119,32 +152,40 @@ struct CreateEventView: View {
   @State var store: StoreOf<CreateEventFeature>
   
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 15) {
-        
-        Text("정기 이벤트")
-          .padding(.horizontal, 12)
-          .padding(.vertical, 8)
-          .background(PND.DS.lightGreen)
-          .clipShape(Capsule())
-          .foregroundStyle(PND.DS.primary)
-          .font(.system(size: 14, weight: .bold))
-          .padding(.leading, PND.Metrics.defaultSpacing)
-        
-        eventDurationTypePickerView
-        
-        datePickerView
+    VStack() {
+      
+      ScrollView {
+        VStack(alignment: .leading, spacing: 15) {
           
-        eventSubjectPickerView
-        
-        participantPickerView
-        
-        feePickerView
-  
+          Text("정기 이벤트")
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(PND.DS.lightGreen)
+            .clipShape(Capsule())
+            .foregroundStyle(PND.DS.primary)
+            .font(.system(size: 14, weight: .bold))
+            .padding(.leading, PND.Metrics.defaultSpacing)
+          
+          eventDurationTypePickerView
+          
+          datePickerView
+            
+          eventSubjectPickerView
+          
+          participantPickerView
+          
+          feePickerView
+    
+        }
       }
-
+      .scrollIndicators(.never)
+      
+      BaseBottomButton_SwiftUI(
+        title: "다음 단계로",
+        isEnabled: $store.isBottomButtonEnabled
+      )
     }
-    .scrollIndicators(.never)
+
     .background(PND.DS.gray10)
   }
   
@@ -397,7 +438,7 @@ struct CreateEventView: View {
       isFocused: $store.isParticipantsPickerFocused,
       thumbnail: ThumbnailView {
         HStack {
-          numberTextView(number: "4", isFocused: store.isParticipantsPickerFocused)
+          numberTextView(number: "4", isFocused: (store.isParticipantsPickerFocused || store.participants >= 1))
             
           settingsTypeTitleView(title: "최소 참여인원")
           
@@ -458,14 +499,34 @@ struct CreateEventView: View {
           numberTextView(number: "5", isFocused: store.isFeePickerFocused)
           settingsTypeTitleView(title: "참여 비용")
           Spacer()
-          Text("3,000원")
-            .font(.system(size: 16, weight: .bold))
+          
+          TextField(
+            "",
+            text: $store.feeTextFieldText,
+            prompt: Text("참여비용을 입력하세요")
+              .foregroundStyle(PND.DS.gray50)
+              .font(.system(size: 14))
+              .fontWeight(.bold)
+          )
+          .keyboardType(.numberPad)
+          .tint(PND.DS.primary)
+          .padding(.horizontal, 12)
+          .padding(.vertical, 8)
+          .font(.system(size: 14, weight: .bold))
+          .background(Int(store.feeTextFieldText) ?? 0 > 0 ? PND.DS.lightGreen : PND.DS.gray10)
+          .foregroundStyle(PND.DS.primary)
+          .clipShape(Capsule())
+
         }
       },
       expanded: ExpandedView {
-        Text("이벤트 종류")
+        Rectangle().frame(height: 0)
       }
     )
+    .allowsHitTesting(store.participants >= 1)
+    .onTapGesture {
+      store.send(.onFeePickerTap)
+    }
   }
 }
 
