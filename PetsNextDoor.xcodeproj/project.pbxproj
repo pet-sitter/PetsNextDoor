@@ -75,6 +75,7 @@
 		DA30F3752BBAAB59005D615C /* TokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA30F3742BBAAB59005D615C /* TokenInterceptor.swift */; };
 		DA30F3782BBAAD31005D615C /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA30F3772BBAAD31005D615C /* KeyChainService.swift */; };
 		DA324B212AFCCF9F002BA739 /* StackViewSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */; };
+		DA358CFD2CD5EECF00D5B3BA /* SelectEventTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA358CFC2CD5EECF00D5B3BA /* SelectEventTypeView.swift */; };
 		DA38FC252AAB02B800A81C93 /* HomeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC242AAB02B800A81C93 /* HomeFeature.swift */; };
 		DA38FC292AAB089F00A81C93 /* UrgentPostCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */; };
 		DA38FC2B2AAB0A7100A81C93 /* UrgentPostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38FC2A2AAB0A7100A81C93 /* UrgentPostCardView.swift */; };
@@ -123,6 +124,9 @@
 		DA604D802B68AEC5001FE27F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DA604D7F2B68AEC5001FE27F /* Kingfisher */; };
 		DA604D9D2B690C71001FE27F /* PetSpeciesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA604D9C2B690C71001FE27F /* PetSpeciesListView.swift */; };
 		DA6A91932BBBFAB700898737 /* Error+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6A91922BBBFAB700898737 /* Error+Extension.swift */; };
+		DA6B06222CDC547F00C32CE5 /* SelectAddressDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B06212CDC547F00C32CE5 /* SelectAddressDetailView.swift */; };
+		DA6B06302CDC770D00C32CE5 /* SelectAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B062F2CDC770D00C32CE5 /* SelectAddressView.swift */; };
+		DA6B06322CDC7EDA00C32CE5 /* WriteEventDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B06312CDC7EDA00C32CE5 /* WriteEventDescriptionView.swift */; };
 		DA73510F2B39B5DD00306067 /* SOSPostDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */; };
 		DA755EB12BC7BC3400209389 /* MainTabNavigationPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA755EB02BC7BC3400209389 /* MainTabNavigationPath.swift */; };
 		DA7D67512B0C76A900497F51 /* MeetingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D67502B0C76A900497F51 /* MeetingCardView.swift */; };
@@ -299,6 +303,7 @@
 		DA30F3742BBAAB59005D615C /* TokenInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInterceptor.swift; sourceTree = "<group>"; };
 		DA30F3772BBAAD31005D615C /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 		DA324B202AFCCF9F002BA739 /* StackViewSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewSpacer.swift; sourceTree = "<group>"; };
+		DA358CFC2CD5EECF00D5B3BA /* SelectEventTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEventTypeView.swift; sourceTree = "<group>"; };
 		DA38FC242AAB02B800A81C93 /* HomeFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeature.swift; sourceTree = "<group>"; };
 		DA38FC282AAB089F00A81C93 /* UrgentPostCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardComponent.swift; sourceTree = "<group>"; };
 		DA38FC2A2AAB0A7100A81C93 /* UrgentPostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentPostCardView.swift; sourceTree = "<group>"; };
@@ -347,6 +352,9 @@
 		DA5DCB2A2BCE3F7100B308A7 /* LoadingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingManager.swift; sourceTree = "<group>"; };
 		DA604D9C2B690C71001FE27F /* PetSpeciesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSpeciesListView.swift; sourceTree = "<group>"; };
 		DA6A91922BBBFAB700898737 /* Error+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Extension.swift"; sourceTree = "<group>"; };
+		DA6B06212CDC547F00C32CE5 /* SelectAddressDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressDetailView.swift; sourceTree = "<group>"; };
+		DA6B062F2CDC770D00C32CE5 /* SelectAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressView.swift; sourceTree = "<group>"; };
+		DA6B06312CDC7EDA00C32CE5 /* WriteEventDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteEventDescriptionView.swift; sourceTree = "<group>"; };
 		DA73510E2B39B5DD00306067 /* SOSPostDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSPostDetailModel.swift; sourceTree = "<group>"; };
 		DA755EB02BC7BC3400209389 /* MainTabNavigationPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabNavigationPath.swift; sourceTree = "<group>"; };
 		DA7D67502B0C76A900497F51 /* MeetingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCardView.swift; sourceTree = "<group>"; };
@@ -761,7 +769,11 @@
 				DA25E8742B57AB250068D2F0 /* HomeView.swift */,
 				DA38FC242AAB02B800A81C93 /* HomeFeature.swift */,
 				DAED56D52C8B2AAE00FB0E08 /* MainHomeView.swift */,
+				DA358CFC2CD5EECF00D5B3BA /* SelectEventTypeView.swift */,
+				DA6B062F2CDC770D00C32CE5 /* SelectAddressView.swift */,
+				DA6B06212CDC547F00C32CE5 /* SelectAddressDetailView.swift */,
 				DAFC2FB72CCA0B0B00C8964D /* CreateEventView.swift */,
+				DA6B06312CDC7EDA00C32CE5 /* WriteEventDescriptionView.swift */,
 				DAED56D72C8B3B3E00FB0E08 /* EventDetailView.swift */,
 			);
 			path = Home;
@@ -1406,6 +1418,7 @@
 				DA324B212AFCCF9F002BA739 /* StackViewSpacer.swift in Sources */,
 				DABA44872A62F91200FD2639 /* UIControl+Extension.swift in Sources */,
 				DA20157C2ABEF9C300F7516A /* ServiceError.swift in Sources */,
+				DA6B06222CDC547F00C32CE5 /* SelectAddressDetailView.swift in Sources */,
 				DA6A91932BBBFAB700898737 /* Error+Extension.swift in Sources */,
 				DAD633122B837DB9004A962E /* MapView.swift in Sources */,
 				DA8F5A7C2BF4C6DC0031AB75 /* MyActivityFeature.swift in Sources */,
@@ -1423,6 +1436,7 @@
 				DAC71A342B4BCF6D00E6B53E /* SelectDateHorizontalView.swift in Sources */,
 				DA8BF09C2B5E5DEC00370C84 /* SetProfileView.swift in Sources */,
 				DA5DCB2B2BCE3F7100B308A7 /* LoadingManager.swift in Sources */,
+				DA6B06302CDC770D00C32CE5 /* SelectAddressView.swift in Sources */,
 				DA3A947C2B512BC500B3529C /* SelectOtherRequirementsView.swift in Sources */,
 				DAEDCEA42BF0EBA3002F55BC /* UserProfileModel.swift in Sources */,
 				DAFBA8A22B50F931003EF0BF /* SelectConditionView.swift in Sources */,
@@ -1494,6 +1508,7 @@
 				DA474B6E2B26A0B6002FADC6 /* SelectImagesHorizontalView.swift in Sources */,
 				DABF95552B400106004DFC3E /* UserService.swift in Sources */,
 				DA0F92142A9848720059690E /* NetworkProvidable.swift in Sources */,
+				DA6B06322CDC7EDA00C32CE5 /* WriteEventDescriptionView.swift in Sources */,
 				DABA44812A629A0E00FD2639 /* AppRouter.swift in Sources */,
 				DAFF56C82B58B4F00085A054 /* SelectPetListView.swift in Sources */,
 				7C8EDC4E2AD57EBB003431E5 /* HorizontalActionButtonComponent.swift in Sources */,
@@ -1545,6 +1560,7 @@
 				DAE121302B036D32008EF9AC /* BaseTextView.swift in Sources */,
 				DA11370D2AC3EEDB0061F1E0 /* BaseButton.swift in Sources */,
 				DAE121332B03702E008EF9AC /* BaseTextViewComponent.swift in Sources */,
+				DA358CFD2CD5EECF00D5B3BA /* SelectEventTypeView.swift in Sources */,
 				DA95347D2AEF8D2200ED21F9 /* HeaderTitleComponent.swift in Sources */,
 				DA4B2A8F2AFB63680053217A /* ButtonSegmentControlView.swift in Sources */,
 				DAA4F58B2B4BE5DF00E0E10F /* WriteUrgentPostView.swift in Sources */,

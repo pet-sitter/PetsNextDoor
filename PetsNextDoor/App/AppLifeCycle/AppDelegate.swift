@@ -157,7 +157,7 @@ struct MainTabBarFeature: Reducer {
         return .none
         
       case .homeAction(.delegate(.pushToCreateEventView)):
-        state.path.append(.createEvent(CreateEventFeature.State()))
+        state.path.append(.selectEventType(SelectEventTypeFeature.State()))
         return .none
         
         // 채팅방 목록 액션
@@ -182,6 +182,18 @@ struct MainTabBarFeature: Reducer {
 				// 그 외
       case let .path(action):
         switch action {
+          
+        case .element(id: _, action: .selectEventType(.pushToCreateEventView(let eventType))):
+          state.path.append(.createEvent(CreateEventFeature.State(eventType: eventType)))
+          return .none
+          
+        case .element(id: _, action: .createEvent(.onBottomButtonTap)):
+          state.path.append(.selectAddress(SelectAddressFeature.State()))
+          return .none
+          
+        case .element(id: _, action: .selectAddress(.onSelectAddress)):
+          state.path.append(.selectAddressDetail(SelectAddressDetailFeature.State()))
+          return .none
           
         case .element(id: _, action: .eventDetail(.delegate(.popView))):
           let _ = state.path.popLast()
@@ -251,14 +263,29 @@ struct MainTabBarView: View {
       
       switch store.state  {
         
-      case .eventDetail:
-        if let store = store.scope(state: \.eventDetail, action: \.eventDetail) {
-          EventDetailView(store: store)
+      case .selectEventType:
+        if let store = store.scope(state: \.selectEventType, action: \.selectEventType) {
+          SelectEventTypeView(store: store)
         }
         
       case .createEvent:
         if let store = store.scope(state: \.createEvent, action: \.createEvent) {
           CreateEventView(store: store)
+        }
+        
+      case .selectAddress:
+        if let store = store.scope(state: \.selectAddress, action: \.selectAddress) {
+          SelectAddressView(store: store)
+        }
+        
+      case .selectAddressDetail:
+        if let store = store.scope(state: \.selectAddressDetail, action: \.selectAddressDetail) {
+          SelectAddressDetailView(store: store)
+        }
+        
+      case .eventDetail:
+        if let store = store.scope(state: \.eventDetail, action: \.eventDetail) {
+          EventDetailView(store: store)
         }
         
       case .urgentPostDetail:

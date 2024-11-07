@@ -14,13 +14,15 @@ struct CreateEventFeature: Reducer {
   @ObservableState
   struct State: Equatable {
     
+    let eventType: PND.EventType
+    
     // 이벤트 종류
     var isEventDurationPickerFocused: Bool = true
     var eventDuration: EventDuration? = nil
     
     // 날짜 시간
     var isDatePickerExpanded: Bool = false
-    var isDatePickerFocused: Bool = false
+    var isDatePickerFocused: Bool
     var dateChangedByUser: Bool = false
     var date: Date = .init()
     
@@ -44,6 +46,11 @@ struct CreateEventFeature: Reducer {
     var feeTextFieldText: String = ""
     
     var isBottomButtonEnabled: Bool = false
+    
+    init(eventType: PND.EventType) {
+      self.eventType = eventType
+      self.isDatePickerFocused = eventType == .singleEvent
+    }
   }
   
   enum Action: BindableAction {
@@ -60,6 +67,7 @@ struct CreateEventFeature: Reducer {
     
     case onFeePickerTap
     
+    case onBottomButtonTap
 
     case binding(BindingAction<State>)
   }
@@ -131,10 +139,6 @@ struct CreateEventFeature: Reducer {
 //            state.feeTextFieldText = "\(price)원"
           }
         }
-        
-        
-     
-        
         return .none
         
       default:
@@ -157,7 +161,7 @@ struct CreateEventView: View {
       ScrollView {
         VStack(alignment: .leading, spacing: 15) {
           
-          Text("정기 이벤트")
+          Text(store.eventType.description)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(PND.DS.lightGreen)
@@ -166,7 +170,10 @@ struct CreateEventView: View {
             .font(.system(size: 14, weight: .bold))
             .padding(.leading, PND.Metrics.defaultSpacing)
           
-          eventDurationTypePickerView
+          if store.eventType == .recurringEvent {
+            eventDurationTypePickerView
+          }
+
           
           datePickerView
             
@@ -184,6 +191,9 @@ struct CreateEventView: View {
         title: "다음 단계로",
         isEnabled: $store.isBottomButtonEnabled
       )
+      .onTapGesture {
+        store.send(.onBottomButtonTap)
+      }
     }
 
     .background(PND.DS.gray10)
@@ -207,6 +217,7 @@ struct CreateEventView: View {
   private func settingsTypeTitleView(title: String) -> some View {
     Text(title)
       .font(.system(size: 16, weight: .bold))
+      .minimumScaleFactor(0.6)
   }
 
   
@@ -319,20 +330,20 @@ struct CreateEventView: View {
         HStack {
           numberTextView(number: "2", isFocused: (store.isDatePickerFocused || store.dateChangedByUser))
           
-          settingsTypeTitleView(title: "날짜/시간")
-          
-          Spacer()
-          
+          settingsTypeTitleView(title: "날짜")
+                  
           DatePicker(
             selection: $store.date,
             in: Date()...,
             displayedComponents: [.date, .hourAndMinute]
           ) {}
+            .datePickerStyle(.compact)
             .tint(PND.DS.primary)
             .onChange(of: store.date) { _, _ in
               store.send(.onDateChange)
             }
         }
+        .frame(width: UIScreen.fixedScreenSize.width - (PND.Metrics.defaultSpacing * 2) - (32))
       },
       expanded: ExpandedView {
         VStack(spacing: 0) {
@@ -350,7 +361,7 @@ struct CreateEventView: View {
 
       }
     )
-    .allowsHitTesting(store.eventDuration != nil)
+    .allowsHitTesting((store.eventDuration != nil || store.eventType == .singleEvent))
   }
   
   // 이벤트 종류
@@ -543,6 +554,6 @@ fileprivate struct RoundedRectangleStrokeOverlayModifier: ViewModifier {
   }
 }
 
-#Preview {
-  CreateEventView(store: .init(initialState: .init(), reducer: { CreateEventFeature() }))
-}
+//#Preview {
+//  CreateEventView(store: .init(initialState: CreateEventFeature.State(), reducer: { CreateEventFeature() }))
+//}

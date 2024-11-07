@@ -14,7 +14,10 @@ struct MainTabNavigationPath {
   @ObservableState
   enum State: Equatable {
     case eventDetail(EventDetailFeature.State)
+    case selectEventType(SelectEventTypeFeature.State)
     case createEvent(CreateEventFeature.State)
+    case selectAddress(SelectAddressFeature.State)
+    case selectAddressDetail(SelectAddressDetailFeature.State)
     case urgentPostDetail(UrgentPostDetailFeature.State)
     case selectPetList(SelectPetListFeature.State)
     case selectCareConditions(SelectCareConditionFeature.State)
@@ -28,7 +31,10 @@ struct MainTabNavigationPath {
   
   enum Action {
     case eventDetail(EventDetailFeature.Action)
+    case selectEventType(SelectEventTypeFeature.Action)
     case createEvent(CreateEventFeature.Action)
+    case selectAddress(SelectAddressFeature.Action)
+    case selectAddressDetail(SelectAddressDetailFeature.Action)
     case urgentPostDetail(UrgentPostDetailFeature.Action)
     case selectPetList(SelectPetListFeature.Action)
     case selectCareConditions(SelectCareConditionFeature.Action)
@@ -41,8 +47,11 @@ struct MainTabNavigationPath {
   }
   
   var body: some Reducer<State, Action> {
-    Scope(state: \.eventDetail, action: \.eventDetail) { EventDetailFeature() }
+    Scope(state: \.selectEventType, action: \.selectEventType) { SelectEventTypeFeature() }
     Scope(state: \.createEvent, action: \.createEvent) { CreateEventFeature() }
+    Scope(state: \.selectAddress, action: \.selectAddress) { SelectAddressFeature() }
+    Scope(state: \.selectAddressDetail, action: \.selectAddressDetail) { SelectAddressDetailFeature() }
+    Scope(state: \.eventDetail, action: \.eventDetail) { EventDetailFeature() }
     Scope(state: \.urgentPostDetail, action: \.urgentPostDetail) { UrgentPostDetailFeature() }
     Scope(state: \.selectPetList, action: \.selectPetList) { SelectPetListFeature() }
     Scope(state: \.selectCareConditions, action: \.selectCareConditions) { SelectCareConditionFeature() }
