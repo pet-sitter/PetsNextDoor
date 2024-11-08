@@ -156,7 +156,7 @@ struct MainTabBarFeature: Reducer {
         state.path.append(.eventDetail(EventDetailFeature.State()))
         return .none
         
-      case .homeAction(.delegate(.pushToCreateEventView)):
+      case .homeAction(.delegate(.startEventCreationFlow)):
         state.path.append(.selectEventType(SelectEventTypeFeature.State()))
         return .none
         
@@ -183,16 +183,20 @@ struct MainTabBarFeature: Reducer {
       case let .path(action):
         switch action {
           
-        case .element(id: _, action: .selectEventType(.pushToCreateEventView(let eventType))):
-          state.path.append(.createEvent(CreateEventFeature.State(eventType: eventType)))
+        case .element(id: _, action: .selectEventType(.pushToCreateEventView(let eventUploadModel))):
+          state.path.append(.createEvent(CreateEventFeature.State(eventUploadModel: eventUploadModel)))
           return .none
           
-        case .element(id: _, action: .createEvent(.onBottomButtonTap)):
-          state.path.append(.selectAddress(SelectAddressFeature.State()))
+        case .element(id: _, action: .createEvent(.pushToSelectAddressView(let eventUploadModel))):
+          state.path.append(.selectAddress(SelectAddressFeature.State(eventUploadModel: eventUploadModel)))
           return .none
           
-        case .element(id: _, action: .selectAddress(.onSelectAddress)):
-          state.path.append(.selectAddressDetail(SelectAddressDetailFeature.State()))
+        case .element(id: _, action: .selectAddress(.pushToSelectAddressDetail(let eventUploadModel))):
+          state.path.append(.selectAddressDetail(SelectAddressDetailFeature.State(eventUploadModel: eventUploadModel)))
+          return .none
+          
+        case .element(id: _, action: .selectAddressDetail(.pushToWriteEventDescription(let eventUploadModel))):
+          state.path.append(.writeEventDescription(WriteEventDescriptionFeature.State(eventUploadModel: eventUploadModel)))
           return .none
           
         case .element(id: _, action: .eventDetail(.delegate(.popView))):
@@ -282,6 +286,11 @@ struct MainTabBarView: View {
         if let store = store.scope(state: \.selectAddressDetail, action: \.selectAddressDetail) {
           SelectAddressDetailView(store: store)
         }
+        
+        case .writeEventDescription:
+          if let store = store.scope(state: \.writeEventDescription, action: \.writeEventDescription) {
+            WriteEventDescriptionView(store: store)
+          }
         
       case .eventDetail:
         if let store = store.scope(state: \.eventDetail, action: \.eventDetail) {

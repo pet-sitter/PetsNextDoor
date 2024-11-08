@@ -14,6 +14,7 @@ struct WriteEventDescriptionFeature: Reducer {
   
   @ObservableState
   struct State: Equatable {
+    var eventUploadModel: PND.EventUploadModel
     var eventTitle: String = ""
     var eventDescription: String = ""
     var selectedImageDatas: [Data] = []
@@ -95,5 +96,5 @@ struct WriteEventDescriptionView: View {
 }
 
 #Preview {
-  WriteEventDescriptionView(store: .init(initialState: .init(), reducer: { WriteEventDescriptionFeature() }))
+  WriteEventDescriptionView(store: .init(initialState: .init(eventUploadModel: .init()), reducer: { WriteEventDescriptionFeature() }))
 }

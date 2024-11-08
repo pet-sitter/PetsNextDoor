@@ -14,11 +14,12 @@ struct CreateEventFeature: Reducer {
   @ObservableState
   struct State: Equatable {
     
+    var eventUploadModel: PND.EventUploadModel
     let eventType: PND.EventType
     
     // 이벤트 종류
     var isEventDurationPickerFocused: Bool = true
-    var eventDuration: EventDuration? = nil
+    var eventDuration: PND.EventDuration? = nil
     
     // 날짜 시간
     var isDatePickerExpanded: Bool = false
@@ -46,16 +47,17 @@ struct CreateEventFeature: Reducer {
     var feeTextFieldText: String = ""
     
     var isBottomButtonEnabled: Bool = false
-    
-    init(eventType: PND.EventType) {
-      self.eventType = eventType
-      self.isDatePickerFocused = eventType == .singleEvent
+  
+    init(eventUploadModel: PND.EventUploadModel) {
+      self.eventUploadModel = eventUploadModel
+      self.eventType = eventUploadModel.eventType ?? .singleEvent
+      self.isDatePickerFocused = eventUploadModel.eventType == .singleEvent
     }
   }
   
   enum Action: BindableAction {
     
-    case onEventDurationChange(EventDuration)
+    case onEventDurationChange(PND.EventDuration)
     case onDateChange
     
     case onEventSubjectPickerTap
@@ -68,16 +70,12 @@ struct CreateEventFeature: Reducer {
     case onFeePickerTap
     
     case onBottomButtonTap
+    case pushToSelectAddressView(eventUploadModel: PND.EventUploadModel)
 
     case binding(BindingAction<State>)
   }
   
-  enum EventDuration: String {
-    case daily    = "매일"
-    case weekly   = "매주"
-    case biWeekly = "2주에 한 번"
-    case monthly  = "매달"
-  }
+
   
   var body: some Reducer<State, Action> {
     BindingReducer()
@@ -124,8 +122,19 @@ struct CreateEventFeature: Reducer {
         state.isFeePickerFocused = true
         return .none
         
+      case .onBottomButtonTap:
+        var eventUploadModel = state.eventUploadModel
+        if let eventDuration = state.eventDuration {
+          eventUploadModel.eventDuration = eventDuration
+        }
+        eventUploadModel.eventDate = state.date
+        eventUploadModel.eventSubject = state.subject
+        eventUploadModel.eventParticipants = state.participants
+        eventUploadModel.eventFee = state.fee
+              
+        return .send(.pushToSelectAddressView(eventUploadModel: eventUploadModel))
+        
       case .binding(\.feeTextFieldText):
-//        state.feeTextFieldText = "\(state.feeTextFieldText)원"
         
         let digits = state.feeTextFieldText
           .components(separatedBy: CharacterSet.decimalDigits.inverted)
@@ -238,7 +247,7 @@ struct CreateEventView: View {
           store.send(.onEventDurationChange(.daily))
         } label: {
           HStack {
-            Text(CreateEventFeature.EventDuration.daily.rawValue)
+            Text(PND.EventDuration.daily.rawValue)
             if store.eventDuration == .daily {
               Image(systemName: "checkmark")
             }
@@ -249,7 +258,7 @@ struct CreateEventView: View {
           store.send(.onEventDurationChange(.weekly))
         } label: {
           HStack {
-            Text(CreateEventFeature.EventDuration.weekly.rawValue)
+            Text(PND.EventDuration.weekly.rawValue)
             if store.eventDuration == .weekly {
               Image(systemName: "checkmark")
             }
@@ -260,7 +269,7 @@ struct CreateEventView: View {
           store.send(.onEventDurationChange(.biWeekly))
         } label: {
           HStack {
-            Text(CreateEventFeature.EventDuration.biWeekly.rawValue)
+            Text(PND.EventDuration.biWeekly.rawValue)
             if store.eventDuration == .biWeekly {
               Image(systemName: "checkmark")
             }
@@ -272,7 +281,7 @@ struct CreateEventView: View {
           store.send(.onEventDurationChange(.monthly))
         } label: {
           HStack {
-            Text(CreateEventFeature.EventDuration.monthly.rawValue)
+            Text(PND.EventDuration.monthly.rawValue)
             if store.eventDuration == .monthly {
               Image(systemName: "checkmark")
             }

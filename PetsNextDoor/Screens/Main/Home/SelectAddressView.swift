@@ -13,12 +13,15 @@ struct SelectAddressFeature: Reducer {
   @ObservableState
   struct State: Equatable {
     
+    var eventUploadModel: PND.EventUploadModel
+    
     var jibunAddress: String = ""
     var roadAddress: String = ""
+  
   }
   
   enum Action: BindableAction {
-    case onSelectAddress
+    case pushToSelectAddressDetail(eventUploadModel: PND.EventUploadModel)
     case binding(BindingAction<State>)
   }
   
@@ -27,11 +30,12 @@ struct SelectAddressFeature: Reducer {
     Reduce { state, action in
       
       switch action {
-        
-      case .onSelectAddress:
-        
-        return .none
 
+      case .binding(\.jibunAddress):
+        var eventUploadModel = state.eventUploadModel
+        eventUploadModel.eventAddress = state.jibunAddress
+        
+        return .send(.pushToSelectAddressDetail(eventUploadModel: eventUploadModel))
         
       default:
         return .none
@@ -58,7 +62,7 @@ struct SelectAddressView: View {
       HStack(spacing: 10) {
         
         Text(store.jibunAddress.isEmpty ? "아래에서 주소를 검색해주세요" : store.jibunAddress)
-          .frame(width: .infinity, height: 42)
+          .frame(height: 42)
           .foregroundStyle(store.jibunAddress.isEmpty ? PND.DS.gray50 : PND.DS.commonBlack)
         
         Spacer()
@@ -82,14 +86,10 @@ struct SelectAddressView: View {
         .fill(PND.DS.gray20)
         .frame(height: 8)
   
-      
       SelectAddressWebView(
         jibunAddress: $store.jibunAddress,
         roadAddress: $store.roadAddress
       )
-
-      
-
       Spacer()
     }
     .navigationTitle("주소 검색")
@@ -182,5 +182,5 @@ struct SelectAddressWebView: UIViewRepresentable {
 
 
 #Preview {
-  SelectAddressView(store: .init(initialState: .init(), reducer: { SelectAddressFeature() }))
+  SelectAddressView(store: .init(initialState: .init(eventUploadModel: .init()), reducer: { SelectAddressFeature() }))
 }

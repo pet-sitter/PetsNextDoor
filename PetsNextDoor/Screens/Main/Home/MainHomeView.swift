@@ -93,7 +93,7 @@ struct MainHomeFeature: Reducer {
     
     enum DelegateAction: Equatable {
       case pushToEventDetailView(eventId: String)
-      case pushToCreateEventView
+      case startEventCreationFlow
     }
     
     case view(ViewAction)
@@ -123,7 +123,7 @@ struct MainHomeFeature: Reducer {
         return .send(.delegate(.pushToEventDetailView(eventId: viewModel.id)))
         
       case .view(.onSelectPlusButton):
-        return .send(.delegate(.pushToCreateEventView))
+        return .send(.delegate(.startEventCreationFlow))
         
       default:
         return .none

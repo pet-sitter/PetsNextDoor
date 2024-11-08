@@ -46,6 +46,28 @@ extension PND {
     init(from decoder: Decoder) throws {
       self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .singleEvent
     }
+  }
+  
+  enum EventDuration: String {
+    case daily    = "매일"
+    case weekly   = "매주"
+    case biWeekly = "2주에 한 번"
+    case monthly  = "매달"
+  }
+  
+  struct EventUploadModel: Equatable {
+    
+    var eventType: PND.EventType? = nil
+    var eventDuration: PND.EventDuration? = nil
+    var eventDate: Foundation.Date? = nil
+    var eventSubject: String? = nil
+    var eventParticipants: Int? = nil
+    var eventFee: Int? = nil
+    var eventAddress: String? = nil
+    var eventAddressDetail: String? = nil
+    var eventTitle: String? = nil
+    var eventDescription: String? = nil
+    var selectedImageDatas: [Data] = []
     
   }
 }

@@ -14,11 +14,15 @@ struct SelectAddressDetailFeature: Reducer {
   @ObservableState
   struct State: Equatable {
     
+    var eventUploadModel: PND.EventUploadModel
+    
     var addressDetail: String = ""
     var isBottomButtonEnabled: Bool = false
   }
   
   enum Action: BindableAction {
+    case onBottomButtonTap
+    case pushToWriteEventDescription(eventUploadModel: PND.EventUploadModel)
     case binding(BindingAction<State>)
   }
   
@@ -27,6 +31,12 @@ struct SelectAddressDetailFeature: Reducer {
     Reduce { state, action in
       
       switch action {
+        
+      case .onBottomButtonTap:
+        var eventUploadModel = state.eventUploadModel
+        eventUploadModel.eventAddressDetail = state.addressDetail
+        return .send(.pushToWriteEventDescription(eventUploadModel: eventUploadModel))
+        
       case .binding(\.addressDetail):
         state.isBottomButtonEnabled = state.addressDetail.isEmpty ? false : true
         return .none
@@ -86,12 +96,15 @@ struct SelectAddressDetailView: View {
         title: "다음 단계로",
         isEnabled: $store.isBottomButtonEnabled
       )
+      .onTapGesture {
+        store.send(.onBottomButtonTap)
+      }
       
     }
     .navigationTitle("주소 상세 정보 입력")
   }
 }
 
-#Preview {
-  SelectAddressDetailView(store: .init(initialState: .init(), reducer: { SelectAddressDetailFeature() }))
-}
+//#Preview {
+//  SelectAddressDetailView(store: .init(initialState: .init(), reducer: { SelectAddressDetailFeature() }))
+//}

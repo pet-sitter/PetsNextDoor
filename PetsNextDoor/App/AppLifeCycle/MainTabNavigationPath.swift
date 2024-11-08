@@ -18,6 +18,7 @@ struct MainTabNavigationPath {
     case createEvent(CreateEventFeature.State)
     case selectAddress(SelectAddressFeature.State)
     case selectAddressDetail(SelectAddressDetailFeature.State)
+    case writeEventDescription(WriteEventDescriptionFeature.State)
     case urgentPostDetail(UrgentPostDetailFeature.State)
     case selectPetList(SelectPetListFeature.State)
     case selectCareConditions(SelectCareConditionFeature.State)
@@ -35,6 +36,7 @@ struct MainTabNavigationPath {
     case createEvent(CreateEventFeature.Action)
     case selectAddress(SelectAddressFeature.Action)
     case selectAddressDetail(SelectAddressDetailFeature.Action)
+    case writeEventDescription(WriteEventDescriptionFeature.Action)
     case urgentPostDetail(UrgentPostDetailFeature.Action)
     case selectPetList(SelectPetListFeature.Action)
     case selectCareConditions(SelectCareConditionFeature.Action)
@@ -51,6 +53,7 @@ struct MainTabNavigationPath {
     Scope(state: \.createEvent, action: \.createEvent) { CreateEventFeature() }
     Scope(state: \.selectAddress, action: \.selectAddress) { SelectAddressFeature() }
     Scope(state: \.selectAddressDetail, action: \.selectAddressDetail) { SelectAddressDetailFeature() }
+    Scope(state: \.writeEventDescription, action: \.writeEventDescription) { WriteEventDescriptionFeature() }
     Scope(state: \.eventDetail, action: \.eventDetail) { EventDetailFeature() }
     Scope(state: \.urgentPostDetail, action: \.urgentPostDetail) { UrgentPostDetailFeature() }
     Scope(state: \.selectPetList, action: \.selectPetList) { SelectPetListFeature() }

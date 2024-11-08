@@ -770,9 +770,9 @@
 				DA38FC242AAB02B800A81C93 /* HomeFeature.swift */,
 				DAED56D52C8B2AAE00FB0E08 /* MainHomeView.swift */,
 				DA358CFC2CD5EECF00D5B3BA /* SelectEventTypeView.swift */,
+				DAFC2FB72CCA0B0B00C8964D /* CreateEventView.swift */,
 				DA6B062F2CDC770D00C32CE5 /* SelectAddressView.swift */,
 				DA6B06212CDC547F00C32CE5 /* SelectAddressDetailView.swift */,
-				DAFC2FB72CCA0B0B00C8964D /* CreateEventView.swift */,
 				DA6B06312CDC7EDA00C32CE5 /* WriteEventDescriptionView.swift */,
 				DAED56D72C8B3B3E00FB0E08 /* EventDetailView.swift */,
 			);

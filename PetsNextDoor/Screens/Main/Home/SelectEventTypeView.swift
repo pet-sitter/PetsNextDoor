@@ -21,7 +21,7 @@ struct SelectEventTypeFeature {
     case onSelectSingleEventType
     case onSelectRegularEventType
     case onSelectBottomButton
-    case pushToCreateEventView(eventType: PND.EventType)
+    case pushToCreateEventView(eventUploadModel: PND.EventUploadModel)
     case binding(BindingAction<State>)
   }
 
@@ -43,7 +43,10 @@ struct SelectEventTypeFeature {
         
       case .onSelectBottomButton:
         if let selectedEventType = state.selectedEventType {
-          return .send(.pushToCreateEventView(eventType: selectedEventType))
+          var eventUploadModel = PND.EventUploadModel()
+          eventUploadModel.eventType = selectedEventType
+          
+          return .send(.pushToCreateEventView(eventUploadModel: eventUploadModel))
         } else {
           return .none
         }
