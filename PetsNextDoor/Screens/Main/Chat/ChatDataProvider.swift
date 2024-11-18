@@ -32,10 +32,11 @@ final class ChatDataProvider {
   
   init() {
     self.configuration = Configuration(roomId: "f5e17d20-5688-4924-b6c7-4509e80f04ad")
-    self.chatSocketService = LiveChatService(
-      socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
-      configuration: .init(roomId: configuration.roomId)
-    )
+//    self.chatSocketService = LiveChatService(
+//      socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
+//      configuration: .init(roomId: configuration.roomId)
+//    )
+    self.chatSocketService = MockLiveChatService()
     self.chatAPIService = ChatAPIService()
     self.mediaService = MediaService()
     chatSocketService.delegate = self

@@ -16,7 +16,8 @@ struct SelectAddressDetailFeature: Reducer {
     
     var eventUploadModel: PND.EventUploadModel
     
-    var addressDetail: String = ""
+    var addressDetail: String = ""            // 상세주소
+    var addressDetailDescription: String = "" // 찾아오는 길 안내
     var isBottomButtonEnabled: Bool = false
   }
   
@@ -85,9 +86,28 @@ struct SelectAddressDetailView: View {
               .inset(by: 0.5)
               .stroke(PND.DS.commonGrey, lineWidth: 1)
           )
+        
+        Spacer().frame(height: 20)
+
+        Text("찾아오는 길 안내")
+          .font(.system(size: 14, weight: .bold))
+          .foregroundStyle(PND.DS.commonBlack)
+        
+        Spacer().frame(height: 12)
+        
+        TextField("예) 상가 1층 건물 앞에 모여서 만나요", text: $store.addressDetailDescription)
+          .tint(.black)
+          .frame(height: 42)
+          .padding(.horizontal, 10)
+          .clipShape(RoundedRectangle(cornerRadius: CGFloat(4)))
+          .overlay(
+            RoundedRectangle(cornerRadius: CGFloat(4))
+              .inset(by: 0.5)
+              .stroke(PND.DS.commonGrey, lineWidth: 1)
+          )
 
         
-        Spacer().frame(height: 90)
+        Spacer().frame(height: 50)
       }
       .padding(.horizontal, PND.Metrics.defaultSpacing)
       
@@ -105,6 +125,6 @@ struct SelectAddressDetailView: View {
   }
 }
 
-//#Preview {
-//  SelectAddressDetailView(store: .init(initialState: .init(), reducer: { SelectAddressDetailFeature() }))
-//}
+#Preview {
+  SelectAddressDetailView(store: .init(initialState: .init(eventUploadModel: .init()), reducer: { SelectAddressDetailFeature() }))
+}

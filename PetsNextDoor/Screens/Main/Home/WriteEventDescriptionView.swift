@@ -76,7 +76,7 @@ struct WriteEventDescriptionView: View {
       .frame(height: UIScreen.fixedScreenSize.height / 3)
       
       SelectImagesHorizontalView(
-        maxImagesCount: 5,
+        maxImagesCount: 1,
         selectedImageDatas: $store.selectedImageDatas
       )
       

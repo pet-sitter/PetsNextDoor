@@ -36,7 +36,7 @@ struct ChatListView: View {
     
       SegmentControlView_SwiftUI(
         selectedIndex: $store.tabIndex,
-        segmentTitles: ["채팅", "모임채팅"]
+        segmentTitles: ["전체 채팅", "이벤트 채팅", "돌봄 채팅"]
       )
       .padding(.leading, PND.Metrics.defaultSpacing)
       

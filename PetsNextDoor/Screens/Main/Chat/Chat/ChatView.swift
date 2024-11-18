@@ -62,7 +62,7 @@ struct ChatFeature: Reducer {
 	
 
   enum Action: RestrictiveAction, BindableAction {
-
+ 
     enum ViewAction: Equatable {
       case onAppear
       case onMemberListButtonTap
@@ -260,12 +260,14 @@ struct ChatView: View {
         Color.clear
           .frame(height: 1)
           .modifier(PlainListModifier())
+          .background(PND.DS.gray10)
           .onAppear       { isAtBottomPosition = true }
           .onDisappear()  { isAtBottomPosition = false }
           .id(bottomOfChatList)
       }
       .environment(\.defaultMinListRowHeight, 0)
       .listStyle(.plain)
+      .background(PND.DS.gray10)
       .onAppear() {
         scrollViewProxy = proxy
       }
@@ -401,7 +403,7 @@ struct ChatView: View {
   @ViewBuilder
   private func chatSpacer(height: CGFloat) -> some View{
     Rectangle()
-      .fill(Color.white)
+      .fill(PND.DS.gray10)
       .frame(height: height)
       .modifier(PlainListModifier())
   }
@@ -435,6 +437,7 @@ struct SingleChatImageView: View {
       }
     }
     .modifier(PlainListModifier())
+    .background(PND.DS.gray10)
     .fullScreenCover(
       isPresented: $isChatImageViewPresented,
       onDismiss: {
@@ -543,6 +546,7 @@ struct MultipleChatImageView: View {
     .onTapGesture {
       isChatImageViewPresented = true
     }
+    .background(PND.DS.gray10)
     .fullScreenCover(
       isPresented: $isChatImageViewPresented,
       onDismiss: {
@@ -674,6 +678,7 @@ struct ChatTextBubbleView: View {
         otherChatTextView
       }
 		}
+    .background(PND.DS.gray10)
     .modifier(PlainListModifier())
 	}
   

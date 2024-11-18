@@ -13,6 +13,7 @@ struct SelectEventTypeFeature {
   
   @ObservableState
   struct State: Equatable {
+    var isInitialState: Bool = true
     var selectedEventType: PND.EventType? = nil
     var isBottomButtonEnabled: Bool = false
   }
@@ -32,11 +33,13 @@ struct SelectEventTypeFeature {
       switch action {
         
       case .onSelectSingleEventType:
+        state.isInitialState = false
         state.selectedEventType = .singleEvent
         state.isBottomButtonEnabled = true
         return .none
         
       case .onSelectRegularEventType:
+        state.isInitialState = false
         state.selectedEventType = .recurringEvent
         state.isBottomButtonEnabled = true
         return .none
@@ -64,9 +67,42 @@ struct SelectEventTypeView: View {
   
   @State var store: StoreOf<SelectEventTypeFeature>
   
-  var squareWidth: CGFloat {
+  private var squareWidth: CGFloat {
     (UIScreen.fixedScreenSize.width - (PND.Metrics.defaultSpacing * 2) - 8) / 2
   }
+  
+  private var singleEventFontColor: Color {
+    if store.isInitialState {
+      return PND.DS.commonBlack
+    } else {
+      return store.selectedEventType == .singleEvent ? PND.DS.commonBlack : PND.DS.gray50
+    }
+  }
+  
+  private var singleEventImage: Image {
+    if store.isInitialState {
+      return Image(.eventCalendar)
+    } else {
+      return store.selectedEventType == .singleEvent ? Image(.eventCalendar) : Image(.eventCalendarDisabled)
+    }
+  }
+  
+  private var recurringEventImage: Image {
+    if store.isInitialState {
+      return Image(.regularEventCalendar)
+    } else {
+      return store.selectedEventType == .recurringEvent ? Image(.regularEventCalendar) : Image(.regularEventCalendarDisabled)
+    }
+  }
+  
+  private var recurringEventFontColor: Color {
+    if store.isInitialState {
+      return PND.DS.commonBlack
+    } else {
+      return store.selectedEventType == .recurringEvent ? PND.DS.commonBlack : PND.DS.gray50
+    }
+  }
+  
   
   var body: some View {
     VStack() {
@@ -89,9 +125,9 @@ struct SelectEventTypeView: View {
                 .font(.system(size: 12))
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .foregroundStyle(store.selectedEventType == .singleEvent ? PND.DS.commonBlack : PND.DS.gray50)
+            .foregroundStyle(singleEventFontColor)
             
-            Image(store.selectedEventType == .singleEvent ? .eventCalendar : .eventCalendarDisabled)
+            singleEventImage
               .frame(maxWidth: .infinity, alignment: .trailing)
           }
           .padding(.horizontal, 16)
@@ -99,6 +135,14 @@ struct SelectEventTypeView: View {
         .frame(width: squareWidth, height: squareWidth)
         .background(PND.DS.commonWhite)
         .clipShape(RoundedRectangle(cornerRadius: 8))
+        .if(store.selectedEventType == .singleEvent, { view in
+          view
+            .overlay(
+              RoundedRectangle(cornerRadius: 8)
+                .stroke(PND.DS.primary, lineWidth: 1.0)
+            )
+        })
+
         .onTapGesture {
           store.send(.onSelectSingleEventType)
         }
@@ -115,10 +159,10 @@ struct SelectEventTypeView: View {
                 .font(.system(size: 12))
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .foregroundStyle(store.selectedEventType == .recurringEvent ? PND.DS.commonBlack : PND.DS.gray50)
+            .foregroundStyle(recurringEventFontColor)
 
             
-            Image(store.selectedEventType == .recurringEvent ? .regularEventCalendar : .regularEventCalendarDisabled)
+            recurringEventImage
               .frame(maxWidth: .infinity, alignment: .trailing)
           }
           .padding(.horizontal, 16)
@@ -126,6 +170,13 @@ struct SelectEventTypeView: View {
         .frame(width: squareWidth, height: squareWidth)
         .background(PND.DS.commonWhite)
         .clipShape(RoundedRectangle(cornerRadius: 8))
+        .if(store.selectedEventType == .recurringEvent, { view in
+          view
+            .overlay(
+              RoundedRectangle(cornerRadius: 8)
+                .stroke(PND.DS.primary, lineWidth: 1.0)
+            )
+        })
         .onTapGesture {
           store.send(.onSelectRegularEventType)
         }

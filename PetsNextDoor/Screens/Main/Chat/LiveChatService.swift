@@ -223,7 +223,7 @@ final class MockLiveChatService: ChatServiceProvidable {
 //        )
       }
     
-    delegate?.onConnect()
+//    delegate?.onConnect()
   }
   
   func stopGeneratingMockChatMessages() {

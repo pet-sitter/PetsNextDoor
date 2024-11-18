@@ -96,7 +96,7 @@ struct PlainListModifier: ViewModifier {
   
   func body(content: Content) -> some View {
     content
-      .background(.white)
+//      .background(.white)
       .listRowSeparator(.hidden)
       .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
