@@ -50,8 +50,8 @@ struct CreateEventFeature: Reducer {
   
     init(eventUploadModel: PND.EventUploadModel) {
       self.eventUploadModel = eventUploadModel
-      self.eventType = eventUploadModel.eventType ?? .singleEvent
-      self.isDatePickerFocused = eventUploadModel.eventType == .singleEvent
+      self.eventType = eventUploadModel.eventType ?? .shortTerm
+      self.isDatePickerFocused = eventUploadModel.eventType == .shortTerm
     }
   }
   
@@ -179,7 +179,7 @@ struct CreateEventView: View {
             .font(.system(size: 14, weight: .bold))
             .padding(.leading, PND.Metrics.defaultSpacing)
           
-          if store.eventType == .recurringEvent {
+          if store.eventType == .recurring {
             eventDurationTypePickerView
           }
 
@@ -370,7 +370,7 @@ struct CreateEventView: View {
 
       }
     )
-    .allowsHitTesting((store.eventDuration != nil || store.eventType == .singleEvent))
+    .allowsHitTesting((store.eventDuration != nil || store.eventType == .shortTerm))
   }
   
   // 이벤트 종류

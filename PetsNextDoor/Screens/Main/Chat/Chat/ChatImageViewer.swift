@@ -74,10 +74,10 @@ struct ChatImageViewer: View {
   }
 }
 
-#Preview {
-  ChatImageViewer(medias: [.init(id: "0", url: "https://s3.us-east-005.backblazeb2.com/pets-next-door-dev/media/53e8a0bc-cfd1-46ae-9249-3c9a929325c3.png"),
-                           .init(id: "1", url: "https://s3.us-east-005.backblazeb2.com/pets-next-door-dev/media/53e8a0bc-cfd1-46ae-9249-3c9a929325c3.png")])
-}
+//#Preview {
+//  ChatImageViewer(medias: [.init(id: "0", url: "https://s3.us-east-005.backblazeb2.com/pets-next-door-dev/media/53e8a0bc-cfd1-46ae-9249-3c9a929325c3.png"),
+//                           .init(id: "1", url: "https://s3.us-east-005.backblazeb2.com/pets-next-door-dev/media/53e8a0bc-cfd1-46ae-9249-3c9a929325c3.png")])
+//}
 
 
 

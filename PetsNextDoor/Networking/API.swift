@@ -23,6 +23,14 @@ extension PND {
     case getSOSPostDetail(id: Int)
     case postSOSPost(model: PND.UrgentPostModel)
     case getSOSConditons
+    
+    //MARK: - Events
+    
+    case getEvents(authorId: String?, page: Int, size: Int)
+    case putEvent(model: PND.Event)
+    case postEvent(model: PND.Event)
+    case getEventDetail(id: String)
+    case deleteEvent(id: String)
   
     //MARK: - Users
     
@@ -83,6 +91,22 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
     case .getSOSConditons:
       return  "/posts/sos/conditions"
       
+      //MARK: - Events
+    case .getEvents:
+      return "/events"
+      
+    case .putEvent:
+      return "/events"
+      
+    case .postEvent:
+      return "/events"
+      
+    case .getEventDetail(let id):
+      return "/events/\(id)"
+      
+    case .deleteEvent(let id):
+      return "/events/\(id)"
+      
       //MARK: - Users
       
     case .registerUser:
@@ -130,13 +154,16 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       
       //MARK: - POST
       
-    case .registerUser, .postUserStatus, .uploadImage, .postSOSPost, .postCheckNickname:
+    case .registerUser, .postUserStatus, .uploadImage, .postSOSPost, .postCheckNickname, .postEvent:
       return .post
       
       //MARK: - PUT
       
-    case .putMyPets:
+    case .putMyPets, .putEvent:
       return .put
+      
+    case .deleteEvent:
+      return .delete
       
     default:
       return .get
@@ -197,6 +224,59 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .build(),
         encoding: JSONEncoding.default
       )
+      
+      //MARK: - Events
+    case let .getEvents(authorId, page, size):
+      return .requestParameters(
+        parameters: .builder
+          .setOptional(key: "authorId", value: authorId)
+          .setOptional(key: "page", value: page)
+          .set(key: "size", value: size)
+          .build(),
+        encoding: URLEncoding.queryString
+      )
+      
+    case .putEvent(let model):
+      return .requestParameters(
+        parameters: .builder
+          .setOptional(key: "authorId", value: model.author?.id)
+          .set(key: "description", value: model.description)
+          .setOptional(key: "fee", value: model.fee)
+          .setOptional(key: "genderCondition", value: model.genderCondition)
+          .setOptional(key: "maxParticipants", value: model.maxParticipants)
+          .setOptional(key: "mediaId", value: model.media.id)
+          .set(key: "name", value: model.name)
+          .set(key: "recurringPeriod", value: model.recurringPeriod.rawValue)
+          .set(key: "startAt", value: model.startAt)
+          .set(key: "topics", value: model.topics)
+          .build(),
+        encoding: JSONEncoding.default
+      )
+      
+    case .postEvent(let model):
+      return .requestParameters(
+        parameters: .builder
+          .setOptional(key: "authorId", value: model.author?.id)
+          .set(key: "description", value: model.description)
+          .setOptional(key: "fee", value: model.fee)
+          .setOptional(key: "genderCondition", value: model.genderCondition)
+          .setOptional(key: "maxParticipants", value: model.maxParticipants)
+          .setOptional(key: "mediaId", value: model.media.id)
+          .set(key: "name", value: model.name)
+          .set(key: "recurringPeriod", value: model.recurringPeriod.rawValue)
+          .set(key: "startAt", value: model.startAt)
+          .set(key: "topics", value: model.topics)
+          .set(key: "type", value: model.type.rawValue)
+          .build(),
+        encoding: JSONEncoding.default
+      )
+      
+//    case .getEventDetail(let id):
+
+      
+//    case .deleteEvent(let id):
+      
+   
 
       //MARK: - Users
       

@@ -159,7 +159,7 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
       messageType: PND.MessageType.media.rawValue,
       message: "",
       messageId: UUID().uuidString,
-      medias: mediaIds.map { PND.Media(id: $0) }
+      medias: mediaIds.map { PND.Media(id: $0, mediaType: nil) }
     )
     
     guard

@@ -34,13 +34,13 @@ struct SelectEventTypeFeature {
         
       case .onSelectSingleEventType:
         state.isInitialState = false
-        state.selectedEventType = .singleEvent
+        state.selectedEventType = .shortTerm
         state.isBottomButtonEnabled = true
         return .none
         
       case .onSelectRegularEventType:
         state.isInitialState = false
-        state.selectedEventType = .recurringEvent
+        state.selectedEventType = .recurring
         state.isBottomButtonEnabled = true
         return .none
         
@@ -75,7 +75,7 @@ struct SelectEventTypeView: View {
     if store.isInitialState {
       return PND.DS.commonBlack
     } else {
-      return store.selectedEventType == .singleEvent ? PND.DS.commonBlack : PND.DS.gray50
+      return store.selectedEventType == .shortTerm ? PND.DS.commonBlack : PND.DS.gray50
     }
   }
   
@@ -83,7 +83,7 @@ struct SelectEventTypeView: View {
     if store.isInitialState {
       return Image(.eventCalendar)
     } else {
-      return store.selectedEventType == .singleEvent ? Image(.eventCalendar) : Image(.eventCalendarDisabled)
+      return store.selectedEventType == .shortTerm ? Image(.eventCalendar) : Image(.eventCalendarDisabled)
     }
   }
   
@@ -91,7 +91,7 @@ struct SelectEventTypeView: View {
     if store.isInitialState {
       return Image(.regularEventCalendar)
     } else {
-      return store.selectedEventType == .recurringEvent ? Image(.regularEventCalendar) : Image(.regularEventCalendarDisabled)
+      return store.selectedEventType == .recurring ? Image(.regularEventCalendar) : Image(.regularEventCalendarDisabled)
     }
   }
   
@@ -99,7 +99,7 @@ struct SelectEventTypeView: View {
     if store.isInitialState {
       return PND.DS.commonBlack
     } else {
-      return store.selectedEventType == .recurringEvent ? PND.DS.commonBlack : PND.DS.gray50
+      return store.selectedEventType == .recurring ? PND.DS.commonBlack : PND.DS.gray50
     }
   }
   
@@ -117,7 +117,7 @@ struct SelectEventTypeView: View {
         ZStack {
           VStack(spacing: 0) {
             Group {
-              Text(PND.EventType.singleEvent.description)
+              Text(PND.EventType.shortTerm.description)
                 .font(.system(size: 16, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
               
@@ -135,7 +135,7 @@ struct SelectEventTypeView: View {
         .frame(width: squareWidth, height: squareWidth)
         .background(PND.DS.commonWhite)
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .if(store.selectedEventType == .singleEvent, { view in
+        .if(store.selectedEventType == .shortTerm, { view in
           view
             .overlay(
               RoundedRectangle(cornerRadius: 8)
@@ -151,7 +151,7 @@ struct SelectEventTypeView: View {
           VStack(spacing: 0) {
             
             Group {
-              Text(PND.EventType.recurringEvent.description)
+              Text(PND.EventType.recurring.description)
                 .font(.system(size: 16, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
               
@@ -170,7 +170,7 @@ struct SelectEventTypeView: View {
         .frame(width: squareWidth, height: squareWidth)
         .background(PND.DS.commonWhite)
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .if(store.selectedEventType == .recurringEvent, { view in
+        .if(store.selectedEventType == .recurring, { view in
           view
             .overlay(
               RoundedRectangle(cornerRadius: 8)

@@ -34,6 +34,7 @@ extension PND {
     let id: String
     var url: String?
     var createdAt: String?
+    let mediaType: String? 
   }
   
   
