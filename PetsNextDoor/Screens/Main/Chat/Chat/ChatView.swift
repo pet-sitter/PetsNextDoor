@@ -34,6 +34,8 @@ enum ChatViewType: Equatable, Identifiable {
 }
 
 
+
+
 @Reducer
 struct ChatFeature: Reducer {
   
@@ -45,8 +47,7 @@ struct ChatFeature: Reducer {
 		var chats: [ChatViewType] = []
     
     var textFieldText: String = ""
-    
-    
+
     var isUploadingImage: Bool = false
     
     var selectedPhotoPickerItems: [PhotosPickerItem] = []
