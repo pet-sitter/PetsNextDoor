@@ -11,19 +11,26 @@ import ComposableArchitecture
 @Reducer
 struct EventDetailFeature: Reducer {
   
+  @Dependency(\.eventService) var eventService
+  
   @ObservableState
   struct State: Equatable {
+    var isLoading: Bool = false
+    
+    var eventDetailModel: PND.Event?
     
   }
   
   enum Action: RestrictiveAction, BindableAction {
     
     enum ViewAction: Equatable {
+      case onAppear
       case onBackButtonTap
     }
     
     enum InternalAction: Equatable {
-      
+      case setIsLoading(Bool)
+      case setEventDetailModel(PND.Event)
     }
     
     enum DelegateAction: Equatable {
@@ -42,8 +49,32 @@ struct EventDetailFeature: Reducer {
     Reduce { state, action in
       switch action {
         
+      case .view(.onAppear):
+        return .run { send in
+          
+          await send(.internal(.setIsLoading(true)))
+          
+          let eventDetailModel = try await eventService.getEvent(id: "78b3ec44-2154-4a49-90d4-3de18beccc90")
+          
+          await send(.internal(.setEventDetailModel(eventDetailModel)))
+          
+          await send(.internal(.setIsLoading(false)))
+          
+          
+        } catch: { error, send in
+          await send(.internal(.setIsLoading(false)))
+        }
+        
       case .view(.onBackButtonTap):
         return .send(.delegate(.popView))
+        
+      case .internal(.setIsLoading(let isLoading)):
+        state.isLoading = isLoading
+        return .none
+        
+      case .internal(.setEventDetailModel(let model)):
+        state.eventDetailModel = model
+        return .none
         
       default:
         return .none
@@ -115,6 +146,7 @@ struct EventDetailView: View {
         }
       
       }
+      .redacted(reason: store.isLoading ? .placeholder : [])
      
       joinChatArea
 

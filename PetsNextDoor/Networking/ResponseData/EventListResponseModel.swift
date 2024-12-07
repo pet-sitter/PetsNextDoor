@@ -16,7 +16,7 @@ extension PND {
     let prev: Pagination?
   }
   
-  struct Event: Codable {
+  struct Event: Codable, Equatable {
     
     let author: PND.Author?
     let createdAt: String?

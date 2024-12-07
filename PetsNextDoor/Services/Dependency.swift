@@ -64,6 +64,10 @@ extension PND.Dependency {
     static let liveValue: any ChatAPIServiceProvidable = ChatAPIService()
     static let testValue: any ChatAPIServiceProvidable = MockChatAPIService()
   }
+  
+  enum EventServiceKey: DependencyKey {
+    static let liveValue: any EventServiceProvidable = EventService()
+  }
 }
 
 extension DependencyValues {
@@ -121,6 +125,11 @@ extension DependencyValues {
   var chatAPIService: any ChatAPIServiceProvidable {
     get { self[PND.Dependency.ChatAPIServiceKey.self] }
     set { self[PND.Dependency.ChatAPIServiceKey.self] = newValue }
+  }
+  
+  var eventService: any EventServiceProvidable {
+    get { self[PND.Dependency.EventServiceKey.self] }
+    set { self[PND.Dependency.EventServiceKey.self] = newValue }
   }
 }
 
