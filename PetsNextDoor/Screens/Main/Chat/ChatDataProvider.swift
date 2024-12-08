@@ -33,10 +33,13 @@ final class ChatDataProvider {
   init() {
     self.configuration = Configuration(roomId: "f5e17d20-5688-4924-b6c7-4509e80f04ad")
 //    self.chatSocketService = LiveChatService(
-//      socketURL: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!,
+//      type: .product(URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!),
 //      configuration: .init(roomId: configuration.roomId)
 //    )
-    self.chatSocketService = MockLiveChatService()
+    self.chatSocketService = LiveChatService(
+      type: .mock,
+      configuration: .init(roomId: configuration.roomId)
+    )
     self.chatAPIService = ChatAPIService()
     self.mediaService = MediaService()
     chatSocketService.delegate = self
@@ -58,8 +61,8 @@ final class ChatDataProvider {
     }
   }
   
-  func sendChat(text: String) {
-    chatSocketService.sendMessage(text)
+  func sendChat(text: String) async {
+    await chatSocketService.sendMessage(text)
   }
   
   func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws {

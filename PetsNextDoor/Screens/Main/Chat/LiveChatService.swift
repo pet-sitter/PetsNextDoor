@@ -18,7 +18,7 @@ protocol ChatServiceProvidable {
   
   func connect()
   func disconnect()
-  func sendMessage(_ message: String)
+  func sendMessage(_ message: String) async
   func sendImages(mediaIds: [String])
 }
 
@@ -37,7 +37,6 @@ protocol SocketServiceProvidable: WebSocketDelegate {
   associatedtype Configuration
   
   var socket: any PNDWebSocketClient { get }
-  
   var configuration: Configuration { get }
 }
 
@@ -53,7 +52,7 @@ extension WebSocket: PNDWebSocketClient {}
 // MARK: -
 
 enum LiveChatServiceType {
-  case live(URL)
+  case product(URL)
   case mock
 }
 
@@ -64,7 +63,6 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   }
   
   private(set) var socket: any PNDWebSocketClient
-  
   private(set) var configuration: Configuration
   
   weak var delegate: (any ChatServiceDelegate)?
@@ -82,7 +80,7 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
 //    )
     
     switch type {
-    case .live(let url):
+    case .product(let url):
       var request = URLRequest(url: url)
       request.setValue(PNDTokenStore.shared.accessToken, forHTTPHeaderField: "Authorization")
       socket = WebSocket(request: request)
@@ -103,7 +101,8 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
       
       guard
         let data = chatReceived.data(using: .utf16),
-        let chatModel = try? JSONDecoder().decode(PND.ChatModel.self, from: data) else {
+        let chatModel = try? JSONDecoder().decode(PND.ChatModel.self, from: data)
+      else {
         PNDLogger.`default`.error("onReceiveNewText error decoding chat text ")
         return
       }
@@ -150,9 +149,11 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     socket.disconnect()
   }
   
-  func sendMessage(_ message: String) {
-    
+  // Jin - TODO: UserDataCenter 때문에 async로 했는데 더 나은 방법 찾아보기
+  func sendMessage(_ message: String) async {
+    let myUserID = await UserDataCenter.shared.userProfileModel?.id ?? "1"
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
+      sender: PND.Sender(id: myUserID),
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.plain.rawValue,
       message: message,
@@ -172,7 +173,6 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   }
   
   func sendImages(mediaIds: [String]) {
-    
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.media.rawValue,
@@ -190,7 +190,6 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     }
     
     socket.write(string: chatJSON)
-    
   }
 }
 
@@ -254,14 +253,25 @@ final class MockWebSocket: PNDWebSocketClient {
   
   var delegate: (any WebSocketDelegate)?
   private var timerSubscription: AnyCancellable?
+  private var userSentWebSocketEventSubject: PassthroughSubject<WebSocketEvent, Never> = .init()
   
   func connect() {
-    timerSubscription = Timer
+    let randomTextPublisher = Timer
       .publish(every: 3.5, on: .main, in: .common)
       .autoconnect()
-      .sink { [weak self] _ in
+      .map { [weak self] _ -> WebSocketEvent? in
+        guard let self else { return nil }
+        return .text(MockDataProvider.textEvents.randomElement()!)
+      }
+      .compactMap { $0 }
+    
+    let resentPublisher = userSentWebSocketEventSubject
+      .delay(for: .seconds(0.01), scheduler: DispatchQueue.main)
+    
+    timerSubscription = Publishers.Merge(randomTextPublisher, resentPublisher)
+      .sink { [weak self] event in
         guard let self else { return }
-        self.delegate?.didReceive(event: .text(MockDataProvider.textEvents.randomElement()!), client: self)
+        self.delegate?.didReceive(event: event, client: self)
       }
   }
   
@@ -270,7 +280,10 @@ final class MockWebSocket: PNDWebSocketClient {
     timerSubscription = nil
   }
   
-  func write(string: String, completion: (() -> ())?) {}
+  func write(string: String, completion: (() -> ())?) {
+    userSentWebSocketEventSubject.send(.text(string))
+  }
+  
   func write(stringData: Data, completion: (() -> ())?) {}
   func write(data: Data, completion: (() -> ())?) {}
   func write(ping: Data, completion: (() -> ())?) {}
