@@ -1094,7 +1094,10 @@
 				E061CF1BFDD331A386F2058C /* Pods */,
 				EF0EEF0D3BBFF9795BD485A9 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 1;
 		};
 		DAC6C2CE2A3D7932002D33F8 /* Products */ = {
 			isa = PBXGroup;

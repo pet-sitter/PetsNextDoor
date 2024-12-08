@@ -200,6 +200,7 @@ struct ChatFeature: Reducer {
 			await withThrowingTaskGroup(of: Void.self) { group in
 				
 				for await action in actions {
+					// Jin - ???: TaskGroup이 필요한 이유?
 					group.addTask { await send(.internal(.chatDataProviderAction(action))) }
 					
 					switch action {

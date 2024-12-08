@@ -43,24 +43,19 @@ final class ChatDataProvider {
     chatSocketService.connect()
   }
   
-  
-  
   func fetchRoomInfo() async throws -> PND.ChatRoomModel {
     return try await chatAPIService.getChatRoom(roomId: configuration.roomId)
   }
-  
 	
 	func observeChatActionStream() -> AsyncStream<Action> {
-		let stream = AsyncStream<Action> { continuation in
+		return AsyncStream<Action> { continuation in
 			continuation.onTermination = { [weak self] _ in
         self?.chatSocketService.disconnect()
 			}
     
 			self.continuation = continuation
+			chatSocketService.connect()
 		}
-		
-    chatSocketService.connect()
-		return stream
 	}
   
   func sendChat(text: String) {
@@ -68,9 +63,7 @@ final class ChatDataProvider {
   }
   
   func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws {
-    
-
-    var imageDatas: [Data]   = []
+    var imageDatas: [Data] = []
     
     for item in items {
       let imageData = await PhotoConverter.getImageData(fromPhotosPickerItem: item)
@@ -150,11 +143,11 @@ extension ChatDataProvider: ChatServiceDelegate {
         default:
           break
         }
+				// Jin - ???: 아래 부분만 serial하게 일어나면 되지않을까?
         chatModels.append(chatModel)
-
+				// Jin - 이 부분은 받는 쪽에서 await으로 어짜피 처리되니깐 serial안해도될거같고..
         continuation.yield(.onReceiveNewChatType(chatViewTypes))
       }
     }
   }
 }
-
