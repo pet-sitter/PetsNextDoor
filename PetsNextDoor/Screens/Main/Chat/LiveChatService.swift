@@ -259,9 +259,8 @@ final class MockWebSocket: PNDWebSocketClient {
     let randomTextPublisher = Timer
       .publish(every: 3.5, on: .main, in: .common)
       .autoconnect()
-      .map { [weak self] _ -> WebSocketEvent? in
-        guard let self else { return nil }
-        return .text(MockDataProvider.textEvents.randomElement()!)
+      .map { _ -> WebSocketEvent? in
+        .text(MockDataProvider.textEvents.randomElement()!)
       }
       .compactMap { $0 }
     
