@@ -144,9 +144,11 @@ struct ChatFeature: Reducer {
         // empty, 숫자 초과 등 검사 로직 추가
         guard state.textFieldText.isEmpty == false else { return .none }
         
-        chatDataProvider.sendChat(text: state.textFieldText)
+        let messageToSend = state.textFieldText
         state.textFieldText = ""
-        return .none
+        return .run { _ in
+          await chatDataProvider.sendChat(text: messageToSend)
+        }
         
       case .view(.onUserImageSelection):
         guard state.selectedPhotoPickerItems.isEmpty == false else { return .none }
