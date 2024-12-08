@@ -377,15 +377,15 @@
 		DA8BF0892B5E54CC00370C84 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		DA8BF08D2B5E557900370C84 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DA8BF09B2B5E5DEC00370C84 /* SetProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileView.swift; sourceTree = "<group>"; };
-		DA8D20172C1D77B1009F2755 /* LiveChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatService.swift; sourceTree = "<group>"; };
-		DA8D20272C206870009F2755 /* ChatDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataProvider.swift; sourceTree = "<group>"; };
+		DA8D20172C1D77B1009F2755 /* LiveChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatService.swift; sourceTree = "<group>"; usesTabs = 0; };
+		DA8D20272C206870009F2755 /* ChatDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataProvider.swift; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		DA8DF4852AE7FA1E00FA0D9D /* ComponentRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentRenderable.swift; sourceTree = "<group>"; };
 		DA8DF4872AE7FB3400FA0D9D /* ComponentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentTableViewCell.swift; sourceTree = "<group>"; };
 		DA8F5A742BF4B1C10031AB75 /* AddPetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetButtonView.swift; sourceTree = "<group>"; };
 		DA8F5A782BF4C6C20031AB75 /* MyPetInfoFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPetInfoFeature.swift; sourceTree = "<group>"; };
 		DA8F5A7B2BF4C6DC0031AB75 /* MyActivityFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivityFeature.swift; sourceTree = "<group>"; };
 		DA8F5A7D2BF4C8FD0031AB75 /* DefaultSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSpacer.swift; sourceTree = "<group>"; };
-		DA952C622C00761700A8AEDE /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		DA952C622C00761700A8AEDE /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		DA95347A2AEF8BE100ED21F9 /* HeaderTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleView.swift; sourceTree = "<group>"; };
 		DA95347C2AEF8D2200ED21F9 /* HeaderTitleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleComponent.swift; sourceTree = "<group>"; };
 		DA95347E2AEF8E1800ED21F9 /* SelectPetListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPetListFeature.swift; sourceTree = "<group>"; };
