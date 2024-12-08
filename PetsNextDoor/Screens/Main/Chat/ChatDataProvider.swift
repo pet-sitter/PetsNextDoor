@@ -6,7 +6,7 @@
 
 import Foundation
 import PhotosUI
-import _PhotosUI_SwiftUI
+import SwiftUI
 
 final class ChatDataProvider {
   
@@ -24,7 +24,6 @@ final class ChatDataProvider {
   
   private var chatSocketService: any ChatServiceProvidable
   private var chatAPIService: any ChatAPIServiceProvidable
-  private let mediaService: any MediaServiceProvidable
   
   private(set) var chatModels: [PND.ChatModel] = []
   
@@ -34,14 +33,15 @@ final class ChatDataProvider {
     self.configuration = Configuration(roomId: "f5e17d20-5688-4924-b6c7-4509e80f04ad")
 //    self.chatSocketService = LiveChatService(
 //      type: .product(URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!),
+//      mediaService: MediaService(),
 //      configuration: .init(roomId: configuration.roomId)
 //    )
     self.chatSocketService = LiveChatService(
       type: .mock,
+      mediaService: MediaService(),
       configuration: .init(roomId: configuration.roomId)
     )
     self.chatAPIService = ChatAPIService()
-    self.mediaService = MediaService()
     chatSocketService.delegate = self
     chatSocketService.connect()
   }
@@ -66,20 +66,7 @@ final class ChatDataProvider {
   }
   
   func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws {
-    var imageDatas: [Data] = []
-    
-    for item in items {
-      let imageData = await PhotoConverter.getImageData(fromPhotosPickerItem: item)
-      
-      if let imageData {
-        imageDatas.append(imageData)
-      }
-    }
-    
-    let uploadResponseModel: [PND.UploadMediaResponseModel] = try await mediaService.uploadImages(imageDatas: imageDatas)
-    let mediaIds: [String] = uploadResponseModel.map(\.id)
-    
-    chatSocketService.sendImages(mediaIds: mediaIds)
+    try await chatSocketService.sendImages(withPhotosPickerItems: items)
   }
 }
 
@@ -126,7 +113,7 @@ extension ChatDataProvider: ChatServiceDelegate {
           chatViewTypes.append(ChatViewType.text(
             ChatTextBubbleViewModel(
               body: chatModel.message,
-              isMyChat: myUserId == senderUserId
+              isMyChat: isMyChat
             )
           ))
           

@@ -7,6 +7,9 @@
 
 import Foundation
 import Combine
+import PhotosUI
+import SwiftUI
+
 import Starscream
 
 
@@ -19,7 +22,7 @@ protocol ChatServiceProvidable {
   func connect()
   func disconnect()
   func sendMessage(_ message: String) async
-  func sendImages(mediaIds: [String])
+  func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws
 }
 
 protocol ChatServiceDelegate: AnyObject {
@@ -38,6 +41,7 @@ protocol SocketServiceProvidable: WebSocketDelegate {
   
   var socket: any PNDWebSocketClient { get }
   var configuration: Configuration { get }
+  init(type: LiveChatServiceType, mediaService: any MediaServiceProvidable, configuration: Configuration)
 }
 
 protocol PNDWebSocketClient: WebSocketClient & WebSocketDelegateProvidable {}
@@ -64,6 +68,7 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   
   private(set) var socket: any PNDWebSocketClient
   private(set) var configuration: Configuration
+  private let mediaService: any MediaServiceProvidable
   
   weak var delegate: (any ChatServiceDelegate)?
   
@@ -71,8 +76,10 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   
   init(
     type: LiveChatServiceType,
+    mediaService: any MediaServiceProvidable,
     configuration: Configuration
   ) {
+    self.mediaService = mediaService
     self.configuration = configuration
     
     switch type {
@@ -168,13 +175,16 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     socket.write(string: chatJSON)
   }
   
-  func sendImages(mediaIds: [String]) {
+  func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws {
+    let medias = try await uploadImages(withPhotosPickerItems: items)
+    let myUserID = await UserDataCenter.shared.userProfileModel?.id ?? "1"
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
+      sender: PND.Sender(id: myUserID),
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.media.rawValue,
       message: "",
       messageId: UUID().uuidString,
-      medias: mediaIds.map { PND.Media(id: $0, mediaType: nil) }
+      medias: medias
     )
     
     guard
@@ -187,6 +197,29 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     
     socket.write(string: chatJSON)
   }
+  
+  private func uploadImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws -> [PND.Media] {
+    var imageDatas: [Data] = []
+    
+    for item in items {
+      let imageData = await PhotoConverter.getImageData(fromPhotosPickerItem: item)
+      
+      if let imageData {
+        imageDatas.append(imageData)
+      }
+    }
+    
+    let uploadResponseModel: [PND.UploadMediaResponseModel] = try await mediaService.uploadImages(imageDatas: imageDatas)
+    
+    return uploadResponseModel.map {
+      PND.Media(
+        id: $0.id,
+        url: $0.url,
+        createdAt: $0.createdAt,
+        mediaType: $0.mediaType
+      )
+    }
+  }
 }
 
 
@@ -194,7 +227,7 @@ final class MockWebSocket: PNDWebSocketClient {
   
   var delegate: (any WebSocketDelegate)?
   private var timerSubscription: AnyCancellable?
-  private var userSentWebSocketEventSubject: PassthroughSubject<WebSocketEvent, Never> = .init()
+  private let userSentWebSocketEventSubject: PassthroughSubject<WebSocketEvent, Never> = .init()
   
   func connect() {
     let randomTextPublisher = Timer
