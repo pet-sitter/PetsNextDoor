@@ -8,6 +8,9 @@ import Foundation
 import PhotosUI
 import SwiftUI
 
+import Starscream
+
+
 final class ChatDataProvider {
   
   enum Action: Equatable {
@@ -31,13 +34,16 @@ final class ChatDataProvider {
   
   init() {
     self.configuration = Configuration(roomId: "f5e17d20-5688-4924-b6c7-4509e80f04ad")
+//    var request = URLRequest(url: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!)
+//    request.setValue(PNDTokenStore.shared.accessToken, forHTTPHeaderField: "Authorization")
+//    let socket = WebSocket(request: request)
 //    self.chatSocketService = LiveChatService(
-//      type: .product(URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!),
+//      socket: socket,
 //      mediaService: MediaService(),
 //      configuration: .init(roomId: configuration.roomId)
 //    )
     self.chatSocketService = LiveChatService(
-      type: .mock,
+      socket: MockWebSocket(),
       mediaService: MediaService(),
       configuration: .init(roomId: configuration.roomId)
     )

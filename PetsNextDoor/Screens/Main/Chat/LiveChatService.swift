@@ -41,7 +41,7 @@ protocol SocketServiceProvidable: WebSocketDelegate {
   
   var socket: any PNDWebSocketClient { get }
   var configuration: Configuration { get }
-  init(type: LiveChatServiceType, mediaService: any MediaServiceProvidable, configuration: Configuration)
+  init(socket: any PNDWebSocketClient, mediaService: any MediaServiceProvidable, configuration: Configuration)
 }
 
 protocol PNDWebSocketClient: WebSocketClient & WebSocketDelegateProvidable {}
@@ -54,11 +54,6 @@ extension WebSocket: PNDWebSocketClient {}
 
 
 // MARK: -
-
-enum LiveChatServiceType {
-  case product(URL)
-  case mock
-}
 
 final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   
@@ -75,22 +70,15 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   @Published private(set) var isConnected: Bool = false
   
   init(
-    type: LiveChatServiceType,
+    socket: any PNDWebSocketClient,
     mediaService: any MediaServiceProvidable,
     configuration: Configuration
   ) {
+    self.socket = socket
     self.mediaService = mediaService
     self.configuration = configuration
     
-    switch type {
-    case .product(let url):
-      var request = URLRequest(url: url)
-      request.setValue(PNDTokenStore.shared.accessToken, forHTTPHeaderField: "Authorization")
-      socket = WebSocket(request: request)
-    case .mock:
-      socket = MockWebSocket()
-    }
-    socket.delegate = self
+    self.socket.delegate = self
   }
   
   func didReceive(event: WebSocketEvent, client: any WebSocketClient) {
