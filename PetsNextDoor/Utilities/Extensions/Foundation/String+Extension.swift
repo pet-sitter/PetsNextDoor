@@ -40,4 +40,15 @@ extension String {
   func asURL() -> URL? {
     URL(string: self)
   }
+  
+  var asCurrencyString: String {
+    guard let number = Double(self) else { return self }
+    
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    formatter.groupingSeparator = ","
+    formatter.maximumFractionDigits = 0
+    
+    return formatter.string(from: NSNumber(value: number)) ?? self 
+  }
 }

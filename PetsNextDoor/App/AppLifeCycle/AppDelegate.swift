@@ -146,14 +146,13 @@ struct MainTabBarFeature: Reducer {
     Reduce { state, action in
       switch action {
       case .onAppear:
-        return .none
 				return .run { _ in
 					await userDataCenter.configureInitialUserData()
 				}
 
         
       case .homeAction(.delegate(.pushToEventDetailView(let eventId))):
-        state.path.append(.eventDetail(EventDetailFeature.State()))
+        state.path.append(.eventDetail(EventDetailFeature.State(eventDetailId: eventId)))
         return .none
         
       case .homeAction(.delegate(.startEventCreationFlow)):

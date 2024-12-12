@@ -246,7 +246,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .setOptional(key: "maxParticipants", value: model.maxParticipants)
           .setOptional(key: "mediaId", value: model.media.id)
           .set(key: "name", value: model.name)
-          .set(key: "recurringPeriod", value: model.recurringPeriod.rawValue)
+          .setOptional(key: "recurringPeriod", value: model.recurringPeriod?.rawValue)
           .set(key: "startAt", value: model.startAt)
           .set(key: "topics", value: model.topics)
           .build(),
@@ -263,7 +263,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .setOptional(key: "maxParticipants", value: model.maxParticipants)
           .setOptional(key: "mediaId", value: model.media.id)
           .set(key: "name", value: model.name)
-          .set(key: "recurringPeriod", value: model.recurringPeriod.rawValue)
+          .setOptional(key: "recurringPeriod", value: model.recurringPeriod?.rawValue)
           .set(key: "startAt", value: model.startAt)
           .set(key: "topics", value: model.topics)
           .set(key: "type", value: model.type.rawValue)

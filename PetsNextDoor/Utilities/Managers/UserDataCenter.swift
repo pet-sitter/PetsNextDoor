@@ -17,6 +17,14 @@ final class UserDataCenter {
 	
 	private(set) var userProfileModel: PND.UserProfileModel?
   private(set) var hasPetsRegistered: Bool = false
+  
+  var currentUserId: String? {
+    userProfileModel?.id
+  }
+  
+  var currentUserNickname: String? {
+    userProfileModel?.nickname
+  }
 	
 	func configureInitialUserData() {
 		Task {

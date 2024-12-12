@@ -12,41 +12,20 @@ import ComposableArchitecture
 @Reducer
 struct MainHomeFeature: Reducer {
   
+  @Dependency(\.userDataCenter) var userDataCenter
+  @Dependency(\.eventService) var eventService
+  
+  struct Constants {
+    static let pageSize: Int = 20
+  }
+  
   @ObservableState
   struct State: Equatable {
+    var isLoading: Bool = false
     var tabIndex: Int = 0
     var sortOption: PND.SortOption = .newest // 최신순, 마감순
     
-    var eventCardVMs: [EventCardView.ViewModel] = [
-      .init(
-        id: UUID().uuidString,
-        eventMainImageUrlString: MockDataProvider.randomPetImageUrlString,
-        eventDateString: "03.21 금요일 20:00",
-        eventTitle: "훈련사님과 함께하는 멍BTI 진단하기",
-        eventDescription: "닥스훈트 견종 키우는 견주들과 모여서 친목을 나누는 모임입니다. 견종을 키우면서 궁금한 점이나..."
-      ),
-      .init(
-        id: UUID().uuidString,
-        eventMainImageUrlString: MockDataProvider.randomPetImageUrlString,
-        eventDateString: "03.21 금요일 20:00",
-        eventTitle: "훈련사님과 함께하는 멍BTI 진단하기 이번에 저랑 같이 함께해요!",
-        eventDescription: "닥스훈트 견종 키우는 견주들과 모여서 친목을 나누는 모임입니다. 견종을 키우면서 궁금한 점이나..."
-      ),
-      .init(
-        id: UUID().uuidString,
-        eventMainImageUrlString: MockDataProvider.randomPetImageUrlString,
-        eventDateString: "03.21 금요일 20:00",
-        eventTitle: "훈련사님과 함께하는 멍BTI 진단하기",
-        eventDescription: "닥스훈트 견종 키우는 견주들과 모여서 친목을 나누는 모임입니다. 견종을 키우면서 궁금한 점이나..."
-      ),
-      .init(
-        id: UUID().uuidString,
-        eventMainImageUrlString: MockDataProvider.randomPetImageUrlString,
-        eventDateString: "03.21 금요일 20:00",
-        eventTitle: "훈련사님과 함께하는 멍BTI 진단하기",
-        eventDescription: "닥스훈트 견종 키우는 견주들과 모여서 친목을 나누는 모임입니다. 견종을 키우면서 궁금한 점이나..."
-      ),
-    ]
+    var eventCardVMs: [EventCardView.ViewModel] = []
     
     var myEventCardVMs: [MyEventCardView.ViewModel] = [
       .init(
@@ -88,7 +67,8 @@ struct MainHomeFeature: Reducer {
     }
     
     enum InternalAction: Equatable {
-      
+      case setIsLoading(Bool)
+      case setEventCardVMs(with: PND.EventListResponseModel)
     }
     
     enum DelegateAction: Equatable {
@@ -109,7 +89,25 @@ struct MainHomeFeature: Reducer {
       switch action {
         
       case .view(.onAppear):
-        return .none
+        return .run { [state] send in
+          guard state.eventCardVMs.isEmpty else { return } // 이미 있으면 무시
+          
+          await send(.internal(.setIsLoading(true)))
+          
+          let eventListResponseModel: PND.EventListResponseModel = try await eventService.getEvents(
+            authorId: nil,
+            page: 0,
+            size: Constants.pageSize
+          )
+          
+          
+          await send(.internal(.setEventCardVMs(with: eventListResponseModel)))
+          await send(.internal(.setIsLoading(false)))
+          
+        } catch: { error, send in
+          print("❌ error: \(error)")
+          await send(.internal(.setIsLoading(false)))
+        }
         
       case .view(.onTabIndexChange(let index)):
         state.tabIndex = index
@@ -124,6 +122,27 @@ struct MainHomeFeature: Reducer {
         
       case .view(.onSelectPlusButton):
         return .send(.delegate(.startEventCreationFlow))
+        
+        // Internal
+        
+      case .internal(.setIsLoading(let isLoading)):
+        state.isLoading = isLoading
+        return .none
+        
+      case .internal(.setEventCardVMs(let eventListResponseModel)):
+        state.eventCardVMs = eventListResponseModel.items.map { event -> EventCardView.ViewModel in
+          return EventCardView.ViewModel(
+            id: event.id,
+            eventMainImageUrlString: event.media.url,
+            eventDateString: event.startAt,
+            eventTitle: event.name,
+            eventDescription: event.description
+          )
+        }
+        return .none
+        
+      case .binding(\.tabIndex):
+        return .none 
         
       default:
         return .none
@@ -438,7 +457,7 @@ struct EventCardView: View {
     }
     .padding(.horizontal, PND.Metrics.defaultSpacing)
     .padding(.vertical, 14)
-    
+    .contentShape(Rectangle())
   }
 }
 

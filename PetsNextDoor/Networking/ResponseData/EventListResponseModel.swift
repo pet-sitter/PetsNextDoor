@@ -9,7 +9,7 @@ import Foundation
 
 extension PND {
   
-  struct EventListResponseModel: Codable {
+  struct EventListResponseModel: Codable, Equatable {
     
     let items: [Event]
     let next: Pagination?
@@ -23,18 +23,18 @@ extension PND {
     let description: String
     let fee: Int?
     let genderCondition: String?
-    let id: String?
+    let id: String
     let maxParticipants: Int?
     let media: PND.Media
     let name: String
-    let recurringPeriod: RecurringPeriod
+    let recurringPeriod: RecurringPeriod?
     let startAt: String
     let topics: [String]
     let type: PND.EventType
     let updatedAt: String?
   }
   
-  struct Pagination: Codable {
+  struct Pagination: Codable, Equatable {
     let uuid: String
     let valid: Bool
   }

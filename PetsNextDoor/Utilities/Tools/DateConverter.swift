@@ -88,4 +88,23 @@ struct DateConverter {
     PNDLogger.default.debug("Invalid date format")
     return PND.PetBirthDate(year: 0, month: 0, day: 0)
   }
+  
+  static func extractDateAndTime(fromDateString dateString: String) -> (String, String)? { // Year, Date
+    
+    let isoFormatter = ISO8601DateFormatter()
+    isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    guard let date = isoFormatter.date(from: dateString) else { return nil }
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy.MM.dd"
+    let formattedDate = dateFormatter.string(from: date)
+
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "HH:mm"
+    let formattedTime = timeFormatter.string(from: date)
+
+    print("Formatted Date: \(formattedDate)") // Example: 2024.12.13
+    print("Formatted Time: \(formattedTime)") // Example: 12:21
+    return (formattedDate, formattedTime)
+  }
 }

@@ -15,10 +15,15 @@ struct EventDetailFeature: Reducer {
   
   @ObservableState
   struct State: Equatable {
+    let eventDetailId: String
     var isLoading: Bool = false
     
     var eventDetailModel: PND.Event?
+    var isBottomButtonEnabled: Bool = false
     
+    init(eventDetailId: String) {
+      self.eventDetailId = eventDetailId
+    }
   }
   
   enum Action: RestrictiveAction, BindableAction {
@@ -31,6 +36,7 @@ struct EventDetailFeature: Reducer {
     enum InternalAction: Equatable {
       case setIsLoading(Bool)
       case setEventDetailModel(PND.Event)
+      case setIsBottomButtonEnabled(Bool)
     }
     
     enum DelegateAction: Equatable {
@@ -50,12 +56,12 @@ struct EventDetailFeature: Reducer {
       switch action {
         
       case .view(.onAppear):
-        return .run { send in
+        return .run { [state] send in
           
           await send(.internal(.setIsLoading(true)))
           
-          let eventDetailModel = try await eventService.getEvent(id: "78b3ec44-2154-4a49-90d4-3de18beccc90")
-          
+          let eventDetailModel = try await eventService.getEvent(id: state.eventDetailId)
+       
           await send(.internal(.setEventDetailModel(eventDetailModel)))
           
           await send(.internal(.setIsLoading(false)))
@@ -74,6 +80,10 @@ struct EventDetailFeature: Reducer {
         
       case .internal(.setEventDetailModel(let model)):
         state.eventDetailModel = model
+        return .none
+        
+      case .internal(.setIsBottomButtonEnabled(let isEnabled)):
+        state.isBottomButtonEnabled = isEnabled
         return .none
         
       default:
@@ -95,11 +105,10 @@ struct EventDetailView: View {
       ScrollView(.vertical) {
         VStack(alignment: .leading) {
           
-          KFImage.url(MockDataProvider.randomePetImageUrl)
+          KFImage.url(URL(string: store.eventDetailModel?.media.url ?? ""))
             .placeholder { ProgressView() }
             .resizable()
             .frame(width: UIScreen.fixedScreenSize.width, height: UIScreen.fixedScreenSize.height / 4)
-       
           
           Spacer().frame(height: 20)
           
@@ -109,7 +118,7 @@ struct EventDetailView: View {
           Spacer().frame(height: 12)
           
           // 이벤트명
-          Text("훈련사님과 함께하는 멍BTI 진단하기")
+          Text(store.eventDetailModel?.name ?? "")
             .lineLimit(2)
             .font(.system(size: 24, weight: .bold))
             .multilineTextAlignment(.leading)
@@ -122,12 +131,11 @@ struct EventDetailView: View {
           
           Spacer().frame(height: 8)
           
-          Text("돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명 돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명돌봄모임에 대해서 상세한 설명돌봄모임에 대")
+          Text(store.eventDetailModel?.description ?? "")
             .font(.system(size: 14, weight: .regular))
             .padding(.horizontal, PND.Metrics.defaultSpacing)
             .lineSpacing(5)
             
-          
           Spacer().frame(height: 28)
           
           eventDateAndFeeView
@@ -138,10 +146,10 @@ struct EventDetailView: View {
           
           Spacer().frame(height: 8)
           
-          eventProgressView
-          
-          
-          
+          if store.eventDetailModel?.type == .recurring {
+            eventProgressView
+          }
+
           Spacer()
         }
       
@@ -178,14 +186,16 @@ struct EventDetailView: View {
         }
       }
     }
-    
+    .onAppear() {
+      store.send(.view(.onAppear))
+    }
   }
   
   @ViewBuilder
   private var eventInfoTagView: some View {
     Group {
       HStack(spacing: 0) {
-        Text("단기 이벤트")
+        Text(store.eventDetailModel?.type.description ?? "")
           .padding(.horizontal, 12)
           .padding(.vertical, 8)
           .background(PND.DS.gray20)
@@ -194,7 +204,7 @@ struct EventDetailView: View {
         Spacer().frame(width: 4)
          
         
-        Text("산책")
+        Text(store.eventDetailModel?.topics.first ?? "")
           .padding(.horizontal, 12)
           .padding(.vertical, 8)
           .background(PND.DS.gray20)
@@ -207,7 +217,7 @@ struct EventDetailView: View {
             .resizable()
             .frame(width: 16, height: 16)
           
-          Text("6/10")
+          Text("?/\(store.eventDetailModel?.maxParticipants ?? 0)")
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
@@ -224,7 +234,7 @@ struct EventDetailView: View {
   @ViewBuilder
   private var authorView: some View {
     HStack(spacing: 0) {
-      KFImage.url(MockDataProvider.randomePetImageUrl)
+      KFImage.url(URL(string: store.eventDetailModel?.author?.profileImageUrl ?? ""))
         .placeholder {
           ProgressView()
         }
@@ -235,7 +245,7 @@ struct EventDetailView: View {
       
       Spacer().frame(width: 5)
       
-      Text("아롱맘")
+      Text(store.eventDetailModel?.author?.nickname ?? "")
         .font(.system(size: 12, weight: .medium))
     }
   }
@@ -254,11 +264,11 @@ struct EventDetailView: View {
             .frame(width: 24, height: 24)
             .foregroundStyle(PND.DS.commonBlack)
           
-          Text("2024.09.15")
+          Text(DateConverter.extractDateAndTime(fromDateString: store.eventDetailModel?.createdAt ?? "")?.0 ?? "")
             .font(.system(size: 14, weight: .bold))
             .lineLimit(1)
           
-          Text("10:00 - 13:00")
+          Text(DateConverter.extractDateAndTime(fromDateString: store.eventDetailModel?.createdAt ?? "")?.1 ?? "")
             .font(.system(size: 12, weight: .regular))
             .lineLimit(1)
         }
@@ -271,7 +281,6 @@ struct EventDetailView: View {
           .strokeBorder(Color(uiColor: .init(hex: "#EBEBEB")), lineWidth: 1)
       )
 
-      
       // 이벤트 장소
       HStack(spacing: 0) {
         Spacer().frame(width: 12)
@@ -286,7 +295,13 @@ struct EventDetailView: View {
             .font(.system(size: 14, weight: .bold))
             .lineLimit(1)
           
-          Text("무료")
+          
+          let feeString: String = if store.eventDetailModel?.fee == 0 {
+            "무료"
+          } else {
+            "\(store.eventDetailModel?.fee ?? 0)".asCurrencyString + "원"
+          }
+          Text(feeString)
             .font(.system(size: 12, weight: .regular))
             .lineLimit(1)
         }
@@ -361,28 +376,16 @@ struct EventDetailView: View {
     VStack {
       Spacer()
       
-      Button {
-        
-      } label: {
-        RoundedRectangle(cornerRadius: 4)
-          .foregroundStyle(PND.Colors.primary.asColor)
-          .overlay(
-            Text("이벤트 채팅 참여하기")
-              .font(.system(size: CGFloat(20), weight: .bold))
-              .foregroundStyle(.white)
-          )
-          .frame(height: CGFloat(60))
-          .padding(.horizontal, PND.Metrics.defaultSpacing)
-        
-      }
-      .buttonStyle(ScaleEffectButtonStyle())
-      
-      
+      BaseBottomButton_SwiftUI(
+        title: "이벤트 채팅 참여하기",
+        isEnabled: $store.isBottomButtonEnabled
+      )
+
       Spacer().frame(height: 50)
     }
   }
 }
 
 #Preview {
-  EventDetailView(store: .init(initialState: .init(), reducer: { EventDetailFeature() }))
+  EventDetailView(store: .init(initialState: EventDetailFeature.State(eventDetailId: ""), reducer: { EventDetailFeature() }))
 }

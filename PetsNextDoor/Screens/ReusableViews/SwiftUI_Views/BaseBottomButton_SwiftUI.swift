@@ -17,7 +17,7 @@ struct BaseBottomButton_SwiftUI: View {
   var body: some View {
     RoundedRectangle(cornerRadius: 4)
       .padding(.horizontal, PND.Metrics.defaultSpacing)
-      .frame(height: 60)
+      .frame(height: CGFloat(60))
       .foregroundStyle(
         isEnabled ? isEnabledColor : PND.Colors.gray30.asColor
       )
