@@ -9,26 +9,24 @@ import ComposableArchitecture
 import SwiftUI
 import PhotosUI
 
+
 enum ChatViewType: Equatable, Identifiable {
 
-	case text(ChatTextBubbleViewModel)
-  case singleImage(SingleChatImageViewModel)
-  case multipleImages(MultipleChatImageViewModel)
-  case spacer(height: CGFloat)
+  case text(ChatTextBubbleViewModel, topSpace: CGFloat? = nil, bottomSpace: CGFloat? = nil)
+  case singleImage(SingleChatImageViewModel, topSpace: CGFloat? = nil, bottomSpace: CGFloat? = nil)
+  case multipleImages(MultipleChatImageViewModel, topSpace: CGFloat? = nil, bottomSpace: CGFloat? = nil)
 	
 	var id: String {
 		switch self {
-		case .text(let vm):
+		case .text(let vm, _, _):
 			return vm.id
       
-    case .singleImage(let vm):
+    case .singleImage(let vm, _, _):
       return vm.id
       
-    case .multipleImages(let vm):
+    case .multipleImages(let vm, _, _):
       return vm.id
       
-    case .spacer:
-      return UUID().uuidString
 		}
 	}
 }
@@ -43,16 +41,11 @@ struct ChatFeature: Reducer {
 	struct State: Equatable {
 
 		var chats: [ChatViewType] = []
-    
     var textFieldText: String = ""
-    
-    
     var isUploadingImage: Bool = false
-    
     var selectedPhotoPickerItems: [PhotosPickerItem] = []
-    
-
 		var connectivityState = ConnectivityState.disconnected
+    
 		enum ConnectivityState: String {
 			case connecting
 			case connected
@@ -128,8 +121,8 @@ struct ChatFeature: Reducer {
 			case .internal(.chatDataProviderAction(.onDisconnect)):
 				return .none
 				
-			case .internal(.chatDataProviderAction(.onReceiveNewChatType(let chatType))):
-        state.chats.append(contentsOf: chatType)
+			case .internal(.chatDataProviderAction(.onReceiveNewChatType(let chatViewTypes))):
+        state.chats = chatViewTypes
 				return .none
 				
       case .internal(.setIsUploadingImage(let isLoading)):
@@ -190,39 +183,16 @@ struct ChatFeature: Reducer {
 		}
 	}
   
-
-	
-
-	private func observeChatActionStream() -> Effect<Action> {
-		return .run { send in
-			
-			let actions = chatDataProvider.observeChatActionStream()
-			
-			await withThrowingTaskGroup(of: Void.self) { group in
-				
-				for await action in actions {
-					// Jin - ???: TaskGroup이 필요한 이유?
-					group.addTask { await send(.internal(.chatDataProviderAction(action))) }
-					
-					switch action {
-					case .onConnect:
-						break
-						 
-					case .onDisconnect:
-						break
-						
-					default: break
-					}
-				}
-			}
-		}
-	}
+  private func observeChatActionStream() -> Effect<Action> {
+    return .run { send in
+      let actions = chatDataProvider.observeChatActionStream()
+      
+      for await action in actions {
+        await send(.internal(.chatDataProviderAction(action)))
+      }
+    }
+  }
 }
-
-
-
-
-
 
 
 import SwiftUI
@@ -236,29 +206,34 @@ struct ChatView: View {
   @State private var isAtBottomPosition: Bool = false
   @State private var scrollViewProxy: ScrollViewProxy?
   
-
   var body: some View {
     ScrollViewReader { proxy in
       SwiftUI.List {
         ForEach(store.chats, id: \.id) { chatType in
           switch chatType {
-          case .text(let vm):
-            ChatTextBubbleView(viewModel: vm)
+          case .text(let vm, let topSpace, let bottomSpace):
+            chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+              ChatTextBubbleView(viewModel: vm)
+            }
             
-          case .singleImage(let vm):
-            SingleChatImageView(viewModel: vm)
+          case .singleImage(let vm, let topSpace, let bottomSpace):
+            chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+              SingleChatImageView(viewModel: vm)
+            }
             
-          case .multipleImages(let vm):
-            MultipleChatImageView(viewModel: vm)
+          case .multipleImages(let vm, let topSpace, let bottomSpace):
+            chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+              MultipleChatImageView(viewModel: vm)
+            }
             
-          case .spacer(let height):
-            chatSpacer(height: height)
           }
         }
         
         Spacer()
           .frame(height: 50)
+          .frame(maxWidth: .infinity)
           .modifier(PlainListModifier())
+          .background(PND.DS.gray10)
         
         Color.clear
           .frame(height: 1)
@@ -411,7 +386,16 @@ struct ChatView: View {
       .modifier(PlainListModifier())
   }
 
-
+  @ViewBuilder
+  private func chatView(topSpace: CGFloat?, bottomSpace: CGFloat?, view: @escaping (() -> some View)) -> some View {
+    if let topSpace {
+      chatSpacer(height: topSpace)
+    }
+    view()
+    if let bottomSpace {
+      chatSpacer(height: bottomSpace)
+    }
+  }
 }
 
 
