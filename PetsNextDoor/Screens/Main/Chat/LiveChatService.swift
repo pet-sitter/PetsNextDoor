@@ -219,7 +219,7 @@ final class MockWebSocket: PNDWebSocketClient {
   
   func connect() {
     let randomTextPublisher = Timer
-      .publish(every: 3.5, on: .main, in: .common)
+      .publish(every: 1.0, on: .main, in: .common)
       .autoconnect()
       .map { _ -> WebSocketEvent? in
         .text(MockDataProvider.textEvents.randomElement()!)

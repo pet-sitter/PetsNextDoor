@@ -29,6 +29,7 @@ final class ChatDataProvider {
   private var chatAPIService: any ChatAPIServiceProvidable
   
   private(set) var chatModels: [PND.ChatModel] = []
+  private(set) var chatViewTypes: [ChatViewType] = []
   
   private var continuation: AsyncStream<Action>.Continuation!
   
@@ -47,7 +48,7 @@ final class ChatDataProvider {
       mediaService: MediaService(),
       configuration: .init(roomId: configuration.roomId)
     )
-    self.chatAPIService = ChatAPIService()
+    self.chatAPIService = MockChatAPIService()
     chatSocketService.delegate = self
     chatSocketService.connect()
   }
@@ -92,58 +93,71 @@ extension ChatDataProvider: ChatServiceDelegate {
   }
   
   func onReceiveNewText(_ chatModel: PND.ChatModel) {
-    _Concurrency.Task {
-      
-      let myUserId: String      = await UserDataCenter.shared.userProfileModel?.id ?? "1"
-      let senderUserId: String  = chatModel.sender?.id ?? "0"
-      let isMyChat: Bool        = myUserId == senderUserId
-      
-      await MainActor.run {
-        var chatViewTypes: [ChatViewType] = []
-        
-        if let lastChatModel = chatModels.last {
-          
-          if lastChatModel.sender?.id == myUserId { // 마지막 채팅이 내가 보낸 채팅이면
-            chatViewTypes.append(ChatViewType.spacer(height: 4))
-          } else { // 마지막 채팅이 상대방이 보낸 채팅이면
-            chatViewTypes.append(ChatViewType.spacer(height: 20))
-          }
-          
-        } else {  // 첫번째 말풍선인 경우
-          chatViewTypes.append(ChatViewType.spacer(height: 4))
-        }
-        
-        switch chatModel.messageType {
-          
-        case PND.MessageType.plain.rawValue:
-          chatViewTypes.append(ChatViewType.text(
-            ChatTextBubbleViewModel(
-              body: chatModel.message,
-              isMyChat: isMyChat
-            )
-          ))
-          
-        case PND.MessageType.media.rawValue:
-          if chatModel.medias.count == 1, let firstMedia = chatModel.medias.first {
-            chatViewTypes.append(ChatViewType.singleImage(SingleChatImageViewModel(
-              media: firstMedia,
-              isMyChat: isMyChat
-            )))
-          } else if chatModel.medias.count >= 2 {
-            chatViewTypes.append(ChatViewType.multipleImages(MultipleChatImageViewModel(
-              medias: chatModel.medias,
-              isMyChat: isMyChat
-            )))
-          }
-          
-        default:
-          break
-        }
-        // Jin - ???: 아래 부분만 serial하게 일어나면 되지않을까?
-        chatModels.append(chatModel)
-        // Jin - 이 부분은 받는 쪽에서 await으로 어짜피 처리되니깐 serial안해도될거같고..
-        continuation.yield(.onReceiveNewChatType(chatViewTypes))
+    Task {
+      await appendNewChat(chatModel)
+      continuation.yield(.onReceiveNewChatType(self.chatViewTypes))
+    }
+  }
+  
+  private func appendNewChat(_ chatModel: PND.ChatModel) async {
+    chatModels.append(chatModel)
+    
+    let myUserId: String      = await UserDataCenter.shared.userProfileModel?.id ?? "1"
+    let senderUserId: String  = chatModel.sender?.id ?? "0"
+    let isMyChat: Bool        = myUserId == senderUserId
+    
+    var topSpace: CGFloat?
+    
+    if let lastChatModel = chatModels.last {
+      if lastChatModel.sender?.id == myUserId { // 마지막 채팅이 내가 보낸 채팅이면
+        topSpace = 4.0
+      } else { // 마지막 채팅이 상대방이 보낸 채팅이면
+        topSpace = 20.0
       }
+    } else {  // 첫번째 말풍선인 경우
+      topSpace = 4.0
+    }
+    
+    let chatViewType: ChatViewType?
+    
+    switch chatModel.messageType {
+      
+    case PND.MessageType.plain.rawValue:
+      chatViewType = ChatViewType.text(
+        ChatTextBubbleViewModel(
+          body: chatModel.message,
+          isMyChat: isMyChat
+        ),
+        topSpace: topSpace
+      )
+      
+    case PND.MessageType.media.rawValue:
+      if chatModel.medias.count == 1, let firstMedia = chatModel.medias.first {
+        chatViewType = ChatViewType.singleImage(
+          SingleChatImageViewModel(
+            media: firstMedia,
+            isMyChat: isMyChat
+          ),
+          topSpace: topSpace
+        )
+      } else if chatModel.medias.count >= 2 {
+        chatViewType = ChatViewType.multipleImages(
+          MultipleChatImageViewModel(
+            medias: chatModel.medias,
+            isMyChat: isMyChat
+          ),
+          topSpace: topSpace
+        )
+      } else {
+        chatViewType = nil
+      }
+      
+    default:
+      chatViewType = nil
+    }
+    
+    if let chatViewType {
+      chatViewTypes.append(chatViewType)
     }
   }
 }

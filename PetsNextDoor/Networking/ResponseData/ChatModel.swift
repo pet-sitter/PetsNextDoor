@@ -14,7 +14,7 @@ extension PND {
     case media = "media"
   }
   
-  struct ChatModel: Codable {
+	struct ChatModel: Codable, Equatable {
     
     var sender: Sender?
     let room: Room
@@ -26,7 +26,7 @@ extension PND {
     var updatedAt: String?
   }
 
-  struct Room: Codable {
+  struct Room: Codable, Equatable {
     let id: String
   }
   
@@ -39,7 +39,7 @@ extension PND {
   
   
   
-  struct Sender: Codable {
+  struct Sender: Codable, Equatable {
     let id: String
   }
 }
