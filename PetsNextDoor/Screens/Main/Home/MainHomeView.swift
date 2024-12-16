@@ -62,8 +62,9 @@ struct MainHomeFeature: Reducer {
       case onAppear
       case onTabIndexChange(Int)
       case onSortOptionChange(PND.SortOption)
-      case onEventCardTap(EventCardView.ViewModel)
-      case onSelectPlusButton
+      case onEventCardTap(id: String)
+      case onCreateNewEvent
+      case onRefreshButtonTap
     }
     
     enum InternalAction: Equatable {
@@ -89,25 +90,7 @@ struct MainHomeFeature: Reducer {
       switch action {
         
       case .view(.onAppear):
-        return .run { [state] send in
-          guard state.eventCardVMs.isEmpty else { return } // 이미 있으면 무시
-          
-          await send(.internal(.setIsLoading(true)))
-          
-          let eventListResponseModel: PND.EventListResponseModel = try await eventService.getEvents(
-            authorId: nil,
-            page: 0,
-            size: Constants.pageSize
-          )
-          
-          
-          await send(.internal(.setEventCardVMs(with: eventListResponseModel)))
-          await send(.internal(.setIsLoading(false)))
-          
-        } catch: { error, send in
-          print("❌ error: \(error)")
-          await send(.internal(.setIsLoading(false)))
-        }
+        return fetchInitialEvents()
         
       case .view(.onTabIndexChange(let index)):
         state.tabIndex = index
@@ -117,11 +100,15 @@ struct MainHomeFeature: Reducer {
         state.sortOption = sortOption
         return .none
         
-      case .view(.onEventCardTap(let viewModel)):
-        return .send(.delegate(.pushToEventDetailView(eventId: viewModel.id)))
+      case .view(.onEventCardTap(let id)):
+        return .send(.delegate(.pushToEventDetailView(eventId: id)))
         
-      case .view(.onSelectPlusButton):
+      case .view(.onCreateNewEvent):
         return .send(.delegate(.startEventCreationFlow))
+        
+      case .view(.onRefreshButtonTap):
+        state.eventCardVMs.removeAll()
+        return fetchInitialEvents()
         
         // Internal
         
@@ -149,6 +136,26 @@ struct MainHomeFeature: Reducer {
       }
     }
   }
+  
+  private func fetchInitialEvents() -> Effect<Action> {
+    return .run { send in
+      await send(.internal(.setIsLoading(true)))
+      
+      let eventListResponseModel: PND.EventListResponseModel = try await eventService.getEvents(
+        authorId: nil,
+        page: 0,
+        size: Constants.pageSize
+      )
+      
+      await send(.internal(.setEventCardVMs(with: eventListResponseModel)))
+      
+      await send(.internal(.setIsLoading(false)))
+    } catch: { error, send in
+      print("❌ error: \(error)")
+      await send(.internal(.setIsLoading(false)))
+    }
+  }
+
 }
 
 struct MainHomeView: View {
@@ -181,21 +188,6 @@ struct MainHomeView: View {
       }
       
     }
-    .overlay(alignment: .bottomTrailing, content: {
-      Button {
-        store.send(.view(.onSelectPlusButton))
-      } label: {
-        Circle()
-          .foregroundStyle(PND.DS.commonBlack)
-          .frame(width: 60, height: 60)
-          .overlay(alignment: .center) {
-            Image(systemName: "plus")
-              .frame(width: 32, height: 32)
-              .foregroundStyle(PND.DS.primary)
-          }
-          .offset(x: -17, y: -19)
-      }
-    })
     .onAppear() {
       store.send(.view(.onAppear))
     }
@@ -216,7 +208,7 @@ struct MainHomeView: View {
         // 이벤트 만들기 배너
         HStack(spacing: 0) {
           
-          VStack(alignment: .leading) {
+          VStack(alignment: .leading, spacing: 8) {
             Text("이벤트 만들기")
               .font(.system(size: 16, weight: .bold))
             
@@ -239,6 +231,9 @@ struct MainHomeView: View {
             .stroke(PND.DS.primary, lineWidth: 1)
         )
         .padding(.horizontal, 20)
+        .onTapGesture {
+          store.send(.view(.onCreateNewEvent))
+        }
         
         Spacer().frame(height: 8)
         
@@ -246,7 +241,7 @@ struct MainHomeView: View {
         // 이벤트 찾기 배너
         HStack(spacing: 0) {
           
-          VStack(alignment: .leading) {
+          VStack(alignment: .leading, spacing: 8) {
             Text("이벤트 찾기")
               .font(.system(size: 16, weight: .bold))
               .foregroundStyle(PND.DS.commonWhite)
@@ -269,26 +264,53 @@ struct MainHomeView: View {
         
         
         
-        Spacer().frame(height: 16)
+        Spacer().frame(height: 24)
         
-        Text("멍냥동")
-          .font(.system(size: 20, weight: .bold))
-          .background(alignment: .bottom) {
-            Rectangle()
-              .fill(PND.Colors.lightGreen.asColor)
-              .frame(height: 10)
+        // 동네 이름 + 리프레쉬 버튼
+        
+        HStack(spacing: 0) {
+          Text("멍냥동")
+            .font(.system(size: 20, weight: .bold))
+            .background(alignment: .bottom) {
+              Rectangle()
+                .fill(PND.Colors.lightGreen.asColor)
+                .frame(height: 10)
+            }
+
+          Spacer()
+          
+          Button {
+            store.send(.view(.onRefreshButtonTap))
+          } label: {
+            Image(.refreshButton)
+              .resizable()
+              .frame(width: 18, height: 14)
+              .padding(4)
+              .background(PND.DS.lightGreen)
+              .clipShape(Circle())
           }
-          .padding(.horizontal, 20)
+
+          
+        }
+        .padding(.horizontal, 20)
         
+
         Spacer().frame(height: 8)
         
-        filterView
+        Text("현재 주목받고 있는 이벤트!")
+          .font(.system(size: 16, weight: .semibold))
           .padding(.horizontal, 20)
+        
+        
+        ProgressView()
+          .id(UUID())
+          .isHidden(!store.isLoading)
+          .frame(maxWidth: .infinity, alignment: .center)
         
         ForEach(store.eventCardVMs, id: \.id) { vm in
           EventCardView(viewModel: vm)
             .onTapGesture {
-              store.send(.view(.onEventCardTap(vm)))
+              store.send(.view(.onEventCardTap(id: vm.id)))
             }
         }
         
@@ -301,27 +323,44 @@ struct MainHomeView: View {
     ScrollView(.vertical) {
       LazyVStack(spacing: 0) {
         
-        Text("다가오는 이벤트 일정")
-          .font(.system(size: 20, weight: .bold))
-          .padding(.horizontal, 20)
-          .frame(maxWidth: .infinity, alignment: .leading)
+        Spacer().frame(height: 12)
+        
+        headerView
         
         Spacer().frame(height: 12)
         
         ForEach(store.myEventCardVMs, id: \.id) { vm in
           MyEventCardView(viewModel: vm)
+            .onTapGesture {
+              store.send(.view(.onEventCardTap(id: vm.id)))
+            }
           Spacer().frame(height: 12)
         }
       }
-//      .background(.red)
     }
 
   }
   
   @ViewBuilder
+  private var headerView: some View {
+    HStack(spacing: 5) {
+      Text("다가오는 이벤트 일정")
+        .font(.system(size: 20, weight: .bold))
+
+      
+      Text("1")
+        .font(.system(size: 20, weight: .bold))
+        .foregroundStyle(PND.DS.primary)
+        .lineLimit(1)
+      Spacer()
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(.horizontal, 20)
+  }
+  
+  @ViewBuilder
   private var topNavigationBar: some View {
     HStack {
-      
       Image(.pndMainIcon)
         .resizable()
         .frame(width: 19, height: 29)
@@ -329,54 +368,7 @@ struct MainHomeView: View {
       Spacer()
     }
   }
-  
-  @ViewBuilder
-  private var filterView: some View {
-    HStack {
-      Text("현재 주목받고 있는 이벤트!")
-        .font(.system(size: 16, weight: .semibold))
-      
-      Spacer()
-      
-      Menu {
-        Button {
-          store.send(.view(.onSortOptionChange(.newest)))
-        } label: {
-          HStack {
-            Text(PND.SortOption.newest.description)
-            Spacer()
-            if store.sortOption == .newest {
-              Image(systemName: "checkmark")
-            }
-          }
-        }
-        
-        Button {
-          store.send(.view(.onSortOptionChange(.deadline)))
-        } label: {
-          HStack {
-            Text(PND.SortOption.deadline.description)
-            Spacer()
-            if store.sortOption == .deadline {
-              Image(systemName: "checkmark")
-            }
-          }
-        }
 
-      } label: {
-        Text(store.sortOption.description)
-          .font(.system(size: 16, weight: .bold))
-          .foregroundStyle(PND.Colors.commonBlack.asColor)
-      }
-
-      Spacer().frame(width: 4)
-      
-      Image(.iconArrDown)
-        .resizable()
-        .frame(width: 16, height: 16)
-    }
-
-  }
 }
 
 import Kingfisher
@@ -405,16 +397,17 @@ struct EventCardView: View {
         .scaledToFit()
         .cornerRadius(4)
       
-      Spacer().frame(width: 8)
+      Spacer().frame(width: 12)
       
+      // 상세
       VStack(alignment: .leading, spacing: 0) {
+        
         Text(viewModel.eventTitle)
-          .font(.system(size: 14, weight: .semibold))
-          .lineLimit(2)
+          .font(.system(size: 16, weight: .semibold))
+          .lineLimit(1)
           .multilineTextAlignment(.leading)
         
         Spacer().frame(height: 8)
-        
         
         Text(viewModel.eventDescription)
           .font(.system(size: 12, weight: .regular))
@@ -452,8 +445,6 @@ struct EventCardView: View {
             .foregroundStyle(PND.DS.gray50)
         }
       }
-      
-      
     }
     .padding(.horizontal, PND.Metrics.defaultSpacing)
     .padding(.vertical, 14)
@@ -476,9 +467,6 @@ struct MyEventCardView: View {
   
   var body: some View {
     HStack(spacing: 0) {
-      
-//      Spacer().frame(width: 24)
-      
       KFImage.url(URL(string: viewModel.eventMainImageUrlString ?? ""))
         .placeholder { ProgressView () }
         .resizable()
@@ -494,7 +482,7 @@ struct MyEventCardView: View {
           .font(.system(size: 14, weight: .semibold))
           .lineLimit(2)
           .multilineTextAlignment(.leading)
-          .foregroundStyle(viewModel.isToday ? PND.DS.commonWhite : PND.DS.commonBlack)
+          .foregroundStyle(PND.DS.commonBlack)
         
         Spacer().frame(height: 8)
         
