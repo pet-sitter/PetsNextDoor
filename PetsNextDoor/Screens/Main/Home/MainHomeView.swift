@@ -27,40 +27,13 @@ struct MainHomeFeature: Reducer {
     
     var eventCardVMs: [EventCardView.ViewModel] = []
     
-    var myEventCardVMs: [MyEventCardView.ViewModel] = [
-      .init(
-        id: UUID().uuidString,
-        eventMainImageUrlString: MockDataProvider.randomPetImageUrlString,
-        eventDateString: "9월 1일(일) 오후 03:00~",
-        eventTitle: "멍냥동 정기 봉사활동",
-        eventLocation: "멍냥동 메인라운지",
-        isToday: true
-      ),
-      .init(
-        id: UUID().uuidString,
-        eventMainImageUrlString: MockDataProvider.randomPetImageUrlString,
-        eventDateString: "9월 1일(일) 오후 03:00~",
-        eventTitle: "리트리버 모임",
-        eventLocation: "멍냥동 메인라운지",
-        isToday: false
-      ),
-      .init(
-        id: UUID().uuidString,
-        eventMainImageUrlString: MockDataProvider.randomPetImageUrlString,
-        eventDateString: "9월 1일(일) 오후 03:00~",
-        eventTitle: "닥스훈트 견주 소모임",
-        eventLocation: "멍냥동 메인라운지",
-        isToday: false
-      ),
-    
-    ]
+    var myEventCardVMs: [MyEventCardView.ViewModel] = []
   }
   
   enum Action: RestrictiveAction, BindableAction {
     
     enum ViewAction: Equatable {
       case onAppear
-      case onTabIndexChange(Int)
       case onSortOptionChange(PND.SortOption)
       case onEventCardTap(id: String)
       case onCreateNewEvent
@@ -70,6 +43,7 @@ struct MainHomeFeature: Reducer {
     enum InternalAction: Equatable {
       case setIsLoading(Bool)
       case setEventCardVMs(with: PND.EventListResponseModel)
+      case setMyEventCardVMs(with: PND.EventListResponseModel)
     }
     
     enum DelegateAction: Equatable {
@@ -92,15 +66,12 @@ struct MainHomeFeature: Reducer {
       case .view(.onAppear):
         return fetchInitialEvents()
         
-      case .view(.onTabIndexChange(let index)):
-        state.tabIndex = index
-        return .none
-        
       case .view(.onSortOptionChange(let sortOption)):
         state.sortOption = sortOption
         return .none
         
       case .view(.onEventCardTap(let id)):
+        
         return .send(.delegate(.pushToEventDetailView(eventId: id)))
         
       case .view(.onCreateNewEvent):
@@ -128,8 +99,48 @@ struct MainHomeFeature: Reducer {
         }
         return .none
         
+      case .internal(.setMyEventCardVMs(with: let eventListResponseModel)):
+        state.myEventCardVMs = eventListResponseModel.items.map { myEvent -> MyEventCardView.ViewModel in
+          return MyEventCardView.ViewModel(
+            id: myEvent.id,
+            eventMainImageUrlString: myEvent.media.url,
+            eventDateString: DateConverter.generateDateAndTimeString(fromDateString: myEvent.startAt) ?? "N/A",
+            eventTitle: myEvent.name,
+            authorName: myEvent.author?.nickname ?? "N/A",
+            authorProfileImageUrlString: myEvent.author?.profileImageUrl,
+            currentParticipantsCount: 2,
+            maximumParticipantsCount: 6,
+            eventLocation: "장소 필드",
+            isToday: [true, false].randomElement()!
+          )
+        }
+        return .none
+        
       case .binding(\.tabIndex):
-        return .none 
+        switch state.tabIndex {
+        case 1: // 내 이벤트
+          return .run { [state] send in
+            
+            guard state.myEventCardVMs.isEmpty else { return }
+            
+            await send(.internal(.setIsLoading(true)))
+            
+            let myAuthorId = await userDataCenter.currentUserId
+            let eventListResponseModel: PND.EventListResponseModel = try await eventService.getEvents(
+              authorId: myAuthorId,
+              page: 0,
+              size: Constants.pageSize
+            )
+            
+            await send(.internal(.setMyEventCardVMs(with: eventListResponseModel)))
+            await send(.internal(.setIsLoading(false)))
+            
+          } catch: { error, send in
+            await send(.internal(.setIsLoading(false)))
+          }
+          
+        default: return .none   // 최초 앱 구동 시 이미 '이벤트 홈' 데이터는 불러온 상태이기에 건너뜀
+        }
         
       default:
         return .none
@@ -140,7 +151,7 @@ struct MainHomeFeature: Reducer {
   private func fetchInitialEvents() -> Effect<Action> {
     return .run { send in
       await send(.internal(.setIsLoading(true)))
-      
+
       let eventListResponseModel: PND.EventListResponseModel = try await eventService.getEvents(
         authorId: nil,
         page: 0,
@@ -337,8 +348,8 @@ struct MainHomeView: View {
           Spacer().frame(height: 12)
         }
       }
-    }
 
+    }
   }
   
   @ViewBuilder
@@ -459,6 +470,10 @@ struct MyEventCardView: View {
     let eventMainImageUrlString: String?
     let eventDateString: String
     let eventTitle: String
+    let authorName: String
+    let authorProfileImageUrlString: String?
+    let currentParticipantsCount: Int
+    let maximumParticipantsCount: Int
     let eventLocation: String
     let isToday: Bool
   }
@@ -498,70 +513,71 @@ struct MyEventCardView: View {
             .font(.system(size: 12, weight: .semibold))
             .lineLimit(1)
         }
-        .foregroundStyle(viewModel.isToday ? PND.DS.primary : PND.DS.gray50)
+        .foregroundStyle(viewModel.isToday ? PND.DS.primary : PND.DS.commonBlack)
         
         Spacer().frame(height: 8)
         
         HStack(spacing: 0) {
-
-          KFImage.url(MockDataProvider.randomePetImageUrl)
+          
+          KFImage.url(URL(string: viewModel.authorProfileImageUrlString ?? ""))
+            .defaultProfileImagePlaceHolder()
             .resizable()
             .frame(width: 16, height: 16)
             .clipShape(Circle())
           
           Spacer().frame(width: 4)
           
-          Text("아롱맘")
-            .font(.system(size: 12, weight: .semibold))
-            .lineLimit(1)
+          Group {
+            Text(viewModel.authorName)
+              .font(.system(size: 12, weight: .semibold))
+              .lineLimit(1)
+            
+            Spacer().frame(width: 12)
+            
+            Image(.iconGroup)
+              .renderingMode(.template)
+              .resizable()
+              .frame(width: 16, height: 16)
+            
+            Spacer().frame(width: 2)
+            
+            Text("\(viewModel.currentParticipantsCount)/\(viewModel.maximumParticipantsCount)")
+              .font(.system(size: 12, weight: .medium))
+            
+            Spacer().frame(width: 12)
+            
+            Image(.iconPinLine)
+              .renderingMode(.template)
+              .resizable()
+              .frame(width: 16, height: 16)
+            
+            Spacer().frame(width: 2)
+            
+            Text(viewModel.eventLocation)
+              .font(.system(size: 12, weight: .medium))
+              .lineLimit(1)
+          }
+          .foregroundStyle(PND.DS.commonBlack)
+
           
           
-          
-          Spacer().frame(width: 12)
-          
-          Image(.iconGroup)
-            .renderingMode(.template)
-            .resizable()
-            .frame(width: 16, height: 16)
-          
-          Spacer().frame(width: 2)
-          
-          Text("6/10")
-            .font(.system(size: 12, weight: .medium))
-          
-          
-          Spacer().frame(width: 12)
-          
-          Image(.iconPinLine)
-            .renderingMode(.template)
-            .resizable()
-            .frame(width: 16, height: 16)
-          
-          Spacer().frame(width: 2)
-          
-          Text(viewModel.eventLocation)
-            .font(.system(size: 12, weight: .medium))
-            .lineLimit(1)
-          
-      
         }
         .foregroundStyle(viewModel.isToday ? PND.DS.commonWhite : PND.DS.commonBlack)
       }
-
-      Spacer().frame(width: 24)
+      
+      
+      Spacer()
     }
-//    .background(.green)
-  
-//
-//    .padding(.horizontal, 12)
-//    .padding(.vertical, 16)
-//    .if(viewModel.isToday, { view in
-//      view
-//        .background(PND.DS.gray90)
-//        .clipShape(RoundedRectangle(cornerRadius: 6))
-//    })
-    
-//    .background(Color.red)
+    .padding(.horizontal, 12)
+    .padding(.vertical, 16)
+    .background(PND.DS.lightGreen)
+    .clipShape(RoundedRectangle(cornerRadius: 6))
+    .overlay(
+      RoundedRectangle(cornerRadius: 6)
+        .inset(by: 0.5)
+        .stroke(PND.DS.primary, lineWidth: 1)
+    )
+    .padding(.horizontal, 12)
   }
 }
 

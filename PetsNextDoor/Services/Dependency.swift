@@ -67,6 +67,7 @@ extension PND.Dependency {
   
   enum EventServiceKey: DependencyKey {
     static let liveValue: any EventServiceProvidable = EventService()
+    static let testValue: any EventServiceProvidable = MockEventService()
   }
 }
 

@@ -20,4 +20,12 @@ extension KFImage {
       .contentShape(Rectangle())
   }
   
+  func defaultProfileImagePlaceHolder(color: Color = Color.black) -> KFImage {
+    self
+      .placeholder {
+        Image(systemName: "person.crop.circle.fill")
+          .foregroundStyle(color)
+      }
+  }
+  
 }

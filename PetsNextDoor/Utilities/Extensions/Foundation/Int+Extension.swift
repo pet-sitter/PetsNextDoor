@@ -12,4 +12,8 @@ extension Int {
   func asString() -> String {
     "\(self)"
   }
+  
+  static func randomStatusCode() -> Int {
+    [200, 400, 500].randomElement()!
+  }
 }

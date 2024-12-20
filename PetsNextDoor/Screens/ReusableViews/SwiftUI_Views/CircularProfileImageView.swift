@@ -14,7 +14,7 @@ struct CircularProfileImageView: View {
   
   var body: some View {
     KFImage(URL(string: imageUrlString ?? ""))
-      .placeholder { ProgressView() }
+      .placeholder { Image(systemName: "person.crop.circle.fill") }
       .resizable()
       .scaledToFill()
       .frame(width: 74, height: 74)

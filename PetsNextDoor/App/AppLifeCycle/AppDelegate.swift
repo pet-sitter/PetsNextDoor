@@ -119,11 +119,26 @@ struct MainTabBarFeature: Reducer {
   }
   
   var body: some Reducer<State,Action> {
-    Scope(state: \.homeState, action: \.homeAction)           {   MainHomeFeature()  }
-    Scope(state: \.communityState, action: \.communityAction) {   CommunityFeature() }
-    Scope(state: \.chatListState, action: \.chatListAction)   {   ChatListFeature()  }
-    Scope(state: \.mapState, action: \.mapAction)             {   MapFeature()       }
-    Scope(state: \.myPageState, action: \.myPageAction)       {   MyPageFeature()    }
+    Scope(state: \.homeState, action: \.homeAction) {
+      MainHomeFeature()
+        .dependency(\.eventService, PND.Dependency.EventServiceKey.liveValue)
+    }
+    
+    Scope(state: \.communityState, action: \.communityAction) {
+      CommunityFeature()
+    }
+    
+    Scope(state: \.chatListState, action: \.chatListAction) {
+      ChatListFeature()
+    }
+    
+    Scope(state: \.mapState, action: \.mapAction) {
+      MapFeature()
+    }
+    
+    Scope(state: \.myPageState, action: \.myPageAction) {
+      MyPageFeature()
+    }
     
     BindingReducer()
     navigationReducer
@@ -150,7 +165,6 @@ struct MainTabBarFeature: Reducer {
 					await userDataCenter.configureInitialUserData()
 				}
 
-        
       case .homeAction(.delegate(.pushToEventDetailView(let eventId))):
         state.path.append(.eventDetail(EventDetailFeature.State(eventDetailId: eventId)))
         return .none

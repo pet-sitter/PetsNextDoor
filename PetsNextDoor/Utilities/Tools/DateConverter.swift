@@ -89,6 +89,7 @@ struct DateConverter {
     return PND.PetBirthDate(year: 0, month: 0, day: 0)
   }
   
+  // ex. 0: 2024.12.20, 1: 13:30
   static func extractDateAndTime(fromDateString dateString: String) -> (String, String)? { // Year, Date
     
     let isoFormatter = ISO8601DateFormatter()
@@ -107,4 +108,23 @@ struct DateConverter {
     print("Formatted Time: \(formattedTime)") // Example: 12:21
     return (formattedDate, formattedTime)
   }
+  
+  // ex. 2024.12.20 • 13:30
+  static func generateDateAndTimeString(fromDateString dateString: String) -> String? {
+
+    let isoFormatter = ISO8601DateFormatter()
+    isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    guard let date = isoFormatter.date(from: dateString) else { return nil }
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy.MM.dd"
+    let formattedDate = dateFormatter.string(from: date)
+    
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "HH:mm"
+    let formattedTime = timeFormatter.string(from: date)
+    
+    return "\(formattedDate) • \(formattedTime)"
+  }
+
 }
