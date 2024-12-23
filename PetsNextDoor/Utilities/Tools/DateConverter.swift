@@ -127,4 +127,11 @@ struct DateConverter {
     return "\(formattedDate) • \(formattedTime)"
   }
 
+  
+  static func formatDateToISO8601Format(date: Date) -> String {
+    let formatter = DateFormatter()
+     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX" // The format includes 'Z' for timezone
+     formatter.timeZone = TimeZone.current // Or set it to the desired timezone
+     return formatter.string(from: date)
+  }
 }

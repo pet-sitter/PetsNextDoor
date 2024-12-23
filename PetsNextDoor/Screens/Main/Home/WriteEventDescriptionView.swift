@@ -12,6 +12,9 @@ import ComposableArchitecture
 @Reducer
 struct WriteEventDescriptionFeature: Reducer {
   
+  @Dependency(\.mediaService) var mediaService
+  @Dependency(\.eventService) var eventService
+  
   @ObservableState
   struct State: Equatable {
     var eventUploadModel: PND.EventUploadModel
@@ -19,10 +22,12 @@ struct WriteEventDescriptionFeature: Reducer {
     var eventDescription: String = ""
     var selectedImageDatas: [Data] = []
     var isBottomButtonEnabled: Bool = false
+    var isLoading: Bool = false
   }
   
   enum Action: BindableAction {
     case onBottomButtonTap
+    case setIsLoading(Bool)
     case binding(BindingAction<State>)
   }
   
@@ -34,6 +39,40 @@ struct WriteEventDescriptionFeature: Reducer {
       case .binding(\.eventDescription):
         state.isBottomButtonEnabled = state.eventDescription.isEmpty ? false : true
         return .none
+        
+      case .setIsLoading(let isLoading):
+        state.isLoading = isLoading
+        return .none
+        
+      case .onBottomButtonTap:
+        return .run { [state] send in
+          
+          await send(.setIsLoading(true))
+          
+          // 먼저 이미지 업로드
+          
+          if let firstImageData = state.selectedImageDatas.first {
+            
+            var uploadModel = state.eventUploadModel
+            
+            let uploadImageResponse = try await mediaService.uploadImage(
+              imageData: firstImageData,
+              imageName: "eventDescription-\(UUID().hashValue)"
+            )
+            
+            uploadModel.eventMediaId = uploadImageResponse.id
+            
+            let _ = try await eventService.postEvent(model: uploadModel.asEvent())
+            
+            // 성공하면 메인 뷰로 돌려보내기 
+          }
+          
+          await send(.setIsLoading(false))
+          
+        } catch: { error, send in
+          await send(.setIsLoading(false))
+          PNDLogger.default.error("failed uploading event model")
+        }
         
       default:
         return .none
@@ -92,6 +131,7 @@ struct WriteEventDescriptionView: View {
       }
 
     }
+    .isLoading(store.isLoading)
   }
 }
 

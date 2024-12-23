@@ -34,6 +34,19 @@ extension PND {
     case weekly   = "매주"
     case biWeekly = "2주에 한 번"
     case monthly  = "매달"
+    
+    func asRecurringPeriod() -> PND.RecurringPeriod {
+      switch self {
+      case .daily:
+        return .daily
+      case .weekly:
+        return .weekly
+      case .biWeekly:
+        return .biweekly
+      case .monthly:
+        return .monthly
+      }
+    }
   }
   
   struct EventUploadModel: Equatable {
@@ -49,6 +62,25 @@ extension PND {
     var eventTitle: String? = nil
     var eventDescription: String? = nil
     var selectedImageDatas: [Data] = []
+    var eventMediaId: String? = nil
     
+    func asEvent() -> PND.Event {
+      PND.Event(
+        author: nil,
+        createdAt: nil,
+        description: eventDescription ?? "",
+        fee: eventFee,
+        genderCondition: nil,
+        id: "",
+        maxParticipants: eventParticipants,
+        media: PND.Media(id: eventMediaId ?? "", mediaType: nil),
+        name: eventTitle ?? "",
+        recurringPeriod: eventDuration?.asRecurringPeriod(),
+        startAt: DateConverter.formatDateToISO8601Format(date: eventDate ?? Foundation.Date()),
+        topics: [eventSubject ?? ""],
+        type: eventType ?? .shortTerm,
+        updatedAt: nil
+      )
+    }
   }
 }
