@@ -28,6 +28,7 @@ struct WriteEventDescriptionFeature: Reducer {
   enum Action: BindableAction {
     case onBottomButtonTap
     case setIsLoading(Bool)
+    case onEventUploadComplete
     case binding(BindingAction<State>)
   }
   
@@ -38,6 +39,11 @@ struct WriteEventDescriptionFeature: Reducer {
       switch action {
       case .binding(\.eventDescription):
         state.isBottomButtonEnabled = state.eventDescription.isEmpty ? false : true
+        state.eventUploadModel.eventDescription = state.eventDescription
+        return .none
+        
+      case .binding(\.eventTitle):
+        state.eventUploadModel.eventTitle = state.eventTitle
         return .none
         
       case .setIsLoading(let isLoading):
@@ -64,10 +70,12 @@ struct WriteEventDescriptionFeature: Reducer {
             
             let _ = try await eventService.postEvent(model: uploadModel.asEvent())
             
-            // 성공하면 메인 뷰로 돌려보내기 
+            // 채팅방 생성 API 쏴야함
+
+            await send(.setIsLoading(false))
+            await send(.onEventUploadComplete)
           }
-          
-          await send(.setIsLoading(false))
+
           
         } catch: { error, send in
           await send(.setIsLoading(false))
