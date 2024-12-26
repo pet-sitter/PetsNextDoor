@@ -310,8 +310,12 @@ struct ChatView: View {
         
         if isAtBottomPosition {
           DispatchQueue.main.async {
-            withAnimation {
+            if oldChats.isEmpty {
               proxy.scrollTo(bottomOfChatList, anchor: .bottom)
+            } else {
+              withAnimation {
+                proxy.scrollTo(bottomOfChatList, anchor: .bottom)
+              }
             }
           }
           return

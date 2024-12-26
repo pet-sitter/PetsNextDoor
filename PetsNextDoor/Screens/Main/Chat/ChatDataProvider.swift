@@ -35,7 +35,7 @@ final class ChatDataProvider {
   private var continuation: AsyncStream<Action>.Continuation!
   
   init() {
-    self.configuration = Configuration(roomId: "f5e17d20-5688-4924-b6c7-4509e80f04ad")
+    self.configuration = Configuration(roomId: "01940277-6e44-7ab9-91da-d46d0d05e33c")
     var request = URLRequest(url: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!)
     request.setValue(PNDTokenStore.shared.accessToken, forHTTPHeaderField: "Authorization")
     let socket = WebSocket(request: request)
@@ -91,7 +91,7 @@ final class ChatDataProvider {
   }
   
   private func newChatViewType(from chatModel: TempChatModel) async -> ChatViewType? {
-    let myUserId: String      = await UserDataCenter.shared.userProfileModel?.id ?? "1"
+    let myUserId: String      = await UserDataCenter.shared.userProfileModel?.id ?? "1" // Jin - !!!: userProfileModel이 옵셔널 아니여야 할듯
     let senderUserId: String  = chatModel.userID
     let isMyChat: Bool        = myUserId == senderUserId
     
