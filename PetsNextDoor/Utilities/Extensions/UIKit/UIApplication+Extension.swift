@@ -44,4 +44,13 @@ extension UIApplication {
     }
     return vc?.navigationController
   }
+  
+  static func statusBarHeight() -> CGFloat? {
+    return UIApplication.shared.connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .first?
+      .statusBarManager?
+      .statusBarFrame
+      .height
+  }
 }

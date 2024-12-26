@@ -5,6 +5,7 @@
 //  Created by kevinkim2586 on 2024/05/24.
 //
 
+import Combine
 import ComposableArchitecture
 import SwiftUI
 import PhotosUI
@@ -61,6 +62,7 @@ struct ChatFeature: Reducer {
     enum ViewAction: Equatable {
       case onAppear
       case onMemberListButtonTap
+      case onFirstChatOffsetChange(CGFloat)
       
       // ChatTextField
       case onSendChatButtonTap
@@ -100,7 +102,10 @@ struct ChatFeature: Reducer {
         
         // View
       case .view(.onAppear):
-        return observeChatActionStream()
+        return .run { send in
+          try await loadOldChats(send)
+          try await observeChatActionStream(send)
+        }
         //        return .run { send in
         //
         //          let room = try? await chatDataProvider.fetchRoomInfo()
@@ -116,6 +121,9 @@ struct ChatFeature: Reducer {
         return .none
         
         // Internal
+        
+      case .view(.onFirstChatOffsetChange(let offset)):
+        return checkIfFirstChatOverThreshold(offset)
         
       case .internal(.chatDataProviderAction(.onConnect)):
         return .none
@@ -179,20 +187,45 @@ struct ChatFeature: Reducer {
         break
       }
       
-      
-      
       return .none
     }
   }
   
-  private func observeChatActionStream() -> Effect<Action> {
-    return .run { send in
-      let actions = chatDataProvider.observeChatActionStream()
-      
-      for await action in actions {
-        await send(.internal(.chatDataProviderAction(action)))
-      }
+  private func observeChatActionStream(_ send: Send<ChatFeature.Action>) async throws {
+    let actions = chatDataProvider.observeChatActionStream()
+    
+    for await action in actions {
+      await send(.internal(.chatDataProviderAction(action)))
     }
+  }
+  
+  private func loadOldChats(_ send: Send<ChatFeature.Action>) async throws {
+    let chats = try await chatDataProvider.fetchOldChats()
+    await send(.internal(.chatDataProviderAction(.onReceiveNewChatType(chats))))
+  }
+  
+  private func checkIfFirstChatOverThreshold(_ offset: CGFloat) -> Effect<Action> {
+    enum CheckAction: Hashable {
+      case throttle
+    }
+    
+    let statusBarHeight: CGFloat = UIApplication.statusBarHeight() ?? 0
+    let navigationBarHeight: CGFloat = 44.0
+    let topBarHeight = statusBarHeight + navigationBarHeight
+    let threshold: CGFloat = 20.0
+    
+    if offset < topBarHeight + threshold {
+      return .none
+    }
+    
+    return .run { send in
+      print("⬇️ 이전 채팅 불러오기 시작")
+      let chats = try await chatDataProvider.fetchOldChats()
+      await send(.internal(.chatDataProviderAction(.onReceiveNewChatType(chats))))
+    }
+    .debounce(id: CheckAction.throttle, for: .seconds(0.5), scheduler: DispatchQueue.main)
+//    .throttle(id: CheckAction.throttle, for: .seconds(1.5), scheduler: DispatchQueue.main, latest: false)
+    // Jin - TODO: TCA throttle 동작 제대로 안해서 일단 debounce로 대체한거 throttle로 변경하기
   }
 }
 
@@ -212,22 +245,35 @@ struct ChatView: View {
     ScrollViewReader { proxy in
       SwiftUI.List {
         ForEach(store.chats, id: \.id) { chatType in
-          switch chatType {
-          case .text(let vm, let topSpace, let bottomSpace):
-            chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
-              ChatTextBubbleView(viewModel: vm)
+          VStack(spacing: 0) {
+            switch chatType {
+            case .text(let vm, let topSpace, let bottomSpace):
+              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                ChatTextBubbleView(viewModel: vm)
+              }
+              
+            case .singleImage(let vm, let topSpace, let bottomSpace):
+              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                SingleChatImageView(viewModel: vm)
+              }
+              
+            case .multipleImages(let vm, let topSpace, let bottomSpace):
+              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                MultipleChatImageView(viewModel: vm)
+              }
+              
             }
-            
-          case .singleImage(let vm, let topSpace, let bottomSpace):
-            chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
-              SingleChatImageView(viewModel: vm)
-            }
-            
-          case .multipleImages(let vm, let topSpace, let bottomSpace):
-            chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
-              MultipleChatImageView(viewModel: vm)
-            }
-            
+          }
+          .id(chatType.id)
+          .modifier(PlainListModifier())
+          .overlay(chatType.id == store.chats.first?.id ? GeometryReader {
+            Color.clear.preference(
+              key: ViewOffsetKey.self,
+              value: $0.frame(in: .global).origin.y
+            )
+          } : nil)
+          .onPreferenceChange(ViewOffsetKey.self) {
+            store.send(.view(.onFirstChatOffsetChange($0)))
           }
         }
         
@@ -251,13 +297,24 @@ struct ChatView: View {
       .onAppear() {
         scrollViewProxy = proxy
       }
-      .onChange(of: store.chats) { _, _ in
+      .onChange(of: store.chats) { oldChats, newChats in
+        // oldChats의 앞쪽에 새로운 채팅이 추가되면
+        if let oldFirstID = oldChats.first?.id,
+           let newFirstID = newChats.first?.id,
+           oldFirstID != newFirstID {
+          DispatchQueue.main.async {
+            proxy.scrollTo(oldFirstID, anchor: .top)
+          }
+          return
+        }
+        
         if isAtBottomPosition {
           DispatchQueue.main.async {
-            withAnimation() {
+            withAnimation {
               proxy.scrollTo(bottomOfChatList, anchor: .bottom)
             }
           }
+          return
         }
       }
       .overlay(alignment: .bottom) {
@@ -389,7 +446,7 @@ struct ChatView: View {
   }
   
   @ViewBuilder
-  private func chatView(topSpace: CGFloat?, bottomSpace: CGFloat?, view: @escaping (() -> some View)) -> some View {
+  private func chatView(topSpace: CGFloat?, bottomSpace: CGFloat?, @ViewBuilder view: (() -> some View)) -> some View {
     if let topSpace {
       chatSpacer(height: topSpace)
     }
@@ -401,6 +458,20 @@ struct ChatView: View {
 }
 
 
+// MARK: - ViewOffsetKey
+
+extension ChatView {
+  struct ViewOffsetKey: PreferenceKey {
+    typealias Value = CGFloat
+    static var defaultValue = CGFloat.zero
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+      value += nextValue()
+    }
+  }
+}
+
+
+// MARK: - SingleChatImageView
 
 struct SingleChatImageViewModel: Equatable {
   
@@ -410,6 +481,7 @@ struct SingleChatImageViewModel: Equatable {
   
   let isMyChat: Bool
 }
+
 
 struct SingleChatImageView: View {
   
@@ -491,6 +563,7 @@ struct SingleChatImageView: View {
 }
 
 
+// MARK: - MultipleChatImageView
 
 struct MultipleChatImageViewModel: Equatable {
   
@@ -647,6 +720,7 @@ struct MultipleChatImageView: View {
 }
 
 
+// MARK: - ChatTextBubbleView
 
 struct ChatTextBubbleViewModel: Equatable {
   let id: String = UUID().uuidString

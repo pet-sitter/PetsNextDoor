@@ -144,7 +144,7 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   func sendMessage(_ message: String) async {
     let myUserID = await UserDataCenter.shared.userProfileModel?.id ?? "1"
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
-      sender: PND.Sender(id: myUserID),
+//      sender: PND.Sender(id: myUserID), // Jin - TODO: 없애야 함. Mock에서는 필요하고 실제에서는 필요 없음. Mock에서 sender id 첨부해서 던지도록 Mock 수정하기.
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.plain.rawValue,
       message: message,
@@ -219,7 +219,7 @@ final class MockWebSocket: PNDWebSocketClient {
   
   func connect() {
     let randomTextPublisher = Timer
-      .publish(every: 1.0, on: .main, in: .common)
+      .publish(every: 2.5, on: .main, in: .common)
       .autoconnect()
       .map { _ -> WebSocketEvent? in
         .text(MockDataProvider.textEvents.randomElement()!)

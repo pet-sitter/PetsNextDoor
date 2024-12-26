@@ -52,7 +52,9 @@ extension PND {
  // 채팅방 메시지 조회 Data
   struct ChatMessagesModel: Codable {
     let hasNext: Bool
-    let hasPreve: Bool
+    let hasPrev: Bool
+    let next: String?
+    let prev: String?
     @DefaultEmptyArray var items: [ChatMessages]
   }
   
@@ -61,7 +63,7 @@ extension PND {
     let createdAt: String
     let id: String
     let messageType: String
-    let roomID: String
-    let userID: String
+    let roomId: String
+    let userId: String
   }
 }

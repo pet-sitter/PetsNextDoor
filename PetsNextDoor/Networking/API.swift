@@ -51,7 +51,7 @@ extension PND {
     case getChatRoom(roomId: String)
     case postJoinChatRoom(roomId: String)
     case postLeaveChatRoom(roomId: String)
-    case getChatRoomMessages(roomId: String, prev: Int?, next: Int?, size: Int)
+    case getChatRoomMessages(roomId: String, prev: String?, next: String?, size: Int)
     
     
   }

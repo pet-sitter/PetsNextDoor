@@ -16,7 +16,7 @@ extension PND {
   
 	struct ChatModel: Codable, Equatable {
     
-    var sender: Sender?
+    var sender: Sender? // Jin - TODO: 옵셔널로 다시 바꿔야함
     let room: Room
     let messageType: String // 추후 enum으로 변경
     let message: String
