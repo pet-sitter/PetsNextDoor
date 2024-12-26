@@ -36,20 +36,20 @@ final class ChatDataProvider {
   
   init() {
     self.configuration = Configuration(roomId: "f5e17d20-5688-4924-b6c7-4509e80f04ad")
-//    var request = URLRequest(url: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!)
-//    request.setValue(PNDTokenStore.shared.accessToken, forHTTPHeaderField: "Authorization")
-//    let socket = WebSocket(request: request)
-//    self.chatSocketService = LiveChatService(
-//      socket: socket,
-//      mediaService: MediaService(),
-//      configuration: .init(roomId: configuration.roomId)
-//    )
+    var request = URLRequest(url: URL(string: "https://pets-next-door.fly.dev/api/chat/ws")!)
+    request.setValue(PNDTokenStore.shared.accessToken, forHTTPHeaderField: "Authorization")
+    let socket = WebSocket(request: request)
     self.chatSocketService = LiveChatService(
-      socket: MockWebSocket(),
+      socket: socket,
       mediaService: MediaService(),
       configuration: .init(roomId: configuration.roomId)
     )
-    self.chatAPIService = MockChatAPIService()
+//    self.chatSocketService = LiveChatService(
+//      socket: MockWebSocket(),
+//      mediaService: MediaService(),
+//      configuration: .init(roomId: configuration.roomId)
+//    )
+    self.chatAPIService = ChatAPIService()
     chatSocketService.delegate = self
   }
   
