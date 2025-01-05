@@ -10,7 +10,7 @@ import Moya
 
 protocol ChatAPIServiceProvidable: PNDNetworkProvidable {
   func getChatRooms() async throws -> PND.ChatListModel
-  func postChatRoom() async throws -> PND.ChatCreationModel
+  func postChatRoom(roomName: String, roomType: String) async throws -> PND.ChatCreationModel
   func getChatRoom(roomId: String) async throws -> PND.ChatRoomModel
   func joinChatRoom(roomId: String) async throws -> Response
   func leaveChatRoom(roomId: String) async throws -> Response
@@ -34,8 +34,8 @@ struct ChatAPIService: ChatAPIServiceProvidable {
   }
   
   // 채팅방 생성
-  func postChatRoom() async throws -> PND.ChatCreationModel {
-    try await network.requestData(.postChatRoom)
+  func postChatRoom(roomName: String, roomType: String) async throws -> PND.ChatCreationModel {
+    try await network.requestData(.postChatRoom(roomName: roomName, roomType: roomType))
   }
   
   // 채팅방 조회
@@ -94,7 +94,7 @@ struct MockChatAPIService: ChatAPIServiceProvidable {
     ])
   }
   
-  func postChatRoom() async throws -> PND.ChatCreationModel {
+  func postChatRoom(roomName: String, roomType: String) async throws -> PND.ChatCreationModel {
     return PND.ChatCreationModel(
       joinUserIds: ["0","1", "2"],
       roomName: "놀이 이벤트 방 이름 테스트",

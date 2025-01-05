@@ -14,6 +14,7 @@ struct WriteEventDescriptionFeature: Reducer {
   
   @Dependency(\.mediaService) var mediaService
   @Dependency(\.eventService) var eventService
+  @Dependency(\.chatAPIService) var chatService
   
   @ObservableState
   struct State: Equatable {
@@ -28,7 +29,8 @@ struct WriteEventDescriptionFeature: Reducer {
   enum Action: BindableAction {
     case onBottomButtonTap
     case setIsLoading(Bool)
-    case onEventUploadComplete
+    case showEventUploadCompleteToast
+    case onEventUploadComplete(eventId: String)
     case binding(BindingAction<State>)
   }
   
@@ -57,29 +59,42 @@ struct WriteEventDescriptionFeature: Reducer {
           
           // 먼저 이미지 업로드
           
-          if let firstImageData = state.selectedImageDatas.first {
-            
-            var uploadModel = state.eventUploadModel
-            
-            let uploadImageResponse = try await mediaService.uploadImage(
-              imageData: firstImageData,
-              imageName: "eventDescription-\(UUID().hashValue)"
-            )
-            
-            uploadModel.eventMediaId = uploadImageResponse.id
-            
-            let _ = try await eventService.postEvent(model: uploadModel.asEvent())
-            
-            // 채팅방 생성 API 쏴야함
-
-            await send(.setIsLoading(false))
-            await send(.onEventUploadComplete)
-          }
-
+          guard let firstImageData = state.selectedImageDatas.first else { return }
+          
+          var uploadModel = state.eventUploadModel
+          
+          let uploadImageResponse = try await mediaService.uploadImage(
+            imageData: firstImageData,
+            imageName: "eventDescription-\(UUID().hashValue)"
+          )
+          
+          uploadModel.eventMediaId = uploadImageResponse.id
+          
+          let eventDetailModel = try await eventService.postEvent(model: uploadModel.asEvent())
+          
+          let _ = try await chatService.postChatRoom(
+            roomName: uploadModel.eventTitle ?? "N/A",
+            roomType: uploadModel.eventType?.asChatRoomQueryString ?? ""
+          )
+          
+          await send(.setIsLoading(false))
+          await send(.showEventUploadCompleteToast)
+          await send(.onEventUploadComplete(eventId: eventDetailModel.id))
           
         } catch: { error, send in
           await send(.setIsLoading(false))
+          
+          await MainActor.run {
+            Toast.shared.present(title: "업로드에 실패했어요. 잠시 후 다시 시도해주세요", symbolType: .xMark)
+          }
           PNDLogger.default.error("failed uploading event model")
+        }
+        
+      case .showEventUploadCompleteToast:
+        return .run { _ in
+          await MainActor.run {
+            Toast.shared.present(title: "이벤트 업로드 성공!", symbolType: .checkmark)
+          }
         }
         
       default:

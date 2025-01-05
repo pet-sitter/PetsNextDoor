@@ -47,7 +47,7 @@ extension PND {
     
     //MARK: - Chat
     case getChatRooms
-    case postChatRoom
+    case postChatRoom(roomName: String, roomType: String)
     case getChatRoom(roomId: String)
     case postJoinChatRoom(roomId: String)
     case postLeaveChatRoom(roomId: String)
@@ -154,7 +154,7 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
       
       //MARK: - POST
       
-    case .registerUser, .postUserStatus, .uploadImage, .postSOSPost, .postCheckNickname, .postEvent:
+    case .registerUser, .postUserStatus, .uploadImage, .postSOSPost, .postCheckNickname, .postEvent, .postChatRoom:
       return .post
       
       //MARK: - PUT
@@ -364,6 +364,15 @@ extension PND.API: Moya.TargetType, AccessTokenAuthorizable {
           .build(),
         encoding: URLEncoding.queryString
       )
+      
+    case let .postChatRoom(roomName, roomType):
+      return .requestParameters(
+        parameters: .builder
+          .set(key: "roomName", value: roomName)
+          .set(key: "roomType", value: roomType)
+          .build(),
+        encoding: JSONEncoding.default
+        )
       
     default:
       return .requestPlain

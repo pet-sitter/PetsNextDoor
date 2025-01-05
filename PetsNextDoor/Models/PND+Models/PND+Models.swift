@@ -58,6 +58,7 @@ extension PND {
     var eventParticipants: Int? = nil
     var eventFee: Int? = nil
     var eventAddress: String? = nil
+    var eventJibunAddress: String? = nil
     var eventAddressDetail: String? = nil
     var eventTitle: String? = nil
     var eventDescription: String? = nil
@@ -81,6 +82,25 @@ extension PND {
         type: eventType ?? .shortTerm,
         updatedAt: nil
       )
+    }
+  }
+  
+  enum ChatRoomType: Equatable {
+    case eventChat(PND.EventType) // 이벤트 채팅
+    case urgentPostChat // 돌봄 급구 채팅
+    
+    var queryValue: String {
+      switch self {
+      case .eventChat(let eventType):
+        switch eventType {
+        case .shortTerm: // 단기 이벤트
+          return "EVENT-\(PND.EventType.shortTerm.rawValue)"
+        case .recurring: // 정기 이벤트
+          return "EVENT-\(PND.EventType.recurring.rawValue)"
+        }
+      case .urgentPostChat:
+        return "URGENTPOST"
+      }
     }
   }
 }

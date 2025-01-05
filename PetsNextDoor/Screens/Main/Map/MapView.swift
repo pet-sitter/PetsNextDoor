@@ -102,7 +102,8 @@ struct NaverMap: UIViewRepresentable {
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
       // 카메라 이동이 시작되기 전 호출되는 함수
     }
-    
+
+ 
     func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
       // 카메라의 위치가 변경되면 호출되는 함수
     }

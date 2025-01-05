@@ -17,20 +17,31 @@ struct ChatListView: View {
       
       topNavigationBarView
       
+      Spacer().frame(height: 10)
+      
+      squareSegmentControlView
+      
+      Spacer().frame(height: 10)
+      
       SwiftUI.List {
-        ForEach(0..<1) { _ in
-          ChatRoomView()
+        ForEach(store.chatRoomViewModels, id: \.id) { vm in
+          ChatRoomView(viewModel: vm)
             .onTapGesture { store.send(.onChatRoomTap) }
         }
       }
       .environment(\.defaultMinListRowHeight, 0)
       .listStyle(.plain)
+      .refreshable {
+        store.send(.onReload)
+      }
     }
+    .redacted(reason: store.isLoading ? .placeholder : [])
     .onAppear() {
       store.send(.onAppear)
     }
   }
   
+  @ViewBuilder
   private var topNavigationBarView: some View {
     HStack {
     
@@ -41,18 +52,23 @@ struct ChatListView: View {
       .padding(.leading, PND.Metrics.defaultSpacing)
       
       Spacer()
-      
-      Button(action: {
-
-      }, label: {
-        Image(.iconSetting)
-          .resizable()
-          .frame(width: 24, height: 24)
-          .tint(PND.Colors.commonBlack.asColor)
-      })
-      
       Spacer().frame(width: PND.Metrics.defaultSpacing)
       
+    }
+  }
+  
+  @ViewBuilder
+  private var squareSegmentControlView: some View {
+    HStack(spacing: 0) {
+      
+      RectangleSegmentControlView(
+        selectedIndex: $store.eventChatIndex,
+        segmentTitles: ["전체", "정기 이벤트", "단기 이벤트"]
+      )
+      .padding(.leading, PND.Metrics.defaultSpacing)
+      
+      Spacer()
+      Spacer().frame(width: PND.Metrics.defaultSpacing)
     }
   }
 }

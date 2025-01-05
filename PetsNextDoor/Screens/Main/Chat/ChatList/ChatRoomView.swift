@@ -10,7 +10,21 @@ import Kingfisher
 
 struct ChatRoomView: View {
   
+  struct ViewModel: Equatable {
+    
+    let id: String
+    let roomName: String
+    let roomType: PND.ChatRoomType
+    let latestMessage: String
+    let unreadMessagesCount: Int
+    let maxParticipantCount: Int
+    let currentParticipantCount: Int
+    let joinedUsers: [PND.JoinUser]
+  }
+  
   static let height: CGFloat = 94
+  
+  let viewModel: ViewModel
   
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
@@ -23,7 +37,7 @@ struct ChatRoomView: View {
             .resizable()
             .frame(width: 20, height: 20)
           
-          Text(MockDataProvider.randomAuthorName)
+          Text(viewModel.roomName)
             .font(.system(size: 16, weight: .bold))
           
           Text("정기")
@@ -35,7 +49,7 @@ struct ChatRoomView: View {
         
         Spacer().frame(height: 4)
         
-        Text(MockDataProvider.randomChatMessage)
+        Text(viewModel.latestMessage)
           .font(.system(size: 14, weight: .medium))
           .lineLimit(1)
           .multilineTextAlignment(.leading)
@@ -109,6 +123,6 @@ struct ChatRoomView: View {
   }
 }
 
-#Preview {
-  ChatRoomView()
-}
+//#Preview {
+//  ChatRoomView()
+//}

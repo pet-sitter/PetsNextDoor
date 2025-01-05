@@ -30,12 +30,14 @@ struct SelectAddressFeature: Reducer {
     Reduce { state, action in
       
       switch action {
-
-      case .binding(\.jibunAddress):
-        var eventUploadModel = state.eventUploadModel
-        eventUploadModel.eventAddress = state.jibunAddress
         
-        return .send(.pushToSelectAddressDetail(eventUploadModel: eventUploadModel))
+      case .binding(\.jibunAddress):
+        state.eventUploadModel.eventAddress = state.roadAddress
+        state.eventUploadModel.eventJibunAddress = state.jibunAddress
+        return .send(.pushToSelectAddressDetail(eventUploadModel: state.eventUploadModel))
+        
+      case .binding(\.roadAddress):
+        return .none
         
       default:
         return .none
@@ -58,33 +60,6 @@ struct SelectAddressView: View {
         .padding(.horizontal, PND.Metrics.defaultSpacing)
       
       Spacer().frame(height: 20)
-      
-      HStack(spacing: 10) {
-        
-        Text(store.jibunAddress.isEmpty ? "아래에서 주소를 검색해주세요" : store.jibunAddress)
-          .frame(height: 42)
-          .foregroundStyle(store.jibunAddress.isEmpty ? PND.DS.gray50 : PND.DS.commonBlack)
-        
-        Spacer()
-        
-        Image(systemName: "xmark.circle")
-          .isHidden(store.jibunAddress.isEmpty)
-
-      }
-      .padding(.horizontal, 10)
-      .clipShape(RoundedRectangle(cornerRadius: CGFloat(4)))
-      .overlay(
-        RoundedRectangle(cornerRadius: CGFloat(4))
-          .inset(by: 0.5)
-          .stroke(PND.DS.commonGrey, lineWidth: 1)
-      )
-      .padding(.horizontal, PND.Metrics.defaultSpacing)
-      
-      Spacer().frame(height: 20)
-      
-      Rectangle()
-        .fill(PND.DS.gray20)
-        .frame(height: 8)
   
       SelectAddressWebView(
         jibunAddress: $store.jibunAddress,
@@ -95,10 +70,6 @@ struct SelectAddressView: View {
     .navigationTitle("주소 검색")
   }
 }
-
-
-
-
 
 import WebKit
 

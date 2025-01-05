@@ -9,12 +9,12 @@ import Foundation
 
 extension PND {
   
-  struct ChatListModel: Codable {
+  struct ChatListModel: Codable, Equatable {
     @DefaultEmptyArray var items: [ChatRoomModel]
   }
   
   // 채팅방 방 정보
-  struct ChatRoomModel: Codable {
+  struct ChatRoomModel: Codable, Equatable {
     let createdAt: String
     let id: String
     @DefaultEmptyArray var joinUsers: [JoinUser]
@@ -23,7 +23,7 @@ extension PND {
     let updatedAt: String?
   }
   
-  struct JoinUser: Codable {
+  struct JoinUser: Codable, Equatable {
     let profileImageUrl: String?
     let userId: String
     let userNickname: String?

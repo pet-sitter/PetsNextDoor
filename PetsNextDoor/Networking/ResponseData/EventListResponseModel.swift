@@ -73,5 +73,16 @@ extension PND {
     init(from decoder: Decoder) throws {
       self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .shortTerm
     }
+    
+    var asChatRoomQueryString: String {
+      switch self {
+      case .shortTerm:
+        return PND.ChatRoomType.eventChat(.shortTerm).queryValue
+        
+      case .recurring:
+        return PND.ChatRoomType.eventChat(.recurring).queryValue
+        
+      }
+    }
   }
 }

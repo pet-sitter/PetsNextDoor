@@ -12,7 +12,7 @@ protocol EventServiceProvidable: PNDNetworkProvidable {
   
   func getEvents(authorId: String?, page: Int, size: Int) async throws -> PND.EventListResponseModel
   func putEvent(model: PND.Event) async throws -> Response
-  func postEvent(model: PND.Event) async throws -> Response
+  func postEvent(model: PND.Event) async throws -> PND.Event
   func getEvent(id: String) async throws -> PND.Event
   func deleteEvent(id: String) async throws -> Response
 }
@@ -31,8 +31,8 @@ struct EventService: EventServiceProvidable {
     try await network.plainRequest(.putEvent(model: model))
   }
   
-  func postEvent(model: PND.Event) async throws -> Moya.Response {
-    try await network.plainRequest(.postEvent(model: model))
+  func postEvent(model: PND.Event) async throws -> PND.Event {
+    try await network.requestData(.postEvent(model: model))
   }
   
   func getEvent(id: String) async throws -> PND.Event {
@@ -142,8 +142,8 @@ struct MockEventService: EventServiceProvidable {
     return .init(statusCode: Int.randomStatusCode(), data: Data())
   }
   
-  func postEvent(model: PND.Event) async throws -> Moya.Response {
-    return .init(statusCode: Int.randomStatusCode(), data: Data())
+  func postEvent(model: PND.Event) async throws -> PND.Event {
+    return try await getEvent(id: "")
   }
   
   func getEvent(id: String) async throws -> PND.Event {

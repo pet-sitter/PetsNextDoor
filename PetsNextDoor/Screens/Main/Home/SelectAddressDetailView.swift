@@ -64,13 +64,13 @@ struct SelectAddressDetailView: View {
         
         Spacer().frame(height: 20)
         
-        Text("서울 종로구 세종대로 209")
+        Text(store.eventUploadModel.eventAddress ?? "")
           .font(.system(size: 14, weight: .bold))
           .foregroundStyle(PND.DS.commonBlack)
         
         Spacer().frame(height: 4)
         
-        Text("[지번] 서울 종로구 세종로 88-4")
+        Text(store.eventUploadModel.eventJibunAddress ?? "")
           .font(.system(size: 14, weight: .medium))
           .foregroundStyle(PND.DS.gray50)
         
@@ -106,7 +106,6 @@ struct SelectAddressDetailView: View {
               .stroke(PND.DS.commonGrey, lineWidth: 1)
           )
 
-        
         Spacer().frame(height: 50)
       }
       .padding(.horizontal, PND.Metrics.defaultSpacing)

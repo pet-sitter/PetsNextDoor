@@ -164,7 +164,7 @@ struct MainTabBarFeature: Reducer {
 				return .run { _ in
 					await userDataCenter.configureInitialUserData()
 				}
-
+      
       case .homeAction(.delegate(.pushToEventDetailView(let eventId))):
         state.path.append(.eventDetail(EventDetailFeature.State(eventDetailId: eventId)))
         return .none
@@ -240,7 +240,6 @@ struct MainTabBarFeature: Reducer {
           state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
           return .none
 				
-          
         case .element(id: _, action: .chat(.view(.onMemberListButtonTap))):
           state.path.append(.chatMemberList(ChatMembersFeature.State(users: [
             // 임시 코드
@@ -249,6 +248,15 @@ struct MainTabBarFeature: Reducer {
             .init(id: "2", nickname: "크리스티아누 호달두", profileImageUrl: "https://placedog.net/200/200random", pets: []),
             .init(id: "3", nickname: "리오넬 메시", profileImageUrl: "https://placedog.net/200/200random", pets: [])
           ])))
+          return .none
+          
+        case .element(id: _, action: .writeEventDescription(.onEventUploadComplete(let eventId))):
+          let _ = state.path.popLast()
+          let _ = state.path.popLast()
+          let _ = state.path.popLast()
+          let _ = state.path.popLast()
+          let _ = state.path.popLast()
+          state.path.append(.eventDetail(EventDetailFeature.State(eventDetailId: eventId)))
           return .none
           
         default:

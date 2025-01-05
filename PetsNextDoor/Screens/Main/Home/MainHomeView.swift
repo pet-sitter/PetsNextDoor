@@ -64,6 +64,8 @@ struct MainHomeFeature: Reducer {
       switch action {
         
       case .view(.onAppear):
+        guard state.eventCardVMs.isEmpty else { return .none }
+        
         return fetchInitialEvents()
         
       case .view(.onSortOptionChange(let sortOption)):
