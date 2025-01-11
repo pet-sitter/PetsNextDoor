@@ -5,32 +5,31 @@
 //  Created by kevinkim2586 on 2024/05/24.
 //
 
+import Combine
 import ComposableArchitecture
 import SwiftUI
 import PhotosUI
 
-enum ChatViewType: Equatable, Identifiable {
 
-	case text(ChatTextBubbleViewModel)
-  case singleImage(SingleChatImageViewModel)
-  case multipleImages(MultipleChatImageViewModel)
-  case spacer(height: CGFloat)
-	
-	var id: String {
-		switch self {
-		case .text(let vm):
-			return vm.id
-      
-    case .singleImage(let vm):
+enum ChatViewType: Equatable, Identifiable {
+  
+  case text(ChatTextBubbleViewModel, topSpace: CGFloat? = nil, bottomSpace: CGFloat? = nil)
+  case singleImage(SingleChatImageViewModel, topSpace: CGFloat? = nil, bottomSpace: CGFloat? = nil)
+  case multipleImages(MultipleChatImageViewModel, topSpace: CGFloat? = nil, bottomSpace: CGFloat? = nil)
+  
+  var id: String {
+    switch self {
+    case .text(let vm, _, _):
       return vm.id
       
-    case .multipleImages(let vm):
+    case .singleImage(let vm, _, _):
       return vm.id
       
-    case .spacer:
-      return UUID().uuidString
-		}
-	}
+    case .multipleImages(let vm, _, _):
+      return vm.id
+      
+    }
+  }
 }
 
 
@@ -42,31 +41,28 @@ struct ChatFeature: Reducer {
   @Dependency(\.chatDataProvider) var chatDataProvider
   
   @ObservableState
-	struct State: Equatable {
-
-		var chats: [ChatViewType] = []
+  struct State: Equatable {
     
+    var chats: [ChatViewType] = []
     var textFieldText: String = ""
-
     var isUploadingImage: Bool = false
-    
     var selectedPhotoPickerItems: [PhotosPickerItem] = []
+    var connectivityState = ConnectivityState.disconnected
     
-
-		var connectivityState = ConnectivityState.disconnected
-		enum ConnectivityState: String {
-			case connecting
-			case connected
-			case disconnected
-		}
+    enum ConnectivityState: String {
+      case connecting
+      case connected
+      case disconnected
+    }
   }
-	
-
+  
+  
   enum Action: RestrictiveAction, BindableAction {
- 
+    
     enum ViewAction: Equatable {
       case onAppear
       case onMemberListButtonTap
+      case onFirstChatOffsetChange(CGFloat)
       
       // ChatTextField
       case onSendChatButtonTap
@@ -74,7 +70,7 @@ struct ChatFeature: Reducer {
     }
     
     enum InternalAction: Equatable {
-			case chatDataProviderAction(ChatDataProvider.Action)
+      case chatDataProviderAction(ChatDataProvider.Action)
       case setIsUploadingImage(Bool)
       case setSelectedPhotoPickerItems([PhotosPickerItem])
     }
@@ -89,50 +85,56 @@ struct ChatFeature: Reducer {
     
     case binding(BindingAction<State>)
   }
-	
-	enum CancellableID {
-		
-	}
-	
-	init() {
-		
-	}
-	
+  
+  enum CancellableID {
+    
+  }
+  
+  init() {
+    
+  }
+  
   var body: some Reducer<State, Action> {
-		BindingReducer()
-		Reduce { state, action in
-			
-			switch action {
-				
+    BindingReducer()
+    Reduce { state, action in
+      
+      switch action {
+        
         // View
       case .view(.onAppear):
-        return observeChatActionStream()
-//        return .run { send in
-//          
-//          let room = try? await chatDataProvider.fetchRoomInfo()
-//          
-//          
-//          observeChatActionStream()
-//          
-//        } catch: { error, send in
-//          print("❌ error onAppear : \(error.asMoyaError.debugDescription)")
-//        }
+        return .run { send in
+          try await loadOldChats(send)
+          try await observeChatActionStream(send)
+        }
+        //        return .run { send in
+        //
+        //          let room = try? await chatDataProvider.fetchRoomInfo()
+        //
+        //
+        //          observeChatActionStream()
+        //
+        //        } catch: { error, send in
+        //          print("❌ error onAppear : \(error.asMoyaError.debugDescription)")
+        //        }
         
       case .view(.onMemberListButtonTap):
         return .none
-
-				// Internal
-				
-			case .internal(.chatDataProviderAction(.onConnect)):
-				return .none
-				
-			case .internal(.chatDataProviderAction(.onDisconnect)):
-				return .none
-				
-			case .internal(.chatDataProviderAction(.onReceiveNewChatType(let chatType))):
-        state.chats.append(contentsOf: chatType)
-				return .none
-				
+        
+        // Internal
+        
+      case .view(.onFirstChatOffsetChange(let offset)):
+        return checkIfFirstChatOverThreshold(offset)
+        
+      case .internal(.chatDataProviderAction(.onConnect)):
+        return .none
+        
+      case .internal(.chatDataProviderAction(.onDisconnect)):
+        return .none
+        
+      case .internal(.chatDataProviderAction(.onReceiveNewChatType(let chatViewTypes))):
+        state.chats = chatViewTypes
+        return .none
+        
       case .internal(.setIsUploadingImage(let isLoading)):
         state.isUploadingImage = isLoading
         return .none
@@ -140,14 +142,16 @@ struct ChatFeature: Reducer {
       case .internal(.setSelectedPhotoPickerItems(let pickerItems)):
         state.selectedPhotoPickerItems = pickerItems
         return .none
-
+        
       case .view(.onSendChatButtonTap):
         // empty, 숫자 초과 등 검사 로직 추가
         guard state.textFieldText.isEmpty == false else { return .none }
         
-        chatDataProvider.sendChat(text: state.textFieldText)
+        let messageToSend = state.textFieldText
         state.textFieldText = ""
-        return .none
+        return .run { _ in
+          await chatDataProvider.sendChat(text: messageToSend)
+        }
         
       case .view(.onUserImageSelection):
         guard state.selectedPhotoPickerItems.isEmpty == false else { return .none }
@@ -156,7 +160,7 @@ struct ChatFeature: Reducer {
           await send(.internal(.setIsUploadingImage(true)))
           
           try await chatDataProvider.sendImages(withPhotosPickerItems: state.selectedPhotoPickerItems)
-        
+          
           await send(.internal(.setSelectedPhotoPickerItems([])))
           await send(.internal(.setIsUploadingImage(false)))
           
@@ -174,53 +178,56 @@ struct ChatFeature: Reducer {
           print("❌ Error uploading images in ChatFeature : \(error)")
         }
         
-				// Delegate
-			case .delegate:
-				break
-				
-				// Bindings
-			case .binding:
-				break
+        // Delegate
+      case .delegate:
+        break
+        
+        // Bindings
+      case .binding:
+        break
       }
-			
-			
-			
-			return .none
-		}
-	}
+      
+      return .none
+    }
+  }
   
-
-	
-
-	private func observeChatActionStream() -> Effect<Action> {
-		return .run { send in
-			
-			let actions = chatDataProvider.observeChatActionStream()
-			
-			await withThrowingTaskGroup(of: Void.self) { group in
-				
-				for await action in actions {
-					group.addTask { await send(.internal(.chatDataProviderAction(action))) }
-					
-					switch action {
-					case .onConnect:
-						break
-						 
-					case .onDisconnect:
-						break
-						
-					default: break
-					}
-				}
-			}
-		}
-	}
+  private func observeChatActionStream(_ send: Send<ChatFeature.Action>) async throws {
+    let actions = chatDataProvider.observeChatActionStream()
+    
+    for await action in actions {
+      await send(.internal(.chatDataProviderAction(action)))
+    }
+  }
+  
+  private func loadOldChats(_ send: Send<ChatFeature.Action>) async throws {
+    let chats = try await chatDataProvider.fetchOldChats()
+    await send(.internal(.chatDataProviderAction(.onReceiveNewChatType(chats))))
+  }
+  
+  private func checkIfFirstChatOverThreshold(_ offset: CGFloat) -> Effect<Action> {
+    enum CheckAction: Hashable {
+      case throttle
+    }
+    
+    let statusBarHeight: CGFloat = UIApplication.statusBarHeight() ?? 0
+    let navigationBarHeight: CGFloat = 44.0
+    let topBarHeight = statusBarHeight + navigationBarHeight
+    let threshold: CGFloat = 20.0
+    
+    if offset < topBarHeight + threshold {
+      return .none
+    }
+    
+    return .run { send in
+      print("⬇️ 이전 채팅 불러오기 시작")
+      let chats = try await chatDataProvider.fetchOldChats()
+      await send(.internal(.chatDataProviderAction(.onReceiveNewChatType(chats))))
+    }
+    .debounce(id: CheckAction.throttle, for: .seconds(0.5), scheduler: DispatchQueue.main)
+//    .throttle(id: CheckAction.throttle, for: .seconds(1.5), scheduler: DispatchQueue.main, latest: false)
+    // Jin - TODO: TCA throttle 동작 제대로 안해서 일단 debounce로 대체한거 throttle로 변경하기
+  }
 }
-
-
-
-
-
 
 
 import SwiftUI
@@ -229,34 +236,52 @@ import Kingfisher
 struct ChatView: View {
   
   @State var store: StoreOf<ChatFeature>
-
+  
   @Namespace private var bottomOfChatList
   @State private var isAtBottomPosition: Bool = false
   @State private var scrollViewProxy: ScrollViewProxy?
   
-
   var body: some View {
     ScrollViewReader { proxy in
       SwiftUI.List {
         ForEach(store.chats, id: \.id) { chatType in
-          switch chatType {
-          case .text(let vm):
-            ChatTextBubbleView(viewModel: vm)
-            
-          case .singleImage(let vm):
-            SingleChatImageView(viewModel: vm)
-            
-          case .multipleImages(let vm):
-            MultipleChatImageView(viewModel: vm)
-            
-          case .spacer(let height):
-            chatSpacer(height: height)
+          VStack(spacing: 0) {
+            switch chatType {
+            case .text(let vm, let topSpace, let bottomSpace):
+              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                ChatTextBubbleView(viewModel: vm)
+              }
+              
+            case .singleImage(let vm, let topSpace, let bottomSpace):
+              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                SingleChatImageView(viewModel: vm)
+              }
+              
+            case .multipleImages(let vm, let topSpace, let bottomSpace):
+              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                MultipleChatImageView(viewModel: vm)
+              }
+              
+            }
+          }
+          .id(chatType.id)
+          .modifier(PlainListModifier())
+          .overlay(chatType.id == store.chats.first?.id ? GeometryReader {
+            Color.clear.preference(
+              key: ViewOffsetKey.self,
+              value: $0.frame(in: .global).origin.y
+            )
+          } : nil)
+          .onPreferenceChange(ViewOffsetKey.self) {
+            store.send(.view(.onFirstChatOffsetChange($0)))
           }
         }
         
         Spacer()
           .frame(height: 50)
+          .frame(maxWidth: .infinity)
           .modifier(PlainListModifier())
+          .background(PND.DS.gray10)
         
         Color.clear
           .frame(height: 1)
@@ -272,13 +297,28 @@ struct ChatView: View {
       .onAppear() {
         scrollViewProxy = proxy
       }
-      .onChange(of: store.chats) { _, _ in
+      .onChange(of: store.chats) { oldChats, newChats in
+        // oldChats의 앞쪽에 새로운 채팅이 추가되면
+        if let oldFirstID = oldChats.first?.id,
+           let newFirstID = newChats.first?.id,
+           oldFirstID != newFirstID {
+          DispatchQueue.main.async {
+            proxy.scrollTo(oldFirstID, anchor: .top)
+          }
+          return
+        }
+        
         if isAtBottomPosition {
           DispatchQueue.main.async {
-            withAnimation() {
+            if oldChats.isEmpty {
               proxy.scrollTo(bottomOfChatList, anchor: .bottom)
+            } else {
+              withAnimation {
+                proxy.scrollTo(bottomOfChatList, anchor: .bottom)
+              }
             }
           }
+          return
         }
       }
       .overlay(alignment: .bottom) {
@@ -331,7 +371,7 @@ struct ChatView: View {
                 .frame(width: 20, height: 20)
             }
           }
-
+          
         } label: {
           Image(.iconMenu)
             .rotationEffect(.degrees(90))
@@ -345,7 +385,7 @@ struct ChatView: View {
     }
   }
   
-
+  
   @ViewBuilder
   private func chatTextFieldView() -> some View {
     HStack(spacing: 0) {
@@ -370,7 +410,7 @@ struct ChatView: View {
         "채팅을 입력하세요",
         text: $store.textFieldText,
         onEditingChanged: { didBeginEditing in
- 
+          
         }
       )
       .font(.system(size: 16, weight: .regular))
@@ -408,11 +448,34 @@ struct ChatView: View {
       .frame(height: height)
       .modifier(PlainListModifier())
   }
-
-
+  
+  @ViewBuilder
+  private func chatView(topSpace: CGFloat?, bottomSpace: CGFloat?, @ViewBuilder view: (() -> some View)) -> some View {
+    if let topSpace {
+      chatSpacer(height: topSpace)
+    }
+    view()
+    if let bottomSpace {
+      chatSpacer(height: bottomSpace)
+    }
+  }
 }
 
 
+// MARK: - ViewOffsetKey
+
+extension ChatView {
+  struct ViewOffsetKey: PreferenceKey {
+    typealias Value = CGFloat
+    static var defaultValue = CGFloat.zero
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+      value += nextValue()
+    }
+  }
+}
+
+
+// MARK: - SingleChatImageView
 
 struct SingleChatImageViewModel: Equatable {
   
@@ -422,6 +485,7 @@ struct SingleChatImageViewModel: Equatable {
   
   let isMyChat: Bool
 }
+
 
 struct SingleChatImageView: View {
   
@@ -442,7 +506,7 @@ struct SingleChatImageView: View {
     .fullScreenCover(
       isPresented: $isChatImageViewPresented,
       onDismiss: {
-        isChatImageViewPresented = false 
+        isChatImageViewPresented = false
       },
       content: {
         ChatImageViewer(medias: [viewModel.media])
@@ -503,6 +567,7 @@ struct SingleChatImageView: View {
 }
 
 
+// MARK: - MultipleChatImageView
 
 struct MultipleChatImageViewModel: Equatable {
   
@@ -659,6 +724,7 @@ struct MultipleChatImageView: View {
 }
 
 
+// MARK: - ChatTextBubbleView
 
 struct ChatTextBubbleViewModel: Equatable {
   let id: String = UUID().uuidString
@@ -668,20 +734,20 @@ struct ChatTextBubbleViewModel: Equatable {
 
 
 struct ChatTextBubbleView: View {
-	
-	var viewModel: ChatTextBubbleViewModel
-	
-	var body: some View {
-		VStack(spacing: 0) {
+  
+  var viewModel: ChatTextBubbleViewModel
+  
+  var body: some View {
+    VStack(spacing: 0) {
       if viewModel.isMyChat {
         myChatTextView
       } else {
         otherChatTextView
       }
-		}
+    }
     .background(PND.DS.gray10)
     .modifier(PlainListModifier())
-	}
+  }
   
   var myChatTextView: some View {
     HStack(alignment: .center, spacing: 0) {
@@ -742,18 +808,18 @@ struct ChatTextBubbleView: View {
       Spacer(minLength: PND.Metrics.defaultSpacing)
     }
   }
-
-	
-	var profileView: some View {
-		HStack(spacing: 0) {
-			KFImage.url(MockDataProvider.randomePetImageUrl)
-				.resizable()
-				.frame(width: 36, height: 36)
-				.clipShape(Circle())
-				.padding(.leading, PND.Metrics.defaultSpacing)
-
-		}
-	}
+  
+  
+  var profileView: some View {
+    HStack(spacing: 0) {
+      KFImage.url(MockDataProvider.randomePetImageUrl)
+        .resizable()
+        .frame(width: 36, height: 36)
+        .clipShape(Circle())
+        .padding(.leading, PND.Metrics.defaultSpacing)
+      
+    }
+  }
 }
 
 

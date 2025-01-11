@@ -16,8 +16,8 @@ protocol ChatAPIServiceProvidable: PNDNetworkProvidable {
   func leaveChatRoom(roomId: String) async throws -> Response
   func getChatRoomMessages(
     roomId: String,
-    prev: Int?,
-    next: Int?,
+    prev: String?,
+    next: String?,
     size: Int
   ) async throws -> PND.ChatMessagesModel
 }
@@ -56,8 +56,8 @@ struct ChatAPIService: ChatAPIServiceProvidable {
   // 채팅방 메시지 조회
   func getChatRoomMessages(
     roomId: String,
-    prev: Int? = nil,
-    next: Int? = nil,
+    prev: String? = nil,
+    next: String? = nil,
     size: Int = 30
   ) async throws -> PND.ChatMessagesModel {
     try await network.requestData(.getChatRoomMessages(
@@ -129,24 +129,201 @@ struct MockChatAPIService: ChatAPIServiceProvidable {
   
   func getChatRoomMessages(
     roomId: String,
-    prev: Int?,
-    next: Int?,
+    prev: String?,
+    next: String?,
     size: Int
   ) async throws -> PND.ChatMessagesModel {
-    return PND.ChatMessagesModel(
-      hasNext: true,
-      hasPreve: true,
-      items: [
-        PND.ChatMessages(
-          content: "안녕 메시지 테스트야",
-          createdAt: "1726472095",
-          id: "12",
-          messageType: PND.MessageType.plain.rawValue,
-          roomID: "1",
-          userID: "12"
-        )
-      ]
-    )
+    defer {
+      MockChatAPIService.getChatRoomMessagesCalledCount += 1
+    }
+    if MockChatAPIService.getChatRoomMessagesCalledCount == 0 {
+      return PND.ChatMessagesModel(
+        hasNext: true,
+        hasPrev: true,
+        next: nil,
+        prev: nil,
+        items: Array(chatRoomMessages[0..<10])
+      )
+    } else if MockChatAPIService.getChatRoomMessagesCalledCount >= 1 && MockChatAPIService.getChatRoomMessagesCalledCount < 5 {
+      return PND.ChatMessagesModel(
+        hasNext: true,
+        hasPrev: true,
+        next: nil,
+        prev: nil,
+        items: MockChatAPIService.getChatRoomMessagesCalledCount % 2 == 0 ? Array(chatRoomMessages[10..<15]) : Array(chatRoomMessages[15..<20])
+      )
+    } else {
+      return PND.ChatMessagesModel(
+        hasNext: true,
+        hasPrev: true,
+        next: nil,
+        prev: nil,
+        items: []
+      )
+    }
   }
   
+  private static var getChatRoomMessagesCalledCount = 0
+  private let chatRoomMessages: [PND.ChatMessages] = [
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야11",
+      createdAt: "1726472095",
+      id: "12",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야22",
+      createdAt: "1726472095",
+      id: "123",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야33",
+      createdAt: "1726472095",
+      id: "1234",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야44",
+      createdAt: "1726472095",
+      id: "1223",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야55",
+      createdAt: "1726472095",
+      id: "12223",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야66",
+      createdAt: "1726472095",
+      id: "1",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야77",
+      createdAt: "1726472095",
+      id: "2",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야88",
+      createdAt: "1726472095",
+      id: "3",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스adsfasdfasd트야99",
+      createdAt: "1726472095",
+      id: "4",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트xcvzcvzxcv10",
+      createdAt: "1726472095",
+      id: "5",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스sdfadsf트야11",
+      createdAt: "1726472095",
+      id: "6",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테zzzz스트야12",
+      createdAt: "1726472095",
+      id: "7",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트2222야13",
+      createdAt: "1726472095",
+      id: "8",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야14",
+      createdAt: "1726472095",
+      id: "9",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테asdfa스트야15",
+      createdAt: "1726472095",
+      id: "10",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트a야16",
+      createdAt: "1726472095",
+      id: "11",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트dfd야17",
+      createdAt: "1726472095",
+      id: "12",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테fff스트야18",
+      createdAt: "1726472095",
+      id: "13",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스트야19",
+      createdAt: "1726472095",
+      id: "14",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+    PND.ChatMessages(
+      content: "안녕 메시지 테스dd트야20",
+      createdAt: "1726472095",
+      id: "15",
+      messageType: PND.MessageType.plain.rawValue,
+      roomId: "1",
+      userId: "12"
+    ),
+  ]
 }

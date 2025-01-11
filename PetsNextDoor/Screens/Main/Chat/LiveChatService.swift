@@ -7,42 +7,53 @@
 
 import Foundation
 import Combine
+import PhotosUI
+import SwiftUI
+
 import Starscream
 
+
+// MARK: - ChatService
 
 protocol ChatServiceProvidable {
   
   var delegate: (any ChatServiceDelegate)? { get set }
-	
-	func connect()
+  
+  func connect()
   func disconnect()
-  func sendMessage(_ message: String)
-  func sendImages(mediaIds: [String])
+  func sendMessage(_ message: String) async
+  func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws
 }
-
-protocol SocketServiceProvidable: WebSocketDelegate {
-	
-  associatedtype Configuration
-  
-  var socket: WebSocket? { get }
-  
-  var configuration: Configuration { get }
-	
-  init(socketURL: URL, configuration: Configuration)
-
-}
-
 
 protocol ChatServiceDelegate: AnyObject {
-	
-	func onConnect()
-	func onDisconnect()
+  
+  func onConnect()
+  func onDisconnect()
   func onReceiveNewUser()
   func onReceiveNewText(_ chatModel: PND.ChatModel)
-  
 }
 
+// MARK: - SocketService
 
+protocol SocketServiceProvidable: WebSocketDelegate {
+  
+  associatedtype Configuration
+  
+  var socket: any PNDWebSocketClient { get }
+  var configuration: Configuration { get }
+  init(socket: any PNDWebSocketClient, mediaService: any MediaServiceProvidable, configuration: Configuration)
+}
+
+protocol PNDWebSocketClient: WebSocketClient & WebSocketDelegateProvidable {}
+
+protocol WebSocketDelegateProvidable {
+  var delegate: (any WebSocketDelegate)? { get set }
+}
+
+extension WebSocket: PNDWebSocketClient {}
+
+
+// MARK: -
 
 final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   
@@ -50,27 +61,24 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
     let roomId: String
   }
   
-  private(set) var socket: WebSocket?
-  
+  private(set) var socket: any PNDWebSocketClient
   private(set) var configuration: Configuration
+  private let mediaService: any MediaServiceProvidable
   
   weak var delegate: (any ChatServiceDelegate)?
   
   @Published private(set) var isConnected: Bool = false
   
   init(
-    socketURL: URL,
+    socket: any PNDWebSocketClient,
+    mediaService: any MediaServiceProvidable,
     configuration: Configuration
   ) {
+    self.socket = socket
+    self.mediaService = mediaService
     self.configuration = configuration
-    var request = URLRequest(url: socketURL)
-    request.setValue(PNDTokenStore.shared.accessToken, forHTTPHeaderField: "Authorization")
-//    request.setValue(
-//      "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjFkYmUwNmI1ZDdjMmE3YzA0NDU2MzA2MWZmMGZlYTM3NzQwYjg2YmMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoia2V2aW5raW0yNTg2IiwicGljdHVyZSI6Imh0dHA6Ly9rLmtha2FvY2RuLm5ldC9kbi9TRlN1Vy9idHNJTTdQVGx3RS9wZUgzVXFZaEtiNzh5bGVpZnNmNGwxL2ltZ182NDB4NjQwLmpwZyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9wZXRzbmV4dGRvb3ItNzg4YTAiLCJhdWQiOiJwZXRzbmV4dGRvb3ItNzg4YTAiLCJhdXRoX3RpbWUiOjE3MjI3NDE2NjcsInVzZXJfaWQiOiIzMzk4MDQ4Mjk5Iiwic3ViIjoiMzM5ODA0ODI5OSIsImlhdCI6MTcyMjc0MTY2NywiZXhwIjoxNzIyNzQ1MjY3LCJlbWFpbCI6Imtldmlua2ltMjU4NkBrYWthby5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsia2V2aW5raW0yNTg2QGtha2FvLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6ImN1c3RvbSJ9fQ.tnJdu_7Js20QDDmbjtG87w10VFOPI3yjaQUAGgTVN8TD4XGhO2n7C5uFpzlC5vfcsSEm07uV8JAKptu0d5--G8HADJdFDkucy89mLLBFsw9J4_F0sbI-4YJKd5Y-E_lGf6SPK3AUnMRxMW9bu9nWFpnjHU7CqClgQ3uY0Qrqxnz7qJMM1KRebaim57VLnsP88sZa9ot5mSWUq24bl0TjPWOgprSHC1_4PhRiGaapXo0yd1a8XRb-NgU5lGdyTbIHoKtTLZ_qBjgdcet2GCPyxR7HGl_HG2_Cay1csKq9ywuthNYQKvC8e6Eib_29q4h1VuraerWg-gDqzmpVm4Q-3g",
-//      forHTTPHeaderField: "Authorization"
-//    )
-    socket = WebSocket(request: request)
-    socket?.delegate = self
+    
+    self.socket.delegate = self
   }
   
   func didReceive(event: WebSocketEvent, client: any WebSocketClient) {
@@ -84,7 +92,8 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
       
       guard
         let data = chatReceived.data(using: .utf16),
-        let chatModel = try? JSONDecoder().decode(PND.ChatModel.self, from: data) else {
+        let chatModel = try? JSONDecoder().decode(PND.ChatModel.self, from: data)
+      else {
         PNDLogger.`default`.error("onReceiveNewText error decoding chat text ")
         return
       }
@@ -124,16 +133,18 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
   }
   
   func connect() {
-    socket?.connect()
+    socket.connect()
   }
   
   func disconnect() {
-    socket?.disconnect()
+    socket.disconnect()
   }
   
-  func sendMessage(_ message: String) {
-    
+  // Jin - TODO: UserDataCenter 때문에 async로 했는데 더 나은 방법 찾아보기
+  func sendMessage(_ message: String) async {
+    let myUserID = await UserDataCenter.shared.userProfileModel?.id ?? "1"
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
+//      sender: PND.Sender(id: myUserID), // Jin - TODO: 없애야 함. Mock에서는 필요하고 실제에서는 필요 없음. Mock에서 sender id 첨부해서 던지도록 Mock 수정하기.
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.plain.rawValue,
       message: message,
@@ -149,17 +160,19 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
       return
     }
     
-    socket?.write(string: chatJSON)
+    socket.write(string: chatJSON)
   }
   
-  func sendImages(mediaIds: [String]) {
-    
+  func sendImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws {
+    let medias = try await uploadImages(withPhotosPickerItems: items)
+    let myUserID = await UserDataCenter.shared.userProfileModel?.id ?? "1"
     let chatRequestModel: PND.ChatModel = PND.ChatModel(
+      sender: PND.Sender(id: myUserID),
       room: PND.Room(id: configuration.roomId),
       messageType: PND.MessageType.media.rawValue,
       message: "",
       messageId: UUID().uuidString,
-      medias: mediaIds.map { PND.Media(id: $0, mediaType: nil) }
+      medias: medias
     )
     
     guard
@@ -169,65 +182,71 @@ final class LiveChatService: ChatServiceProvidable, SocketServiceProvidable {
       PNDLogger.`default`.error("sendImages error encoding message")
       return
     }
-  
-    socket?.write(string: chatJSON)
     
+    socket.write(string: chatJSON)
+  }
+  
+  private func uploadImages(withPhotosPickerItems items: [PhotosPickerItem]) async throws -> [PND.Media] {
+    var imageDatas: [Data] = []
+    
+    for item in items {
+      let imageData = await PhotoConverter.getImageData(fromPhotosPickerItem: item)
+      
+      if let imageData {
+        imageDatas.append(imageData)
+      }
+    }
+    
+    let uploadResponseModel: [PND.UploadMediaResponseModel] = try await mediaService.uploadImages(imageDatas: imageDatas)
+    
+    return uploadResponseModel.map {
+      PND.Media(
+        id: $0.id,
+        url: $0.url,
+        createdAt: $0.createdAt,
+        mediaType: $0.mediaType
+      )
+    }
   }
 }
 
 
-
-
-final class MockLiveChatService: ChatServiceProvidable {
-
-  weak var delegate: (any ChatServiceDelegate)?
+final class MockWebSocket: PNDWebSocketClient {
   
+  var delegate: (any WebSocketDelegate)?
   private var timerSubscription: AnyCancellable?
-  
-  init() {
-  }
+  private let userSentWebSocketEventSubject: PassthroughSubject<WebSocketEvent, Never> = .init()
   
   func connect() {
-    beginGeneratingMockChatMessages()
-  }
-  
-  func disconnect() {
-    timerSubscription?.cancel()
-    timerSubscription = nil
-  }
-  
-  func sendMessage(_ message: String) {
-    
-  }
-  
-  func sendImages(mediaIds: [String]) {
-    
-    
-  }
-  
-  private func beginGeneratingMockChatMessages() {
-    
-    timerSubscription = Timer
-      .publish(every: 3.5, on: .main, in: .common)
+    let randomTextPublisher = Timer
+      .publish(every: 2.5, on: .main, in: .common)
       .autoconnect()
-      .sink { [weak self] _ in
-        self?.delegate?.onReceiveNewText(PND.ChatModel(
-          room: .init(id: "1"),
-          messageType: [PND.MessageType.media, PND.MessageType.plain].randomElement()!.rawValue,
-          message: MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!,
-          messageId: UUID().uuidString,
-          medias: []
-        ))
-//        self?.delegate?.onReceiveNewText(
-//          MockDataProvider.chatBubbleViewModels.map(\.body).randomElement()!
-//        )
+      .map { _ -> WebSocketEvent? in
+        .text(MockDataProvider.textEvents.randomElement()!)
       }
+      .compactMap { $0 }
     
-//    delegate?.onConnect()
+    let resentPublisher = userSentWebSocketEventSubject
+      .delay(for: .seconds(0.01), scheduler: DispatchQueue.main)
+    
+    timerSubscription = Publishers.Merge(randomTextPublisher, resentPublisher)
+      .sink { [weak self] event in
+        guard let self else { return }
+        self.delegate?.didReceive(event: event, client: self)
+      }
   }
   
-  func stopGeneratingMockChatMessages() {
+  func disconnect(closeCode: UInt16 = 0) {
     timerSubscription?.cancel()
     timerSubscription = nil
   }
+  
+  func write(string: String, completion: (() -> ())?) {
+    userSentWebSocketEventSubject.send(.text(string))
+  }
+  
+  func write(stringData: Data, completion: (() -> ())?) {}
+  func write(data: Data, completion: (() -> ())?) {}
+  func write(ping: Data, completion: (() -> ())?) {}
+  func write(pong: Data, completion: (() -> ())?) {}
 }

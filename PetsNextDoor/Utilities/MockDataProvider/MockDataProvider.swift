@@ -122,36 +122,124 @@ struct MockDataProvider {
 		]
 	}
 	
-  static var chatTypes: [ChatViewType] {
-    var chatTypes: [ChatViewType] = []
-    
-    var previousChatBubbleVM: ChatTextBubbleViewModel? = nil
-    
-    chatBubbleViewModels
-      .enumerated()
-      .forEach { index, vm in
-        chatTypes.append(ChatViewType.text(vm))
-        
-        if let previousChatBubbleVM {
-          
-          if previousChatBubbleVM.isMyChat == vm.isMyChat {
-            chatTypes.append(ChatViewType.spacer(height: 4))
-          } else {
-            chatTypes.append(ChatViewType.spacer(height: 10))
-          }
-          
-          
-        } else { // 0번째 index
-          
-        }
-        
-        previousChatBubbleVM = vm
+//  static var chatTypes: [ChatViewType] {
+//    var chatTypes: [ChatViewType] = []
+//    
+//    var previousChatBubbleVM: ChatTextBubbleViewModel? = nil
+//    
+//    chatBubbleViewModels
+//      .enumerated()
+//      .forEach { index, vm in
+//        chatTypes.append(ChatViewType.text(vm))
+//        
+//        if let previousChatBubbleVM {
+//          
+//          if previousChatBubbleVM.isMyChat == vm.isMyChat {
+//            chatTypes.append(ChatViewType.spacer(height: 4))
+//          } else {
+//            chatTypes.append(ChatViewType.spacer(height: 10))
+//          }
+//          
+//          
+//        } else { // 0번째 index
+//          
+//        }
+//        
+//        previousChatBubbleVM = vm
+//
+//     
+//      }
+//    
+//    return chatTypes
+//
+//  }
 
-     
-      }
-    
-    return chatTypes
-
-  }
-
+	static var textEvents: [String] {
+		return [
+	"""
+	{
+	 "sender": {
+		"id": "0"
+	 },
+	 "room": {
+		"id": "1"
+	 },
+	 "messageType": "plain",
+	 "message": "hello11",
+	 "createdAt": "2024-07-28T15:56:14",
+	 "updatedAt": "2024-07-28T15:56:14"
+	}
+	""",
+	"""
+	{
+	 "sender": {
+		"id": "0"
+	 },
+	 "room": {
+		"id": "1"
+	 },
+	 "messageType": "plain",
+	 "message": "hello22",
+	 "createdAt": "2024-07-28T15:56:14",
+	 "updatedAt": "2024-07-28T15:56:14"
+	}
+	""",
+	"""
+	{
+	 "sender": {
+		"id": "0"
+	 },
+	 "room": {
+		"id": "1"
+	 },
+	 "messageType": "plain",
+	 "message": "어서오세요~ 환영합니다!",
+	 "createdAt": "2024-07-28T15:56:14",
+	 "updatedAt": "2024-07-28T15:56:14"
+	}
+	""",
+	"""
+	{
+	 "sender": {
+		"id": "0"
+	 },
+	 "room": {
+		"id": "1"
+	 },
+	 "messageType": "plain",
+	 "message": "hello33",
+	 "createdAt": "2024-07-28T15:56:14",
+	 "updatedAt": "2024-07-28T15:56:14"
+	}
+	""",
+	"""
+	{
+	 "sender": {
+		"id": "0"
+	 },
+	 "room": {
+		"id": "1"
+	 },
+	 "messageType": "plain",
+	 "message": "Grand Central Dispatch 에서 작업(work)이 queue에 들어오면 시스템이 스레드를 불러와 해당 work item을 수행합니다. concurrent queue 는 여러 work item 을 한 번에 처리할 수 있기 때문에, 모든 CPU 코어가 포화될 때까지 시스템은 여러 스레드를 불러옵니다.",
+	 "createdAt": "2024-07-28T15:56:14",
+	 "updatedAt": "2024-07-28T15:56:14"
+	}
+	""",
+	"""
+	{
+	 "sender": {
+		"id": "0"
+	 },
+	 "room": {
+		"id": "1"
+	 },
+	 "messageType": "plain",
+	 "message": "첫째, 프로세스에 다른 스레드를 제공함으로써 각 코어는 언제든지 작업(work)을 실행 중인 스레드를 계속 갖고 있을 수 있습니다. 이를 통해 어플리케이션은 지속적인 수준의 동시성 (continuing level of concurrency) 을 제공합니다.",
+	 "createdAt": "2024-07-28T15:56:14",
+	 "updatedAt": "2024-07-28T15:56:14"
+	}
+	""",
+		]
+	}
 }

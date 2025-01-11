@@ -14,9 +14,9 @@ extension PND {
     case media = "media"
   }
   
-  struct ChatModel: Codable {
+	struct ChatModel: Codable, Equatable {
     
-    var sender: Sender?
+    var sender: Sender? // Jin - TODO: 옵셔널로 다시 바꿔야함
     let room: Room
     let messageType: String // 추후 enum으로 변경
     let message: String
@@ -26,7 +26,7 @@ extension PND {
     var updatedAt: String?
   }
 
-  struct Room: Codable {
+  struct Room: Codable, Equatable {
     let id: String
   }
   
@@ -39,7 +39,7 @@ extension PND {
   
   
   
-  struct Sender: Codable {
+  struct Sender: Codable, Equatable {
     let id: String
   }
 }

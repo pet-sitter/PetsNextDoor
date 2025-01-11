@@ -8,6 +8,8 @@
 import Foundation
 import Moya
 
+// Jin - ???: PNDMoyaProvidable이 나을지도..
+
 protocol NetworkProvidable {
   associatedtype APITarget: Moya.TargetType
   var provider: MoyaProvider<APITarget> { get }
