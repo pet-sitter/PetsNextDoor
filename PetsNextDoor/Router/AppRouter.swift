@@ -30,16 +30,19 @@ final class Router: ObservableObject {
 extension Router {
   
   static func changeRootViewToHomeView() {
-    let window = UIApplication
-      .shared
-      .connectedScenes
-      .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-      .first { $0.isKeyWindow }
-    
-//    window?.rootViewController = UIHostingController(rootView: MainTabBarView(store: .init(initialState: .init(), reducer: { MainTabBarFeature()})).environmentObject(Router()))
-    window?.rootViewController = UIHostingController(rootView: LoginView(store: .init(initialState: .init(), reducer: { LoginFeature() })))
-    window?.makeKeyAndVisible()
-    
+    Task { @MainActor in
+      let window = UIApplication
+        .shared
+        .connectedScenes
+        .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+        .first { $0.isKeyWindow }
+      
+  //    window?.rootViewController = UIHostingController(rootView: MainTabBarView(store: .init(initialState: .init(), reducer: { MainTabBarFeature()})).environmentObject(Router()))
+      window?.rootViewController = UIHostingController(rootView: LoginView(store: .init(initialState: .init(), reducer: { LoginFeature() })))
+      window?.makeKeyAndVisible()
+      
+    }
+
     
   }
   

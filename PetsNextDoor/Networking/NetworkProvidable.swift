@@ -106,6 +106,7 @@ extension NetworkProvidable {
                       LoginService.shared.logout()
                     }
                     continuation.resume(throwing: error)
+                    return
                   }
                   
                   print("✅ Refresh Token success to: \(PNDTokenStore.shared.accessToken)")
