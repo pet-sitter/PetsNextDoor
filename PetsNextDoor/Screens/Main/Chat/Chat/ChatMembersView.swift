@@ -20,7 +20,7 @@ struct ChatMembersFeature: Reducer {
     var selectedUserProfile: PND.UserInfoModel? = nil
   }
   
-  enum Action: BindableAction {
+  enum Action: BindableAction, Equatable {
     
     case onUserProfileTap(PND.UserInfoModel)
     case onUserProfileViewDismiss
@@ -65,13 +65,6 @@ struct ChatMembersView: View {
               store.send(.onUserProfileTap(user))
             }
         }
-      }
-    }
-    .toolbar {
-      ToolbarItemGroup(placement: .topBarLeading) {
-        Text("멤버 관리")
-          .foregroundStyle(PND.Colors.commonBlack.asColor)
-          .font(.system(size: 20, weight: .bold))
       }
     }
     .fullScreenCover(

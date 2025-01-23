@@ -239,17 +239,11 @@ struct MainTabBarFeature: Reducer {
           let _ = state.path.popLast()
           state.path.append(.urgentPostDetail(UrgentPostDetailFeature.State(postId: postId)))
           return .none
-				
-        case .element(id: _, action: .chat(.view(.onMemberListButtonTap))):
-          state.path.append(.chatMemberList(ChatMembersFeature.State(users: [
-            // 임시 코드
-            .init(id: "0", nickname: "호두 언니", profileImageUrl: "https://placedog.net/200/200random", pets: []),
-            .init(id: "1", nickname: "레오", profileImageUrl: "https://placedog.net/200/200random", pets: []),
-            .init(id: "2", nickname: "크리스티아누 호달두", profileImageUrl: "https://placedog.net/200/200random", pets: []),
-            .init(id: "3", nickname: "리오넬 메시", profileImageUrl: "https://placedog.net/200/200random", pets: [])
-          ])))
-          return .none
           
+        case .element(id: _, action: .chat(.view(.onBackButtonTap))):
+          let _ = state.path.popLast()
+          return Effect.none
+				
         case .element(id: _, action: .writeEventDescription(.onEventUploadComplete(let eventId))):
           let _ = state.path.popLast()
           let _ = state.path.popLast()
@@ -377,28 +371,49 @@ struct MainTabBarView: View {
     TabView(selection: $store.selectedTab) {
       MainHomeView(store: store.scope(state: \.homeState, action: \.homeAction))
         .tabItem {
-          MainTab
-            .home
-            .image(isSelected: store.selectedTab == .home)
-            .frame(width: imageSize, height: imageSize)
+          VStack {
+            MainTab
+              .home
+              .image(isSelected: store.selectedTab == .home)
+              .frame(width: imageSize, height: imageSize)
+            
+            Text("홈")
+              .font(.system(size: 10, weight: .medium))
+//              .foregroundStyle(store.selectedTab == .home ? PND.DS.primary : PND.DS.gray20)
+          }
+          .tint(store.selectedTab == .home ? .red : PND.DS.gray20)
         }
         .tag(MainTab.home)
       
       ChatListView(store: store.scope(state: \.chatListState, action: \.chatListAction))
         .tabItem {
-          MainTab
-            .chatList
-            .image(isSelected: store.selectedTab == .chatList)
-            .frame(width: imageSize, height: imageSize)
+          VStack {
+            MainTab
+              .chatList
+              .image(isSelected: store.selectedTab == .chatList)
+              .frame(width: imageSize, height: imageSize)
+            
+            Text("채팅")
+              .font(.system(size: 10, weight: .medium))
+              .foregroundStyle(store.selectedTab == .chatList ? PND.DS.primary : PND.DS.gray20)
+          }
+
         }
         .tag(MainTab.chatList)
       
       MapView(store: store.scope(state: \.mapState, action: \.mapAction))
         .tabItem {
-          MainTab
-            .map
-            .image(isSelected: store.selectedTab == .map)
-            .frame(width: imageSize, height: imageSize)
+          VStack {
+            MainTab
+              .map
+              .image(isSelected: store.selectedTab == .map)
+              .frame(width: imageSize, height: imageSize)
+            
+            Text("이벤트")
+              .font(.system(size: 10, weight: .medium))
+              .foregroundStyle(store.selectedTab == .map ? PND.DS.primary : PND.DS.gray20)
+          }
+
         }
         .tag(MainTab.map)
       
@@ -406,19 +421,33 @@ struct MainTabBarView: View {
       HomeView(store: .init(initialState: .init(), reducer: { HomeFeature() }))
 //      CommunityView(store: store.scope(state: \.communityState, action: \.communityAction))
         .tabItem {
-          MainTab
-            .community
-            .image(isSelected: store.selectedTab == .community)
-            .frame(width: imageSize, height: imageSize)
+          VStack {
+            MainTab
+              .community
+              .image(isSelected: store.selectedTab == .community)
+              .frame(width: imageSize, height: imageSize)
+            
+            Text("돌봄급구")
+              .font(.system(size: 10, weight: .medium))
+              .foregroundStyle(store.selectedTab == .community ? PND.DS.primary : PND.DS.gray20)
+          }
+
         }
         .tag(MainTab.community)
       
       MyPageView(store: store.scope(state: \.myPageState, action: \.myPageAction))
         .tabItem {
-          MainTab
-            .myPage
-            .image(isSelected: store.selectedTab == .myPage)
-            .frame(width: imageSize, height: imageSize)
+          VStack {
+            MainTab
+              .myPage
+              .image(isSelected: store.selectedTab == .myPage)
+              .frame(width: imageSize, height: imageSize)
+            
+            Text("마이페이지")
+              .font(.system(size: 10, weight: .medium))
+              .foregroundStyle(store.selectedTab == .myPage ? PND.DS.primary : PND.DS.gray20)
+          }
+
         }
         .tag(MainTab.myPage)
     }

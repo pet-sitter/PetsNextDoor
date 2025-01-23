@@ -48,11 +48,27 @@ struct ChatFeature: Reducer {
     var isUploadingImage: Bool = false
     var selectedPhotoPickerItems: [PhotosPickerItem] = []
     var connectivityState = ConnectivityState.disconnected
+    var isMemberListViewPresented: Bool = false
+    
+    // Sub States
+    
+    var chatMemberListState: ChatMembersFeature.State
     
     enum ConnectivityState: String {
       case connecting
       case connected
       case disconnected
+    }
+    
+    init() { // 임시
+      
+      self.chatMemberListState = ChatMembersFeature.State(users: [
+        // 임시 코드
+        .init(id: "0", nickname: "호두 언니", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+        .init(id: "1", nickname: "레오", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+        .init(id: "2", nickname: "크리스티아누 호달두", profileImageUrl: "https://placedog.net/200/200random", pets: []),
+        .init(id: "3", nickname: "리오넬 메시", profileImageUrl: "https://placedog.net/200/200random", pets: [])
+      ])
     }
   }
   
@@ -61,7 +77,9 @@ struct ChatFeature: Reducer {
     
     enum ViewAction: Equatable {
       case onAppear
-      case onMemberListButtonTap
+      case onBackButtonTap
+      case onMoreButtonTap
+      case onMemberListViewBlankAreaTap
       case onFirstChatOffsetChange(CGFloat)
       
       // ChatTextField
@@ -84,6 +102,9 @@ struct ChatFeature: Reducer {
     case `internal`(InternalAction)
     
     case binding(BindingAction<State>)
+    
+    // Sub Actions
+    case chatMemberListAction(ChatMembersFeature.Action)
   }
   
   enum CancellableID {
@@ -95,7 +116,16 @@ struct ChatFeature: Reducer {
   }
   
   var body: some Reducer<State, Action> {
+    
     BindingReducer()
+    
+    Scope(
+      state: \.chatMemberListState,
+      action: /Action.chatMemberListAction
+    ) {
+      ChatMembersFeature()
+    }
+    
     Reduce { state, action in
       
       switch action {
@@ -117,31 +147,37 @@ struct ChatFeature: Reducer {
         //          print("❌ error onAppear : \(error.asMoyaError.debugDescription)")
         //        }
         
-      case .view(.onMemberListButtonTap):
-        return .none
+      case .view(.onBackButtonTap):
+        ()
         
+      case .view(.onMoreButtonTap):
+        withAnimation {
+          state.isMemberListViewPresented = true
+        }
+  
+        
+      case .view(.onMemberListViewBlankAreaTap):
+        state.isMemberListViewPresented = false
         // Internal
         
       case .view(.onFirstChatOffsetChange(let offset)):
         return checkIfFirstChatOverThreshold(offset)
         
       case .internal(.chatDataProviderAction(.onConnect)):
-        return .none
+        ()
         
       case .internal(.chatDataProviderAction(.onDisconnect)):
-        return .none
+        ()
         
       case .internal(.chatDataProviderAction(.onReceiveNewChatType(let chatViewTypes))):
         state.chats = chatViewTypes
-        return .none
-        
+
       case .internal(.setIsUploadingImage(let isLoading)):
         state.isUploadingImage = isLoading
-        return .none
         
       case .internal(.setSelectedPhotoPickerItems(let pickerItems)):
         state.selectedPhotoPickerItems = pickerItems
-        return .none
+
         
       case .view(.onSendChatButtonTap):
         // empty, 숫자 초과 등 검사 로직 추가
@@ -149,7 +185,7 @@ struct ChatFeature: Reducer {
         
         let messageToSend = state.textFieldText
         state.textFieldText = ""
-        return .run { _ in
+        return Effect.run { _ in
           await chatDataProvider.sendChat(text: messageToSend)
         }
         
@@ -185,9 +221,20 @@ struct ChatFeature: Reducer {
         // Bindings
       case .binding:
         break
+        
+      default:
+        break
       }
       
-      return .none
+      return Effect.none
+    }
+  }
+  
+  var chatMemberListReducer: some Reducer<State, Action> {
+    Reduce { state, action in
+      guard case .chatMemberListAction(let memberListAction) = action else { return Effect.none }
+    
+      return Effect.none
     }
   }
   
@@ -241,149 +288,179 @@ struct ChatView: View {
   @State private var isAtBottomPosition: Bool = false
   @State private var scrollViewProxy: ScrollViewProxy?
   
+
   var body: some View {
     ScrollViewReader { proxy in
-      SwiftUI.List {
-        ForEach(store.chats, id: \.id) { chatType in
-          VStack(spacing: 0) {
-            switch chatType {
-            case .text(let vm, let topSpace, let bottomSpace):
-              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
-                ChatTextBubbleView(viewModel: vm)
+      VStack(spacing: 0) {
+        
+        topNavigationBarView
+        
+        SwiftUI.List {
+          ForEach(store.chats, id: \.id) { chatType in
+            VStack(spacing: 0) {
+              switch chatType {
+              case .text(let vm, let topSpace, let bottomSpace):
+                chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                  ChatTextBubbleView(viewModel: vm)
+                }
+                
+              case .singleImage(let vm, let topSpace, let bottomSpace):
+                chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                  SingleChatImageView(viewModel: vm)
+                }
+                
+              case .multipleImages(let vm, let topSpace, let bottomSpace):
+                chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
+                  MultipleChatImageView(viewModel: vm)
+                }
+                
               }
-              
-            case .singleImage(let vm, let topSpace, let bottomSpace):
-              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
-                SingleChatImageView(viewModel: vm)
-              }
-              
-            case .multipleImages(let vm, let topSpace, let bottomSpace):
-              chatView(topSpace: topSpace, bottomSpace: bottomSpace) {
-                MultipleChatImageView(viewModel: vm)
-              }
-              
+            }
+            .id(chatType.id)
+            .modifier(PlainListModifier())
+            .overlay(chatType.id == store.chats.first?.id ? GeometryReader {
+              Color.clear.preference(
+                key: ViewOffsetKey.self,
+                value: $0.frame(in: .global).origin.y
+              )
+            } : nil)
+            .onPreferenceChange(ViewOffsetKey.self) {
+              store.send(.view(.onFirstChatOffsetChange($0)))
             }
           }
-          .id(chatType.id)
-          .modifier(PlainListModifier())
-          .overlay(chatType.id == store.chats.first?.id ? GeometryReader {
-            Color.clear.preference(
-              key: ViewOffsetKey.self,
-              value: $0.frame(in: .global).origin.y
-            )
-          } : nil)
-          .onPreferenceChange(ViewOffsetKey.self) {
-            store.send(.view(.onFirstChatOffsetChange($0)))
-          }
+          
+          Spacer()
+            .frame(height: 50)
+            .frame(maxWidth: .infinity)
+            .modifier(PlainListModifier())
+            .background(PND.DS.gray10)
+          
+          Color.clear
+            .frame(height: 1)
+            .modifier(PlainListModifier())
+            .background(PND.DS.gray10)
+            .onAppear       { isAtBottomPosition = true }
+            .onDisappear()  { isAtBottomPosition = false }
+            .id(bottomOfChatList)
         }
-        
-        Spacer()
-          .frame(height: 50)
-          .frame(maxWidth: .infinity)
-          .modifier(PlainListModifier())
-          .background(PND.DS.gray10)
-        
-        Color.clear
-          .frame(height: 1)
-          .modifier(PlainListModifier())
-          .background(PND.DS.gray10)
-          .onAppear       { isAtBottomPosition = true }
-          .onDisappear()  { isAtBottomPosition = false }
-          .id(bottomOfChatList)
-      }
-      .environment(\.defaultMinListRowHeight, 0)
-      .listStyle(.plain)
-      .background(PND.DS.gray10)
-      .onAppear() {
-        scrollViewProxy = proxy
-      }
-      .onChange(of: store.chats) { oldChats, newChats in
-        // oldChats의 앞쪽에 새로운 채팅이 추가되면
-        if let oldFirstID = oldChats.first?.id,
-           let newFirstID = newChats.first?.id,
-           oldFirstID != newFirstID {
-          DispatchQueue.main.async {
-            proxy.scrollTo(oldFirstID, anchor: .top)
-          }
-          return
+        .environment(\.defaultMinListRowHeight, 0)
+        .listStyle(.plain)
+        .background(PND.DS.gray10)
+        .onAppear() {
+          scrollViewProxy = proxy
         }
-        
-        if isAtBottomPosition {
-          DispatchQueue.main.async {
-            if oldChats.isEmpty {
-              proxy.scrollTo(bottomOfChatList, anchor: .bottom)
-            } else {
-              withAnimation {
+        .onChange(of: store.chats) { oldChats, newChats in
+          // oldChats의 앞쪽에 새로운 채팅이 추가되면
+          if let oldFirstID = oldChats.first?.id,
+             let newFirstID = newChats.first?.id,
+             oldFirstID != newFirstID {
+            DispatchQueue.main.async {
+              proxy.scrollTo(oldFirstID, anchor: .top)
+            }
+            return
+          }
+          
+          if isAtBottomPosition {
+            DispatchQueue.main.async {
+              if oldChats.isEmpty {
                 proxy.scrollTo(bottomOfChatList, anchor: .bottom)
+              } else {
+                withAnimation {
+                  proxy.scrollTo(bottomOfChatList, anchor: .bottom)
+                }
               }
             }
+            return
           }
-          return
         }
       }
       .overlay(alignment: .bottom) {
         chatTextFieldView()
       }
-    }
-    .toolbar {
-      ToolbarItemGroup(placement: .topBarLeading) {
-        Text("채팅")
-          .foregroundStyle(PND.Colors.commonBlack.asColor)
-          .font(.system(size: 20, weight: .bold))
-        
-        HStack(spacing: 2) {
-          
-          Image(systemName: "person.fill")
-            .resizable()
-            .frame(width: 9, height: 9)
-          
-          Text("10")
-            .font(.system(size: 12, weight: .bold))
-        }
-        .foregroundStyle(PND.Colors.gray50.asColor)
-        .frame(height: 23)
-        .padding(.horizontal, 8)
-        .background(PND.Colors.gray20.asColor)
-        .clipShape(.capsule)
-      }
-      
-      ToolbarItemGroup(placement: .topBarTrailing) {
-        
-        Menu {
-          Button {
-            
-          } label: {
-            HStack {
-              Text("글 목록")
-              Image(.iconPen)
-                .resizable()
-                .frame(width: 20, height: 20)
+      .if(store.isMemberListViewPresented) { view in
+        view
+          .overlay {
+            HStack(spacing: 0) {
+              
+              Color.black
+                .opacity(0.5)
+                .frame(width: UIScreen.fixedScreenSize.width * 0.2)
+                .onTapGesture {
+                  store.send(.view(.onMemberListViewBlankAreaTap))
+                }
+              
+              VStack {
+                Text("이벤트")
+                
+                Text("날짜 장소")
+                
+                Divider()
+                
+                Text("공지사항")
+                
+                Divider()
+                
+                Text("멤버 목록")
+                
+                ChatMembersView(store: store.scope(state: \.chatMemberListState, action: ChatFeature.Action.chatMemberListAction))
+              }
+              .frame(width: UIScreen.fixedScreenSize.width * 0.8)
+              .background(Color.white)
+              
             }
+            .transition(.move(edge: .top))
+            .ignoresSafeArea()
           }
-          
-          Button {
-            store.send(.view(.onMemberListButtonTap))
-          } label: {
-            HStack {
-              Text("멤버 관리")
-              Image(.iconUserBlack)
-                .resizable()
-                .frame(width: 20, height: 20)
-            }
-          }
-          
-        } label: {
-          Image(.iconMenu)
-            .rotationEffect(.degrees(90))
-            .foregroundStyle(PND.Colors.commonBlack.asColor)
-        }
       }
+
     }
+    .navigationBarHidden(true)
     .isLoading(store.isUploadingImage)
     .onAppear {
       store.send(.view(.onAppear))
     }
   }
+  
+  @ViewBuilder
+  private var topNavigationBarView: some View {
+    HStack {
+      
+      Button {
+        store.send(.view(.onBackButtonTap))
+      } label: {
+        Image(.iconUndo)
+          .renderingMode(.template)
+          .resizable()
+          .frame(width: 24, height: 24)
+          .foregroundStyle(PND.DS.commonBlack)
+      }
+
+      Spacer()
+      
+      VStack {
+        Text("이벤트 이름")
+          .font(.system(size: 20, weight: .bold))
+        
+        Text("예정된 이벤트 날짜 장소")
+          .font(.system(size: 12, weight: .regular))
+      }
+      
+      Spacer()
+      
+      Button {
+        store.send(.view(.onMoreButtonTap))
+      } label: {
+        Image(.iconMenu)
+          .renderingMode(.template)
+          .resizable()
+          .frame(width: 24, height: 24)
+          .foregroundStyle(PND.DS.commonBlack)
+      }
+    }
+    .padding(.horizontal, 24)
+    .padding(.bottom, 14)
+  }
+  
   
   
   @ViewBuilder
@@ -823,8 +900,8 @@ struct ChatTextBubbleView: View {
 }
 
 
-
-#Preview {
-  ChatView(store: .init(initialState: .init(), reducer: { ChatFeature()}))
-}
+//
+//#Preview {
+//  ChatView(store: .init(initialState: .init(), reducer: { ChatFeature()}))
+//}
 
