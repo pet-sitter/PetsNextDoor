@@ -44,6 +44,7 @@ struct ChatFeature: Reducer {
   struct State: Equatable {
     
     var chats: [ChatViewType] = []
+    var roomName: String = ""
     var textFieldText: String = ""
     var isUploadingImage: Bool = false
     var selectedPhotoPickerItems: [PhotosPickerItem] = []
@@ -88,6 +89,7 @@ struct ChatFeature: Reducer {
     }
     
     enum InternalAction: Equatable {
+      case setInitialRoomInfo(PND.ChatRoomModel)
       case chatDataProviderAction(ChatDataProvider.Action)
       case setIsUploadingImage(Bool)
       case setSelectedPhotoPickerItems([PhotosPickerItem])
@@ -135,33 +137,31 @@ struct ChatFeature: Reducer {
         return .run { send in
           try await loadOldChats(send)
           try await observeChatActionStream(send)
+          
+          let roomInfo = try await chatDataProvider.fetchRoomInfo()
+          await send(Action.internal(.setInitialRoomInfo(roomInfo)))
+        } catch: { error, send in
+          print("❌ error: \(error)")
         }
-        //        return .run { send in
-        //
-        //          let room = try? await chatDataProvider.fetchRoomInfo()
-        //
-        //
-        //          observeChatActionStream()
-        //
-        //        } catch: { error, send in
-        //          print("❌ error onAppear : \(error.asMoyaError.debugDescription)")
-        //        }
         
       case .view(.onBackButtonTap):
         ()
         
       case .view(.onMoreButtonTap):
-        withAnimation {
-          state.isMemberListViewPresented = true
-        }
-  
+        state.isMemberListViewPresented = true
+        
         
       case .view(.onMemberListViewBlankAreaTap):
         state.isMemberListViewPresented = false
+        
         // Internal
         
       case .view(.onFirstChatOffsetChange(let offset)):
         return checkIfFirstChatOverThreshold(offset)
+        
+      case .internal(.setInitialRoomInfo(let chatRoomModel)):
+        state.roomName = chatRoomModel.roomName
+        state.chatMemberListState.roomName = chatRoomModel.roomName
         
       case .internal(.chatDataProviderAction(.onConnect)):
         ()
@@ -228,11 +228,19 @@ struct ChatFeature: Reducer {
       
       return Effect.none
     }
+    
+    chatMemberListReducer
   }
   
   var chatMemberListReducer: some Reducer<State, Action> {
     Reduce { state, action in
       guard case .chatMemberListAction(let memberListAction) = action else { return Effect.none }
+      
+      switch memberListAction {
+        
+      default:
+        break
+      }
     
       return Effect.none
     }
@@ -377,42 +385,28 @@ struct ChatView: View {
       .overlay(alignment: .bottom) {
         chatTextFieldView()
       }
-      .if(store.isMemberListViewPresented) { view in
-        view
-          .overlay {
-            HStack(spacing: 0) {
-              
-              Color.black
-                .opacity(0.5)
-                .frame(width: UIScreen.fixedScreenSize.width * 0.2)
-                .onTapGesture {
-                  store.send(.view(.onMemberListViewBlankAreaTap))
-                }
-              
-              VStack {
-                Text("이벤트")
-                
-                Text("날짜 장소")
-                
-                Divider()
-                
-                Text("공지사항")
-                
-                Divider()
-                
-                Text("멤버 목록")
-                
-                ChatMembersView(store: store.scope(state: \.chatMemberListState, action: ChatFeature.Action.chatMemberListAction))
-              }
-              .frame(width: UIScreen.fixedScreenSize.width * 0.8)
-              .background(Color.white)
-              
-            }
-            .transition(.move(edge: .top))
+      .overlay {
+        
+        ZStack {
+          Color.black
+            .opacity(0.5)
             .ignoresSafeArea()
-          }
+            .isHidden(store.isMemberListViewPresented == false)
+            .onTapGesture {
+              store.send(.view(.onMemberListViewBlankAreaTap))
+            }
+          
+          ChatMembersView(
+            store: store.scope(
+              state: \.chatMemberListState,
+              action: ChatFeature.Action.chatMemberListAction
+            )
+          )
+          .offset(x: store.isMemberListViewPresented ? 0 : 1000)
+          .animation(.default, value: store.isMemberListViewPresented)
+        }
+      
       }
-
     }
     .navigationBarHidden(true)
     .isLoading(store.isUploadingImage)
@@ -424,7 +418,6 @@ struct ChatView: View {
   @ViewBuilder
   private var topNavigationBarView: some View {
     HStack {
-      
       Button {
         store.send(.view(.onBackButtonTap))
       } label: {
@@ -438,7 +431,7 @@ struct ChatView: View {
       Spacer()
       
       VStack {
-        Text("이벤트 이름")
+        Text(store.roomName)
           .font(.system(size: 20, weight: .bold))
         
         Text("예정된 이벤트 날짜 장소")

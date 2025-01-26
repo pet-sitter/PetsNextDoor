@@ -14,14 +14,14 @@ struct ChatMembersFeature: Reducer {
   
   @ObservableState
   struct State: Equatable {
-    let users: [PND.UserInfoModel]
-    
+  
+    var roomName: String = ""
+    var users: [PND.UserInfoModel]
     var isUserProfileViewPresented: Bool = false
     var selectedUserProfile: PND.UserInfoModel? = nil
   }
   
   enum Action: BindableAction, Equatable {
-    
     case onUserProfileTap(PND.UserInfoModel)
     case onUserProfileViewDismiss
     case binding(BindingAction<State>)
@@ -56,17 +56,83 @@ struct ChatMembersView: View {
   @Environment(\.dismiss) private var dismiss
   
   var body: some View {
-    ScrollView(.vertical) {
-      DefaultSpacer(axis: .vertical)
-      VStack(spacing: CGFloat(9)) {
-        ForEach(store.users, id: \.id) { user in
-          userRowView(user)
-            .onTapGesture {
-              store.send(.onUserProfileTap(user))
+    HStack(spacing: 0) {
+      Color.clear
+        .frame(width: UIScreen.fixedScreenSize.width * 0.2)
+      
+      VStack(spacing: 0) {
+        
+        Spacer().frame(height: 75)
+        
+        // 이벤트 이름
+        HStack {
+          VStack(alignment: .leading) {
+            Text(store.roomName)
+              .font(.system(size: 20, weight: .bold))
+            
+            Spacer().frame(height: 5)
+            
+            Text("날짜 장소")
+              .font(.system(size: 12, weight: .regular))
+          }
+          Spacer()
+          
+          Image(systemName: "chevron.right")
+        }
+        .padding(.horizontal, PND.Metrics.defaultSpacing)
+        
+        Spacer().frame(height: PND.Metrics.defaultSpacing)
+        
+        Divider()
+        
+        Spacer().frame(height: 13)
+        
+        // 공지사항
+        HStack {
+          Text("공지사항")
+            .font(.system(size: 20, weight: .bold))
+          Spacer()
+          Image(systemName: "chevron.right")
+        }
+        .padding(.horizontal, PND.Metrics.defaultSpacing)
+
+        Spacer().frame(height: 13)
+        
+        Divider()
+        
+        Spacer().frame(height: 13)
+        
+        // 멤버 목록
+        HStack {
+          Text("멤버 목록")
+            .font(.system(size: 16, weight: .medium))
+          Spacer()
+        }
+        .padding(.horizontal, PND.Metrics.defaultSpacing)
+        
+        
+        Spacer().frame(height: 15)
+        
+        ScrollView(.vertical) {
+          
+          DefaultSpacer(axis: .vertical)
+          
+          VStack(spacing: CGFloat(9)) {
+            ForEach(store.users, id: \.id) { user in
+              userRowView(user)
+                .onTapGesture {
+                  store.send(.onUserProfileTap(user))
+                }
             }
+          }
         }
       }
+      .frame(width: UIScreen.fixedScreenSize.width * 0.8)
+      .background(Color.white)
+      
+      
     }
+    .ignoresSafeArea()
     .fullScreenCover(
       isPresented: $store.isUserProfileViewPresented,
       onDismiss: {
@@ -78,7 +144,7 @@ struct ChatMembersView: View {
         } else {
           Text("Invalid User")
         }
-
+        
       }
     )
   }
@@ -126,85 +192,55 @@ struct ChatUserProfileView: View {
   @Environment(\.dismiss) private var dismiss
   
   var body: some View {
-    VStack(spacing: 0) {
-      
+    ZStack {
       KFImage.url(URL(string: "https://placedog.net/400/400random"))
         .resizable()
         .placeholder {
           ProgressView()
         }
-        .frame(width: .screenWidth, height: .screenHeight / CGFloat(2))
+        .blur(radius: 10)
       
-      Color.white
-        .frame(width: .screenWidth, height: .screenHeight / CGFloat(2))
-    }
-    .onDragDownGesture {
-      dismiss()
-    }
-    .overlay(alignment: .center, content: {
+      
       VStack(spacing: 0) {
         KFImage.url(MockDataProvider.randomePetImageUrl)
           .resizable()
           .placeholder {
             ProgressView()
           }
+          .aspectRatio(contentMode: .fit)
           .frame(width: 120, height: 120)
           .clipShape(Circle())
         
-        Spacer().frame(height: 15)
+        Spacer().frame(height: 17)
         
         Text(user.nickname)
-          .foregroundStyle(PND.DS.commonBlack)
+          .foregroundStyle(PND.DS.commonWhite)
           .font(.system(size: 20, weight: .bold))
         
-        Spacer().frame(height: 50)
+        Spacer().frame(height: 15)
         
-        // 내보내기 / 신고하기
-        HStack(spacing: 48) {
-          Button {
-            
-          } label: {
-            VStack(spacing: 6) {
-              ZStack {
-                Circle()
-                  .fill(PND.DS.gray20)
-                  .frame(width: 48, height: 48)
-                
-                Image(systemName: "xmark.circle")
-                  .frame(width: 38, height: 38)
-                  .foregroundStyle(PND.DS.commonBlack)
-                
-              }
-              
-              Text("내보내기")
-                .foregroundStyle(PND.DS.commonBlack)
-                .font(.system(size: 16, weight: .medium))
-            }
-          }
-          
-          Button {
-            
-          } label: {
-            VStack(spacing: 6) {
-              ZStack {
-                Circle()
-                  .fill(PND.DS.gray20)
-                  .frame(width: 48, height: 48)
-                
-                Image(systemName: "light.beacon.max")
-                  .frame(width: 38, height: 38)
-                  .foregroundStyle(PND.DS.commonBlack)
-                
-              }
-              
-              Text("신고하기")
-                .foregroundStyle(PND.DS.commonBlack)
-                .font(.system(size: 16, weight: .medium))
-            }
-          }
-        }
-        
+        Text("내보내기")
+          .font(.system(size: 14, weight: .bold))
+          .foregroundStyle(PND.DS.commonWhite)
+          .padding(.horizontal, 16)
+          .padding(.vertical, 8)
+          .background(Color(hex: "#FF2727"))
+          .clipShape(Capsule())
+
       }
+    }
+    .onDragDownGesture {
+      dismiss()
+    }
+    .overlay(alignment: .bottom , content: {
+      VStack(spacing: 1) {
+        Text("신고하기")
+          .foregroundStyle(PND.DS.commonWhite)
+        Rectangle()
+          .fill(PND.DS.commonWhite)
+          .frame(width: 55, height: 1)
+      }
+      .offset(y: -70)
     })
     .ignoresSafeArea(.all)
   }

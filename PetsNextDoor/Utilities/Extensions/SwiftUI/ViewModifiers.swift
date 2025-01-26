@@ -104,6 +104,13 @@ struct PlainListModifier: ViewModifier {
 
 extension View {
   
+  @ViewBuilder
+  func isHidden(_ isHidden: Bool) -> some View {
+    if isHidden == false {
+      self
+    }
+  }
+  
   func onViewDidLoad(_ task: @escaping () async -> Void) -> some View {
     modifier(ViewDidLoadModifier(task: task))
   }
@@ -133,12 +140,5 @@ extension View {
           }
         }
       )
-  }
-  
-  @ViewBuilder
-  func isHidden(_ isHidden: Bool) -> some View {
-    if isHidden == false {
-      self
-    }
   }
 }

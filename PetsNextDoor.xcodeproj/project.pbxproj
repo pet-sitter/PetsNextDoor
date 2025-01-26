@@ -539,7 +539,6 @@
 				7C51EF6E2A94EE22003132A1 /* ReusableViews */,
 				7C1277F92A54436E004A83A4 /* Login */,
 				DA419C8F2A9B320000C76AB9 /* Main */,
-				DA474B7D2B2725AE002FADC6 /* UrgentPostView */,
 				DA9534762AEF8B1000ED21F9 /* WriteUrgentPost */,
 				DACC9F0D2B0465AA0018A455 /* UrgentPostDetail */,
 			);
@@ -798,6 +797,7 @@
 		DA419C952A9B32AF00C76AB9 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				DADFA2A52D46151600C1AFC0 /* ChatMember */,
 				DA5916552C7AFD55004A3D7F /* Chat */,
 				DA5916542C7AFD50004A3D7F /* ChatList */,
 				DA8D20172C1D77B1009F2755 /* LiveChatService.swift */,
@@ -838,13 +838,6 @@
 				DA5926ED2B283A8100E00E74 /* Spacer+Extension.swift */,
 			);
 			path = SwiftUI;
-			sourceTree = "<group>";
-		};
-		DA474B7D2B2725AE002FADC6 /* UrgentPostView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UrgentPostView;
 			sourceTree = "<group>";
 		};
 		DA4B2A852AFB44260053217A /* Views */ = {
@@ -906,7 +899,6 @@
 			isa = PBXGroup;
 			children = (
 				DA952C622C00761700A8AEDE /* ChatView.swift */,
-				DAD72D4C2C7B097300399F9B /* ChatMembersView.swift */,
 				DA5916562C7AFD7F004A3D7F /* ChatImageViewer.swift */,
 			);
 			path = Chat;
@@ -1197,6 +1189,14 @@
 				DA2E7BC92B8C63EE001B929C /* PageControl.swift */,
 			);
 			path = SwiftUI_Views;
+			sourceTree = "<group>";
+		};
+		DADFA2A52D46151600C1AFC0 /* ChatMember */ = {
+			isa = PBXGroup;
+			children = (
+				DAD72D4C2C7B097300399F9B /* ChatMembersView.swift */,
+			);
+			path = ChatMember;
 			sourceTree = "<group>";
 		};
 		DAF2D3A42A90CE7C00A9B47A /* Foundation */ = {
